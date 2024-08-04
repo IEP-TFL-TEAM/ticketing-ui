@@ -1,0 +1,4 @@
+<div class="flex flex-col gap-y-2">
+	<h1 class="h1 font-extrabold">Tickets</h1>
+	<p>Navigate through the system with options on the sidebar</p>
+</div>
