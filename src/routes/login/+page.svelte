@@ -32,11 +32,9 @@
 	}
 </script>
 
-<div
-	class="min-h-screen w-full flex flex-col items-center justify-center bg-gradient-to-r from-primary-900 via-tertiary-800 to-secondary-600"
->
+<div class="min-h-screen w-full flex flex-col items-center justify-center bg-white">
 	<div
-		class="flex flex-col bg-white shadow-md px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-md w-full max-w-md"
+		class="flex flex-col bg-white shadow-2xl px-4 sm:px-6 md:px-8 lg:px-10 py-8 md:py-14 rounded-md w-full max-w-md"
 	>
 		<div class="flex justify-center items-center">
 			<img src={TransparentLogo} alt="logo" />
@@ -142,6 +140,5 @@
 				</button>
 			</div>
 		</form>
-		<div class="mt-10" />
 	</div>
 </div>

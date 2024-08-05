@@ -140,7 +140,7 @@
 		<div class=" -mt-5 flex flex-col justify-center items-center py-4 gap-y-4 mb-4">
 			<Avatar
 				src={avatar}
-				initials={$currentUser?.firstname.charAt(0) + $currentUser?.lastname.charAt(0)}
+				initials={$currentUser?.firstName.charAt(0) + $currentUser?.lastName.charAt(0)}
 				width="w-32"
 				rounded="rounded-full"
 				border="border-4 border-neutral-300 dark:border-neutral-500 hover:!border-secondary-500 dark:hover:border-primary-500"
@@ -148,7 +148,7 @@
 			/>
 
 			<h3 class=" font-semibold font-mono tracking-wide">
-				{$currentUser?.firstname + ' ' + $currentUser?.lastname}
+				{$currentUser?.firstName + ' ' + $currentUser?.lastName}
 			</h3>
 
 			<div class="flex gap-x-2">
@@ -188,7 +188,7 @@
 					<input
 						class=" input placeholder:text-center placeholder:font-bold placeholder:font-mono placeholder:tracking-widest text-center"
 						type="text"
-						placeholder={$currentUser?.firstname}
+						placeholder={$currentUser?.firstName}
 						readonly
 					/>
 				</div>
@@ -201,7 +201,7 @@
 					<input
 						class=" input placeholder:text-center placeholder:font-bold placeholder:font-mono placeholder:tracking-widest text-center"
 						type="text"
-						placeholder={$currentUser?.lastname}
+						placeholder={$currentUser?.lastName}
 						readonly
 					/>
 				</div>
