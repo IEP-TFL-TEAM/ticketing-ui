@@ -4,10 +4,6 @@
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { TransparentLogo } from '$lib/assets';
 
-	if ($currentUser) {
-		goto('/');
-	}
-
 	const toastStore = getToastStore();
 
 	let email;
@@ -29,6 +25,10 @@
 			});
 		}
 		loading = false;
+	}
+
+	$: if ($currentUser) {
+		goto('/');
 	}
 </script>
 
