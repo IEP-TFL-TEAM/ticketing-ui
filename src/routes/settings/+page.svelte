@@ -127,9 +127,9 @@
 
 <div class=" px-6 py-[4rem] sm:py-[6rem] lg:px-8 bg-white dark:bg-inherit h-screen">
 	<div class="mx-auto max-w-2xl text-center">
-		<span class="text-xl font-semibold tracking-wide font-mono"> -- General -- </span>
+		<span class="text-xl font-semibold tracking-wide"> -- General -- </span>
 		<h2 class="text-3xl font-extrabold sm:text-4xl">Settings</h2>
-		<p class="mt-2 text-lg leading-8 font-mono">Manage your general account information</p>
+		<p class="mt-2 text-lg leading-8">Manage your general account information</p>
 	</div>
 
 	<form
@@ -143,11 +143,11 @@
 				initials={$currentUser?.firstName.charAt(0) + $currentUser?.lastName.charAt(0)}
 				width="w-32"
 				rounded="rounded-full"
-				border="border-4 border-neutral-300 dark:border-neutral-500 hover:!border-secondary-500 dark:hover:border-primary-500"
+				border="border-4 border-gray-300 dark:border-gray-500 hover:!border-secondary-500 dark:hover:border-primary-500"
 				background="bg-transparent"
 			/>
 
-			<h3 class=" font-semibold font-mono tracking-wide">
+			<h3 class=" font-semibold tracking-wide">
 				{$currentUser?.firstName + ' ' + $currentUser?.lastName}
 			</h3>
 
@@ -186,7 +186,7 @@
 
 				<div class="mt-2.5">
 					<input
-						class=" input placeholder:text-center placeholder:font-bold placeholder:font-mono placeholder:tracking-widest text-center"
+						class=" input placeholder:text-center placeholder:font-bold placeholder:tracking-widest text-center"
 						type="text"
 						placeholder={$currentUser?.firstName}
 						readonly
@@ -199,7 +199,7 @@
 				</label>
 				<div class="mt-2.5">
 					<input
-						class=" input placeholder:text-center placeholder:font-bold placeholder:font-mono placeholder:tracking-widest text-center"
+						class=" input placeholder:text-center placeholder:font-bold placeholder:tracking-widest text-center"
 						type="text"
 						placeholder={$currentUser?.lastName}
 						readonly
@@ -213,7 +213,7 @@
 				</label>
 				<div class="mt-2.5">
 					<input
-						class=" input placeholder:text-center placeholder:font-bold placeholder:font-mono placeholder:tracking-widest text-center"
+						class=" input placeholder:text-center placeholder:font-bold placeholder:tracking-widest text-center"
 						type="email"
 						placeholder={$currentUser?.email}
 						readonly
@@ -233,7 +233,7 @@
 						value={oldPassword}
 						name="oldPassword"
 						required
-						class="input placeholder:text-center placeholder:font-bold placeholder:font-mono placeholder:tracking-widest text-center"
+						class="input placeholder:text-center placeholder:font-bold placeholder:tracking-widest text-center"
 					/>
 					<button
 						class="absolute right-0 top-[10px] mr-2 focus:outline-none"
@@ -259,7 +259,7 @@
 						value={password}
 						name="password"
 						required
-						class="input placeholder:text-center placeholder:font-bold placeholder:font-mono placeholder:tracking-widest text-center"
+						class="input placeholder:text-center placeholder:font-bold placeholder:tracking-widest text-center"
 					/>
 					<button
 						class="absolute right-0 top-[10px] mr-2 focus:outline-none"
@@ -285,7 +285,7 @@
 						value={passwordConfirm}
 						name="passwordConfirm"
 						required
-						class="input placeholder:text-center placeholder:font-bold placeholder:font-mono placeholder:tracking-widest text-center"
+						class="input placeholder:text-center placeholder:font-bold placeholder:tracking-widest text-center"
 					/>
 					<button
 						class="absolute right-0 top-[10px] mr-2 focus:outline-none"

@@ -41,22 +41,22 @@
 		</div>
 
 		<div
-			class="font-medium self-center text-xl sm:text-2xl uppercase text-neutral-800 text-center pt-5"
+			class="font-medium self-center text-xl sm:text-2xl uppercase text-gray-800 text-center pt-5"
 		>
 			<span class="font-extrabold"> TFL NOC Ticketing System </span>
 		</div>
-		<div class="relative mt-10 h-px bg-neutral-300">
+		<div class="relative mt-10 h-px bg-gray-300">
 			<div class="absolute left-0 top-0 flex justify-center w-full -mt-2">
-				<span class="bg-white px-4 text-xs text-neutral-500 uppercase"> Login With Email </span>
+				<span class="bg-white px-4 text-xs text-gray-500 uppercase"> Login With Email </span>
 			</div>
 		</div>
 		<form on:submit|preventDefault>
 			<div class="flex flex-col mb-6 mt-10">
-				<label for="email" class="mb-1 text-xs sm:text-sm tracking-wide text-neutral-600">
+				<label for="email" class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">
 					E-Mail Address:
 					<div class="relative mt-2">
 						<div
-							class="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-neutral-400"
+							class="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400"
 						>
 							<svg
 								class="h-6 w-6"
@@ -74,7 +74,7 @@
 						</div>
 
 						<input
-							class="text-sm sm:text-base placeholder-neutral-500 pl-10 pr-4 rounded-lg border border-neutral-400 w-full py-2 focus:outline-none focus:border-red-400"
+							class="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-red-400"
 							placeholder="Email"
 							type="text"
 							bind:value={email}
@@ -83,11 +83,11 @@
 				</label>
 			</div>
 			<div class="flex flex-col mb-6">
-				<label for="password" class="mb-1 text-xs sm:text-sm tracking-wide text-neutral-600">
+				<label for="password" class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">
 					Password:
 					<div class="relative mt-2">
 						<div
-							class="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-neutral-400"
+							class="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400"
 						>
 							<span>
 								<svg
@@ -110,7 +110,7 @@
 							placeholder="Password"
 							type="password"
 							bind:value={password}
-							class="text-sm sm:text-base placeholder-neutral-500 pl-10 pr-4 rounded-lg border border-neutral-400 w-full py-2 focus:outline-none focus:border-red-400"
+							class="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-red-400"
 						/>
 					</div>
 				</label>

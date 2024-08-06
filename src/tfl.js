@@ -6,9 +6,9 @@ export const tfl = {
 		'--theme-font-family-heading': `system-ui`,
 		'--theme-font-color-base': '0 0 0',
 		'--theme-font-color-dark': '255 255 255',
-		'--theme-rounded-base': '9999px',
-		'--theme-rounded-container': '8px',
-		'--theme-border-base': '1px',
+		'--theme-rounded-base': '2px',
+		'--theme-rounded-container': '2px',
+		'--theme-border-base': '2px',
 		// =~= Theme On-X Colors =~=
 		'--on-primary': '255 255 255',
 		'--on-secondary': '0 0 0',
@@ -84,16 +84,16 @@ export const tfl = {
 		'--color-error-700': '191 0 0', // #bf0000
 		'--color-error-800': '153 0 0', // #990000
 		'--color-error-900': '125 0 0', // #7d0000
-		// surface | #495a8f
-		'--color-surface-50': '228 230 238', // #e4e6ee
-		'--color-surface-100': '219 222 233', // #dbdee9
-		'--color-surface-200': '210 214 227', // #d2d6e3
-		'--color-surface-300': '182 189 210', // #b6bdd2
-		'--color-surface-400': '128 140 177', // #808cb1
-		'--color-surface-500': '73 90 143', // #495a8f
-		'--color-surface-600': '66 81 129', // #425181
-		'--color-surface-700': '55 68 107', // #37446b
-		'--color-surface-800': '44 54 86', // #2c3656
-		'--color-surface-900': '36 44 70' // #242c46
+		// surface | #4b4949
+		'--color-surface-50': '228 228 228', // #e4e4e4
+		'--color-surface-100': '219 219 219', // #dbdbdb
+		'--color-surface-200': '210 210 210', // #d2d2d2
+		'--color-surface-300': '183 182 182', // #b7b6b6
+		'--color-surface-400': '129 128 128', // #818080
+		'--color-surface-500': '75 73 73', // #4b4949
+		'--color-surface-600': '68 66 66', // #444242
+		'--color-surface-700': '56 55 55', // #383737
+		'--color-surface-800': '45 44 44', // #2d2c2c
+		'--color-surface-900': '37 36 36' // #252424
 	}
 };

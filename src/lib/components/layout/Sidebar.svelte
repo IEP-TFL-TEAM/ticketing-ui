@@ -11,7 +11,7 @@
 </script>
 
 <div
-	class="sticky top-0 h-screen max-w-[17rem] bg-surface-800 dark:bg-secondary-800 text-white flex flex-col justify-between py-10 w-full px-5 overflow-y-auto"
+	class="sticky top-0 h-screen max-w-[17rem] bg-primary-800 dark:bg-secondary-800 text-white flex flex-col justify-between py-10 w-full px-5 overflow-y-auto"
 >
 	<div class="flex items-center justify-center px-2">
 		<a href="/">
