@@ -15,8 +15,8 @@ const createTicket = async (data) => {
 	return record;
 };
 
-const updateTicket = async (id, ticket) => {
-	const record = await pb.collection('tickets').update(id, ticket, { expand });
+const updateTicket = async (ticket) => {
+	const record = await pb.collection('tickets').update(ticket.id, ticket, { expand });
 
 	return record;
 };
