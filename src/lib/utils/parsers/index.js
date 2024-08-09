@@ -4,5 +4,14 @@ import { parseQueryParams } from './parseQueryParams';
 import { parseFilters } from './parseFilters';
 import { parseLocations } from './parseLocations';
 import { parseComment } from './parseComment';
+import { parsePhotos } from './parsePhotos';
 
-export { timeAgo, parseStatus, parseQueryParams, parseFilters, parseLocations, parseComment };
+export {
+	timeAgo,
+	parseStatus,
+	parseQueryParams,
+	parseFilters,
+	parseLocations,
+	parseComment,
+	parsePhotos
+};

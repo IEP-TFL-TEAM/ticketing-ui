@@ -1,6 +1,6 @@
 import pb from './pocketbaseClient';
 
-const createComment = async ({ ticketId, content }) => {
+const addComment = async ({ ticketId, content }) => {
 	const record = await pb.collection('comments').create(
 		{
 			ticketId,
@@ -22,4 +22,4 @@ const getCommentsByTicketId = async (id) => {
 	return records;
 };
 
-export { createComment, getCommentsByTicketId };
+export { addComment, getCommentsByTicketId };

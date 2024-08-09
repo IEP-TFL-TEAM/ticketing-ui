@@ -1,9 +1,25 @@
 import pb from './pocketbaseClient';
+import { photos } from '$lib/stores/photoStore';
 
-const createPhoto = async (data) => {
+let selectedTicket;
+
+pb.collection('photos').subscribe('*', async function (e) {
+	if (selectedTicket === e.record.ticketId) {
+		// Get photo again but with related values
+		if (e.action === 'create') {
+			const photo = await getPhotoById(e.record.id);
+			photos.update((r) => [...r, photo]);
+		}
+		// Just remove it
+		else if (e.action === 'delete') photos.update((r) => r.filter((x) => x.id !== e.record.id));
+	}
+});
+
+const addPhoto = async ({ ticketId, attachment }) => {
 	const record = await pb.collection('photos').create(
 		{
-			...data,
+			ticketId,
+			attachment,
 			userId: pb.authStore.model.id
 		},
 		{ expand: 'userId' }
@@ -28,7 +44,8 @@ const getPhotosByTicketId = async (id) => {
 		filter: `ticketId = '${id}'`
 	});
 
-	return records;
+	selectedTicket = id;
+	photos.set(records);
 };
 
-export { createPhoto, getPhotoById, getPhotosByTicketId };
+export { addPhoto, getPhotoById, getPhotosByTicketId };

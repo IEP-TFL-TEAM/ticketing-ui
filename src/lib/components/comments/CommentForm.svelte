@@ -2,7 +2,7 @@
 	import { superForm, defaults } from 'sveltekit-superforms';
 	import { zod } from 'sveltekit-superforms/adapters';
 	import { getToastStore } from '@skeletonlabs/skeleton';
-	import { createComment } from '$lib/api/comments';
+	import { addComment } from '$lib/api/comments';
 	import { commentSchema } from '$lib/schemas/commentSchema';
 	import SpinnerOverlay from '$lib/components/layout/SpinnerOverlay.svelte';
 
@@ -36,7 +36,7 @@
 
 			try {
 				const content = form.data.content;
-				await createComment({ ticketId, content });
+				await addComment({ ticketId, content });
 			} catch (e) {
 				form.valid = false;
 				submitting = false;

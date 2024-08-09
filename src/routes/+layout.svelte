@@ -9,11 +9,13 @@
 		initializeStores,
 		getToastStore,
 		getDrawerStore,
-		Drawer
+		Drawer,
+		Modal
 	} from '@skeletonlabs/skeleton';
 	import SpinnerOverlay from '$lib/components/layout/SpinnerOverlay.svelte';
 	import pb from '$lib/api/pocketbaseClient';
 	import { goto } from '$app/navigation';
+	import { modalComponentRegistry } from '$lib/utils/modalComponentRegistry';
 	import Sidebar from '$lib/components/layout/Sidebar.svelte';
 	import CreateTicket from '$lib/components/drawers/tickets/CreateTicket.svelte';
 	import EditTicket from '$lib/components/drawers/tickets/EditTicket.svelte';
@@ -49,6 +51,13 @@
 {/if}
 
 <Toast position="t" buttonDismiss="btn-icon bg-transparent border border-white/50" />
+
+<Modal
+	components={modalComponentRegistry}
+	buttonNeutral="btn border border-black bg-white dark:bg-transparent dark:border-white/30 text-black dark:text-white font-medium rounded-none"
+	buttonPositive="btn border border-black/30 dark:border-white/30 bg-black text-white font-medium dark:bg-neutral-900 rounded-none"
+	regionBackdrop="!bg-black/50"
+/>
 
 <Drawer
 	position="right"

@@ -87,7 +87,7 @@
 
 					<AccordionItem class="border  accordion card p-2 text-token">
 						<svelte:fragment slot="summary">
-							<h5 class="font-medium">Photos</h5>
+							<h5 class="font-medium">Attachment</h5>
 						</svelte:fragment>
 						<svelte:fragment slot="content">
 							<TicketPhotos />
