@@ -12,6 +12,14 @@
 
 	$: filters = data.filters;
 	$: tickets = data.tickets;
+	$: teams = data.teams;
+	$: categories = data.categories;
+	$: categoryLevels = data.categoryLevels;
+	$: regions = data.regions;
+	$: areas = data.areas;
+	$: sites = data.sites;
+	$: teamEquipment = data.teamEquipment;
+	$: faultTypeList = data.faultTypeList;
 
 	const drawerStore = getDrawerStore();
 	const toastStore = getToastStore();
@@ -19,7 +27,20 @@
 	let showFilters = true;
 
 	function triggerDrawer(id, position) {
-		drawerStore.open({ id, position });
+		drawerStore.open({
+			id,
+			position,
+			meta: {
+				teams,
+				categories,
+				categoryLevels,
+				regions,
+				areas,
+				sites,
+				teamEquipment,
+				faultTypeList
+			}
+		});
 	}
 
 	function updateTickets(e) {
