@@ -11,7 +11,7 @@
 </script>
 
 <div
-	class="sticky top-0 h-screen max-w-[17rem] bg-primary-800 dark:bg-secondary-800 text-white flex flex-col justify-between py-10 w-full px-5 overflow-y-auto"
+	class="sticky top-0 h-screen max-w-[17rem] bg-primary-800 text-white flex flex-col justify-between py-10 w-full px-5 overflow-y-auto"
 >
 	<div class="flex items-center justify-center px-2">
 		<a href="/">
@@ -25,10 +25,8 @@
 			<button
 				type="button"
 				on:click={() => goto(ref)}
-				class={`flex w-full mb-2 space-x-5 py-2.5 px-2 rounded transition duration-200 hover:bg-primary-700 dark:hover:bg-secondary-700 group ${
-					$page.url.pathname === ref
-						? 'bg-primary-700 dark:bg-secondary-700 shadow-2xl text-white'
-						: ''
+				class={`flex w-full mb-2 space-x-5 py-2.5 px-2 rounded transition duration-200 hover:bg-primary-700 group ${
+					$page.url.pathname === ref ? 'bg-primary-700 shadow-2xl text-white' : ''
 				}`}
 				aria-current={$page.url.pathname === ref}
 			>
@@ -41,7 +39,7 @@
 
 		<button
 			type="button"
-			class="flex w-full mb-2 space-x-5 py-2.5 px-2 rounded transition duration-200 hover:bg-primary-700 dark:hover:bg-secondary-700 group"
+			class="flex w-full mb-2 space-x-5 py-2.5 px-2 rounded transition duration-200 hover:bg-primary-700 group"
 			on:click={() => signOut()}
 		>
 			<div class="flex items-center h-6">
