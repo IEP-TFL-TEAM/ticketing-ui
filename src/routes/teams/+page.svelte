@@ -28,7 +28,7 @@
 	}
 </script>
 
-<div class="w-full">
+<div class="w-full mt-5">
 	<h1 class="h1 font-extrabold">Team Management</h1>
 	<p class="mb-8">Manage your team members and their account permissions here.</p>
 

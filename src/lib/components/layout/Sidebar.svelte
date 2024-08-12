@@ -13,7 +13,7 @@
 <div
 	class="sticky top-0 h-screen max-w-[17rem] bg-primary-800 text-white flex flex-col justify-between py-10 w-full px-5 overflow-y-auto"
 >
-	<div class="flex items-center justify-center px-2">
+	<div class="flex items-center justify-center px-2 mt-5">
 		<a href="/">
 			<img src={TransparentLogo} alt="logo" class="w-full" />
 		</a>

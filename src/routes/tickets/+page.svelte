@@ -98,7 +98,7 @@
 	});
 </script>
 
-<div class="flex justify-between items-center mb-8">
+<div class="flex justify-between items-center mt-5 mb-8">
 	<h1 class="h1 font-extrabold">Tickets</h1>
 
 	<div class="flex justify-between items-center gap-4">
