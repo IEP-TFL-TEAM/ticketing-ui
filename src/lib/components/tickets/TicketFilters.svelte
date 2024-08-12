@@ -43,35 +43,35 @@
 			</form>
 		</div>
 
-		<div>
-			<select
-				class="select border-none cursor-pointer"
-				bind:value={searchStatus}
-				on:change={() => handle()}
-			>
-				<option value={null} disabled selected>Status</option>
-				{#each statuses as status}
-					<option value={status}>
-						{status.charAt(0) + status.substring(1).toLowerCase()}
-					</option>
-				{/each}
-			</select>
-		</div>
-
-		<div>
-			<select
-				class="select border-none mr-8 cursor-pointer"
-				bind:value={searchSeverity}
-				on:change={() => handle()}
-			>
-				<option value={null} disabled selected>Severity</option>
-				{#each severityLevels as level}
-					<option value={level}>
-						{level.charAt(0) + level.substring(1).toLowerCase()}
-					</option>
-				{/each}
-			</select>
-		</div>
+		<!-- <div> -->
+		<!-- 	<select -->
+		<!-- 		class="select border-none cursor-pointer" -->
+		<!-- 		bind:value={searchStatus} -->
+		<!-- 		on:change={() => handle()} -->
+		<!-- 	> -->
+		<!-- 		<option value={null} disabled selected>Status</option> -->
+		<!-- 		{#each statuses as status} -->
+		<!-- 			<option value={status}> -->
+		<!-- 				{status.charAt(0) + status.substring(1).toLowerCase()} -->
+		<!-- 			</option> -->
+		<!-- 		{/each} -->
+		<!-- 	</select> -->
+		<!-- </div> -->
+		<!---->
+		<!-- <div> -->
+		<!-- 	<select -->
+		<!-- 		class="select border-none mr-8 cursor-pointer" -->
+		<!-- 		bind:value={searchSeverity} -->
+		<!-- 		on:change={() => handle()} -->
+		<!-- 	> -->
+		<!-- 		<option value={null} disabled selected>Severity</option> -->
+		<!-- 		{#each severityLevels as level} -->
+		<!-- 			<option value={level}> -->
+		<!-- 				{level.charAt(0) + level.substring(1).toLowerCase()} -->
+		<!-- 			</option> -->
+		<!-- 		{/each} -->
+		<!-- 	</select> -->
+		<!-- </div> -->
 
 		<div>
 			<button type="button" on:click={() => reset()} class="btn variant-filled-primary">
