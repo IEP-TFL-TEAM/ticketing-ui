@@ -51,7 +51,7 @@
 
 				toastStore.trigger({
 					type: 'success',
-					message: 'Form submitted successfully!',
+					message: 'Ticket Created Successfully!',
 					background: 'variant-filled-success',
 					classes: 'rounded-none font-semibold'
 				});
