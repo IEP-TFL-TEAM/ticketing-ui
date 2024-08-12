@@ -1,7 +1,8 @@
 import pb from './pocketbaseClient';
 import { parseFilters } from '../utils/parsers';
 
-const expand = 'reportedBy, staffId, teamId, locationId, categoryId';
+const expand =
+	'reportedBy, categoryLevelId, teamId, teamEquipmentId, categoryId, regionId, siteId, areaId, faultTypeId';
 
 const createTicket = async (data) => {
 	const record = await pb.collection('tickets').create(

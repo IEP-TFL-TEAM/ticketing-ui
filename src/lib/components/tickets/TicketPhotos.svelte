@@ -72,8 +72,10 @@
 			/>
 		{/if}
 
-		<button class="absolute top-0 right-0 text-white z-10" on:click={() => onClickView()}>
-			<IconMaximize />
-		</button>
+		{#if images.length > 0}
+			<button class="absolute top-0 right-0 text-white z-10" on:click={() => onClickView()}>
+				<IconMaximize />
+			</button>
+		{/if}
 	</div>
 </div>

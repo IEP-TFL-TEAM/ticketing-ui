@@ -34,26 +34,34 @@
 
 				ticket = e.record;
 			},
-			{ expand: 'reportedBy, staffId, teamId, locationId, categoryId' }
+			{
+				expand:
+					'reportedBy, categoryLevelId, teamId, teamEquipmentId, categoryId, regionId, siteId, areaId, faultTypeId'
+			}
 		);
 	});
 
 	onDestroy(() => {
 		unSubscribe?.();
 	});
+
+	const accordionStyles =
+		'border accordion card p-2 text-token border-black/10 dark:border-white/30';
 </script>
 
 <div class="h-full w-full border-r-gray-300 mt-6">
 	<div class="flex justify-between items-end p-5">
 		<div>
-			<span class="text-blue-600 text-xl font-extrabold">Ticket No: {ticket?.count}</span>
+			<span class="text-primary-500 text-xl font-extrabold">Ticket No: {ticket?.count}</span>
 			<div class="w-full flex mt-2">
 				<span class={`${parseStatus(ticket.status)} mr-3`}>
 					{ticket.status}
 				</span>
+
 				<span class="badge variant-ghost-primary mr-3 px-2">
 					{ticket.expand?.teamId?.name ?? 'UNASSIGNED'}
 				</span>
+
 				<span class=" font-extrabold">{ticket.title}</span>
 			</div>
 		</div>
@@ -65,7 +73,7 @@
 		<div class="h-full w-2/3">
 			<div class="flex flex-col justify-start items-start px-1">
 				<Accordion class="w-full">
-					<AccordionItem open class="border accordion card p-2 text-token">
+					<AccordionItem open class={accordionStyles}>
 						<svelte:fragment slot="summary">
 							<h5 class="font-medium">Description</h5>
 						</svelte:fragment>
@@ -76,7 +84,7 @@
 						</svelte:fragment>
 					</AccordionItem>
 
-					<AccordionItem class="border  accordion card p-2 text-token">
+					<AccordionItem class={accordionStyles}>
 						<svelte:fragment slot="summary">
 							<h5 class="font-medium">Comments</h5>
 						</svelte:fragment>
@@ -85,7 +93,7 @@
 						</svelte:fragment>
 					</AccordionItem>
 
-					<AccordionItem class="border  accordion card p-2 text-token">
+					<AccordionItem open class={accordionStyles}>
 						<svelte:fragment slot="summary">
 							<h5 class="font-medium">Attachment</h5>
 						</svelte:fragment>
@@ -101,7 +109,7 @@
 			<div class="flex flex-col justify-start items-start">
 				<div class="w-full">
 					<Accordion class="w-full">
-						<AccordionItem open class="border  accordion card p-2 text-token">
+						<AccordionItem open class={accordionStyles}>
 							<svelte:fragment slot="summary">
 								<h5 class="font-medium">Details</h5>
 							</svelte:fragment>
@@ -112,7 +120,7 @@
 							</svelte:fragment>
 						</AccordionItem>
 
-						<AccordionItem open class="border  accordion card p-2 text-token">
+						<AccordionItem open class={accordionStyles}>
 							<svelte:fragment slot="summary">
 								<h5 class="font-medium">History</h5>
 							</svelte:fragment>

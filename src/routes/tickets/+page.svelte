@@ -86,7 +86,10 @@
 
 				updateTickets(e);
 			},
-			{ expand: 'reportedBy, staffId, teamId, locationId, categoryId' }
+			{
+				expand:
+					'reportedBy, categoryLevelId, teamId, teamEquipmentId, categoryId, regionId, siteId, areaId, faultTypeId'
+			}
 		);
 	});
 

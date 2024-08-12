@@ -5,24 +5,40 @@
 <table class="table table-hover w-full">
 	<tbody>
 		<tr>
-			<td>Category</td>
-			<td>{ticket.expand?.categoryId?.name}</td>
-		</tr>
-		<tr>
 			<td>Status</td>
 			<td>{ticket.status}</td>
 		</tr>
 		<tr>
-			<td>Severity</td>
-			<td>{ticket.severity}</td>
-		</tr>
-		<tr>
-			<td>Location</td>
-			<td>{ticket.location}</td>
-		</tr>
-		<tr>
 			<td>Assigned To</td>
 			<td>{ticket.expand?.teamId?.name ?? 'Unassigned'}</td>
+		</tr>
+		<tr>
+			<td>Category</td>
+			<td>{ticket.expand?.categoryId?.name}</td>
+		</tr>
+		<tr>
+			<td>Category Level</td>
+			<td>{ticket.expand?.categoryLevelId?.name}</td>
+		</tr>
+		<tr>
+			<td>Region</td>
+			<td>{ticket.expand?.regionId?.name}</td>
+		</tr>
+		<tr>
+			<td>Area</td>
+			<td>{ticket.expand?.areaId?.name}</td>
+		</tr>
+		<tr>
+			<td>Site</td>
+			<td>{ticket.expand?.siteId?.name}</td>
+		</tr>
+		<tr>
+			<td>Fault Type</td>
+			<td>{ticket.expand?.faultTypeId?.name}</td>
+		</tr>
+		<tr>
+			<td>Team Equipment</td>
+			<td>{ticket.expand?.teamEquipmentId?.name}</td>
 		</tr>
 		<tr>
 			<td>Reported By</td>
