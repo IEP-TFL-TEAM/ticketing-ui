@@ -8,6 +8,7 @@ import { getAreaList } from '$lib/api/area';
 import { getSiteList } from '$lib/api/sites';
 import { getTeamEquipmentList } from '$lib/api/teamEquipment';
 import { getFaultList } from '$lib/api/faultTypes';
+import { getRecentHistory } from '$lib/api/history';
 
 export async function load({ url, fetch }) {
 	pb.beforeSend = function (url, options) {
@@ -25,6 +26,8 @@ export async function load({ url, fetch }) {
 		count: url.searchParams.get('count'),
 		status: url.searchParams.get('status')
 	};
+
+	await getRecentHistory();
 
 	return {
 		filters,

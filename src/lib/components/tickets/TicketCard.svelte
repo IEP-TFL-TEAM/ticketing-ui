@@ -12,6 +12,7 @@
 	<div class="mt-4" />
 	{#each tickets.items as ticket}
 		<a
+			data-sveltekit-preload-data="tap"
 			href={`/tickets/${ticket.id}`}
 			class="block card card-hover p-4 bg-white mb-2 cursor-pointer"
 		>

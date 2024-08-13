@@ -3,6 +3,7 @@ import { getTicketById } from '$lib/api/tickets';
 import { getTeams } from '$lib/api/teams';
 import { getCommentsByTicketId } from '$lib/api/comments';
 import { getPhotosByTicketId } from '$lib/api/photos';
+import { getHistoryByTicketId } from '$lib/api/history';
 
 export async function load({ params, url, fetch }) {
 	pb.beforeSend = function (url, options) {
@@ -12,6 +13,7 @@ export async function load({ params, url, fetch }) {
 
 	const ticketId = params.slug;
 	await getPhotosByTicketId(ticketId);
+	await getHistoryByTicketId(ticketId);
 
 	return {
 		ticket: await getTicketById(ticketId),
