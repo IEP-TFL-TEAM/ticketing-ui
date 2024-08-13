@@ -20,9 +20,10 @@ export async function load({ url, fetch }) {
 		perPage: url.searchParams.get('perPage') ?? 20,
 		title: url.searchParams.get('title'),
 		description: url.searchParams.get('description'),
+		categoryId: url.searchParams.get('categoryId'),
+		categoryLevelId: url.searchParams.get('categoryLevelId'),
 		count: url.searchParams.get('count'),
-		status: url.searchParams.get('status'),
-		severity: url.searchParams.get('severity')
+		status: url.searchParams.get('status')
 	};
 
 	return {

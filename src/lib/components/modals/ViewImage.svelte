@@ -15,7 +15,7 @@
 
 {#if $modalStore[0]}
 	<button
-		class=" p-3 rounded-full border border-neutral-400 hover:border-none hover:cursor-pointer text-white hover:bg-black/60 dark:hover:bg-white/20 transition-all {cButton}"
+		class=" p-3 rounded-full border border-gray-400 hover:border-none hover:cursor-pointer text-white hover:bg-black/60 dark:hover:bg-white/20 transition-all {cButton}"
 		on:click={parent.onClose}
 	>
 		<IconX size={25} />

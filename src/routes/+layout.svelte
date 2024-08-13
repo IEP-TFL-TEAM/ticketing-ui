@@ -55,7 +55,7 @@
 <Modal
 	components={modalComponentRegistry}
 	buttonNeutral="btn border border-black bg-white dark:bg-transparent dark:border-white/30 text-black dark:text-white font-medium rounded-none"
-	buttonPositive="btn border border-black/30 dark:border-white/30 bg-black text-white font-medium dark:bg-neutral-900 rounded-none"
+	buttonPositive="btn border border-black/30 dark:border-white/30 bg-black text-white font-medium dark:bg-gray-900 rounded-none"
 	regionBackdrop="!bg-black/50"
 />
 

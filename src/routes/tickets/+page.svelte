@@ -2,11 +2,13 @@
 	import { onDestroy, onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import pb from '$lib/api/pocketbaseClient';
-	import { getDrawerStore, getToastStore } from '@skeletonlabs/skeleton';
+	import { parseQueryParams } from '$lib/utils/parsers';
+	import { getDrawerStore, getToastStore, Paginator } from '@skeletonlabs/skeleton';
 	import { IconPlus, IconFilter } from '@tabler/icons-svelte';
 
 	import TicketFilters from '$lib/components/tickets/TicketFilters.svelte';
 	import TicketCard from '$lib/components/tickets/TicketCard.svelte';
+	import TicketHistory from '$lib/components/tickets/TicketHistory.svelte';
 
 	export let data;
 
@@ -24,7 +26,31 @@
 	const drawerStore = getDrawerStore();
 	const toastStore = getToastStore();
 
+	let selectedTicket;
 	let showFilters = true;
+
+	let pageSettings = {
+		page: data.tickets.page - 1,
+		limit: data.tickets.perPage,
+		size: data.tickets.totalItems ?? 0,
+		amounts: [1, 5, 10, 20]
+	};
+
+	$: pageSettings.size = data.tickets.totalItems;
+
+	function onPageChange(e) {
+		filters = { ...filters, page: e.detail + 1 };
+		goto(`/tickets${selectedTicket ? `/${selectedTicket.id}` : ''}/?${parseQueryParams(filters)}`);
+	}
+
+	function onAmountChange(e) {
+		filters = {
+			...filters,
+			perPage: e.detail,
+			page: e.detail * filters.page > data.tickets.totalItems ? 0 : filters.page
+		};
+		goto(`/tickets${selectedTicket ? `/${selectedTicket.id}` : ''}/?${parseQueryParams(filters)}`);
+	}
 
 	function triggerDrawer(id, position) {
 		drawerStore.open({
@@ -98,31 +124,52 @@
 	});
 </script>
 
-<div class="flex justify-between items-center mt-5 mb-8">
-	<h1 class="h1 font-extrabold">Tickets</h1>
+<div class="flex flex-col mt-5 w-full">
+	<div class="flex justify-between items-center mb-8">
+		<h1 class="h1 font-extrabold">Tickets</h1>
 
-	<div class="flex justify-between items-center gap-4">
-		<button
-			type="button"
-			class="btn rounded-none variant-outline-primary"
-			on:click={() => (showFilters = !showFilters)}
-		>
-			<IconFilter size={20} />
-			<span>
-				{showFilters ? 'Hide Filters' : 'Show Filters'}
-			</span>
-		</button>
+		<div class="flex justify-between items-center gap-4">
+			<button
+				type="button"
+				class="btn rounded-none variant-outline-primary"
+				on:click={() => (showFilters = !showFilters)}
+			>
+				<IconFilter size={20} />
+				<span>
+					{showFilters ? 'Hide Filters' : 'Show Filters'}
+				</span>
+			</button>
 
-		<button
-			type="button"
-			class="btn rounded-none variant-filled-primary"
-			on:click={() => triggerDrawer('createTicket', 'right')}
-		>
-			<IconPlus size={20} />
-			<span> New Ticket </span>
-		</button>
+			<button
+				type="button"
+				class="btn rounded-none variant-filled-primary"
+				on:click={() => triggerDrawer('createTicket', 'right')}
+			>
+				<IconPlus size={20} />
+				<span> New Ticket </span>
+			</button>
+		</div>
+	</div>
+
+	<div class="grid grid-cols-3 w-full gap-10">
+		<div class="col-span-2">
+			{#if showFilters}
+				<TicketFilters {filters} {categories} {categoryLevels} />
+			{/if}
+
+			<TicketCard {tickets} />
+
+			<Paginator
+				buttonClasses="rounded-md btn-icon variant-filled"
+				bind:settings={pageSettings}
+				on:page={onPageChange}
+				on:amount={onAmountChange}
+			/>
+		</div>
+
+		<div class="h3 border border-gray-300 dark:border-white/40 h-full p-5">
+			<h3 class="h3 pb-5">Recent Activity</h3>
+			<TicketHistory />
+		</div>
 	</div>
 </div>
-
-<TicketFilters {filters} bind:showFilters />
-<TicketCard {tickets} />

@@ -24,7 +24,7 @@
 						Page Not Found
 					</h1>
 
-					<p class="mb-4 text-lg font-light text-neutral-500 dark:text-neutral-400">
+					<p class="mb-4 text-lg font-light text-gray-500 dark:text-gray-400">
 						Sorry, we can't find that page. You can find more information on our Home Page.
 					</p>
 					<a
@@ -42,7 +42,7 @@
 						Something Went Wrong!
 					</h1>
 
-					<p class="mb-4 text-lg font-light text-neutral-500 dark:text-neutral-400">
+					<p class="mb-4 text-lg font-light text-gray-500 dark:text-gray-400">
 						Our team has been notified, and will be working on resolving the issue.
 					</p>
 					<a
