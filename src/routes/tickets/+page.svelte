@@ -114,7 +114,7 @@
 			},
 			{
 				expand:
-					'reportedBy, categoryLevelId, teamId, teamEquipmentId, categoryId, regionId, siteId, areaId, faultTypeId'
+					'reportedBy, categoryLevelId, teamId, teamEquipmentId, categoryId, regionId, siteId, areaId, faultTypeId, closedBy'
 			}
 		);
 	});

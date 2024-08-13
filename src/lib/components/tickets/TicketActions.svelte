@@ -1,4 +1,5 @@
 <script>
+	import pb from '$lib/api/pocketbaseClient';
 	import { getModalStore } from '@skeletonlabs/skeleton';
 	import { updateTicket } from '$lib/api/tickets';
 	import { currentUser } from '$lib/stores/auth';
@@ -18,30 +19,14 @@
 				if (r) {
 					const updatedTicket = await updateTicket({
 						...ticket,
-						status: 'APPROVED'
+						status: 'APPROVED',
+						closedBy: ''
 					});
 					ticket = updatedTicket;
 				}
 			}
 		});
 	}
-
-	// async function verifyTicket() {
-	// 	modalStore.trigger({
-	// 		type: 'confirm',
-	// 		title: 'Complete this ticket',
-	// 		body: 'Have you confirmed with the client this ticket is complete?',
-	// 		response: async (r) => {
-	// 			if (r) {
-	// 				const updatedTicket = await updateTicket({
-	// 					...ticket,
-	// 					status: 'COMPLETE'
-	// 				});
-	// 				ticket = updatedTicket;
-	// 			}
-	// 		}
-	// 	});
-	// }
 
 	async function reOpenTicket() {
 		modalStore.trigger({
@@ -52,7 +37,8 @@
 				if (r) {
 					const updatedTicket = await updateTicket({
 						...ticket,
-						status: 'PENDING'
+						status: 'PENDING',
+						closedBy: ''
 					});
 					ticket = updatedTicket;
 				}
@@ -69,7 +55,8 @@
 				if (r) {
 					const updatedTicket = await updateTicket({
 						...ticket,
-						status: 'CLOSED'
+						status: 'CLOSED',
+						closedBy: pb.authStore.model.id
 					});
 					ticket = updatedTicket;
 				}
@@ -101,15 +88,6 @@
 	<button type="button" class="w-1/3" on:click={() => assignTicket()} disabled={role !== 'admin'}>
 		Assign
 	</button>
-
-	<!-- <button -->
-	<!-- 	type="button" -->
-	<!-- 	class="w-1/4" -->
-	<!-- 	on:click={() => verifyTicket()} -->
-	<!-- 	disabled={ticket.status !== 'RESOLVED' || (role !== 'admin')} -->
-	<!-- > -->
-	<!-- 	Verify -->
-	<!-- </button> -->
 
 	<button
 		type="button"

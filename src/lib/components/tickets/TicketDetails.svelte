@@ -44,5 +44,13 @@
 			<td>Reported By</td>
 			<td>{ticket.expand?.reportedBy?.firstName + ' ' + ticket.expand?.reportedBy?.lastName}</td>
 		</tr>
+		<tr>
+			<td>Closed By</td>
+			<td
+				>{ticket.closedBy.length > 0
+					? ticket.expand?.closedBy?.firstName + ' ' + ticket.expand?.closedBy?.lastName
+					: 'Not yet closed'}</td
+			>
+		</tr>
 	</tbody>
 </table>
