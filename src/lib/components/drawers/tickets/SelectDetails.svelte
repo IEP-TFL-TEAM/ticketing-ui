@@ -153,7 +153,6 @@
 					<span>Select Fault Type</span>
 					<div class="flex flex-row">
 						<select
-							size="10"
 							class="select rounded-none w-full"
 							name="faultTypeId"
 							bind:value={$form.faultTypeId}
