@@ -19,14 +19,14 @@ export const getSidebarItems = () => {
 			ref: '/tickets'
 		},
 		{
-			label: 'Teams',
-			icon: IconAffiliate,
-			ref: '/teams'
-		},
-		{
 			label: 'Reports',
 			icon: IconReport,
 			ref: '/reports'
+		},
+		{
+			label: 'Teams',
+			icon: IconAffiliate,
+			ref: '/teams'
 		},
 		{
 			label: 'Settings',
