@@ -1,5 +1,5 @@
 import {
-	IconLayoutDashboard,
+	IconHome,
 	IconTicket,
 	IconSettings,
 	IconAffiliate,
@@ -9,8 +9,8 @@ import {
 export const getSidebarItems = () => {
 	const sidebarItems = [
 		{
-			label: 'Dashboard',
-			icon: IconLayoutDashboard,
+			label: 'Home',
+			icon: IconHome,
 			ref: '/'
 		},
 		{
