@@ -1,19 +1,24 @@
 import pb from './pocketbaseClient';
 import { history } from '$lib/stores/historyStore';
+import { get } from 'svelte/store';
+import { currentUser } from '$lib/stores/auth';
 
+const expand = 'ticketId';
 let selectedTicket;
 
-pb.collection('history').subscribe('*', async function (e) {
-	if (selectedTicket === e.record.ticketId) {
-		history.update((r) => [e.record, ...r]);
-	}
-});
+if (get(currentUser)) {
+	pb.collection('history').subscribe('*', async function (e) {
+		if (selectedTicket === e.record.ticketId) {
+			history.update((r) => [e.record, ...r]);
+		}
+	});
+}
 
 const getHistoryByTicketId = async (ticketId) => {
 	const records = await pb.collection('history').getFullList({
 		sort: '-created',
 		filter: `ticketId = '${ticketId}'`,
-		expand: 'ticketId'
+		expand
 	});
 
 	selectedTicket = ticketId;
@@ -22,14 +27,12 @@ const getHistoryByTicketId = async (ticketId) => {
 };
 
 const getHistoryById = async (id) => {
-	const record = await pb.collection('history').getOne(id);
+	const record = await pb.collection('history').getOne(id, { expand });
 	return record;
 };
 
 const getRecentHistory = async () => {
-	const record = await pb
-		.collection('history')
-		.getList(0, 30, { sort: '-created', expand: 'ticketId' });
+	const record = await pb.collection('history').getList(0, 30, { sort: '-created', expand });
 
 	history.set(record.items);
 	return record.items;

@@ -1,30 +1,30 @@
 import pb from './pocketbaseClient';
 import { photos } from '$lib/stores/photoStore';
+import { get } from 'svelte/store';
+import { currentUser } from '$lib/stores/auth';
 
 let selectedTicket;
 
-pb.collection('photos').subscribe('*', async function (e) {
-	if (selectedTicket === e.record.ticketId) {
-		// Get photo again but with related values
-		if (e.action === 'create') {
-			const photo = await getPhotoById(e.record.id);
-			photos.update((r) => [...r, photo]);
+if (get(currentUser)) {
+	pb.collection('photos').subscribe('*', async function (e) {
+		if (selectedTicket === e.record.ticketId) {
+			// Get photo again but with related values
+			if (e.action === 'create') {
+				const photo = await getPhotoById(e.record.id);
+				photos.update((r) => [...r, photo]);
+			}
+			// Just remove it
+			else if (e.action === 'delete') photos.update((r) => r.filter((x) => x.id !== e.record.id));
 		}
-		// Just remove it
-		else if (e.action === 'delete') photos.update((r) => r.filter((x) => x.id !== e.record.id));
-	}
-});
+	});
+}
 
 const addPhoto = async ({ ticketId, attachment }) => {
-	const record = await pb.collection('photos').create(
-		{
-			ticketId,
-			attachment,
-			userId: pb.authStore.model.id
-		},
-		{ expand: 'userId' }
-	);
-
+	const record = await pb.collection('photos').create({
+		ticketId,
+		attachment,
+		userId: pb.authStore.model.id
+	});
 	return record;
 };
 
