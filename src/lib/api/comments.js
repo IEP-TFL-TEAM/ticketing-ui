@@ -1,14 +1,11 @@
 import pb from './pocketbaseClient';
 
 const addComment = async ({ ticketId, content }) => {
-	const record = await pb.collection('comments').create(
-		{
-			ticketId,
-			content,
-			userId: pb.authStore.model.id
-		},
-		{ expand: 'userId, ticketId' }
-	);
+	const record = await pb.collection('comments').create({
+		ticketId,
+		content,
+		userId: pb.authStore.model.id
+	});
 	return record;
 };
 
@@ -18,7 +15,6 @@ const getCommentsByTicketId = async (id) => {
 		expand: 'userId, ticketId',
 		filter: `ticketId = '${id}'`
 	});
-
 	return records;
 };
 

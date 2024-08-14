@@ -1,24 +1,19 @@
 import pb from './pocketbaseClient';
 import { parseFilters } from '../utils/parsers';
 
-const expand =
+export const expand =
 	'reportedBy, categoryLevelId, teamId, teamEquipmentId, categoryId, regionId, siteId, areaId, faultTypeId, closedBy';
 
 const createTicket = async (data) => {
-	const record = await pb.collection('tickets').create(
-		{
-			...data,
-			reportedBy: pb.authStore.model.id
-		},
-		{ expand }
-	);
-
+	const record = await pb.collection('tickets').create({
+		...data,
+		reportedBy: pb.authStore.model.id
+	});
 	return record;
 };
 
 const updateTicket = async (ticket) => {
-	const record = await pb.collection('tickets').update(ticket.id, ticket, { expand });
-
+	const record = await pb.collection('tickets').update(ticket.id, ticket);
 	return record;
 };
 
@@ -28,13 +23,11 @@ const getTickets = async (filters) => {
 		expand,
 		filter: parseFilters(filters)
 	});
-
 	return records;
 };
 
 const getTicketById = async (id) => {
 	const record = await pb.collection('tickets').getOne(id, { expand });
-
 	return record;
 };
 

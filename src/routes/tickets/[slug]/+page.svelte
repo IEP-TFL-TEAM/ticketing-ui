@@ -1,8 +1,5 @@
 <script>
-	import { onDestroy, onMount } from 'svelte';
-	import { goto } from '$app/navigation';
-	import pb from '$lib/api/pocketbaseClient';
-	import { getToastStore, Accordion, AccordionItem } from '@skeletonlabs/skeleton';
+	import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
 	import { parseStatus } from '$lib/utils/parsers';
 
 	import TicketActions from '$lib/components/tickets/TicketActions.svelte';
@@ -11,39 +8,10 @@
 	import TicketDetails from '$lib/components/tickets/TicketDetails.svelte';
 	import TicketHistory from '$lib/components/tickets/TicketHistory.svelte';
 
-	const toastStore = getToastStore();
-
 	export let data;
 	$: ticket = data.ticket;
 	$: teams = data.teams;
 	$: comments = data.comments;
-
-	let unSubscribe;
-
-	onMount(async () => {
-		unSubscribe = await pb.collection('tickets').subscribe(
-			'*',
-			async (e) => {
-				toastStore.trigger({
-					message: `A ticket has been ${e.action}d! ${e.record.expand.reportedBy.firstName} ${e.record.expand.reportedBy.lastName}`,
-					action: {
-						label: 'View',
-						response: () => goto(`./${e.record.id}`)
-					}
-				});
-
-				ticket = e.record;
-			},
-			{
-				expand:
-					'reportedBy, categoryLevelId, teamId, teamEquipmentId, categoryId, regionId, siteId, areaId, faultTypeId, closedBy'
-			}
-		);
-	});
-
-	onDestroy(() => {
-		unSubscribe?.();
-	});
 
 	const accordionStyles =
 		'border accordion card p-2 text-token border-black/10 dark:border-white/30';

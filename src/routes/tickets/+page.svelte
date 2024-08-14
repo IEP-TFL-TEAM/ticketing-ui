@@ -4,6 +4,7 @@
 	import pb from '$lib/api/pocketbaseClient';
 	import { parseQueryParams } from '$lib/utils/parsers';
 	import { getDrawerStore, getToastStore, Paginator } from '@skeletonlabs/skeleton';
+	import { expand } from '$lib/api/tickets';
 	import { IconPlus, IconFilter } from '@tabler/icons-svelte';
 
 	import TicketFilters from '$lib/components/tickets/TicketFilters.svelte';
@@ -113,8 +114,23 @@
 				updateTickets(e);
 			},
 			{
-				expand:
-					'reportedBy, categoryLevelId, teamId, teamEquipmentId, categoryId, regionId, siteId, areaId, faultTypeId, closedBy'
+				expand
+			}
+		);
+
+		unSubscribe = await pb.collection('comments').subscribe(
+			'*',
+			async (e) => {
+				toastStore.trigger({
+					message: `${e.record.expand.userId.firstName} ${e.record.expand.userId.lastName} ${e.action}d on ticket #${e.record.expand.ticketId.count}`,
+					action: {
+						label: 'View',
+						response: () => goto(`tickets/${e.record.ticketId}`)
+					}
+				});
+			},
+			{
+				expand: 'userId, ticketId'
 			}
 		);
 	});
