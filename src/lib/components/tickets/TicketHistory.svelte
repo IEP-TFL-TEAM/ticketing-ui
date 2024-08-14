@@ -12,7 +12,7 @@
 		<a
 			data-sveltekit-preload-data="tap"
 			href={`/tickets/${item.ticketId}`}
-			class="anchor text-sm text-primary-700 dark:text-secondary-600"
+			class="anchor text-sm text-tertiary-800 dark:text-tertiary-600"
 		>
 			{item.action}
 		</a>

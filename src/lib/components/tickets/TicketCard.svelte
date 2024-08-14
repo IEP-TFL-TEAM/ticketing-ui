@@ -51,7 +51,7 @@
 				</div>
 
 				<span class="badge variant-filled-surface p text-sm text-white dark:text-gray-200">
-					# {ticket.count}
+					#{ticket.count}
 				</span>
 			</div>
 		</a>

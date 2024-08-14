@@ -52,7 +52,9 @@
 <div class="h-full w-full border-r-gray-300 mt-6">
 	<div class="flex justify-between items-end p-5">
 		<div>
-			<span class="text-primary-500 text-xl font-extrabold">Ticket No: {ticket?.count}</span>
+			<span class="text-primary-500 dark:text-tertiary-500 text-xl font-extrabold"
+				>Ticket #{ticket?.count}</span
+			>
 			<div class="w-full flex mt-2">
 				<span class={`${parseStatus(ticket.status)} mr-3`}>
 					{ticket.status}
