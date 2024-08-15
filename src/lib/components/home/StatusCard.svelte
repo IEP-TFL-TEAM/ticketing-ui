@@ -1,12 +1,13 @@
 <script>
 	export let data;
 
-	$: tickets = data.tickets.items;
+	$: tickets = data.tickets;
 
 	$: approvedTickets = countByStatus(tickets, 'APPROVED');
 	$: pendingTickets = countByStatus(tickets, 'PENDING');
 	$: closedTickets = countByStatus(tickets, 'CLOSED');
-	$: totalTickets = approvedTickets + pendingTickets + closedTickets;
+
+	$: totalTickets = data.tickets.length;
 
 	function countByStatus(array, status) {
 		return array.filter((record) => record.status === status).length;
@@ -19,9 +20,7 @@
 </script>
 
 <div class="flex flex-col items-start gap-2 mt-4">
-	<h3 class="mb-4 font-semibold tracking-wide h3 text-primary-500 dark:text-tertiary-500">
-		Ticket Status
-	</h3>
+	<h3 class="mb-4 font-semibold tracking-wide h3">Ticket Status</h3>
 
 	<div class="flex flex-col justify-between w-full gap-4 lg:flex-row">
 		<div class={cardStyle}>

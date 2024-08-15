@@ -26,9 +26,14 @@ const getTickets = async (filters) => {
 	return records;
 };
 
+const getAllTickets = async () => {
+	const records = await pb.collection('tickets').getFullList();
+	return records;
+};
+
 const getTicketById = async (id) => {
 	const record = await pb.collection('tickets').getOne(id, { expand });
 	return record;
 };
 
-export { updateTicket, getTicketById, getTickets, createTicket };
+export { updateTicket, getTicketById, getTickets, createTicket, getAllTickets };
