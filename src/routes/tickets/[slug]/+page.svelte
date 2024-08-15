@@ -4,7 +4,7 @@
 
 	import TicketActions from '$lib/components/tickets/TicketActions.svelte';
 	import TicketComments from '$lib/components/tickets/TicketComments.svelte';
-	import TicketPhotos from '$lib/components/tickets/TicketPhotos.svelte';
+	import TicketAttachments from '$lib/components/tickets/TicketAttachments.svelte';
 	import TicketDetails from '$lib/components/tickets/TicketDetails.svelte';
 	import TicketHistory from '$lib/components/tickets/TicketHistory.svelte';
 
@@ -12,6 +12,8 @@
 	$: ticket = data.ticket;
 	$: teams = data.teams;
 	$: comments = data.comments;
+	$: attachmentUrl = data.attachmentUrl;
+	$: attachment = data.attachment;
 
 	const accordionStyles =
 		'border accordion card p-2 text-token border-black/10 dark:border-white/30';
@@ -68,7 +70,7 @@
 							<h5 class="font-medium">Attachment</h5>
 						</svelte:fragment>
 						<svelte:fragment slot="content">
-							<TicketPhotos />
+							<TicketAttachments {attachmentUrl} {attachment} />
 						</svelte:fragment>
 					</AccordionItem>
 				</Accordion>

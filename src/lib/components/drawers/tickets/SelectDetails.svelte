@@ -1,10 +1,12 @@
 <script>
-	import { superForm, defaults } from 'sveltekit-superforms';
+	import { superForm, defaults, fileProxy } from 'sveltekit-superforms';
 	import { zod } from 'sveltekit-superforms/adapters';
 	import { getToastStore, getDrawerStore } from '@skeletonlabs/skeleton';
 	import { ticketSchema } from '$lib/schemas/ticketSchema';
 	import { createTicket } from '$lib/api/tickets';
 	import SpinnerOverlay from '$lib/components/layout/SpinnerOverlay.svelte';
+
+	export const completeStepper = () => submit();
 
 	export let isValid,
 		selectedTeamId,
@@ -19,16 +21,14 @@
 	const drawerStore = getDrawerStore();
 
 	const faultTypeList = $drawerStore.meta.faultTypeList;
-
 	let submitting = false;
-
-	const originalForm = defaults(zod(ticketSchema(faultTypeList)));
+	const originalForm = defaults(zod(ticketSchema()));
 
 	const { form, constraints, enhance, message, errors, delayed, submit } = superForm(originalForm, {
 		SPA: true,
 		taintedMessage: 'Are you sure you want to leave?',
 		multipleSubmits: 'prevent',
-		validators: zod(ticketSchema(faultTypeList)),
+		validators: zod(ticketSchema()),
 		async onUpdate({ form }) {
 			submitting = true;
 
@@ -74,7 +74,7 @@
 		}
 	});
 
-	export const completeStepper = () => submit();
+	const attachment = fileProxy(form, 'attachment');
 
 	$: {
 		$form.teamId = selectedTeamId;
@@ -114,7 +114,10 @@
 		<form method="POST" enctype="multipart/form-data" use:enhance>
 			<div class="flex flex-col justify-between gap-4">
 				<label class="label">
-					<span>Enter Title</span>
+					<p class="my-2 text-base font-semibold">
+						Enter Title
+						<span class="text-red-500">*</span>
+					</p>
 					<div class="flex flex-row">
 						<input
 							class="input p-4 border"
@@ -132,7 +135,10 @@
 				</label>
 
 				<label class="label">
-					<span>Enter Description</span>
+					<p class="my-2 text-base font-semibold">
+						Enter Description
+						<span class="text-red-500">*</span>
+					</p>
 					<div class="flex flex-row">
 						<input
 							class="input p-4 border"
@@ -150,7 +156,10 @@
 				</label>
 
 				<label class="label">
-					<span>Select Fault Type</span>
+					<p class="my-2 text-base font-semibold">
+						Select Fault Type
+						<span class="text-red-500">*</span>
+					</p>
 					<div class="flex flex-row">
 						<select
 							class="select rounded-none w-full"
@@ -174,6 +183,31 @@
 						{/if}
 					</div>
 				</label>
+
+				<div class="flex flex-col">
+					<label class="my-2 text-base font-semibold" for="attachment">
+						Upload Attachment
+						<span class="text-red-500">*</span>
+					</label>
+
+					{#if $errors.attachment}
+						<span class=" text-error-500">{$errors.attachment}</span>
+					{/if}
+
+					<p class="mb-2 text-sm font-semibold text-primary-500 dark:text-tertiary-500">
+						Allowed Formats: .doc, .docx, .pdf, .jpg, .png only, Allowed Size: 10 MB (Max.)
+					</p>
+
+					<input
+						class="w-full rounded text-base text-gray-900 border border-gray-300 dark:border-gray-700 cursor-pointer bg-gray-50 dark:bg-transparent dark:text-white focus:outline-none p-1"
+						name="attachment"
+						bind:files={$attachment}
+						required
+						type="file"
+						accept=".doc, .docx, .pdf, image/jpg, image/png, image/jpeg"
+						{...$constraints.attachment}
+					/>
+				</div>
 			</div>
 		</form>
 	</div>

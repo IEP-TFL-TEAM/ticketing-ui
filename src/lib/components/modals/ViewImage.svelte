@@ -10,7 +10,7 @@
 
 	const cButton = 'fixed top-4 right-4 z-50 font-bold shadow-xl';
 	const cImage =
-		'max-w-[35%] max-h-[35%] rounded-container-token shadow-xl transition duration-500 opacity-0';
+		'max-w-[55%] max-h-[55%] rounded-container-token shadow-xl transition duration-500 opacity-0';
 </script>
 
 {#if $modalStore[0]}

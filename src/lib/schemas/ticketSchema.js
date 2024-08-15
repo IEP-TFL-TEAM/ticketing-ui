@@ -1,6 +1,15 @@
 import { z } from 'zod';
 
-export const ticketSchema = (faultTypeList) =>
+const AcceptedAttachmentTypes = [
+	'application/msword',
+	'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+	'application/pdf',
+	'image/jpeg',
+	'image/jpg',
+	'image/png'
+];
+
+export const ticketSchema = (attachment) =>
 	z
 		.object({
 			title: z.string().min(1, {
@@ -26,6 +35,13 @@ export const ticketSchema = (faultTypeList) =>
 			siteId: z.string(),
 
 			faultTypeId: z.string(),
+
+			attachment: z
+				.instanceof(File)
+				.refine((file) => AcceptedAttachmentTypes.includes(file.type), {
+					message: 'Only .pdf, .doc, .docx, .jpg, .png formats are supported.'
+				})
+				.default(attachment),
 
 			status: z.string().default('PENDING')
 		})
