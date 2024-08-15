@@ -13,7 +13,7 @@ export async function load({ params, url, fetch }) {
 	const ticketId = params.slug;
 	await getHistoryByTicketId(ticketId);
 
-	const ticket = await getTicketById(ticketId);
+	const ticket = (await getTicketById(ticketId)) ?? [];
 	const fileToken = await pb.files.getToken();
 
 	const attachmentUrl = pb.files.getUrl(ticket, ticket.attachment, {
@@ -22,10 +22,10 @@ export async function load({ params, url, fetch }) {
 
 	return {
 		ticket,
-		teams: await getTeams(),
-		comments: await getCommentsByTicketId(ticketId),
+		teams: (await getTeams()) ?? [],
+		comments: (await getCommentsByTicketId(ticketId)) ?? [],
 		attachmentUrl,
-		attachment: await urlToFile(attachmentUrl, fetch)
+		attachment: (await urlToFile(attachmentUrl, fetch)) ?? []
 	};
 }
 

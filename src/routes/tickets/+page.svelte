@@ -107,7 +107,7 @@
 					message: `A ticket has been ${e.action}d! ${e.record.expand.reportedBy.firstName} ${e.record.expand.reportedBy.lastName}`,
 					action: {
 						label: 'View',
-						response: () => goto(`tickets/${e.record.id}`)
+						response: () => goto(`/tickets/${e.record.id}`)
 					}
 				});
 
@@ -125,7 +125,7 @@
 					message: `${e.record.expand.userId.firstName} ${e.record.expand.userId.lastName} ${e.action}d on ticket #${e.record.expand.ticketId.count}`,
 					action: {
 						label: 'View',
-						response: () => goto(`tickets/${e.record.ticketId}`)
+						response: () => goto(`/tickets/${e.record.ticketId}`)
 					}
 				});
 			},
