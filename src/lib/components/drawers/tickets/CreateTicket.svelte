@@ -4,55 +4,60 @@
 	import SelectDetails from './SelectDetails.svelte';
 	import SelectRegionAndArea from './SelectRegionAndArea.svelte';
 
-	let selectedTeamId = null,
-		selectedCategoryId = null,
-		selectedCategoryLevelId = null,
-		selectedEquipmentId = null;
+	let teamId = null,
+		catId = null,
+		catLevelId = null,
+		equipId = null,
+		selectedTeam = null,
+		selectedCatLevel = null,
+		selectedEquipment = null;
 
-	let selectedRegionId = null,
-		selectedAreaId = null,
-		selectedSiteId = null;
+	let regionId = null,
+		areaId = null,
+		siteId = null,
+		selectedArea = null,
+		selectedSite = null;
 
 	let onCompleteHandler;
-	let isValid = false;
 </script>
 
 <div class="w-full p-5">
 	<Stepper on:complete={onCompleteHandler}>
-		<Step
-			locked={!(
-				selectedTeamId &&
-				selectedCategoryId &&
-				selectedCategoryLevelId &&
-				selectedEquipmentId
-			)}
-		>
+		<Step locked={!(selectedTeam && catId && selectedCatLevel && selectedEquipment)}>
 			<svelte:fragment slot="header">Select Team</svelte:fragment>
 			<SelectTeamAndCategory
-				bind:selectedTeamId
-				bind:selectedCategoryId
-				bind:selectedCategoryLevelId
-				bind:selectedEquipmentId
+				bind:teamId
+				bind:selectedTeam
+				bind:catId
+				bind:catLevelId
+				bind:selectedCatLevel
+				bind:equipId
+				bind:selectedEquipment
 			/>
 		</Step>
 
-		<Step locked={!(selectedRegionId && selectedAreaId && selectedSiteId)}>
+		<Step locked={!(regionId && selectedArea && selectedSite)}>
 			<svelte:fragment slot="header">Select Region</svelte:fragment>
-			<SelectRegionAndArea bind:selectedRegionId bind:selectedAreaId bind:selectedSiteId />
+			<SelectRegionAndArea
+				bind:regionId
+				bind:areaId
+				bind:siteId
+				bind:selectedArea
+				bind:selectedSite
+			/>
 		</Step>
 
-		<Step locked={!isValid}>
+		<Step>
 			<svelte:fragment slot="header">Ticket Details</svelte:fragment>
 			<SelectDetails
-				{selectedTeamId}
-				{selectedCategoryId}
-				{selectedCategoryLevelId}
-				{selectedEquipmentId}
-				{selectedRegionId}
-				{selectedAreaId}
-				{selectedSiteId}
-				bind:completeStepper={onCompleteHandler}
-				bind:isValid
+				{teamId}
+				{catId}
+				{catLevelId}
+				{equipId}
+				{regionId}
+				{areaId}
+				{siteId}
+				bind:onCompleteHandler
 			/>
 		</Step>
 	</Stepper>

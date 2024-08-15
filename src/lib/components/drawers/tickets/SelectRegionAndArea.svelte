@@ -1,7 +1,7 @@
 <script>
 	import { Autocomplete, getDrawerStore, RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
 
-	export let selectedRegionId, selectedAreaId, selectedSiteId;
+	export let regionId, areaId, siteId, selectedArea, selectedSite;
 
 	const drawerStore = getDrawerStore();
 
@@ -9,25 +9,22 @@
 	const areas = $drawerStore.meta.areas;
 	const sites = $drawerStore.meta.sites;
 
-	let selectedArea = null,
-		selectedSite = null;
-
 	let areaList = [];
 	let siteList = [];
 
 	function onAreaSelect(e) {
-		selectedAreaId = e.detail.value;
+		areaId = e.detail.value;
 		selectedArea = e.detail.label;
 	}
 
 	function onSiteSelect(e) {
-		selectedSiteId = e.detail.value;
+		siteId = e.detail.value;
 		selectedSite = e.detail.label;
 	}
 
 	$: {
 		areaList = areas
-			.filter((area) => area.regionId === selectedRegionId)
+			.filter((area) => area.regionId === regionId)
 			.map((area) => ({
 				label: area.name,
 				value: area.id
@@ -47,7 +44,7 @@
 		<RadioGroup class="w-1/2">
 			{#each regions as item}
 				<RadioItem
-					bind:group={selectedRegionId}
+					bind:group={regionId}
 					name={item.name}
 					value={item.id}
 					on:change={() => {
@@ -66,8 +63,8 @@
 				type="search"
 				name="area"
 				bind:value={selectedArea}
-				placeholder={!selectedRegionId ? 'Please select a region first ...' : 'Search Area ...'}
-				disabled={!selectedRegionId}
+				placeholder={!regionId ? 'Please select a region first ...' : 'Search Area ...'}
+				disabled={!regionId}
 				on:change={() => (selectedSite = null)}
 				required
 			/>

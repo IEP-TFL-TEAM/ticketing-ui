@@ -20,6 +20,7 @@
 		const modal = {
 			type: 'component',
 			component: 'viewFile',
+			backdropClasses: '!bg-black/80',
 			meta: { fileSrc }
 		};
 		modalStore.trigger(modal);

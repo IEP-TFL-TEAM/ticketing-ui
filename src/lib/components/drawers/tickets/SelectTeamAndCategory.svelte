@@ -1,7 +1,7 @@
 <script>
 	import { Autocomplete, getDrawerStore, RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
 
-	export let selectedTeamId, selectedCategoryId, selectedCategoryLevelId, selectedEquipmentId;
+	export let teamId, catId, catLevelId, equipId, selectedTeam, selectedCatLevel, selectedEquipment;
 
 	const drawerStore = getDrawerStore();
 
@@ -9,8 +9,6 @@
 	const categories = $drawerStore.meta.categories;
 	const categoryLevels = $drawerStore.meta.categoryLevels;
 	const teamEquipment = $drawerStore.meta.teamEquipment;
-
-	let selectedTeam, selectedCategoryLevel, selectedEquipment;
 
 	let severityLevels = [];
 	let equipmentList = [];
@@ -21,23 +19,23 @@
 	}));
 
 	function onTeamSelect(e) {
-		selectedTeamId = e.detail.value;
+		teamId = e.detail.value;
 		selectedTeam = e.detail.label;
 	}
 
 	function onLevelSelect(e) {
-		selectedCategoryLevelId = e.detail.value;
-		selectedCategoryLevel = e.detail.label;
+		catLevelId = e.detail.value;
+		selectedCatLevel = e.detail.label;
 	}
 
 	function onEquipmentSelect(e) {
-		selectedEquipmentId = e.detail.value;
+		equipId = e.detail.value;
 		selectedEquipment = e.detail.label;
 	}
 
 	$: {
 		severityLevels = categoryLevels
-			.filter((level) => level.categoryId === selectedCategoryId)
+			.filter((level) => level.categoryId === catId)
 			.map((level) => ({
 				label: level.name,
 				value: level.id
@@ -62,7 +60,6 @@
 			placeholder="Search Team ..."
 			required
 			on:change={() => {
-				selectedCategoryLevel = null;
 				selectedEquipment = null;
 			}}
 		/>
@@ -78,10 +75,10 @@
 		<RadioGroup class="w-1/2">
 			{#each categories as category}
 				<RadioItem
-					bind:group={selectedCategoryId}
+					bind:group={catId}
 					name={category.name}
 					value={category.id}
-					on:change={() => (selectedCategoryLevel = null)}
+					on:change={() => (selectedCatLevel = null)}
 				>
 					{category.name}
 				</RadioItem>
@@ -93,17 +90,15 @@
 				class="input"
 				type="search"
 				name="categoryLevel"
-				bind:value={selectedCategoryLevel}
-				placeholder={!selectedCategoryId
-					? 'Please select a category first ...'
-					: 'Search Category Level ...'}
-				disabled={!selectedCategoryId}
+				bind:value={selectedCatLevel}
+				placeholder={!catId ? 'Please select a category first ...' : 'Search Category Level ...'}
+				disabled={!catId}
 				required
 			/>
 
 			<div class="card w-full max-h-48 p-4 overflow-y-auto" tabindex="-1">
 				<Autocomplete
-					bind:input={selectedCategoryLevel}
+					bind:input={selectedCatLevel}
 					options={severityLevels}
 					on:selection={onLevelSelect}
 				/>

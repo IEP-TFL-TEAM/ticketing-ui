@@ -6,16 +6,9 @@
 	import { createTicket } from '$lib/api/tickets';
 	import SpinnerOverlay from '$lib/components/layout/SpinnerOverlay.svelte';
 
-	export const completeStepper = () => submit();
+	export const onCompleteHandler = () => submit();
 
-	export let isValid,
-		selectedTeamId,
-		selectedCategoryId,
-		selectedCategoryLevelId,
-		selectedEquipmentId,
-		selectedRegionId,
-		selectedAreaId,
-		selectedSiteId;
+	export let teamId, catId, catLevelId, equipId, regionId, areaId, siteId;
 
 	const toastStore = getToastStore();
 	const drawerStore = getDrawerStore();
@@ -77,32 +70,14 @@
 	const attachment = fileProxy(form, 'attachment');
 
 	$: {
-		$form.teamId = selectedTeamId;
-		$form.categoryId = selectedCategoryId;
-		$form.categoryLevelId = selectedCategoryLevelId;
-		$form.teamEquipmentId = selectedEquipmentId;
-		$form.regionId = selectedRegionId;
-		$form.areaId = selectedAreaId;
-		$form.siteId = selectedSiteId;
+		$form.teamId = teamId;
+		$form.categoryId = catId;
+		$form.categoryLevelId = catLevelId;
+		$form.teamEquipmentId = equipId;
+		$form.regionId = regionId;
+		$form.areaId = areaId;
+		$form.siteId = siteId;
 	}
-
-	$: if (
-		$form.teamId &&
-		$form.teamId !== '' &&
-		$form.categoryId &&
-		$form.categoryId !== '' &&
-		$form.categoryLevelId &&
-		$form.categoryLevelId !== '' &&
-		$form.teamEquipmentId &&
-		$form.teamEquipmentId !== '' &&
-		$form.regionId &&
-		$form.regionId !== '' &&
-		$form.areaId &&
-		$form.areaId !== '' &&
-		$form.siteId &&
-		$form.siteId !== ''
-	)
-		isValid = true;
 </script>
 
 {#if $delayed}
