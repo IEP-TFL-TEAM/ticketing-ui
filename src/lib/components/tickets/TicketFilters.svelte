@@ -47,7 +47,7 @@
 
 	<div>
 		<select
-			class="select border-none cursor-pointer"
+			class="select border-none cursor-pointer mr-16"
 			bind:value={searchStatus}
 			on:change={() => handle()}
 		>
