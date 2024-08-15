@@ -195,7 +195,7 @@
 					{/if}
 
 					<p class="mb-2 text-sm font-semibold text-primary-500 dark:text-tertiary-500">
-						Allowed Formats: .doc, .docx, .pdf, .jpg, .png only, Allowed Size: 10 MB (Max.)
+						Allowed Formats: .doc, .docx, .pdf, .jpg, .png only.
 					</p>
 
 					<input
