@@ -23,7 +23,7 @@ const getTeams = async () => {
 const getTeamUsers = async () => {
 	const records = await pb
 		.collection('users')
-		.getFullList(100, { expand: 'teamId', filter: `role = 'field'` });
+		.getFullList(100, { expand: 'teamId', filter: `role = 'staff'` });
 	return records;
 };
 

@@ -1,5 +1,5 @@
 <script>
-	import { getModalStore } from '@skeletonlabs/skeleton';
+	import { getModalStore, getToastStore } from '@skeletonlabs/skeleton';
 	import { assignTeam } from '$lib/api/teams';
 	import { currentUser } from '$lib/stores/auth';
 
@@ -9,6 +9,7 @@
 	$: filteredUsers = users.filter((u) => u.teamId === '');
 
 	const modalStore = getModalStore();
+	const toastStore = getToastStore();
 	let isAdmin = $currentUser?.role === 'admin';
 
 	function changeTeam(userId) {
@@ -22,6 +23,11 @@
 				if (team) {
 					const updatedUser = await assignTeam(userId, team.id);
 					users = users.map((user) => (user.id === userId ? updatedUser : user));
+
+					toastStore.trigger({
+						message: 'User team has been successfully assigned',
+						background: 'variant-filled-success'
+					});
 				}
 			}
 		});
