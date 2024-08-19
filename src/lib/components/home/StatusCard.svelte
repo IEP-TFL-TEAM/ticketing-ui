@@ -20,7 +20,7 @@
 </script>
 
 <div class="flex flex-col items-start gap-2 mt-4">
-	<h3 class="mb-4 font-semibold tracking-wide h3">Ticket Status</h3>
+	<h3 class="mb-4 font-semibold tracking-wide h3">Incident Status</h3>
 
 	<div class="flex flex-col justify-between w-full gap-4 lg:flex-row">
 		<div class={cardStyle}>

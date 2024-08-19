@@ -8,7 +8,7 @@
 
 <div class="flex flex-col mt-5 w-full">
 	<div class="flex justify-between items-center mb-8">
-		<h1 class="h1 font-extrabold">Change Management</h1>
+		<h1 class="h1 font-extrabold">Change Requests</h1>
 
 		<div class="flex justify-between items-center gap-4">
 			<button type="button" class="btn rounded-none variant-outline-primary" on:click={() => {}}>

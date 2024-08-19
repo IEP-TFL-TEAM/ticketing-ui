@@ -1,10 +1,4 @@
-import {
-	IconHome,
-	IconTicket,
-	IconSettings,
-	IconAffiliate,
-	IconReport
-} from '@tabler/icons-svelte';
+import { IconHome, IconTicket, IconSettings, IconAffiliate } from '@tabler/icons-svelte';
 
 export const getSidebarItems = () => {
 	const sidebarItems = [
@@ -19,19 +13,14 @@ export const getSidebarItems = () => {
 			ref: '/tickets'
 		},
 		{
-			label: 'Change Management',
+			label: 'Change Requests',
 			icon: IconTicket,
-			ref: '/change-management'
+			ref: '/change-requests'
 		},
 		{
 			label: 'Routine Maintenance',
 			icon: IconTicket,
 			ref: '/routine-maintenance'
-		},
-		{
-			label: 'Reports',
-			icon: IconReport,
-			ref: '/reports'
 		},
 		{
 			label: 'Teams',
