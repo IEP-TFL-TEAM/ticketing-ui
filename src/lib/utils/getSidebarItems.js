@@ -14,9 +14,19 @@ export const getSidebarItems = () => {
 			ref: '/'
 		},
 		{
-			label: 'Tickets',
+			label: 'Incidents',
 			icon: IconTicket,
 			ref: '/tickets'
+		},
+		{
+			label: 'Change Management',
+			icon: IconTicket,
+			ref: '/change-management'
+		},
+		{
+			label: 'Routine Maintenance',
+			icon: IconTicket,
+			ref: '/routine-maintenance'
 		},
 		{
 			label: 'Reports',
