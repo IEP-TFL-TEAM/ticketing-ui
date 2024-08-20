@@ -18,8 +18,8 @@
 			<img src={TransparentLogo} alt="logo" class="w-full" />
 		</a>
 
-		<span class="badge variant-filled-secondary rounded-full uppercase">
-			{$currentUser.role}
+		<span class="badge variant-filled uppercase">
+			{$currentUser.role} Portal
 		</span>
 	</div>
 

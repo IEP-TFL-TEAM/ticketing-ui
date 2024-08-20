@@ -1,8 +1,10 @@
 import {
 	IconLayoutDashboard,
-	IconTicket,
+	IconSquareLetterI,
+	IconSquareLetterC,
+	IconSquareLetterM,
+	IconSquareLetterT,
 	IconSettings,
-	IconAffiliate,
 	IconMailForward
 } from '@tabler/icons-svelte';
 
@@ -18,17 +20,17 @@ export const getSidebarItems = (role) => {
 			},
 			{
 				label: 'Incidents',
-				icon: IconTicket,
+				icon: IconSquareLetterI,
 				ref: '/tickets'
 			},
 			{
 				label: 'Change Requests',
-				icon: IconTicket,
+				icon: IconSquareLetterC,
 				ref: '/change-requests'
 			},
 			{
 				label: 'Routine Maintenance',
-				icon: IconTicket,
+				icon: IconSquareLetterM,
 				ref: '/routine-maintenance'
 			},
 			{
@@ -38,7 +40,7 @@ export const getSidebarItems = (role) => {
 			},
 			{
 				label: 'Teams',
-				icon: IconAffiliate,
+				icon: IconSquareLetterT,
 				ref: '/teams'
 			},
 			{
@@ -56,17 +58,17 @@ export const getSidebarItems = (role) => {
 			},
 			{
 				label: 'Incidents',
-				icon: IconTicket,
+				icon: IconSquareLetterI,
 				ref: '/tickets'
 			},
 			{
 				label: 'Change Requests',
-				icon: IconTicket,
+				icon: IconSquareLetterC,
 				ref: '/change-requests'
 			},
 			{
 				label: 'Routine Maintenance',
-				icon: IconTicket,
+				icon: IconSquareLetterM,
 				ref: '/routine-maintenance'
 			},
 			{
