@@ -4,9 +4,22 @@
 	export let data;
 </script>
 
-<div class="container flex flex-col mx-auto gap-2 mt-5">
-	<h1 class="h1 font-extrabold">Welcome to TFL NOC Ticketing System</h1>
-	<p class="p text-xl mb-8">Get the world at your fingertips</p>
+<div class="container flex flex-col p-8 mx-auto">
+	<div
+		class="mt-5 flex flex-col justify-between items-center gap-4 w-full p-6 bg-white border rounded-md shadow-md dark:border-gray-700 dark:bg-neutral-800"
+	>
+		<h2
+			class="text-3xl font-extrabold tracking-wide text-center uppercase text-primary-500 dark:text-tertiary-500"
+		>
+			Welcome to the TFL NOC Ticketing Portal
+		</h2>
 
-	<StatusCard {data} />
+		<h4 class="font-semibold">Get the world at your fingertips</h4>
+	</div>
+
+	<div class="flex flex-col w-full mt-8">
+		<div class="flex flex-col w-full gap-10">
+			<StatusCard {data} />
+		</div>
+	</div>
 </div>
