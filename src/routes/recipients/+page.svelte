@@ -118,7 +118,11 @@
 					<td class="px-6 py-4">{recipient.id}</td>
 					<td class="px-6 py-4">{recipient.name}</td>
 					<td class="px-6 py-4">{recipient.email}</td>
-					<td class="px-6 py-4 {recipient.verified ? 'text-green-600' : 'text-red-600'}">
+					<td
+						class="px-6 py-4 font-semibold uppercase {recipient.verified
+							? 'text-success-500'
+							: 'text-error-500'}"
+					>
 						{recipient.verified ? 'Verified' : 'Unverified'}
 					</td>
 
