@@ -1,22 +1,26 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { signOut } from '$lib/stores/auth';
+	import { signOut, currentUser } from '$lib/stores/auth';
 	import { getSidebarItems } from '$lib/utils/getSidebarItems';
 	import ThemeSwitch from './ThemeSwitch.svelte';
 	import { IconArrowBarRight } from '@tabler/icons-svelte';
 	import { TransparentLogo } from '$lib/assets';
 
-	const sidebarItems = getSidebarItems();
+	const sidebarItems = getSidebarItems($currentUser.role);
 </script>
 
 <div
 	class="sticky top-0 h-screen max-w-[17rem] bg-primary-800 text-white flex flex-col justify-between py-10 w-full px-5 overflow-y-auto"
 >
-	<div class="flex items-center justify-center px-2 mt-5">
+	<div class="flex flex-col items-center justify-center px-2 mt-5 gap-4">
 		<a href="/">
 			<img src={TransparentLogo} alt="logo" class="w-full" />
 		</a>
+
+		<span class="badge variant-filled-secondary rounded-full uppercase">
+			{$currentUser.role}
+		</span>
 	</div>
 
 	<!-- nav -->
