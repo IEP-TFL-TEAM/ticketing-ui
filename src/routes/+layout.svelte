@@ -19,6 +19,7 @@
 	import Sidebar from '$lib/components/layout/Sidebar.svelte';
 	import CreateTicket from '$lib/components/drawers/tickets/CreateTicket.svelte';
 	import EditTicket from '$lib/components/drawers/tickets/EditTicket.svelte';
+	import AddRecipient from '$lib/components/drawers/recipients/AddRecipient.svelte';
 
 	initializeStores();
 
@@ -70,6 +71,8 @@
 		<CreateTicket />
 	{:else if $drawerStore.id === 'editTicket'}
 		<EditTicket />
+	{:else if $drawerStore.id === 'addRecipient'}
+		<AddRecipient />
 	{/if}
 </Drawer>
 

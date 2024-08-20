@@ -1,5 +1,5 @@
 import {
-	IconHome,
+	IconLayoutDashboard,
 	IconTicket,
 	IconSettings,
 	IconAffiliate,
@@ -12,19 +12,14 @@ export const getSidebarItems = (role) => {
 	if (role === 'admin') {
 		sidebarItems.push(
 			{
-				label: 'Home',
-				icon: IconHome,
+				label: 'Dashboard',
+				icon: IconLayoutDashboard,
 				ref: '/'
 			},
 			{
 				label: 'Incidents',
 				icon: IconTicket,
 				ref: '/tickets'
-			},
-			{
-				label: 'Recipients',
-				icon: IconMailForward,
-				ref: '/recipients'
 			},
 			{
 				label: 'Change Requests',
@@ -35,6 +30,11 @@ export const getSidebarItems = (role) => {
 				label: 'Routine Maintenance',
 				icon: IconTicket,
 				ref: '/routine-maintenance'
+			},
+			{
+				label: 'Recipients',
+				icon: IconMailForward,
+				ref: '/recipients'
 			},
 			{
 				label: 'Teams',
@@ -50,8 +50,8 @@ export const getSidebarItems = (role) => {
 	} else {
 		sidebarItems.push(
 			{
-				label: 'Home',
-				icon: IconHome,
+				label: 'Dashboard',
+				icon: IconLayoutDashboard,
 				ref: '/'
 			},
 			{

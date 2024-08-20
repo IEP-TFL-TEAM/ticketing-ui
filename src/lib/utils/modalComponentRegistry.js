@@ -1,6 +1,7 @@
 import ViewImage from '$lib/components/modals/ViewImage.svelte';
 import ViewFile from '$lib/components/modals/ViewFile.svelte';
 import AssignTicket from '$lib/components/modals/tickets/AssignTicket.svelte';
+import RecipientActions from '$lib/components/modals/recipients/RecipientActions.svelte';
 
 export const modalComponentRegistry = {
 	viewImage: {
@@ -11,5 +12,8 @@ export const modalComponentRegistry = {
 	},
 	assignTicket: {
 		ref: AssignTicket
+	},
+	recipientActions: {
+		ref: RecipientActions
 	}
 };
