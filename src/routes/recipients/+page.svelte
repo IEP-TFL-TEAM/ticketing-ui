@@ -102,40 +102,46 @@
 	</div>
 </div>
 
-<div class="mt-5 table-container rounded-none">
-	<table class="table table-interactive table-compact rounded-none">
-		<thead>
-			<tr class="bg-neutral-100 dark:bg-neutral-700 !font-light">
-				<th class="!font-semibold uppercase text-base px-6 py-2">id</th>
-				<th class="!font-semibold uppercase text-base px-6 py-2">name</th>
-				<th class="!font-semibold uppercase text-base px-6 py-2">email</th>
-				<th class="!font-semibold uppercase text-base px-6 py-2">status</th>
-				<th class="!font-semibold uppercase text-base px-6 py-2"></th>
-			</tr>
-		</thead>
-
-		<tbody class="bg-white dark:bg-neutral-800">
-			{#each recipientList as recipient}
-				<tr
-					class="bg-white hover:bg-neutral-50 border-b dark:bg-neutral-800 dark:border-neutral-700 dark:hover:bg-neutral-900 transition-colors rounded"
-					on:click={() => displayUserActions(recipient)}
-				>
-					<td class="px-6 py-4">{recipient.id}</td>
-					<td class="px-6 py-4">{recipient.name}</td>
-					<td class="px-6 py-4">{recipient.email}</td>
-					<td
-						class="px-6 py-4 font-semibold uppercase {recipient.verified
-							? 'text-success-500'
-							: 'text-error-500'}"
-					>
-						{recipient.verified ? 'Verified' : 'Unverified'}
-					</td>
-
-					<td class="px-6 py-4">
-						<IconArrowRight />
-					</td>
+{#if recipientList.length === 0}
+	<div class="flex items-center justify-center w-full h-96">
+		<p class="text-black dark:text-white font-medium">Oops... No recipients found!</p>
+	</div>
+{:else}
+	<div class="mt-5 table-container rounded-none">
+		<table class="table table-interactive table-compact rounded-none">
+			<thead>
+				<tr class="bg-neutral-100 dark:bg-neutral-700 !font-light">
+					<th class="!font-semibold uppercase text-base px-6 py-2">id</th>
+					<th class="!font-semibold uppercase text-base px-6 py-2">name</th>
+					<th class="!font-semibold uppercase text-base px-6 py-2">email</th>
+					<th class="!font-semibold uppercase text-base px-6 py-2">status</th>
+					<th class="!font-semibold uppercase text-base px-6 py-2"></th>
 				</tr>
-			{/each}
-		</tbody>
-	</table>
-</div>
+			</thead>
+
+			<tbody class="bg-white dark:bg-neutral-800">
+				{#each recipientList as recipient}
+					<tr
+						class="bg-white hover:bg-neutral-50 border-b dark:bg-neutral-800 dark:border-neutral-700 dark:hover:bg-neutral-900 transition-colors rounded"
+						on:click={() => displayUserActions(recipient)}
+					>
+						<td class="px-6 py-4">{recipient.id}</td>
+						<td class="px-6 py-4">{recipient.name}</td>
+						<td class="px-6 py-4">{recipient.email}</td>
+						<td
+							class="px-6 py-4 font-semibold uppercase {recipient.verified
+								? 'text-success-500'
+								: 'text-error-500'}"
+						>
+							{recipient.verified ? 'Verified' : 'Unverified'}
+						</td>
+
+						<td class="px-6 py-4">
+							<IconArrowRight />
+						</td>
+					</tr>
+				{/each}
+			</tbody>
+		</table>
+	</div>
+{/if}
