@@ -7,6 +7,11 @@
 	export let data;
 
 	$: recipients = data.recipients;
+	$: recipientList = recipients.sort((a, b) => {
+		const aStatus = a.name ? (a.verified ? 1 : 2) : 3;
+		const bStatus = b.name ? (b.verified ? 1 : 2) : 3;
+		return aStatus - bStatus;
+	});
 
 	const drawerStore = getDrawerStore();
 	const toastStore = getToastStore();
@@ -110,7 +115,7 @@
 		</thead>
 
 		<tbody class="bg-white dark:bg-neutral-800">
-			{#each recipients as recipient}
+			{#each recipientList as recipient}
 				<tr
 					class="bg-white hover:bg-neutral-50 border-b dark:bg-neutral-800 dark:border-neutral-700 dark:hover:bg-neutral-900 transition-colors rounded"
 					on:click={() => displayUserActions(recipient)}

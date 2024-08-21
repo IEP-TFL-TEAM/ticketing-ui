@@ -14,6 +14,7 @@
 	$: comments = data.comments;
 	$: attachmentUrl = data.attachmentUrl;
 	$: attachment = data.attachment;
+	$: solutionCodes = data.solutionCodes;
 
 	const accordionStyles =
 		'border accordion card p-2 text-token border-black/10 dark:border-white/30';
@@ -38,7 +39,7 @@
 			</div>
 		</div>
 
-		<TicketActions {teams} {ticket} />
+		<TicketActions {teams} {ticket} {solutionCodes} />
 	</div>
 
 	<div class="flex min-h-screen px-5 mb-5">

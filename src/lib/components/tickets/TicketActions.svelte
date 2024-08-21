@@ -1,12 +1,11 @@
 <script>
-	import pb from '$lib/api/pocketbaseClient';
 	import { getModalStore } from '@skeletonlabs/skeleton';
 	import { updateTicket } from '$lib/api/tickets';
 	import { currentUser } from '$lib/stores/auth';
 
 	const modalStore = getModalStore();
 
-	export let ticket, teams;
+	export let ticket, teams, solutionCodes;
 
 	$: role = $currentUser?.role;
 
@@ -38,7 +37,9 @@
 					const updatedTicket = await updateTicket({
 						...ticket,
 						status: 'PENDING',
-						closedBy: ''
+						closedBy: '',
+						solution: null,
+						closingRemarks: ''
 					});
 					ticket = updatedTicket;
 				}
@@ -48,17 +49,12 @@
 
 	async function closeTicket() {
 		modalStore.trigger({
-			type: 'confirm',
-			title: 'Close this ticket',
-			body: 'Are you sure you wish to proceed?',
-			response: async (r) => {
+			type: 'component',
+			component: 'closeTicket',
+			meta: { ticket, solutionCodes },
+			response: (r) => {
 				if (r) {
-					const updatedTicket = await updateTicket({
-						...ticket,
-						status: 'CLOSED',
-						closedBy: pb.authStore.model.id
-					});
-					ticket = updatedTicket;
+					ticket = r.updatedTicket;
 				}
 			}
 		});

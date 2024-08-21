@@ -3,6 +3,7 @@ import { getTicketById } from '$lib/api/tickets';
 import { getTeams } from '$lib/api/teams';
 import { getCommentsByTicketId } from '$lib/api/comments';
 import { getHistoryByTicketId } from '$lib/api/history';
+import { getSolutionCodes } from '$lib/api/solutionCodes';
 
 export async function load({ params, url, fetch }) {
 	pb.beforeSend = function (url, options) {
@@ -25,7 +26,8 @@ export async function load({ params, url, fetch }) {
 		teams: (await getTeams()) ?? [],
 		comments: (await getCommentsByTicketId(ticketId)) ?? [],
 		attachmentUrl,
-		attachment: (await urlToFile(attachmentUrl, fetch)) ?? []
+		attachment: (await urlToFile(attachmentUrl, fetch)) ?? [],
+		solutionCodes: (await getSolutionCodes()) ?? []
 	};
 }
 

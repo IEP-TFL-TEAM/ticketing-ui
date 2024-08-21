@@ -15,11 +15,11 @@ const removeCause = async (id) => {
 	return record;
 };
 
-const getCauseCodeList = async () => {
+const getCauseCodes = async () => {
 	const records = await pb.collection('causes').getFullList({
 		sort: '-created'
 	});
 	return records;
 };
 
-export { addCause, updateCause, removeCause, getCauseCodeList };
+export { addCause, updateCause, removeCause, getCauseCodes };

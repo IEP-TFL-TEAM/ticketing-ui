@@ -9,7 +9,7 @@ const AcceptedAttachmentTypes = [
 	'image/png'
 ];
 
-export const ticketSchema = (attachment) =>
+export const ticketSchema = () =>
 	z
 		.object({
 			title: z.string().min(1, {
@@ -40,12 +40,9 @@ export const ticketSchema = (attachment) =>
 
 			technicianId: z.string(),
 
-			attachment: z
-				.instanceof(File)
-				.refine((file) => AcceptedAttachmentTypes.includes(file.type), {
-					message: 'Only .pdf, .doc, .docx, .jpg, .png formats are supported.'
-				})
-				.default(attachment),
+			attachment: z.instanceof(File).refine((file) => AcceptedAttachmentTypes.includes(file.type), {
+				message: 'Only .pdf, .doc, .docx, .jpg, .png formats are supported.'
+			}),
 
 			status: z.string().default('PENDING')
 		})
