@@ -9,6 +9,8 @@ import { getSiteList } from '$lib/api/sites';
 import { getTeamEquipmentList } from '$lib/api/teamEquipment';
 import { getFaultList } from '$lib/api/faultTypes';
 import { getRecentHistory } from '$lib/api/history';
+import { getCauseCodeList } from '$lib/api/causeCodes';
+import { getTechnicians } from '$lib/api/technicians';
 
 export async function load({ url, fetch }) {
 	pb.beforeSend = function (url, options) {
@@ -39,6 +41,8 @@ export async function load({ url, fetch }) {
 		areas: (await getAreaList()) ?? [],
 		sites: (await getSiteList()) ?? [],
 		teamEquipment: (await getTeamEquipmentList()) ?? [],
-		faultTypeList: (await getFaultList()) ?? []
+		faultTypeList: (await getFaultList()) ?? [],
+		causeCodes: (await getCauseCodeList()) ?? [],
+		technicians: (await getTechnicians()) ?? []
 	};
 }

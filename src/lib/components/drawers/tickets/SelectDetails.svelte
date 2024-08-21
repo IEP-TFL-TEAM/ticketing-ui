@@ -14,6 +14,9 @@
 	const drawerStore = getDrawerStore();
 
 	const faultTypeList = $drawerStore.meta.faultTypeList;
+	const causeCodes = $drawerStore.meta.causeCodes;
+	const technicians = $drawerStore.meta.technicians;
+
 	let submitting = false;
 	const originalForm = defaults(zod(ticketSchema()));
 
@@ -132,6 +135,35 @@
 
 				<label class="label">
 					<p class="my-2 text-base font-semibold">
+						Select Technician
+						<span class="text-red-500">*</span>
+					</p>
+					<div class="flex flex-row">
+						<select
+							class="select rounded-none w-full"
+							name="technicianId"
+							bind:value={$form.technicianId}
+							required
+							{...$constraints.technicianId}
+						>
+							<option value={''} disabled selected>
+								<span class="!text-gray-500">Select Technician</span>
+							</option>
+							{#each technicians as item}
+								<option value={item.id}>
+									{item.name}
+								</option>
+							{/each}
+						</select>
+
+						{#if $errors.technicianId}
+							<span class=" text-error-500">{$errors.technicianId}</span>
+						{/if}
+					</div>
+				</label>
+
+				<label class="label">
+					<p class="my-2 text-base font-semibold">
 						Select Fault Type
 						<span class="text-red-500">*</span>
 					</p>
@@ -155,6 +187,35 @@
 
 						{#if $errors.faultTypeId}
 							<span class=" text-error-500">{$errors.faultTypeId}</span>
+						{/if}
+					</div>
+				</label>
+
+				<label class="label">
+					<p class="my-2 text-base font-semibold">
+						Select Cause
+						<span class="text-red-500">*</span>
+					</p>
+					<div class="flex flex-row">
+						<select
+							class="select rounded-none w-full"
+							name="causedBy"
+							bind:value={$form.causedBy}
+							required
+							{...$constraints.causedBy}
+						>
+							<option value={''} disabled selected>
+								<span class="!text-gray-500">Select Cause</span>
+							</option>
+							{#each causeCodes as code}
+								<option value={code.id}>
+									{code.name}
+								</option>
+							{/each}
+						</select>
+
+						{#if $errors.causedBy}
+							<span class=" text-error-500">{$errors.causedBy}</span>
 						{/if}
 					</div>
 				</label>

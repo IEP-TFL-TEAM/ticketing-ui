@@ -36,6 +36,10 @@ export const ticketSchema = (attachment) =>
 
 			faultTypeId: z.string(),
 
+			causedBy: z.string(),
+
+			technicianId: z.string(),
+
 			attachment: z
 				.instanceof(File)
 				.refine((file) => AcceptedAttachmentTypes.includes(file.type), {

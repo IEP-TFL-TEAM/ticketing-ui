@@ -23,6 +23,8 @@
 	$: sites = data.sites;
 	$: teamEquipment = data.teamEquipment;
 	$: faultTypeList = data.faultTypeList;
+	$: causeCodes = data.causeCodes;
+	$: technicians = data.technicians;
 
 	const drawerStore = getDrawerStore();
 	const toastStore = getToastStore();
@@ -65,7 +67,9 @@
 				areas,
 				sites,
 				teamEquipment,
-				faultTypeList
+				faultTypeList,
+				causeCodes,
+				technicians
 			}
 		});
 	}
