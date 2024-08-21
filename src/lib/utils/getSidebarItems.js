@@ -5,7 +5,8 @@ import {
 	IconSquareLetterM,
 	IconSquareLetterT,
 	IconSettings,
-	IconMailForward
+	IconMailForward,
+	IconReport
 } from '@tabler/icons-svelte';
 
 export const getSidebarItems = (role) => {
@@ -32,6 +33,11 @@ export const getSidebarItems = (role) => {
 				label: 'Routine Maintenance',
 				icon: IconSquareLetterM,
 				ref: '/routine-maintenance'
+			},
+			{
+				label: 'Reports',
+				icon: IconReport,
+				ref: '/reports'
 			},
 			{
 				label: 'Recipients',
