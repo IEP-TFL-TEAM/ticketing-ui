@@ -45,18 +45,15 @@
 	}
 </script>
 
-<div
-	class="flex flex-col bg-white shadow-2xl px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-none w-full max-w-md dark:bg-neutral-900"
->
-	<div
-		class="mb-5 font-bold self-center text-xl sm:text-2xl uppercase text-primary-500 dark:text-tertiary-500 text-center"
-	>
-		Actions
-	</div>
+<div class="p-5 card w-full max-w-md flex flex-col bg-white dark:bg-neutral-900">
+	<h3 class="mb-5 text-xl text-primary-500 dark:text-tertiary-500 font-bold uppercase">
+		Recipient Actions
+	</h3>
+	<hr class="-mt-2" />
 
 	<ListBox
 		rounded="rounded-none"
-		class=" bg-white dark:bg-neutral-900"
+		class="bg-white dark:bg-neutral-900 mt-4"
 		active="border font-bold dark:border-tertiary-500 border-primary-500 dark:text-white text-black"
 		disabled={loading}
 		hover="hover:variant-soft-primary dark:hover:variant-soft-tertiary"

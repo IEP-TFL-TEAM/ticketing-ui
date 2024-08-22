@@ -61,7 +61,7 @@
 	}
 </script>
 
-<div class="p-5 card w-full max-w-md">
+<div class="p-5 card w-full max-w-md bg-white dark:bg-neutral-900">
 	<h3 class="mb-5 text-xl text-primary-500 dark:text-tertiary-500 font-bold uppercase">
 		Please provide the following to close the incident
 	</h3>
@@ -74,7 +74,12 @@
 				<span class="text-red-500">*</span>
 			</p>
 			<div class="flex flex-row">
-				<select class="select rounded-none w-full" name="solution" bind:value={solution} required>
+				<select
+					class="select rounded-none w-full bg-transparent dark:bg-transparent"
+					name="solution"
+					bind:value={solution}
+					required
+				>
 					<option value={''} disabled selected>
 						<span class="!text-gray-500">Select Solution</span>
 					</option>
@@ -94,7 +99,7 @@
 			</p>
 
 			<textarea
-				class="textarea p-2"
+				class="textarea p-2 bg-transparent dark:bg-transparent"
 				name="closingRemarks"
 				type="text"
 				bind:value={closingRemarks}
