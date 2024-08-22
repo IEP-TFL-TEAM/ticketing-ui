@@ -20,6 +20,7 @@
 	import CreateTicket from '$lib/components/drawers/tickets/CreateTicket.svelte';
 	import EditTicket from '$lib/components/drawers/tickets/EditTicket.svelte';
 	import AddRecipient from '$lib/components/drawers/recipients/AddRecipient.svelte';
+	import CreateTeam from '$lib/components/drawers/teams/CreateTeam.svelte';
 
 	initializeStores();
 
@@ -73,6 +74,8 @@
 		<EditTicket />
 	{:else if $drawerStore.id === 'addRecipient'}
 		<AddRecipient />
+	{:else if $drawerStore.id === 'createTeam'}
+		<CreateTeam />
 	{/if}
 </Drawer>
 

@@ -1,5 +1,11 @@
-import { getTeams, getTeamUsers } from '$lib/api/teams';
+import pb from '$lib/api/pocketbaseClient';
+import { getTeams } from '$lib/api/teams';
 
-export async function load() {
-	return { teams: await getTeams(), users: await getTeamUsers() };
+export async function load({ url, fetch }) {
+	pb.beforeSend = function (url, options) {
+		options.fetch = fetch;
+		return { url, options };
+	};
+
+	return { teams: await getTeams() };
 }

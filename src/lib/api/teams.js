@@ -1,7 +1,7 @@
 import pb from './pocketbaseClient';
 
-const createTeam = async (name) => {
-	const record = await pb.collection('teams').create({ name });
+const createTeam = async (data) => {
+	const record = await pb.collection('teams').create(data);
 	return record;
 };
 
@@ -20,6 +20,16 @@ const getTeams = async () => {
 	return records;
 };
 
+const updateTeam = async (id, data) => {
+	const record = await pb.collection('teams').update(id, data);
+	return record;
+};
+
+const removeTeam = async (id) => {
+	const record = await pb.collection('teams').delete(id);
+	return record;
+};
+
 const getTeamUsers = async () => {
 	const records = await pb
 		.collection('users')
@@ -27,4 +37,4 @@ const getTeamUsers = async () => {
 	return records;
 };
 
-export { createTeam, getTeamById, getTeams, assignTeam, getTeamUsers };
+export { createTeam, getTeamById, getTeams, assignTeam, getTeamUsers, removeTeam, updateTeam };
