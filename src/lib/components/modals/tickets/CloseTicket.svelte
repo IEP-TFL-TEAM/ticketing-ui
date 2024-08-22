@@ -2,6 +2,7 @@
 	import pb from '$lib/api/pocketbaseClient';
 	import { updateTicket } from '$lib/api/tickets';
 	import { getModalStore, getToastStore } from '@skeletonlabs/skeleton';
+	import SpinnerOverlay from '$lib/components/layout/SpinnerOverlay.svelte';
 
 	const modalStore = getModalStore();
 	const toastStore = getToastStore();
@@ -60,6 +61,10 @@
 		}
 	}
 </script>
+
+{#if loading}
+	<SpinnerOverlay />
+{/if}
 
 <div class="p-5 card w-full max-w-md bg-white dark:bg-neutral-900">
 	<h3 class="mb-5 text-xl text-primary-500 dark:text-tertiary-500 font-bold uppercase">
