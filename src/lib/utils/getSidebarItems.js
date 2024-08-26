@@ -44,11 +44,11 @@ export const getSidebarItems = (role) => {
 				icon: IconMailForward,
 				ref: '/recipients'
 			},
-			{
-				label: 'Teams',
-				icon: IconSquareLetterT,
-				ref: '/teams'
-			},
+			// {
+			// 	label: 'Teams',
+			// 	icon: IconSquareLetterT,
+			// 	ref: '/teams'
+			// },
 			{
 				label: 'Settings',
 				icon: IconSettings,
