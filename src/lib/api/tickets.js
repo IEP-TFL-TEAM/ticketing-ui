@@ -13,7 +13,9 @@ const createTicket = async (data) => {
 };
 
 const updateTicket = async (ticket) => {
+	pb.autoCancellation(false);
 	const record = await pb.collection('tickets').update(ticket.id, ticket);
+	pb.autoCancellation(false);
 	return record;
 };
 

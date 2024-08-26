@@ -1,6 +1,10 @@
 <script>
-	import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
+	import { onDestroy, onMount } from 'svelte';
+	import pb from '$lib/api/pocketbaseClient';
+	import { goto } from '$app/navigation';
+	import { Accordion, AccordionItem, getToastStore } from '@skeletonlabs/skeleton';
 	import { parseStatus } from '$lib/utils/parsers';
+	import { expand } from '$lib/api/tickets';
 
 	import TicketActions from '$lib/components/tickets/TicketActions.svelte';
 	import TicketComments from '$lib/components/tickets/TicketComments.svelte';
@@ -15,6 +19,33 @@
 	$: attachmentUrl = data.attachmentUrl;
 	$: attachment = data.attachment;
 	$: solutionCodes = data.solutionCodes;
+
+	const toastStore = getToastStore();
+	let unSubscribe;
+
+	onMount(async () => {
+		unSubscribe = await pb.collection('tickets').subscribe(
+			'*',
+			async (e) => {
+				toastStore.trigger({
+					message: `A ticket has been ${e.action}d! ${e.record.expand.reportedBy.firstName} ${e.record.expand.reportedBy.lastName}`,
+					action: {
+						label: 'View',
+						response: () => goto(`/tickets/${e.record.id}`)
+					}
+				});
+
+				ticket = e.record;
+			},
+			{
+				expand
+			}
+		);
+	});
+
+	onDestroy(() => {
+		unSubscribe?.();
+	});
 
 	const accordionStyles =
 		'border accordion card p-2 text-token border-black/10 dark:border-white/30';

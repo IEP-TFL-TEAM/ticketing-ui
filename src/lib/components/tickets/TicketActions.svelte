@@ -1,18 +1,19 @@
 <script>
-	import { getModalStore } from '@skeletonlabs/skeleton';
+	import { getModalStore, getToastStore } from '@skeletonlabs/skeleton';
 	import { updateTicket } from '$lib/api/tickets';
 	import { currentUser } from '$lib/stores/auth';
-
-	const modalStore = getModalStore();
 
 	export let ticket, teams, solutionCodes;
 
 	$: role = $currentUser?.role;
 
+	const modalStore = getModalStore();
+	const toastStore = getToastStore();
+
 	async function approveTicket() {
 		modalStore.trigger({
 			type: 'confirm',
-			title: 'Resolve this ticket',
+			title: 'Approve this ticket',
 			body: 'Have you confirmed that this job is complete and should be verified?',
 			response: async (r) => {
 				if (r) {
@@ -22,6 +23,11 @@
 						closedBy: ''
 					});
 					ticket = updatedTicket;
+
+					toastStore.trigger({
+						message: 'Ticket Approved successfully.',
+						background: 'variant-filled-success'
+					});
 				}
 			}
 		});
@@ -42,6 +48,11 @@
 						closingRemarks: ''
 					});
 					ticket = updatedTicket;
+
+					toastStore.trigger({
+						message: 'Ticket Reopened successfully.',
+						background: 'variant-filled-success'
+					});
 				}
 			}
 		});
@@ -74,6 +85,11 @@
 						teamId: team.id
 					});
 					ticket = updatedTicket;
+
+					toastStore.trigger({
+						message: 'Ticket Assigned successfully.',
+						background: 'variant-filled-success'
+					});
 				}
 			}
 		});
@@ -81,7 +97,12 @@
 </script>
 
 <div class="btn-group variant-filled-primary h-10">
-	<button type="button" class="w-1/3" on:click={() => assignTicket()} disabled={role !== 'admin'}>
+	<button
+		type="button"
+		class="w-1/3"
+		on:click={() => assignTicket()}
+		disabled={role !== 'admin' || ticket.status === 'CLOSED'}
+	>
 		Assign
 	</button>
 
