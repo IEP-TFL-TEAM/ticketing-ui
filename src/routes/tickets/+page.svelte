@@ -4,12 +4,14 @@
 	import pb from '$lib/api/pocketbaseClient';
 	import { parseQueryParams } from '$lib/utils/parsers';
 	import { getDrawerStore, getToastStore, Paginator } from '@skeletonlabs/skeleton';
-	import { expand } from '$lib/api/tickets';
+	import { expand, getAllTickets } from '$lib/api/tickets';
 	import { IconPlus, IconFilter } from '@tabler/icons-svelte';
+	import { exportIncidents } from '$lib/utils/exportIncidents';
 
 	import TicketFilters from '$lib/components/tickets/TicketFilters.svelte';
 	import TicketCard from '$lib/components/tickets/TicketCard.svelte';
 	import TicketHistory from '$lib/components/tickets/TicketHistory.svelte';
+	import ExportButton from '$lib/components/layout/ExportButton.svelte';
 
 	export let data;
 
@@ -31,6 +33,7 @@
 
 	let selectedTicket;
 	let showFilters = true;
+	let loading = false;
 
 	let pageSettings = {
 		page: data.tickets.page - 1,
@@ -101,6 +104,17 @@
 		}
 	}
 
+	async function handleExport(exportType) {
+		loading = true;
+		const tickets = await getAllTickets();
+		exportType(tickets);
+		loading = false;
+	}
+
+	async function handleExportData() {
+		handleExport(exportIncidents);
+	}
+
 	let unSubscribe;
 
 	onMount(async () => {
@@ -149,6 +163,8 @@
 		<h1 class="h1 font-extrabold">Incidents</h1>
 
 		<div class="flex justify-between items-center gap-4">
+			<ExportButton {loading} label="Incidents" {handleExportData} noTickets={!tickets} />
+
 			<button
 				type="button"
 				class="btn rounded-none variant-outline-primary"

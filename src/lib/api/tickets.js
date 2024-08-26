@@ -2,7 +2,7 @@ import pb from './pocketbaseClient';
 import { parseFilters } from '../utils/parsers';
 
 export const expand =
-	'reportedBy, categoryLevelId, teamId, teamEquipmentId, categoryId, regionId, siteId, areaId, faultTypeId, closedBy, solution, causedBy';
+	'reportedBy, categoryLevelId, teamId, teamEquipmentId, categoryId, regionId, siteId, areaId, faultTypeId, closedBy, solution, causedBy, technicianId';
 
 const createTicket = async (data) => {
 	const record = await pb.collection('tickets').create({
@@ -29,7 +29,7 @@ const getTickets = async (filters) => {
 };
 
 const getAllTickets = async () => {
-	const records = await pb.collection('tickets').getFullList();
+	const records = await pb.collection('tickets').getFullList({ expand });
 	return records;
 };
 
