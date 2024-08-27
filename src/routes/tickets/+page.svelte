@@ -163,7 +163,12 @@
 		<h1 class="h1 font-extrabold">Incidents</h1>
 
 		<div class="flex justify-between items-center gap-4">
-			<ExportButton {loading} label="Incidents" {handleExportData} noTickets={!tickets} />
+			<ExportButton
+				bind:loading
+				label="Incidents"
+				{handleExportData}
+				noTickets={tickets.items.length === 0}
+			/>
 
 			<button
 				type="button"
