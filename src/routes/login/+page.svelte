@@ -32,17 +32,16 @@
 	}
 </script>
 
-<div class="min-h-screen w-full flex flex-col items-center justify-center bg-white">
+<div class="min-h-screen w-full flex flex-col items-center justify-center bg-white"
+>
 	<div
 		class="flex flex-col bg-white shadow-2xl px-4 sm:px-6 md:px-8 lg:px-10 py-8 md:py-14 rounded-md w-full max-w-md"
-	>
+		>
 		<div class="flex justify-center items-center">
 			<img src={TransparentLogo} alt="logo" />
 		</div>
-
 		<div
-			class="font-medium self-center text-xl sm:text-2xl uppercase text-gray-800 text-center pt-5"
-		>
+			class="font-medium self-center text-xl sm:text-2xl uppercase text-gray-800 text-center pt-5">
 			<span class="font-extrabold"> TFL NOC Ticketing System </span>
 		</div>
 		<div class="relative mt-10 h-px bg-gray-300">
@@ -52,74 +51,51 @@
 		</div>
 		<form on:submit|preventDefault>
 			<div class="flex flex-col mb-6 mt-10">
-				<label for="email" class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">
-					E-Mail Address:
-					<div class="relative mt-2">
-						<div
-							class="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400"
-						>
-							<svg
-								class="h-6 w-6"
-								fill="none"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								strokeWidth="2"
-								viewBox="0 0 24 24"
-								stroke="currentColor"
-							>
-								<path
-									d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
-								/>
-							</svg>
-						</div>
-
-						<input
-							class="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-red-400"
-							placeholder="Email"
-							type="text"
-							bind:value={email}
-						/>
+				<div class="relative mt-2">
+					<div
+						class="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400" > 
 					</div>
-				</label>
+					<input
+					id="email"
+					type="text"
+					placeholder=" "
+					bind:value={email}
+					class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border border-gray-400 appearance-none focus:outline-none focus:border-red-400 peer"
+				/>
+					<label
+						for="email"
+						class="absolute left-3 text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-1 z-10  bg-white px-2peer-focus:px-2 peer-focus:text-red-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-1 peer-focus:scale-75 peer-focus:-translate-y-4"
+					>
+						Email
+					</label>
+			</div>
 			</div>
 			<div class="flex flex-col mb-6">
-				<label for="password" class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">
-					Password:
+				<label for="password" class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600"></label>
 					<div class="relative mt-2">
 						<div
 							class="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400"
 						>
-							<span>
-								<svg
-									class="h-6 w-6"
-									fill="none"
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth="2"
-									viewBox="0 0 24 24"
-									stroke="currentColor"
-								>
-									<path
-										d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-									/>
-								</svg>
-							</span>
 						</div>
-
 						<input
-							placeholder="Password"
-							type="password"
-							bind:value={password}
-							class="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-red-400"
-						/>
-					</div>
-				</label>
-			</div>
-
-			<div class="flex w-full">
+					id="password"
+					type="password"
+					placeholder=" "
+					bind:value={password}
+					class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border border-gray-400 appearance-none focus:outline-none focus:border-red-400 peer"
+				/>
+					<label
+						for="password"
+						class="absolute left-3 text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-1 z-10  bg-white px-2peer-focus:px-2 peer-focus:text-red-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-1 peer-focus:scale-75 peer-focus:-translate-y-4"
+					>
+						Password
+					</label>
+						</div>
+				</div>
+				<div class="flex w-full">
 				<button
 					type="submit"
-					class="btn variant-filled-primary rounded py-2 w-full"
+					class="btn variant-filled-primary rounded py-2 w-full hover:scale-105"
 					on:click={() => handleLogin()}
 					disabled={loading}
 				>
