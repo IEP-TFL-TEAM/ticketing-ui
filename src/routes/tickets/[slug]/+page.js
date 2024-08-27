@@ -4,6 +4,7 @@ import { getTeams } from '$lib/api/teams';
 import { getCommentsByTicketId } from '$lib/api/comments';
 import { getHistoryByTicketId } from '$lib/api/history';
 import { getSolutionCodes } from '$lib/api/solutionCodes';
+import { getSiteById } from '$lib/api/sites';
 
 export async function load({ params, url, fetch }) {
 	pb.beforeSend = function (url, options) {
@@ -27,7 +28,8 @@ export async function load({ params, url, fetch }) {
 		comments: (await getCommentsByTicketId(ticketId)) ?? [],
 		attachmentUrl,
 		attachment: (await urlToFile(attachmentUrl, fetch)) ?? [],
-		solutionCodes: (await getSolutionCodes()) ?? []
+		solutionCodes: (await getSolutionCodes()) ?? [],
+		site: (await getSiteById(ticket.siteId)) ?? []
 	};
 }
 

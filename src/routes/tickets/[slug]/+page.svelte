@@ -11,6 +11,7 @@
 	import TicketAttachments from '$lib/components/tickets/TicketAttachments.svelte';
 	import TicketDetails from '$lib/components/tickets/TicketDetails.svelte';
 	import TicketHistory from '$lib/components/tickets/TicketHistory.svelte';
+	import TicketMap from '$lib/components/tickets/TicketMap.svelte';
 
 	export let data;
 	$: ticket = data.ticket;
@@ -19,6 +20,7 @@
 	$: attachmentUrl = data.attachmentUrl;
 	$: attachment = data.attachment;
 	$: solutionCodes = data.solutionCodes;
+	$: site = data.site;
 
 	const toastStore = getToastStore();
 	let unSubscribe;
@@ -105,6 +107,11 @@
 							<TicketAttachments {attachmentUrl} {attachment} />
 						</svelte:fragment>
 					</AccordionItem>
+
+					<TicketMap
+						lng={site.expand?.locationId?.longitude}
+						lat={site.expand?.locationId?.latitude}
+					/>
 				</Accordion>
 			</div>
 		</div>

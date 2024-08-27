@@ -10,6 +10,14 @@ const updateSite = async (data) => {
 	return record;
 };
 
+const getSiteById = async (id) => {
+	const record = await pb.collection('sites').getOne(id, {
+		expand: 'areaId, locationId'
+	});
+
+	return record;
+};
+
 const getSiteList = async () => {
 	const records = await pb.collection('sites').getFullList({
 		sort: '-created',
@@ -18,4 +26,4 @@ const getSiteList = async () => {
 	return records;
 };
 
-export { addSite, updateSite, getSiteList };
+export { addSite, updateSite, getSiteById, getSiteList };
