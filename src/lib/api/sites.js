@@ -13,7 +13,7 @@ const updateSite = async (data) => {
 const getSiteList = async () => {
 	const records = await pb.collection('sites').getFullList({
 		sort: '-created',
-		expand: 'areaId'
+		expand: 'areaId, locationId'
 	});
 	return records;
 };
