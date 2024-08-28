@@ -87,7 +87,7 @@
 	}
 </script>
 
-{#if $delayed}
+{#if $delayed || submitting}
 	<SpinnerOverlay />
 {/if}
 
