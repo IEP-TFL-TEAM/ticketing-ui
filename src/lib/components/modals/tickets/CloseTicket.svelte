@@ -1,7 +1,7 @@
 <script>
 	import pb from '$lib/api/pocketbaseClient';
 	import { updateTicket } from '$lib/api/tickets';
-	import { getModalStore, getToastStore } from '@skeletonlabs/skeleton';
+	import { filter, getModalStore, getToastStore } from '@skeletonlabs/skeleton';
 	import SpinnerOverlay from '$lib/components/layout/SpinnerOverlay.svelte';
 
 	const modalStore = getModalStore();
@@ -9,6 +9,9 @@
 
 	const ticket = $modalStore[0].meta.ticket;
 	const solutionCodes = $modalStore[0].meta.solutionCodes;
+	const filteredSolutionCodes = solutionCodes.filter(
+		(code) => code.faultTypeId === ticket.faultTypeId
+	);
 
 	let solution;
 	let closingRemarks;
@@ -88,7 +91,7 @@
 					<option value={''} disabled selected>
 						<span class="!text-gray-500">Select Solution</span>
 					</option>
-					{#each solutionCodes as item}
+					{#each filteredSolutionCodes as item}
 						<option value={item.id}>
 							{item.name}
 						</option>

@@ -17,6 +17,8 @@
 	const causeCodes = $drawerStore.meta.causeCodes;
 	const technicians = $drawerStore.meta.technicians;
 
+	let filteredCauseCodes = [];
+
 	let submitting = false;
 	const originalForm = defaults(zod(ticketSchema()));
 
@@ -80,6 +82,8 @@
 		$form.regionId = regionId;
 		$form.areaId = areaId;
 		$form.siteId = siteId;
+
+		filteredCauseCodes = causeCodes.filter((code) => code.faultTypeId === $form.faultTypeId);
 	}
 </script>
 
@@ -195,6 +199,9 @@
 					<p class="my-2 text-base font-semibold">
 						Select Cause
 						<span class="text-red-500">*</span>
+						<span class="text-red-500 italic {!$form.faultTypeId ? 'block' : 'hidden'}">
+							(Please select a fault type first ...)
+						</span>
 					</p>
 					<div class="flex flex-row">
 						<select
@@ -202,12 +209,13 @@
 							name="causedBy"
 							bind:value={$form.causedBy}
 							required
+							disabled={!$form.faultTypeId}
 							{...$constraints.causedBy}
 						>
 							<option value={''} disabled selected>
 								<span class="!text-gray-500">Select Cause</span>
 							</option>
-							{#each causeCodes as code}
+							{#each filteredCauseCodes as code}
 								<option value={code.id}>
 									{code.name}
 								</option>

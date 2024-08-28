@@ -17,7 +17,8 @@ const removeSolution = async (id) => {
 
 const getSolutionCodes = async () => {
 	const records = await pb.collection('solutions').getFullList({
-		sort: '-created'
+		sort: '-created',
+		expand: 'faultTypeId'
 	});
 	return records;
 };
