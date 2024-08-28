@@ -76,7 +76,7 @@
 		<TicketActions {teams} {ticket} {solutionCodes} />
 	</div>
 
-	<div class="flex min-h-screen px-5">
+	<div class="flex min-h-screen px-5 mb-5">
 		<div class="h-full w-2/3">
 			<div class="flex flex-col justify-start items-start px-1">
 				<Accordion class="w-full">
@@ -108,6 +108,13 @@
 							<TicketAttachments {attachmentUrl} {attachment} />
 						</svelte:fragment>
 					</AccordionItem>
+
+					<TicketMap
+						lng={site.expand?.locationId?.longitude}
+						lat={site.expand?.locationId?.latitude}
+						site={site.name}
+						{officeLocations}
+					/>
 				</Accordion>
 			</div>
 		</div>
@@ -140,11 +147,4 @@
 			</div>
 		</div>
 	</div>
-
-	<TicketMap
-		lng={site.expand?.locationId?.longitude}
-		lat={site.expand?.locationId?.latitude}
-		site={site.name}
-		{officeLocations}
-	/>
 </div>
