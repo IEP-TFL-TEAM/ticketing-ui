@@ -1,36 +1,44 @@
 <script>
-	import { onMount } from 'svelte';
-	import { Map } from '@onsvisual/svelte-maps';
-	import maplibre from 'maplibre-gl';
-	import { Marker } from 'maplibre-gl';
+	import { IconMapPinFilled } from '@tabler/icons-svelte';
 
-	export let lng, lat;
+	import Leaflet from './map/Leaflet.svelte';
+	import Marker from './map/Marker.svelte';
+	import Popup from './map/Popup.svelte';
 
-	let map;
-	let zoom;
-	let center = {};
+	export let lng, lat, officeLocations, site;
 
-	onMount(() => {
-		map.addControl(new maplibre.NavigationControl(), 'top-left');
-		new Marker({ color: '#FF3B00' }).setLngLat([lng, lat]).addTo(map);
-	});
+	$: officeLocationsMarker = officeLocations.map((location) => ({
+		latLng: [location.latitude, location.longitude],
+		name: location.name
+	}));
 </script>
 
-<main>
-	<Map
-		id="map"
-		style={import.meta.env.VITE_MAPTILER_API}
-		location={{ lng, lat, zoom: 14 }}
-		bind:map
-		bind:zoom
-		bind:center
-	/>
-</main>
+<div class="w-full h-screen">
+	<Leaflet view={[lat, lng]} zoom={14} bounds={null}>
+		<!-- Incident Marker -->
+		<Marker latLng={[lat, lng]} width={40} height={40}>
+			<IconMapPinFilled class="text-red-500" />
 
-<style>
-	main {
-		width: 100%;
-		height: 100vh;
-		position: relative;
-	}
-</style>
+			<Popup>
+				Incident at
+				<span class="text-red-500 font-semibold">
+					{site}
+				</span>
+			</Popup>
+		</Marker>
+
+		<!-- Office Locations -->
+		{#each officeLocationsMarker as { latLng, name }}
+			<Marker {latLng} width={40} height={40}>
+				<IconMapPinFilled class="text-primary-500" />
+
+				<Popup>
+					Office Location:
+					<span class="text-primary-500 font-semibold">
+						{name}
+					</span>
+				</Popup>
+			</Marker>
+		{/each}
+	</Leaflet>
+</div>

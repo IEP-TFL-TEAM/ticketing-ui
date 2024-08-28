@@ -1,5 +1,5 @@
 <div
-	class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-80 z-50 flex justify-center items-center"
+	class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-80 z-[100] flex justify-center items-center"
 >
 	<div class="flex flex-col justify-center items-center">
 		<h2 class="text-white">Loading.. Please wait</h2>
