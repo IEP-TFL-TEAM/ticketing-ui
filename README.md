@@ -22,7 +22,8 @@ npm run dev -- --open
 
 ## Resources
 
-- skeleton-ui UI framework built on tailwindcss
-- superforms Forms in svelte
-- pocketbase-js Pocketbase js sdk
-- date-fns & javascript-time-ago Date utils library and parser to show timeago
+- skeleton-ui - UI framework built on tailwindcss
+- superforms - Forms in svelte
+- pocketbase-js - Pocketbase js sdk
+- date-fns & javascript-time-ago - Date utils library and parser to show timeago
+- leaflet - For Location Mapping
