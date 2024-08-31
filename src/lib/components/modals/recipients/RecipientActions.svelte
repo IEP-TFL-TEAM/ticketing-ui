@@ -7,9 +7,13 @@
 	const modalStore = getModalStore();
 	const toastStore = getToastStore();
 	const recipient = $modalStore[0].meta.recipient;
+	const recipientList = $modalStore[0].meta.recipientList;
 
 	let selectedOption;
 	let loading = false;
+
+	$: verfiedRecipients = recipientList.filter((item) => item.verified).length;
+	$: onlyOneVerified = verfiedRecipients === 1 ? true : false;
 
 	async function onFormSubmit() {
 		loading = true;
@@ -62,10 +66,18 @@
 			bind:group={selectedOption}
 			name="medium"
 			value={recipient.verified ? 'unverify' : 'verify'}
+			disabled={onlyOneVerified && recipient.verified}
 		>
 			{recipient.verified ? 'Unverify' : 'Verify'}
 		</ListBoxItem>
-		<ListBoxItem bind:group={selectedOption} name="medium" value="delete">Delete</ListBoxItem>
+		<ListBoxItem
+			bind:group={selectedOption}
+			name="medium"
+			value="delete"
+			disabled={onlyOneVerified && recipient.verified}
+		>
+			Delete
+		</ListBoxItem>
 	</ListBox>
 
 	<div class="flex w-full justify-between mt-5">

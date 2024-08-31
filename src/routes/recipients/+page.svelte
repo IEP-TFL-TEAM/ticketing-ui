@@ -28,7 +28,7 @@
 		modalStore.trigger({
 			type: 'component',
 			component: 'recipientActions',
-			meta: { recipient },
+			meta: { recipient, recipientList },
 			response: (r) => {
 				if (r) {
 					recipients = [
