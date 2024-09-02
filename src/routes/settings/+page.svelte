@@ -5,6 +5,7 @@
 	import { getAvatarUrl } from '$lib/utils/getAvatarUrl';
 	import { Avatar, getToastStore } from '@skeletonlabs/skeleton';
 	import { IconUpload } from '@tabler/icons-svelte';
+	import { IconTrash } from '@tabler/icons-svelte';
 
 	let loading = false;
 	let showOldPassword = false;
@@ -51,9 +52,12 @@
 		const user = get(currentUser);
 		if (!user) throw new Error('Current user not available');
 
+		const inputElement = event.target;
+		if (!inputElement || !inputElement.files || inputElement.files.length === 0) {
+			loading = false;
+			return;
+		}
 		const file = event.target.files[0];
-		if (!file) return;
-
 		try {
 			const userId = user?.id;
 
@@ -81,30 +85,33 @@
 
 	async function updatePassword(event) {
 		loading = true;
+		const user = get(currentUser);
+		if (!user) {
+			throw new Error('Current user not available');
+		}
 
-		if ($currentUser) throw new Error('Current user not available');
+		let passwordFormData;
 
 		try {
-			const userId = user?.id;
+			const userId = user.id;
 
 			const formData = new FormData(event.target);
 			const data = Object.fromEntries(formData);
 
 			const userRecord = await pb.collection('users').getFirstListItem(`id="${userId}"`);
 
+			if (!data.password || !data.passwordConfirm) {
+				throw new Error('Both password and password confirm fields are required');
+			}
+
 			if (data.password !== data.passwordConfirm) {
 				throw new Error('New Password & Confirm Password must match!');
 			}
+			passwordFormData = new FormData();
+			passwordFormData.append('password', data.password);
+			passwordFormData.append('passwordConfirm', data.passwordConfirm);
 
-			await pb.collection('users').authWithPassword(userRecord.email, data.oldPassword);
-
-			await pb.collection('users').update(userId, {
-				oldPassword: data.oldPassword,
-				password: data.password,
-				passwordConfirm: data.passwordConfirm
-			});
-
-			await signOut();
+			await pb.collection('users').update(userId, passwordFormData);
 
 			toastStore.trigger({
 				message: 'Password Successfully Changed',
@@ -113,7 +120,7 @@
 			});
 		} catch (error) {
 			toastStore.trigger({
-				message: error.status === 400 ? 'Old Password Incorrect!' : error.message,
+				message: `Error updating password.`,
 				timeout: timeOutValue,
 				background: 'variant-filled-error'
 			});
@@ -125,7 +132,7 @@
 	$: avatar = getAvatarUrl($currentUser) ?? null;
 </script>
 
-<div class=" px-6 py-[4rem] sm:py-[6rem] lg:px-8 bg-white dark:bg-inherit h-screen">
+<div class=" px-6 py-[4rem] sm:py-[6rem] lg:px-8 bg-white dark:bg-inherit h-full border rounded-md">
 	<div class="mx-auto max-w-2xl text-center">
 		<span class="text-xl font-semibold tracking-wide"> -- General -- </span>
 		<h2 class="text-3xl font-extrabold sm:text-4xl">Settings</h2>
@@ -135,9 +142,9 @@
 	<form
 		class="mx-auto mt-16 max-w-xl sm:mt-18"
 		enctype="multipart/form-data"
-		on:submit|preventDefault={() => updatePassword()}
+		on:submit|preventDefault={(event) => updatePassword(event)}
 	>
-		<div class=" -mt-5 flex flex-col justify-center items-center py-4 gap-y-4 mb-4">
+		<div class=" -mt-5 flex flex-col py-4 gap-y-4 mb-4 justify-center items-center">
 			<Avatar
 				src={avatar}
 				initials={$currentUser?.firstName.charAt(0) + $currentUser?.lastName.charAt(0)}
@@ -153,25 +160,26 @@
 
 			<div class="flex gap-x-2">
 				{#if avatar}
-					<button type="button" class="btn variant-ghost-primary" on:click={() => removeAvatar()}>
-						Remove Avatar
+					<button
+						type="button"
+						class="hover:cursor-pointer hover:scale-110"
+						on:click={() => removeAvatar()}
+					>
+						<IconTrash />
 					</button>
 				{/if}
 
-				<label
-					for="avatar"
-					class="btn rounded-none variant-outline-primary dark:variant-outline-secondary hover:cursor-pointer flex justify-center items-center"
-				>
+				<label for="avatar" class="hover:cursor-pointer hover:scale-110">
 					<input
 						type="file"
 						id="avatar"
 						name="avatar"
-						class="hidden"
+						class="hidden w-0"
 						value=""
 						accept="image/*"
-						on:change={() => updateAvatar()}
+						on:change={(event) => updateAvatar(event)}
 					/>
-					<span>
+					<span class="">
 						<IconUpload />
 					</span>
 				</label>
@@ -180,13 +188,13 @@
 
 		<div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
 			<div>
-				<label for="firstName" class="block text-sm font-semibold leading-6 text-center">
-					First Name
+				<label for="firstName" class="block text-sm font-semibold leading-6 text-left">
+					First name
 				</label>
 
 				<div class="mt-2.5">
 					<input
-						class=" input placeholder:text-center placeholder:font-bold placeholder:tracking-widest text-center"
+						class=" block w-full rounded-md input placeholder:text-left placeholder:font-bold placeholder:tracking-widest text-center"
 						type="text"
 						placeholder={$currentUser?.firstName}
 						readonly
@@ -194,26 +202,25 @@
 				</div>
 			</div>
 			<div>
-				<label for="lastName" class="block text-sm font-semibold leading-6 text-center">
-					Last Name
+				<label for="lastName" class="block text-sm font-semibold leading-6 text-left">
+					Last name
 				</label>
 				<div class="mt-2.5">
 					<input
-						class=" input placeholder:text-center placeholder:font-bold placeholder:tracking-widest text-center"
+						class=" block w-full rounded-md input placeholder:text-left placeholder:font-bold placeholder:tracking-widest text-center"
 						type="text"
 						placeholder={$currentUser?.lastName}
 						readonly
 					/>
 				</div>
 			</div>
-
 			<div class="sm:col-span-2">
-				<label for="email" class="block text-sm font-semibold leading-6 text-center">
+				<label for="email" class="block text-sm font-semibold leading-6 text-left">
 					<span> Email address </span>
 				</label>
 				<div class="mt-2.5">
 					<input
-						class=" input placeholder:text-center placeholder:font-bold placeholder:tracking-widest text-center"
+						class=" block w-full rounded-md input placeholder:text-left placeholder:font-bold placeholder:tracking-widest text-center"
 						type="email"
 						placeholder={$currentUser?.email}
 						readonly
@@ -221,10 +228,9 @@
 				</div>
 			</div>
 		</div>
-
 		<div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2 mt-4">
 			<div>
-				<label for="oldPassword" class="block text-sm font-semibold leading-6 text-center">
+				<label for="oldPassword" class="block text-sm font-semibold leading-6 text-left">
 					<span> Old Password </span>
 				</label>
 				<div class="mt-2.5 relative">
@@ -233,24 +239,27 @@
 						value={oldPassword}
 						name="oldPassword"
 						required
-						class="input placeholder:text-center placeholder:font-bold placeholder:tracking-widest text-center"
+						class="block w-full rounded-md input placeholder:text-left placeholder:font-bold placeholder:tracking-widest text-left hover:scale-105"
 					/>
-					<button
-						class="absolute right-0 top-[10px] mr-2 focus:outline-none"
-						type="button"
-						on:click={() => (showOldPassword = !showOldPassword)}
-					>
+					<span class="absolute inset-y-0 right-0 pr-3 flex items-center">
 						{#if showOldPassword}
-							Hide
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									d="M13.875 12.875l-2.25 2.25m5.625-5.625l-2.25 2.25"
+								/>
+							</svg>
 						{:else}
-							Show
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+								<path strokeLinecap="round" strokeLinejoin="round" d="M3 14l5-5m0 0l5 5m5-5l-5 5" />
+							</svg>
 						{/if}
-					</button>
+					</span>
 				</div>
 			</div>
-
 			<div>
-				<label for="newPassword" class="block text-sm font-semibold leading-6 text-center">
+				<label for="newPassword" class="block text-sm font-semibold leading-6 text-left">
 					<span> New Password </span>
 				</label>
 				<div class="mt-2.5 relative">
@@ -259,24 +268,12 @@
 						value={password}
 						name="password"
 						required
-						class="input placeholder:text-center placeholder:font-bold placeholder:tracking-widest text-center"
+						class="block w-full rounded-md input placeholder:text-left placeholder:font-bold placeholder:tracking-widest text-left hover:scale-105"
 					/>
-					<button
-						class="absolute right-0 top-[10px] mr-2 focus:outline-none"
-						type="button"
-						on:click={() => (showPassword = !showPassword)}
-					>
-						{#if showPassword}
-							Hide
-						{:else}
-							Show
-						{/if}
-					</button>
 				</div>
 			</div>
-
 			<div class="sm:col-span-2">
-				<label for="passwordConfirm" class="block text-sm font-semibold leading-6 text-center">
+				<label for="passwordConfirm" class="block text-sm font-semibold leading-6 text-left">
 					<span> Confirm Password </span>
 				</label>
 				<div class="mt-2.5 relative">
@@ -285,19 +282,8 @@
 						value={passwordConfirm}
 						name="passwordConfirm"
 						required
-						class="input placeholder:text-center placeholder:font-bold placeholder:tracking-widest text-center"
+						class="block w-full rounded-md input placeholder:text-left placeholder:font-bold placeholder:tracking-widest text-left hover:scale-105"
 					/>
-					<button
-						class="absolute right-0 top-[10px] mr-2 focus:outline-none"
-						type="button"
-						on:click={() => (showPasswordConfirm = !showPasswordConfirm)}
-					>
-						{#if showPasswordConfirm}
-							Hide
-						{:else}
-							Show
-						{/if}
-					</button>
 				</div>
 			</div>
 		</div>
@@ -305,7 +291,7 @@
 		<div class="flex items-center space-x-4 mt-6 justify-center">
 			<button
 				type="submit"
-				class="btn rounded-none variant-filled-primary dark:variant-filled-secondary w-full"
+				class="btn rounded-md variant-filled-primary dark:variant-filled-secondary w-full hover:scale-105"
 				disabled={loading}
 			>
 				{!loading ? 'Update' : 'Updating ...'}
