@@ -167,7 +167,7 @@
 				bind:loading
 				label="Incidents"
 				{handleExportData}
-				noTickets={tickets.items.length === 0}
+				noRecords={tickets.items.length === 0}
 			/>
 
 			<button

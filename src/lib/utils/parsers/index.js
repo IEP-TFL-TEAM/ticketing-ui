@@ -6,6 +6,7 @@ import { parseLocations } from './parseLocations';
 import { parseComment } from './parseComment';
 import { stringToNumber } from './stringToNumber';
 import { parseDate } from './parseDate';
+import { parseDateAndTime } from './parseDateAndTime';
 
 export {
 	timeAgo,
@@ -15,5 +16,6 @@ export {
 	parseLocations,
 	parseComment,
 	stringToNumber,
-	parseDate
+	parseDate,
+	parseDateAndTime
 };

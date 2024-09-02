@@ -18,9 +18,9 @@
 	import { modalComponentRegistry } from '$lib/utils/modalComponentRegistry';
 	import Sidebar from '$lib/components/layout/Sidebar.svelte';
 	import CreateTicket from '$lib/components/drawers/tickets/CreateTicket.svelte';
-	import EditTicket from '$lib/components/drawers/tickets/EditTicket.svelte';
 	import AddRecipient from '$lib/components/drawers/recipients/AddRecipient.svelte';
 	import CreateTeam from '$lib/components/drawers/teams/CreateTeam.svelte';
+	import CreateRequest from '$lib/components/drawers/change-requests/CreateRequest.svelte';
 
 	initializeStores();
 
@@ -70,12 +70,12 @@
 >
 	{#if $drawerStore.id === 'createTicket'}
 		<CreateTicket />
-	{:else if $drawerStore.id === 'editTicket'}
-		<EditTicket />
 	{:else if $drawerStore.id === 'addRecipient'}
 		<AddRecipient />
 	{:else if $drawerStore.id === 'createTeam'}
 		<CreateTeam />
+	{:else if $drawerStore.id === 'createRequest'}
+		<CreateRequest />
 	{/if}
 </Drawer>
 

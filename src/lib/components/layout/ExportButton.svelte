@@ -1,14 +1,14 @@
 <script>
 	import { IconDownload, IconRotateClockwise2 } from '@tabler/icons-svelte';
 
-	export let label, loading, handleExportData, noTickets;
+	export let label, loading, handleExportData, noRecords;
 </script>
 
 <button
 	on:click={() => handleExportData()}
 	type="button"
 	class="font-medium btn variant-filled rounded-none"
-	disabled={noTickets || loading}
+	disabled={noRecords || loading}
 >
 	{#if loading}
 		<IconRotateClockwise2 class="animate-spin" />
