@@ -17,7 +17,8 @@ export async function load({ url, fetch }) {
 		title: url.searchParams.get('title'),
 		objective: url.searchParams.get('objective'),
 		serviceImpact: url.searchParams.get('serviceImpact'),
-		awarenessToBeMade: url.searchParams.get('awarenessToBeMade')
+		awarenessToBeMade: url.searchParams.get('awarenessToBeMade'),
+		requestee: url.searchParams.get('requestee')
 	};
 
 	return {

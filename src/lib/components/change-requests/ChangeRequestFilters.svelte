@@ -4,11 +4,12 @@
 	import { goto } from '$app/navigation';
 	import { IconCaretDown, IconCaretUp } from '@tabler/icons-svelte';
 
-	export let filters, pageSettings;
+	export let filters, pageSettings, requestees;
 
 	let searchText = filters.title || filters.objective;
 	let searchImpact = filters.serviceImpact;
 	let searchAwareness = filters.awarenessToBeMade;
+	let searchRequestee = filters.requestee;
 	let showFilters = false;
 
 	function handle() {
@@ -18,6 +19,7 @@
 			objective: searchText,
 			serviceImpact: searchImpact,
 			awarenessToBeMade: searchAwareness,
+			requestee: searchRequestee,
 			page: 1
 		};
 		const queryParams = parseQueryParams(search);
@@ -28,6 +30,7 @@
 		searchText = null;
 		searchImpact = null;
 		searchAwareness = null;
+		searchRequestee = null;
 		goto(`/change-requests`);
 	}
 
@@ -128,6 +131,24 @@
 							{item}
 						</button>
 					{/each}
+				</div>
+			</div>
+
+			<div class="flex items-start gap-4">
+				<h3 class="w-1/5">Requestee:</h3>
+				<div class={chipDiv + ' relative'}>
+					<select
+						class="select border-none mr-8 cursor-pointer"
+						bind:value={searchRequestee}
+						on:change={() => handle()}
+					>
+						<option value={null} disabled selected>Requestee List</option>
+						{#each requestees as item}
+							<option value={item.id}>
+								{item.name}
+							</option>
+						{/each}
+					</select>
 				</div>
 			</div>
 		</div>

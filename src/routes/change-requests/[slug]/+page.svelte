@@ -98,7 +98,7 @@
 
 					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
 						<span> Duration: </span>
-						<span class={spanStyles}>{request.duration}</span>
+						<span class={spanStyles}>{request.duration} minutes</span>
 					</div>
 
 					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">

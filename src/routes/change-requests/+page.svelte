@@ -77,5 +77,5 @@
 	</div>
 </div>
 
-<ChangeRequestFilters {filters} {pageSettings} />
+<ChangeRequestFilters {filters} {pageSettings} requestees={staff} />
 <ChangeRequestTable {requests} />
