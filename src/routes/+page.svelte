@@ -4,6 +4,10 @@
 	export let data;
 </script>
 
+<svelte:head>
+	<title>Welcome to the System</title>
+</svelte:head>
+
 <div class="container flex flex-col p-8 mx-auto">
 	<div
 		class="mt-5 flex flex-col justify-between items-center gap-4 w-full p-6 bg-white border rounded-md shadow-md dark:border-gray-700 dark:bg-neutral-800"
