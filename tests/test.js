@@ -1,6 +1,8 @@
 import { expect, test } from '@playwright/test';
 
-test('home page has expected h1', async ({ page }) => {
-	await page.goto('/');
-	await expect(page.locator('h1')).toBeVisible();
+test.describe('Login page', () => {
+	test('Should have correct metadata and elements', async ({ page }) => {
+		await page.goto('http://localhost:5173/login');
+		await expect(page).toHaveTitle('Login Page');
+	});
 });
