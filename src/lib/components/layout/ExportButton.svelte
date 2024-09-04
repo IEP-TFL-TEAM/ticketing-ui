@@ -1,5 +1,5 @@
 <script>
-	import { IconDownload, IconRotateClockwise2 } from '@tabler/icons-svelte';
+	import { IconFileSpreadsheet, IconRotateClockwise2 } from '@tabler/icons-svelte';
 
 	export let label, loading, handleExportData, noRecords;
 </script>
@@ -13,7 +13,7 @@
 	{#if loading}
 		<IconRotateClockwise2 class="animate-spin" />
 	{:else}
-		<IconDownload />
+		<IconFileSpreadsheet />
 	{/if}
 	<span class="hidden md:inline-block"> Export {label}</span>
 </button>
