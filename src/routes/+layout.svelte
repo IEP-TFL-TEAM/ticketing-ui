@@ -21,6 +21,7 @@
 	import AddRecipient from '$lib/components/drawers/recipients/AddRecipient.svelte';
 	import CreateTeam from '$lib/components/drawers/teams/CreateTeam.svelte';
 	import CreateRequest from '$lib/components/drawers/change-requests/CreateRequest.svelte';
+	import CreateRoutineMaintenance from '$lib/components/drawers/routine-maintenance/CreateRoutineMaintenance.svelte';
 
 	initializeStores();
 
@@ -76,6 +77,8 @@
 		<CreateTeam />
 	{:else if $drawerStore.id === 'createRequest'}
 		<CreateRequest />
+	{:else if $drawerStore.id === 'createRoutine'}
+		<CreateRoutineMaintenance />
 	{/if}
 </Drawer>
 
