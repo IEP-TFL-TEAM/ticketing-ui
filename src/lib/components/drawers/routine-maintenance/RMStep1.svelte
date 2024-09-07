@@ -69,7 +69,7 @@
 	</form>
 
 	<div class="flex flex-col gap-4">
-		<h4 class="h4 font-bold">Select Technical Groups Involved</h4>
+		<h4 class="h4 font-bold">Select Team Conducting Maintenance</h4>
 
 		<form class="card w-full max-h-48 p-4 overflow-y-auto" tabindex="-1">
 			<ListBox multiple>
