@@ -2,6 +2,7 @@
 	import { signIn, currentUser } from '$lib/stores/auth';
 	import { goto } from '$app/navigation';
 	import { getToastStore } from '@skeletonlabs/skeleton';
+	import { TransparentLogo } from '$lib/assets';
 
 	const toastStore = getToastStore();
 
@@ -46,9 +47,15 @@
 
 <div class="min-h-screen w-full flex flex-col items-center justify-center">
 	<div class="flex flex-col px-4 sm:px-6 md:px-8 lg:px-10 py-8 md:py-14 w-full max-w-md gap-y-10">
-		<h1 class="h1 font-extrabold text-xl sm:text-2xl text-tertiary-500 text-center">
-			Welcome to NOC <br /> Ticketing
-		</h1>
+		<div class="flex flex-col gap-y-4">
+			<div class="w-full flex justify-center">
+				<img src={TransparentLogo} alt="logo" />
+			</div>
+
+			<h1 class="h1 font-extrabold text-xl sm:text-2xl text-tertiary-500 text-center">
+				Welcome to NOC <br /> Ticketing
+			</h1>
+		</div>
 
 		<form class="flex flex-col gap-y-6 px-4" on:submit|preventDefault={() => handleLogin()}>
 			<div class="relative">
@@ -62,11 +69,11 @@
 				/>
 				<label
 					for="email"
-					class="{labelStyles} {!email || email.length === 0
-						? 'left-2'
-						: 'left-0 -top-5 text-tertiary-500'}"
+					class={`${labelStyles} ${
+						!email || email.length === 0 ? 'left-2' : 'left-0 -top-5 text-tertiary-500'
+					}`}
 				>
-					Email
+					{!email || email.length === 0 ? 'Email' : ''}
 				</label>
 			</div>
 
@@ -85,7 +92,7 @@
 						? 'left-2'
 						: 'left-0 -top-5 text-tertiary-500'}"
 				>
-					Password
+					{!password || password.length === 0 ? 'Password' : ''}
 				</label>
 			</div>
 
