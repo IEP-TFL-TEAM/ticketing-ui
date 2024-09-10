@@ -18,7 +18,7 @@
 		>
 			<div class="flex justify-between items-start">
 				<div class="flex-col">
-					<h3 class="h3">
+					<h3 class="">
 						<span class="font-black">{ticket.count}</span>
 						{ticket.title}
 					</h3>
