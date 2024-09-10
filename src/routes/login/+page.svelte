@@ -41,11 +41,7 @@
 	<title>Login Page</title>
 </svelte:head>
 
-<div
-	class="absolute inset-0 -z-10 h-full w-full bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px]"
-/>
-
-<div class="min-h-screen w-full flex flex-col items-center justify-center">
+<div class="min-h-screen w-full flex flex-col items-center justify-center bg-[#252424]">
 	<div class="flex flex-col px-4 sm:px-6 md:px-8 lg:px-10 py-8 md:py-14 w-full max-w-md gap-y-10">
 		<div class="flex flex-col gap-y-4">
 			<div class="w-full flex justify-center">

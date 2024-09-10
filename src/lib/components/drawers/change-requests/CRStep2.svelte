@@ -112,48 +112,6 @@
 
 				<label class="label">
 					<p class="my-2 text-base font-semibold">
-						Enter Start Date
-						<span class="text-red-500">*</span>
-					</p>
-					<div class="flex flex-row">
-						<input
-							type="datetime-local"
-							name="startDate"
-							bind:value={$startDateVal}
-							required
-							class="input p-4 border"
-							{...$constraints.startDate}
-						/>
-					</div>
-
-					{#if $errors.startDate}
-						<span class=" text-error-500">{$errors.startDate}</span>
-					{/if}
-				</label>
-
-				<label class="label">
-					<p class="my-2 text-base font-semibold">
-						Enter End Date
-						<span class="text-red-500">*</span>
-					</p>
-					<div class="flex flex-row">
-						<input
-							type="datetime-local"
-							name="endDate"
-							bind:value={$endDateVal}
-							required
-							class="input p-4 border"
-							{...$constraints.endDate}
-						/>
-					</div>
-
-					{#if $errors.endDate}
-						<span class=" text-error-500">{$errors.endDate}</span>
-					{/if}
-				</label>
-
-				<label class="label">
-					<p class="my-2 text-base font-semibold">
 						Enter Title
 						<span class="text-red-500">*</span>
 					</p>
@@ -191,6 +149,48 @@
 
 					{#if $errors.objective}
 						<span class=" text-error-500">{$errors.objective}</span>
+					{/if}
+				</label>
+
+				<label class="label">
+					<p class="my-2 text-base font-semibold">
+						Enter Start Date
+						<span class="text-red-500">*</span>
+					</p>
+					<div class="flex flex-row">
+						<input
+							type="datetime-local"
+							name="startDate"
+							bind:value={$startDateVal}
+							required
+							class="input p-4 border"
+							{...$constraints.startDate}
+						/>
+					</div>
+
+					{#if $errors.startDate}
+						<span class=" text-error-500">{$errors.startDate}</span>
+					{/if}
+				</label>
+
+				<label class="label">
+					<p class="my-2 text-base font-semibold">
+						Enter End Date
+						<span class="text-red-500">*</span>
+					</p>
+					<div class="flex flex-row">
+						<input
+							type="datetime-local"
+							name="endDate"
+							bind:value={$endDateVal}
+							required
+							class="input p-4 border"
+							{...$constraints.endDate}
+						/>
+					</div>
+
+					{#if $errors.endDate}
+						<span class=" text-error-500">{$errors.endDate}</span>
 					{/if}
 				</label>
 
@@ -270,6 +270,11 @@
 						Enter Brief Summary of CR
 						<span class="text-red-500">*</span>
 					</p>
+
+					<p class="mb-4 text-sm font-semibold text-primary-500 dark:text-tertiary-500">
+						(Background of the CR – Why you are performing this CR? Need for the CR?)
+					</p>
+
 					<div class="flex flex-row">
 						<textarea
 							class="textarea p-2"
@@ -293,6 +298,11 @@
 						Enter CR Method of Procedure – Scope of Work
 						<span class="text-red-500">*</span>
 					</p>
+
+					<p class="mb-4 text-sm font-semibold text-primary-500 dark:text-tertiary-500">
+						(High level scope of the work to be carried out)
+					</p>
+
 					<div class="flex flex-row">
 						<textarea
 							class="textarea p-2"
@@ -316,6 +326,12 @@
 						Enter CR Risks & Mitigation
 						<span class="text-red-500">*</span>
 					</p>
+
+					<p class="mb-4 text-sm font-semibold text-primary-500 dark:text-tertiary-500">
+						(Risks associated with performing work). (What is at Risk? Who is at Risk? How are they
+						at Risk?)
+					</p>
+
 					<div class="flex flex-row">
 						<textarea
 							class="textarea p-2"
@@ -362,6 +378,11 @@
 						Enter List of Services / Circuits
 						<span class="text-red-500">*</span>
 					</p>
+
+					<p class="mb-4 text-sm font-semibold text-primary-500 dark:text-tertiary-500">
+						(All services and circuits surrounding the CR. Affected or not affected).
+					</p>
+
 					<div class="flex flex-row">
 						<textarea
 							class="textarea p-2"
