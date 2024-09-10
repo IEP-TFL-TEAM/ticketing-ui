@@ -20,7 +20,6 @@
 
 		<h4 class="font-semibold">Get the world at your fingertips</h4>
 	</div>
-
 	<div class="flex flex-col w-full mt-8">
 		<div class="flex flex-col w-full gap-10">
 			<StatusCard {data} />
