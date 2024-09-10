@@ -43,7 +43,7 @@
 
 				toastStore.trigger({
 					type: 'success',
-					message: 'Request Created Successfully!',
+					message: 'Routine Created Successfully!',
 					background: 'variant-filled-success',
 					classes: 'rounded-none font-semibold'
 				});
@@ -121,7 +121,7 @@
 							type="text"
 							name="title"
 							bind:value={$form.title}
-							placeholder="Please enter request title"
+							placeholder="Please enter routine title"
 							{...$constraints.title}
 						/>
 					</div>

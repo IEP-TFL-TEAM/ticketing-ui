@@ -5,6 +5,7 @@
 	import { Accordion, AccordionItem, getToastStore } from '@skeletonlabs/skeleton';
 	import { parseStatus } from '$lib/utils/parsers';
 	import { expand } from '$lib/api/tickets';
+	import { IconArrowNarrowLeft } from '@tabler/icons-svelte';
 
 	import TicketActions from '$lib/components/tickets/TicketActions.svelte';
 	import TicketComments from '$lib/components/tickets/TicketComments.svelte';
@@ -54,7 +55,11 @@
 		'border accordion card p-2 text-token border-black/10 dark:border-white/30';
 </script>
 
-<div class="h-full w-full border-r-gray-300 mt-6">
+<div class="h-full w-full border-r-gray-300 mt-5">
+	<a href="/tickets">
+		<IconArrowNarrowLeft size={40} />
+	</a>
+
 	<div class="flex justify-between items-end p-5">
 		<div>
 			<span class="text-primary-500 dark:text-tertiary-500 text-xl font-extrabold"

@@ -54,7 +54,9 @@
 		</button>
 	</nav>
 
-	<div class="flex justify-center w-full">
+	<div class="flex justify-between items-center w-full px-2">
+		<span class="font-medium"> Theme Toggle </span>
+
 		<ThemeSwitch />
 	</div>
 </div>

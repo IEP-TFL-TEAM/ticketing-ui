@@ -1,6 +1,5 @@
 <script>
 	import { onDestroy, onMount } from 'svelte';
-	import { goto } from '$app/navigation';
 	import { getToastStore, getModalStore } from '@skeletonlabs/skeleton';
 	import { IconArrowNarrowLeft, IconDownload, IconMaximize } from '@tabler/icons-svelte';
 	import pb from '$lib/api/pocketbaseClient';
@@ -70,9 +69,9 @@
 
 <div class="w-full mt-5 break-words">
 	<div class="flex justify-start mb-8">
-		<button on:click={() => goto('/routine-maintenance')} class="-ml-2">
+		<a href="/routine-maintenance" class="-ml-2">
 			<IconArrowNarrowLeft size={40} />
-		</button>
+		</a>
 	</div>
 
 	<div class="grid grid-cols-1 gap-1 pl-4 mt-4 lg:grid-cols-4 auto-rows-auto">
