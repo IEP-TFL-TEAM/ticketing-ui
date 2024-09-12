@@ -95,7 +95,7 @@
 			<div class="flex w-full mt-4">
 				<button
 					type="submit"
-					class="btn rounded-full py-2 w-full font-bold bg-gradient-to-r from-primary-500 to-tertiary-500 !text-black focus:outline-none"
+					class="btn rounded-full py-2 w-full font-bold bg-gradient-to-r from-primary-500 to-tertiary-500 text-white focus:outline-none"
 					disabled={loading}
 				>
 					Login

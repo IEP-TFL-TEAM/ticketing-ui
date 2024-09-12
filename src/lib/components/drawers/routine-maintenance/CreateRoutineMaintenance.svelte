@@ -30,7 +30,7 @@
 		</Step>
 
 		<Step>
-			<svelte:fragment slot="header">Change Request Details</svelte:fragment>
+			<svelte:fragment slot="header">Routine Maintenance Details</svelte:fragment>
 			<RMStep2 {staffId} {teamIds} {maintenanceTeamId} {siteId} bind:onCompleteHandler />
 		</Step>
 	</Stepper>

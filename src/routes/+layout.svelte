@@ -45,8 +45,9 @@
 
 	afterNavigate(() => {
 		drawerStore.close();
-		toastStore.clear();
 	});
+
+	$: if ($navigating) toastStore.clear();
 </script>
 
 {#if $navigating}

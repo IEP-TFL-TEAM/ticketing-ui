@@ -39,7 +39,7 @@
 		<form on:submit|preventDefault={handle} class="w-full">
 			<input
 				bind:value={searchText}
-				placeholder="🔍 Search Tickets"
+				placeholder="Search title and description"
 				class="input border-none text-black dark:text-inherit pr-32"
 			/>
 		</form>

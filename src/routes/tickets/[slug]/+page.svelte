@@ -32,7 +32,7 @@
 			'*',
 			async (e) => {
 				toastStore.trigger({
-					message: `A ticket has been ${e.action}d! ${e.record.expand.reportedBy.firstName} ${e.record.expand.reportedBy.lastName}`,
+					message: `A ticket has been ${e.action}d! by ${e.record.expand.reportedBy.firstName} ${e.record.expand.reportedBy.lastName}`,
 					action: {
 						label: 'View',
 						response: () => goto(`/tickets/${e.record.id}`)

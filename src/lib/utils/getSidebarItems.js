@@ -34,11 +34,11 @@ export const getSidebarItems = (role) => {
 				icon: IconSquareLetterM,
 				ref: '/routine-maintenance'
 			},
-			{
-				label: 'Reports',
-				icon: IconReport,
-				ref: '/reports'
-			},
+			// {
+			// 	label: 'Reports',
+			// 	icon: IconReport,
+			// 	ref: '/reports'
+			// },
 			{
 				label: 'Recipients',
 				icon: IconMailForward,

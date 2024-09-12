@@ -18,12 +18,12 @@ export const exportIncidents = (data) => {
 		'Caused By': row.expand?.causedBy?.name,
 		'Technician Assigned': row.expand?.technicianId?.name,
 		Status: row.status,
-		Solution: row.expand?.solution?.name ?? 'Not yet closed',
+		Solution: row.expand?.solution?.name ?? '-',
 		'Closed by':
 			row.closedBy.length > 0
 				? row.expand?.closedBy?.firstName + ' ' + row.expand?.closedBy?.lastName
-				: 'Not yet closed',
-		'Closing remarks': row.closingRemarks ?? 'Not yet closed',
+				: '-',
+		'Closing remarks': row.closingRemarks ?? '-',
 		'Ticket#': row.count,
 		Created: parseDate(row.created),
 		Updated: parseDate(row.updated)
