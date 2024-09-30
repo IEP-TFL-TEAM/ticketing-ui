@@ -1,18 +1,26 @@
 <script>
 	import { updateRecipientByStatus, removeRecipient } from '$lib/api/recipients';
-	import { ListBox, ListBoxItem, getModalStore, getToastStore } from '@skeletonlabs/skeleton';
+	import {
+		ListBox,
+		ListBoxItem,
+		getModalStore,
+		getToastStore,
+		getDrawerStore
+	} from '@skeletonlabs/skeleton';
 
 	export let parent;
 
 	const modalStore = getModalStore();
 	const toastStore = getToastStore();
+	const drawerStore = getDrawerStore();
 	const recipient = $modalStore[0].meta.recipient;
-	const recipientList = $modalStore[0].meta.recipientList;
+	const sortedRecipients = $modalStore[0].meta.sortedRecipients;
+	const categories = $modalStore[0].meta.categories;
 
 	let selectedOption;
 	let loading = false;
 
-	$: verfiedRecipients = recipientList.filter((item) => item.verified).length;
+	$: verfiedRecipients = sortedRecipients.filter((item) => item.verified).length;
 	$: onlyOneVerified = verfiedRecipients === 1 ? true : false;
 
 	async function onFormSubmit() {
@@ -47,6 +55,15 @@
 			modalStore.close();
 		}
 	}
+
+	function triggerDrawer(id, position, record) {
+		modalStore.close();
+		drawerStore.open({
+			id,
+			position,
+			meta: { categories, record }
+		});
+	}
 </script>
 
 <div class="p-5 card w-full max-w-md flex flex-col bg-white dark:bg-neutral-900">
@@ -62,6 +79,14 @@
 		disabled={loading}
 		hover="hover:variant-soft-primary dark:hover:variant-soft-tertiary"
 	>
+		<ListBoxItem
+			bind:group={selectedOption}
+			name="medium"
+			value="update"
+			on:click={() => triggerDrawer('updateRecipient', 'right', recipient)}
+		>
+			Update
+		</ListBoxItem>
 		<ListBoxItem
 			bind:group={selectedOption}
 			name="medium"

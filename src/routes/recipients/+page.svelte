@@ -6,8 +6,8 @@
 
 	export let data;
 
-	$: recipients = data.recipients;
-	$: recipientList = recipients.sort((a, b) => {
+	$: ({ recipients, categories } = data);
+	$: sortedRecipients = recipients.sort((a, b) => {
 		const aStatus = a.name ? (a.verified ? 1 : 2) : 3;
 		const bStatus = b.name ? (b.verified ? 1 : 2) : 3;
 		return aStatus - bStatus;
@@ -20,7 +20,10 @@
 	function triggerDrawer(id, position) {
 		drawerStore.open({
 			id,
-			position
+			position,
+			meta: {
+				categories
+			}
 		});
 	}
 
@@ -28,7 +31,7 @@
 		modalStore.trigger({
 			type: 'component',
 			component: 'recipientActions',
-			meta: { recipient, recipientList },
+			meta: { recipient, sortedRecipients, categories },
 			response: (r) => {
 				if (r) {
 					recipients = [
@@ -64,23 +67,31 @@
 	let unSubscribe;
 
 	onMount(async () => {
-		unSubscribe = await pb.collection('recipients').subscribe('*', async function (e) {
-			let message =
-				e.action === 'create'
-					? 'A new recipient has been created'
-					: `Recipient has been ${e.action}d!`;
+		unSubscribe = await pb.collection('recipients').subscribe(
+			'*',
+			async function (e) {
+				let message =
+					e.action === 'create'
+						? 'A new recipient has been created'
+						: `Recipient has been ${e.action}d!`;
 
-			toastStore.trigger({
-				message
-			});
+				toastStore.trigger({
+					message
+				});
 
-			updateRecipients(e);
-		});
+				updateRecipients(e);
+			},
+			{
+				expand: 'categoryId'
+			}
+		);
 	});
 
 	onDestroy(() => {
 		unSubscribe?.();
 	});
+
+	const thStyle = '!font-semibold uppercase text-base px-6 py-2';
 </script>
 
 <div class="flex flex-col mt-5 w-full">
@@ -102,7 +113,7 @@
 	</div>
 </div>
 
-{#if recipientList.length === 0}
+{#if sortedRecipients.length === 0}
 	<div class="flex items-center justify-center w-full h-96">
 		<p class="text-black dark:text-white font-medium">Oops... No recipients found!</p>
 	</div>
@@ -111,16 +122,17 @@
 		<table class="table table-interactive table-compact rounded-none">
 			<thead>
 				<tr class="bg-neutral-100 dark:bg-neutral-700 !font-light">
-					<th class="!font-semibold uppercase text-base px-6 py-2">id</th>
-					<th class="!font-semibold uppercase text-base px-6 py-2">name</th>
-					<th class="!font-semibold uppercase text-base px-6 py-2">email</th>
-					<th class="!font-semibold uppercase text-base px-6 py-2">status</th>
-					<th class="!font-semibold uppercase text-base px-6 py-2"></th>
+					<th class={thStyle}>id</th>
+					<th class={thStyle}>name</th>
+					<th class={thStyle}>email</th>
+					<th class={thStyle}>category</th>
+					<th class={thStyle}>status</th>
+					<th class={thStyle}></th>
 				</tr>
 			</thead>
 
 			<tbody class="bg-white dark:bg-neutral-800">
-				{#each recipientList as recipient}
+				{#each sortedRecipients as recipient}
 					<tr
 						class="bg-white hover:bg-neutral-50 border-b dark:bg-neutral-800 dark:border-neutral-700 dark:hover:bg-neutral-900 transition-colors rounded"
 						on:click={() => displayUserActions(recipient)}
@@ -128,6 +140,7 @@
 						<td class="px-6 py-4">{recipient.id}</td>
 						<td class="px-6 py-4">{recipient.name}</td>
 						<td class="px-6 py-4">{recipient.email}</td>
+						<td class="px-6 py-4">{recipient.expand?.categoryId?.name}</td>
 						<td
 							class="px-6 py-4 font-semibold uppercase {recipient.verified
 								? 'text-success-500'

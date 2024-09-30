@@ -19,6 +19,7 @@
 	import Sidebar from '$lib/components/layout/Sidebar.svelte';
 	import CreateTicket from '$lib/components/drawers/tickets/CreateTicket.svelte';
 	import AddRecipient from '$lib/components/drawers/recipients/AddRecipient.svelte';
+	import UpdateRecipient from '$lib/components/drawers/recipients/UpdateRecipient.svelte';
 	import CreateTeam from '$lib/components/drawers/teams/CreateTeam.svelte';
 	import CreateRequest from '$lib/components/drawers/change-requests/CreateRequest.svelte';
 	import CreateRoutineMaintenance from '$lib/components/drawers/routine-maintenance/CreateRoutineMaintenance.svelte';
@@ -74,6 +75,8 @@
 		<CreateTicket />
 	{:else if $drawerStore.id === 'addRecipient'}
 		<AddRecipient />
+	{:else if $drawerStore.id === 'updateRecipient'}
+		<UpdateRecipient />
 	{:else if $drawerStore.id === 'createTeam'}
 		<CreateTeam />
 	{:else if $drawerStore.id === 'createRequest'}

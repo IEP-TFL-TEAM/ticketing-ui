@@ -3,12 +3,13 @@
 	import { zod } from 'sveltekit-superforms/adapters';
 	import { getToastStore, getDrawerStore } from '@skeletonlabs/skeleton';
 	import { recipientSchema } from '$lib/schemas/recipientSchema';
-	import { addRecipient } from '$lib/api/recipients';
+	import { updateRecipient } from '$lib/api/recipients';
 	import SpinnerOverlay from '$lib/components/layout/SpinnerOverlay.svelte';
 
 	const toastStore = getToastStore();
 	const drawerStore = getDrawerStore();
 	const categories = $drawerStore.meta.categories;
+	const record = $drawerStore.meta.record;
 
 	let submitting = false;
 	const originalForm = defaults(zod(recipientSchema()));
@@ -35,7 +36,7 @@
 			}
 
 			try {
-				await addRecipient(form.data);
+				await updateRecipient(record.id, form.data);
 				drawerStore.close();
 
 				toastStore.trigger({
@@ -62,6 +63,12 @@
 			submitting = false;
 		}
 	});
+
+	$: {
+		$form.name = record.name;
+		$form.email = record.email;
+		$form.categoryId = record.categoryId;
+	}
 </script>
 
 {#if $delayed}
@@ -71,7 +78,7 @@
 <div class="h-full flex flex-col justify-between gap-y-4 w-full p-5">
 	<div class="flex flex-col gap-4">
 		<div class="flex flex-col gap-3">
-			<h3 class="h3 font-bold">Enter Recipient Details</h3>
+			<h3 class="h3 font-bold">Update Recipient Details</h3>
 
 			<hr />
 		</div>
@@ -88,7 +95,7 @@
 							class="input p-4 border"
 							type="text"
 							name="name"
-							bind:value={$form.name}
+							bind:value={record.name}
 							required
 							placeholder="Please enter name"
 							{...$constraints.name}
@@ -110,7 +117,7 @@
 							class="input p-4 border"
 							type="text"
 							name="email"
-							bind:value={$form.email}
+							bind:value={record.email}
 							required
 							placeholder="Please enter email"
 							{...$constraints.email}
@@ -129,7 +136,7 @@
 								name="radio-direct"
 								class="radio"
 								type="radio"
-								bind:group={$form.categoryId}
+								bind:group={record.categoryId}
 								value={id}
 								checked
 								required

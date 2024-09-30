@@ -8,8 +8,8 @@ const addRecipient = async (data) => {
 	return record;
 };
 
-const updateRecipient = async (data) => {
-	const record = await pb.collection('recipients').update(data.id, data);
+const updateRecipient = async (id, data) => {
+	const record = await pb.collection('recipients').update(id, data);
 	return record;
 };
 
@@ -25,7 +25,8 @@ const removeRecipient = async (id) => {
 
 const getRecipientList = async () => {
 	const records = await pb.collection('recipients').getFullList({
-		sort: '-created'
+		sort: '-created',
+		expand: 'categoryId'
 	});
 	return records;
 };
