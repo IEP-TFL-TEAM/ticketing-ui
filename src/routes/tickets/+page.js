@@ -29,20 +29,52 @@ export async function load({ url, fetch }) {
 		status: url.searchParams.get('status')
 	};
 
-	await getRecentHistory();
+	try {
+		await getRecentHistory();
+		const results = await Promise.allSettled([
+			getTickets(filters),
+			getTeams(),
+			getCategories(),
+			getCategoryLevels(),
+			getRegionList(),
+			getAreaList(),
+			getSiteList(),
+			getTeamEquipmentList(),
+			getFaultList(),
+			getCauseCodes(),
+			getTechnicians()
+		]);
 
-	return {
-		filters,
-		tickets: (await getTickets(filters)) ?? [],
-		teams: (await getTeams()) ?? [],
-		categories: (await getCategories()) ?? [],
-		categoryLevels: (await getCategoryLevels()) ?? [],
-		regions: (await getRegionList()) ?? [],
-		areas: (await getAreaList()) ?? [],
-		sites: (await getSiteList()) ?? [],
-		teamEquipment: (await getTeamEquipmentList()) ?? [],
-		faultTypeList: (await getFaultList()) ?? [],
-		causeCodes: (await getCauseCodes()) ?? [],
-		technicians: (await getTechnicians()) ?? []
-	};
+		const [
+			tickets,
+			teams,
+			categories,
+			categoryLevels,
+			regions,
+			areas,
+			sites,
+			teamEquipment,
+			faultTypeList,
+			causeCodes,
+			technicians
+		] = results.map((result) => (result.status === 'fulfilled' ? result.value : []));
+
+		return {
+			filters,
+			tickets,
+			teams,
+			categories,
+			categoryLevels,
+			regions,
+			areas,
+			sites,
+			teamEquipment,
+			faultTypeList,
+			causeCodes,
+			technicians
+		};
+	} catch (error) {
+		console.error(error);
+		return {};
+	}
 }

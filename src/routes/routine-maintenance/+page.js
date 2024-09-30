@@ -21,12 +21,29 @@ export async function load({ url, fetch }) {
 		requestee: url.searchParams.get('requestee')
 	};
 
-	return {
-		filters,
-		routines: (await getRoutines(filters)) ?? [],
-		teams: (await getTeams()) ?? [],
-		maintenanceTeams: (await getMaintenanceTeams()) ?? [],
-		sites: (await getSiteList()) ?? [],
-		staff: (await getStaffList()) ?? []
-	};
+	try {
+		const results = await Promise.allSettled([
+			getRoutines(filters),
+			getTeams(),
+			getMaintenanceTeams(),
+			getSiteList(),
+			getStaffList()
+		]);
+
+		const [routines, teams, maintenanceTeams, sites, staff] = results.map((result) =>
+			result.status === 'fulfilled' ? result.value : []
+		);
+
+		return {
+			filters,
+			routines,
+			teams,
+			maintenanceTeams,
+			sites,
+			staff
+		};
+	} catch (error) {
+		console.error(error);
+		return {};
+	}
 }
