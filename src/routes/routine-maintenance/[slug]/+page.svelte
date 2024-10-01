@@ -8,10 +8,7 @@
 
 	export let data;
 
-	$: routine = data.routine;
-	$: attachmentUrl = data.attachmentUrl;
-	$: attachment = data.attachment;
-	$: members = data.members;
+	$: ({ routine, attachmentUrl, attachment, members } = data);
 	$: isOfTypeDoc =
 		(attachment.type !== 'image/jpg') &
 		(attachment.type !== 'image/png') &
@@ -80,6 +77,11 @@
 				<h4 class="mb-2 h4">Routine Maintenance Information</h4>
 
 				<div class="flex flex-col gap-2 pt-4">
+					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
+						<span> Ticket #: </span>
+						<span class={spanStyles}>{routine.ticketNumber}</span>
+					</div>
+
 					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
 						<span> Title: </span>
 						<span class={spanStyles}>{routine.title}</span>
@@ -184,6 +186,11 @@
 					<div class="grid grid-cols-1 xl:grid-cols-2 auto-rows-auto">
 						<span> Created At: </span>
 						<span class={spanStyles}>{parseDateAndTime(routine.created)}</span>
+					</div>
+
+					<div class="grid grid-cols-1 xl:grid-cols-2 auto-rows-auto">
+						<span> Updated At: </span>
+						<span class={spanStyles}>{parseDateAndTime(routine.updated)}</span>
 					</div>
 				</div>
 			</div>

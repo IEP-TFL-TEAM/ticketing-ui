@@ -17,15 +17,14 @@
 			class="block card card-hover p-4 bg-white mb-2 cursor-pointer"
 		>
 			<div class="flex justify-between items-start">
-				<div class="flex-col">
-					<h3 class="h3">
-						<span class="font-black">{ticket.count}</span>
-						{ticket.title}
+				<div class="flex flex-col gap-2">
+					<h3 class="h3 font-bold text-primary-500 dark:text-primary-400">
+						{ticket.ticketNumber}
 					</h3>
 
-					<h4 class="text-sm text-primary-600 font-semibold dark:text-secondary-400 uppercase">
-						{ticket.expand?.categoryId?.name}
-					</h4>
+					<h3 class="h3">
+						{ticket.title}
+					</h3>
 				</div>
 
 				<span class="text-sm font-semibold">
@@ -33,19 +32,19 @@
 				</span>
 			</div>
 
-			<p class="my-1 mb-2">{ticket.description}</p>
+			<p class="my-1 mb-3">{ticket.description}</p>
 
 			<div class="flex justify-between">
 				<div class="flex gap-1">
+					<span class={`badge variant-filled-tertiary p text-sm `}>
+						{ticket.expand?.categoryId?.name}
+					</span>
+
 					<span class={`${parseStatus(ticket.status)} p text-sm `}>
 						{ticket.status}
 					</span>
 
-					<span class={`badge variant-filled-tertiary p text-sm `}>
-						{ticket.expand?.teamId?.name ?? 'UNASSIGNED'}
-					</span>
-
-					<span class={`badge variant-outline-error p text-sm text-error-500 `}>
+					<span class={`badge variant-outline-error p text-sm text-error-500 dark:text-white`}>
 						{ticket.expand?.categoryLevelId?.name}
 					</span>
 				</div>

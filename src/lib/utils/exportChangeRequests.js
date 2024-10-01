@@ -10,7 +10,7 @@ export const exportChangeRequests = (data) => {
 		const teamNames = row.expand?.teamIds?.map((team) => team.name) || [];
 
 		return {
-			ID: row.id,
+			'Ticket #': row.ticketNumber,
 			Requesteee: row.expand?.requestee?.name,
 			Date: parseDateAndTime(row.date),
 			'Change Title': row.title,

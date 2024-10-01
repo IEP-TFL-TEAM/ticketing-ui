@@ -20,6 +20,7 @@
 			serviceImpact: searchImpact,
 			awarenessToBeMade: searchAwareness,
 			requestee: searchRequestee,
+			ticketNumber: searchText,
 			page: 1
 		};
 		const queryParams = parseQueryParams(search);

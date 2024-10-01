@@ -4,13 +4,11 @@
 	import SelectDetails from './SelectDetails.svelte';
 	import SelectRegionAndArea from './SelectRegionAndArea.svelte';
 
-	let teamId = null,
+	let teamIds = [],
 		catId = null,
 		catLevelId = null,
-		equipId = null,
-		selectedTeam = null,
-		selectedCatLevel = null,
-		selectedEquipment = null;
+		equipIds = [],
+		selectedCatLevel = null;
 
 	let regionId = null,
 		areaId = null,
@@ -23,16 +21,14 @@
 
 <div class="w-full p-5">
 	<Stepper on:complete={onCompleteHandler}>
-		<Step locked={!(selectedTeam && catId && selectedCatLevel && selectedEquipment)}>
-			<svelte:fragment slot="header">Select Team</svelte:fragment>
+		<Step locked={!(teamIds.length > 0 && catId && selectedCatLevel && equipIds.length > 0)}>
+			<svelte:fragment slot="header">Select Team(s)</svelte:fragment>
 			<SelectTeamAndCategory
-				bind:teamId
-				bind:selectedTeam
+				bind:teamIds
 				bind:catId
 				bind:catLevelId
 				bind:selectedCatLevel
-				bind:equipId
-				bind:selectedEquipment
+				bind:equipIds
 			/>
 		</Step>
 
@@ -50,10 +46,10 @@
 		<Step>
 			<svelte:fragment slot="header">Ticket Details</svelte:fragment>
 			<SelectDetails
-				{teamId}
+				{teamIds}
 				{catId}
 				{catLevelId}
-				{equipId}
+				{equipIds}
 				{regionId}
 				{areaId}
 				{siteId}

@@ -26,6 +26,7 @@ export async function load({ url, fetch }) {
 		categoryId: url.searchParams.get('categoryId'),
 		categoryLevelId: url.searchParams.get('categoryLevelId'),
 		count: url.searchParams.get('count'),
+		ticketNumber: url.searchParams.get('ticketNumber'),
 		status: url.searchParams.get('status')
 	};
 

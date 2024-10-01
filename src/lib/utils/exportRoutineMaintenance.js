@@ -10,7 +10,7 @@ export const exportRoutineMaintenance = (data) => {
 		const teamNames = row.expand?.teamIds?.map((team) => team.name) || [];
 
 		return {
-			ID: row.id,
+			'Ticket #': row.ticketNumber,
 			Requesteee: row.expand?.requestee?.name,
 			Date: parseDateAndTime(row.date),
 			'Maintenance Title': row.title,

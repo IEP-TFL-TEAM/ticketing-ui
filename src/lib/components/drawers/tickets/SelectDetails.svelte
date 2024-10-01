@@ -8,7 +8,7 @@
 
 	export const onCompleteHandler = () => submit();
 
-	export let teamId, catId, catLevelId, equipId, regionId, areaId, siteId;
+	export let teamIds, catId, catLevelId, equipIds, regionId, areaId, siteId;
 
 	const toastStore = getToastStore();
 	const drawerStore = getDrawerStore();
@@ -80,10 +80,10 @@
 	});
 
 	$: {
-		$form.teamId = teamId;
+		$form.teamIds = teamIds;
 		$form.categoryId = catId;
 		$form.categoryLevelId = catLevelId;
-		$form.teamEquipmentId = equipId;
+		$form.teamEquipmentIds = equipIds;
 		$form.regionId = regionId;
 		$form.areaId = areaId;
 		$form.siteId = siteId;
@@ -217,39 +217,6 @@
 
 						{#if $errors.faultTypeId}
 							<span class=" text-error-500">{$errors.faultTypeId}</span>
-						{/if}
-					</div>
-				</label>
-
-				<label class="label">
-					<p class="my-2 text-base font-semibold">
-						Select Cause
-						<span class="text-red-500">*</span>
-						<span class="text-red-500 italic {!$form.faultTypeId ? 'block' : 'hidden'}">
-							(Please select a fault type first ...)
-						</span>
-					</p>
-					<div class="flex flex-row">
-						<select
-							class="select rounded-none w-full"
-							name="causedBy"
-							bind:value={$form.causedBy}
-							required
-							disabled={!$form.faultTypeId}
-							{...$constraints.causedBy}
-						>
-							<option value={''} disabled selected>
-								<span class="!text-gray-500">Select Cause</span>
-							</option>
-							{#each filteredCauseCodes as code}
-								<option value={code.id}>
-									{code.name}
-								</option>
-							{/each}
-						</select>
-
-						{#if $errors.causedBy}
-							<span class=" text-error-500">{$errors.causedBy}</span>
 						{/if}
 					</div>
 				</label>

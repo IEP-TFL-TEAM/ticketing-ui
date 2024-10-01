@@ -49,23 +49,21 @@
 		'border accordion card p-2 text-token border-black/10 dark:border-white/30';
 </script>
 
-<div class="h-full w-full border-r-gray-300 mt-5">
-	<a href="/tickets">
+<div class="flex">
+	<a href="/tickets" class="mt-5">
 		<IconArrowNarrowLeft size={40} />
 	</a>
+</div>
 
+<div class="h-full w-full border-r-gray-300 mt-2">
 	<div class="flex justify-between items-end p-5">
 		<div>
-			<span class="text-primary-500 dark:text-tertiary-500 text-xl font-extrabold"
-				>Ticket #{ticket?.count}</span
-			>
+			<span class="text-primary-500 dark:text-tertiary-500 text-xl font-extrabold">
+				Ticket #: {ticket.ticketNumber}
+			</span>
 			<div class="w-full flex mt-2">
 				<span class={`${parseStatus(ticket.status)} mr-3`}>
 					{ticket.status}
-				</span>
-
-				<span class="badge variant-ghost-primary mr-3 px-2">
-					{ticket.expand?.teamId?.name ?? 'UNASSIGNED'}
 				</span>
 
 				<span class=" font-extrabold">{ticket.title}</span>

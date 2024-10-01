@@ -22,13 +22,13 @@ export const ticketSchema = () =>
 
 			incidentStart: z.date({ message: 'Invalid date string!' }),
 
-			teamId: z.string(),
+			teamIds: z.array(z.string()),
 
 			categoryId: z.string(),
 
 			categoryLevelId: z.string(),
 
-			teamEquipmentId: z.string(),
+			teamEquipmentIds: z.array(z.string()),
 
 			regionId: z.string(),
 
@@ -38,7 +38,7 @@ export const ticketSchema = () =>
 
 			faultTypeId: z.string(),
 
-			causedBy: z.string(),
+			causedBy: z.string().nullable(),
 
 			technicianId: z.string(),
 

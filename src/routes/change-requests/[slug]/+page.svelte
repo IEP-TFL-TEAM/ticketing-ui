@@ -8,10 +8,7 @@
 
 	export let data;
 
-	$: request = data.request;
-	$: attachmentUrl = data.attachmentUrl;
-	$: attachment = data.attachment;
-	$: members = data.members;
+	$: ({ request, attachmentUrl, attachment, members } = data);
 	$: isOfTypeDoc =
 		(attachment.type !== 'image/jpg') &
 		(attachment.type !== 'image/png') &
@@ -80,6 +77,11 @@
 				<h4 class="mb-2 h4">Change Request Information</h4>
 
 				<div class="flex flex-col gap-2 pt-4">
+					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
+						<span> Ticket #: </span>
+						<span class={spanStyles}>{request.ticketNumber}</span>
+					</div>
+
 					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
 						<span> Title: </span>
 						<span class={spanStyles}>{request.title}</span>
@@ -184,6 +186,11 @@
 					<div class="grid grid-cols-1 xl:grid-cols-2 auto-rows-auto">
 						<span> Created At: </span>
 						<span class={spanStyles}>{parseDateAndTime(request.created)}</span>
+					</div>
+
+					<div class="grid grid-cols-1 xl:grid-cols-2 auto-rows-auto">
+						<span> Updated At: </span>
+						<span class={spanStyles}>{parseDateAndTime(request.updated)}</span>
 					</div>
 				</div>
 			</div>

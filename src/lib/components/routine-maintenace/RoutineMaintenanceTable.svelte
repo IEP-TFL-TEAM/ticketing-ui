@@ -17,11 +17,11 @@
 		<table class="w-full text-sm text-left">
 			<thead class="uppercase bg-gray-100 dark:bg-neutral-700">
 				<tr>
+					<th scope="col" class={tableHeaderStyles}> Ticket # </th>
 					<th scope="col" class={tableHeaderStyles}> Requestee </th>
 					<th scope="col" class={tableHeaderStyles}> Maintenance Title </th>
 					<th scope="col" class={tableHeaderStyles}> Maintenance Objective </th>
 					<th scope="col" class={tableHeaderStyles}> Service Impact </th>
-					<th scope="col" class={tableHeaderStyles}> Awareness to be Made </th>
 					<th scope="col"></th>
 				</tr>
 			</thead>
@@ -31,9 +31,10 @@
 				{:else}
 					{#each routines as routine}
 						<tr
-							class="transition-colors bg-white border-b rounded dark:bg-neutral-800 dark:border-neutral-700 hover:bg-gray-50 dark:hover:bg-neutral-900 cursor-pointer"
-							on:click={() => goto(`/routine-maintenance/${routine.id}`)}
+							class="transition-colors bg-white border-b rounded dark:bg-neutral-800 dark:border-neutral-700 hover:bg-gray-50 dark:hover:bg-neutral-900"
 						>
+							<td class={tdStyles}> {routine.ticketNumber} </td>
+
 							<th scope="row" class="flex items-center px-6 py-4 text-gray-900 dark:text-white">
 								<div class="ps-3">
 									<div
@@ -60,17 +61,13 @@
 								{routine.serviceImpact}
 							</td>
 
-							<td class={tdStyles + ' uppercase font-semibold'}>
-								{routine.awarenessToBeMade}
-							</td>
-
 							<td class={tdStyles}>
-								<button
-									on:click={() => goto(`/routine-maintenance/${routine.id}`)}
-									class="font-medium text-primary-500 dark:text-tertiary-500 hover:underline"
+								<a
+									href={`/routine-maintenance/${routine.id}`}
+									class="font-medium text-primary-500 dark:text-tertiary-500 hover:underline cursor-pointer"
 								>
 									<IconArrowRight />
-								</button>
+								</a>
 							</td>
 						</tr>
 					{/each}
