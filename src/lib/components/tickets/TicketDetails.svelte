@@ -1,4 +1,6 @@
 <script>
+	import { parseDateAndTime } from '$lib/utils/parsers/parseDateAndTime';
+
 	export let ticket;
 
 	function calculateOutageDuration(createdTime, updatedTime) {
@@ -14,7 +16,7 @@
 	}
 
 	function getAvailability(ticket) {
-		const outageDuration = calculateOutageDuration(ticket.created, ticket.updated);
+		const outageDuration = calculateOutageDuration(ticket.incidentStart, ticket.updated);
 		const totalTimeInYear = 525600;
 
 		return calculateAvailability(outageDuration, totalTimeInYear);
@@ -32,12 +34,20 @@
 <table class="table table-hover w-full">
 	<tbody>
 		<tr>
+			<td>Incident Start</td>
+			<td>{parseDateAndTime(ticket.incidentStart)}</td>
+		</tr>
+		<tr>
 			<td>Status</td>
 			<td class={`${getStatusColor(ticket.status)} font-bold`}>{ticket.status}</td>
 		</tr>
 		<tr>
 			<td>Assigned To</td>
-			<td>{ticket.expand?.teamId?.name ?? 'Unassigned'}</td>
+			<td>
+				{#each ticket.expand?.teamId as team}
+					{team.name ?? 'Unassigned'}
+				{/each}
+			</td>
 		</tr>
 		<tr>
 			<td>Category</td>

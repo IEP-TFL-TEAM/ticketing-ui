@@ -20,6 +20,8 @@ export const ticketSchema = () =>
 				message: 'This field is required'
 			}),
 
+			incidentStart: z.date({ message: 'Invalid date string!' }),
+
 			teamId: z.string(),
 
 			categoryId: z.string(),

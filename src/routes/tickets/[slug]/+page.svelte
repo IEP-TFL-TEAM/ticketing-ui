@@ -15,14 +15,8 @@
 	import TicketMap from '$lib/components/tickets/TicketMap.svelte';
 
 	export let data;
-	$: ticket = data.ticket;
-	$: teams = data.teams;
-	$: comments = data.comments;
-	$: attachmentUrl = data.attachmentUrl;
-	$: attachment = data.attachment;
-	$: solutionCodes = data.solutionCodes;
-	$: site = data.site;
-	$: officeLocations = data.officeLocations;
+	$: ({ ticket, teams, comments, attachmentUrl, attachment, solutionCodes, site, officeLocations } =
+		data);
 
 	const toastStore = getToastStore();
 	let unSubscribe;

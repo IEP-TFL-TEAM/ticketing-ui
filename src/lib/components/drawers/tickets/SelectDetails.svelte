@@ -1,5 +1,5 @@
 <script>
-	import { superForm, defaults, fileProxy } from 'sveltekit-superforms';
+	import { superForm, defaults, fileProxy, dateProxy } from 'sveltekit-superforms';
 	import { zod } from 'sveltekit-superforms/adapters';
 	import { getToastStore, getDrawerStore } from '@skeletonlabs/skeleton';
 	import { ticketSchema } from '$lib/schemas/ticketSchema';
@@ -74,6 +74,11 @@
 
 	const attachment = fileProxy(form, 'attachment');
 
+	$: incidentStartVal = dateProxy(form, 'incidentStart', {
+		format: 'datetime-local',
+		empty: 'null'
+	});
+
 	$: {
 		$form.teamId = teamId;
 		$form.categoryId = catId;
@@ -95,6 +100,27 @@
 	<div class="flex flex-col">
 		<form method="POST" enctype="multipart/form-data" use:enhance>
 			<div class="flex flex-col justify-between gap-4">
+				<label class="label">
+					<p class="my-2 text-base font-semibold">
+						Enter Starting Date and Time
+						<span class="text-red-500">*</span>
+					</p>
+					<div class="flex flex-row">
+						<input
+							type="datetime-local"
+							name="incidentStart"
+							bind:value={$incidentStartVal}
+							required
+							class="input p-4 border"
+							{...$constraints.incidentStart}
+						/>
+					</div>
+
+					{#if $errors.incidentStart}
+						<span class=" text-error-500">{$errors.incidentStart}</span>
+					{/if}
+				</label>
+
 				<label class="label">
 					<p class="my-2 text-base font-semibold">
 						Enter Title
