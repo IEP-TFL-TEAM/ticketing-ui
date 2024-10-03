@@ -7,6 +7,7 @@ import { parseComment } from './parseComment';
 import { stringToNumber } from './stringToNumber';
 import { parseDate } from './parseDate';
 import { parseDateAndTime } from './parseDateAndTime';
+import { urlToFile } from './urlToFile';
 
 export {
 	timeAgo,
@@ -17,5 +18,6 @@ export {
 	parseComment,
 	stringToNumber,
 	parseDate,
-	parseDateAndTime
+	parseDateAndTime,
+	urlToFile
 };
