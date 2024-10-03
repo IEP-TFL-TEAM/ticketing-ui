@@ -5,7 +5,7 @@
 	import { parseQueryParams } from '$lib/utils/parsers';
 	import { getDrawerStore, getToastStore, Paginator } from '@skeletonlabs/skeleton';
 	import { expand, getAllTickets } from '$lib/api/tickets';
-	import { IconPlus, IconFilter } from '@tabler/icons-svelte';
+	import { IconPlus } from '@tabler/icons-svelte';
 	import { exportIncidents } from '$lib/utils/exportIncidents';
 
 	import TicketFilters from '$lib/components/tickets/TicketFilters.svelte';
@@ -34,7 +34,6 @@
 	const toastStore = getToastStore();
 
 	let selectedTicket;
-	let showFilters = true;
 	let loading = false;
 
 	let pageSettings = {
@@ -161,7 +160,7 @@
 </script>
 
 <div class="flex flex-col mt-5 w-full">
-	<div class="flex justify-between items-center mb-8">
+	<div class="flex justify-between items-center">
 		<h1 class="h1 font-extrabold">Incidents</h1>
 
 		<div class="flex justify-between items-center gap-4">
@@ -174,17 +173,6 @@
 
 			<button
 				type="button"
-				class="btn rounded-none variant-outline-primary"
-				on:click={() => (showFilters = !showFilters)}
-			>
-				<IconFilter size={20} />
-				<span>
-					{showFilters ? 'Hide Filters' : 'Show Filters'}
-				</span>
-			</button>
-
-			<button
-				type="button"
 				class="btn rounded-none variant-filled-primary"
 				on:click={() => triggerDrawer('createTicket', 'right')}
 			>
@@ -194,20 +182,18 @@
 		</div>
 	</div>
 
-	<div class="grid grid-cols-3 w-full gap-10">
+	<TicketFilters {filters} {categories} {categoryLevels} />
+
+	<div class="grid grid-cols-3 w-full gap-10 mt-4">
 		<div class="col-span-2">
-			{#if showFilters}
-				<TicketFilters {filters} {categories} {categoryLevels} />
-			{/if}
-
-			<TicketCard {tickets} />
-
 			<Paginator
 				buttonClasses="rounded-md btn-icon variant-filled"
 				bind:settings={pageSettings}
 				on:page={onPageChange}
 				on:amount={onAmountChange}
 			/>
+
+			<TicketCard {tickets} />
 		</div>
 
 		<div class="h3 border border-gray-300 dark:border-white/40 h-full p-5">
