@@ -9,6 +9,7 @@
 	let searchText = filters.title || filters.description;
 	let searchCategory = filters.categoryId;
 	let searchCategoryLevelId = filters.categoryLevelId;
+	let filteredCategoryLevels = [];
 
 	function handle() {
 		const search = {
@@ -32,6 +33,18 @@
 		searchCategory = null;
 		searchCategoryLevelId = null;
 		goto(`/tickets`);
+	}
+
+	$: {
+		if (!searchCategory) filteredCategoryLevels = categoryLevels;
+		else {
+			filteredCategoryLevels = categoryLevels
+				.filter((level) => level.categoryId === searchCategory)
+				.map((level) => ({
+					name: level.name,
+					id: level.id
+				}));
+		}
 	}
 </script>
 
@@ -65,12 +78,15 @@
 		<select
 			class="select border-none mr-8 cursor-pointer"
 			bind:value={searchCategory}
-			on:change={() => handle()}
+			on:change={() => {
+				searchCategoryLevelId = null;
+				handle();
+			}}
 		>
 			<option value={null} disabled selected>Category</option>
-			{#each categories as category}
-				<option value={category.id}>
-					{category.name}
+			{#each categories as { id, name }}
+				<option value={id}>
+					{name}
 				</option>
 			{/each}
 		</select>
@@ -83,7 +99,7 @@
 			on:change={() => handle()}
 		>
 			<option value={null} disabled selected>Category Level</option>
-			{#each categoryLevels as level}
+			{#each filteredCategoryLevels as level}
 				<option value={level.id}>
 					{level.name}
 				</option>

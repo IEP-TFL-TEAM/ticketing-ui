@@ -8,7 +8,6 @@
 
 	let searchText = filters.title || filters.objective;
 	let searchImpact = filters.serviceImpact;
-	let searchAwareness = filters.awarenessToBeMade;
 	let searchRequestee = filters.requestee;
 	let showFilters = false;
 
@@ -18,7 +17,6 @@
 			title: searchText,
 			objective: searchText,
 			serviceImpact: searchImpact,
-			awarenessToBeMade: searchAwareness,
 			requestee: searchRequestee,
 			ticketNumber: searchText,
 			page: 1
@@ -30,7 +28,6 @@
 	function reset() {
 		searchText = null;
 		searchImpact = null;
-		searchAwareness = null;
 		searchRequestee = null;
 		goto(`/routine-maintenance`);
 	}
@@ -108,24 +105,6 @@
 							class="{chipStyles} capitalize {searchImpact === item ? ` ${active}` : ''}"
 							on:click={() => {
 								searchImpact = item;
-								handle();
-							}}
-						>
-							{item}
-						</button>
-					{/each}
-				</div>
-			</div>
-
-			<div class="flex items-start gap-4">
-				<h3 class="w-1/5">Awareness To Be Made:</h3>
-				<div class={chipDiv + ' relative'}>
-					{#each ['No', 'Internal', 'External', 'Media'] as item}
-						<button
-							type="button"
-							class="{chipStyles} capitalize {searchAwareness === item ? ` ${active}` : ''}"
-							on:click={() => {
-								searchAwareness = item;
 								handle();
 							}}
 						>

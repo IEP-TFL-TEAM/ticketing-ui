@@ -18,7 +18,6 @@
 	const teamEquipment = $drawerStore.meta.teamEquipment;
 
 	let severityLevels = [];
-	let equipmentList = [];
 
 	const teamOptions = teams.map((team) => ({
 		label: team.name,
@@ -37,11 +36,6 @@
 				label: level.name,
 				value: level.id
 			}));
-
-		equipmentList = teamEquipment.map((eq) => ({
-			label: eq.name,
-			value: eq.id
-		}));
 	}
 </script>
 
