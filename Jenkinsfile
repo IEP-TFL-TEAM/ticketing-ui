@@ -36,7 +36,7 @@ pipeline {
             steps {
                 sshagent(['jenkins-ssh-key']) {
                     sh '''
-                      ssh -o StrictHostKeyChecking=no maanvik@192.168.20.2
+                      ssh -t -o StrictHostKeyChecking=no maanvik@192.168.20.2
                       scp -r /var/lib/jenkins/workspace/Ticketing-UI/build/* maanvik@192.168.20.2:/var/app/ticketing/ui/
                     '''
                 }
