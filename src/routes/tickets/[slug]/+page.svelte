@@ -41,7 +41,8 @@
 					action: {
 						label: 'View',
 						response: () => goto(`/tickets/${e.record.id}`)
-					}
+					},
+					timeout: 3000
 				});
 
 				ticket = e.record;

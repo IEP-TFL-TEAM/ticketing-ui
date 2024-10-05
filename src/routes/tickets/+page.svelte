@@ -127,7 +127,8 @@
 					action: {
 						label: 'View',
 						response: () => goto(`/tickets/${e.record.id}`)
-					}
+					},
+					timeout: 3000
 				});
 
 				updateTickets(e);

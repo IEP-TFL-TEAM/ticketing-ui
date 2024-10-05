@@ -76,7 +76,8 @@
 						: `Recipient has been ${e.action}d!`;
 
 				toastStore.trigger({
-					message
+					message,
+					timeout: 3000
 				});
 
 				updateRecipients(e);

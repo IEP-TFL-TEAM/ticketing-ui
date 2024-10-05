@@ -45,7 +45,8 @@
 	onMount(async () => {
 		unSubscribe = await pb.collection('changerequests').subscribe(request.id, async (e) => {
 			toastStore.trigger({
-				message: `A form has been ${e.action}d!`
+				message: `A form has been ${e.action}d!`,
+				timeout: 3000
 			});
 
 			request = e.record;
