@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+const MaxAttachmentSize = 5000000; // 5MB
 const AcceptedAttachmentTypes = [
 	'image/jpeg',
 	'image/jpg',
@@ -18,6 +19,9 @@ export const commentSchema = z
 
 		attachment: z
 			.instanceof(File)
+			.refine((file) => file.size < MaxAttachmentSize, {
+				message: 'Max size is 5MB.'
+			})
 			.refine((file) => AcceptedAttachmentTypes.includes(file.type), {
 				message: 'Only image formats are supported.'
 			})
