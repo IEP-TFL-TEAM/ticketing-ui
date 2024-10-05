@@ -1,9 +1,9 @@
 import pb from './pocketbaseClient';
 
-const addComment = async ({ ticketId, content }) => {
+const addComment = async (ticketId, data) => {
 	const record = await pb.collection('comments').create({
+		...data,
 		ticketId,
-		content,
 		userId: pb.authStore.model.id
 	});
 	return record;
