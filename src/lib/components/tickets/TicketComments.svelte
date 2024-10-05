@@ -7,12 +7,19 @@
 	import CommentForm from '$lib/components/comments/CommentForm.svelte';
 	import { parseComment } from '$lib/utils/parsers';
 
-	export let comments, ticketId;
+	export let comments, ticketId, commentAttachmentUrls, commentAttachments;
 
-	let toastStore = getToastStore();
+	const toastStore = getToastStore();
 	let unSubscribe;
+	let combinedComments = [];
 
 	onMount(async () => {
+		combinedComments = comments.map((comment, index) => ({
+			comment,
+			attachmentUrl: commentAttachmentUrls[index] ?? null,
+			attachment: commentAttachments[index] ?? null
+		}));
+
 		unSubscribe = await pb.collection('comments').subscribe(
 			'*',
 			async function (e) {
@@ -21,12 +28,19 @@
 					action: {
 						label: 'View',
 						response: () => goto(`/tickets/${e.record.ticketId}`)
-					}
+					},
+					timeout: 3000
 				});
 
 				if (ticketId === e.record.ticketId) {
 					if (e.action === 'create') {
 						comments = [...comments, e.record];
+
+						combinedComments = comments.map((comment, index) => ({
+							comment,
+							attachmentUrl: commentAttachmentUrls[index] ?? null,
+							attachment: commentAttachments[index] ?? null
+						}));
 					}
 				}
 			},
@@ -37,9 +51,28 @@
 	onDestroy(() => {
 		unSubscribe?.();
 	});
+
+	$: {
+		combinedComments = comments.map((comment, index) => ({
+			comment,
+			attachmentUrl: commentAttachmentUrls[index] ?? null,
+			attachment: commentAttachments[index] ?? null
+		}));
+	}
 </script>
 
-{#each comments as comment}
-	<CommentCard {...parseComment(comment)} />
-{/each}
-<CommentForm {ticketId} />
+<div class="w-full">
+	<div class="h-[42rem] overflow-y-auto">
+		{#if combinedComments.length === 0}
+			<span class="text-sm mt-2">Comments will appear here ...</span>
+		{:else}
+			{#each combinedComments as { comment, attachmentUrl, attachment }}
+				<CommentCard {...parseComment(comment)} {attachmentUrl} {attachment} />
+			{/each}
+		{/if}
+	</div>
+
+	<div class={comments.length === 0 ? '' : 'mt-5'}>
+		<CommentForm {ticketId} />
+	</div>
+</div>

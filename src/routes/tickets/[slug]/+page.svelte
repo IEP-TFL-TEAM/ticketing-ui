@@ -15,8 +15,19 @@
 	import TicketMap from '$lib/components/tickets/TicketMap.svelte';
 
 	export let data;
-	$: ({ ticket, teams, comments, attachmentUrl, attachment, solutionCodes, site, officeLocations } =
-		data);
+	$: ({
+		teams,
+		ticket,
+		comments,
+		commentAttachmentUrls,
+		commentAttachments,
+		attachmentUrl,
+		attachment,
+		solutionCodes,
+		causeCodes,
+		site,
+		officeLocations
+	} = data);
 
 	const toastStore = getToastStore();
 	let unSubscribe;
@@ -70,7 +81,7 @@
 			</div>
 		</div>
 
-		<TicketActions {teams} {ticket} {solutionCodes} />
+		<TicketActions {teams} {ticket} {solutionCodes} {causeCodes} />
 	</div>
 
 	<div class="flex min-h-screen px-5 mb-5">
@@ -93,7 +104,12 @@
 							<h5 class="font-medium">Comments</h5>
 						</svelte:fragment>
 						<svelte:fragment slot="content">
-							<TicketComments {comments} ticketId={ticket.id} />
+							<TicketComments
+								{comments}
+								{commentAttachmentUrls}
+								{commentAttachments}
+								ticketId={ticket.id}
+							/>
 						</svelte:fragment>
 					</AccordionItem>
 

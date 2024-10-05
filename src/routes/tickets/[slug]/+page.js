@@ -4,6 +4,7 @@ import { getTeams } from '$lib/api/teams';
 import { getCommentsByTicketId } from '$lib/api/comments';
 import { getHistoryByTicketId } from '$lib/api/history';
 import { getSolutionCodes } from '$lib/api/solutionCodes';
+import { getCauseCodes } from '$lib/api/causeCodes';
 import { getSiteById } from '$lib/api/sites';
 import { getOfficeLocations } from '$lib/api/officeLocations';
 import { urlToFile } from '$lib/utils/parsers';
@@ -14,24 +15,87 @@ export async function load({ params, url, fetch }) {
 		return { url, options };
 	};
 
-	const ticketId = params.slug;
-	await getHistoryByTicketId(ticketId);
+	try {
+		const ticketId = params.slug;
+		await getHistoryByTicketId(ticketId);
+		const fileToken = await pb.files.getToken();
 
-	const ticket = (await getTicketById(ticketId)) ?? [];
-	const fileToken = await pb.files.getToken();
+		const ticket = (await getTicketById(ticketId)) ?? [];
+		const attachmentUrl = pb.files.getUrl(ticket, ticket.attachment, {
+			token: fileToken
+		});
 
-	const attachmentUrl = pb.files.getUrl(ticket, ticket.attachment, {
-		token: fileToken
-	});
+		const comments = (await getCommentsByTicketId(ticketId)) ?? [];
+		const commentAttachmentUrls = comments.map((comment) =>
+			pb.files.getUrl(comment, comment.attachment, {
+				token: fileToken
+			})
+		);
 
+		const results = await Promise.allSettled([
+			getTeams(),
+			getOfficeLocations(),
+			getSiteById(ticket.siteId),
+			getCauseCodes(),
+			getSolutionCodes(),
+			urlToFile(attachmentUrl, fetch),
+			getUrlsToFile(commentAttachmentUrls, fetch)
+		]);
+
+		const [
+			teams,
+			officeLocations,
+			site,
+			causeCodes,
+			solutionCodes,
+			attachment,
+			commentAttachments
+		] = results.map((result) => (result.status === 'fulfilled' ? result.value : []));
+
+		return {
+			teams,
+			ticket,
+			comments,
+			commentAttachmentUrls,
+			commentAttachments,
+			attachmentUrl,
+			attachment,
+			causeCodes,
+			solutionCodes,
+			site,
+			officeLocations
+		};
+	} catch (error) {
+		console.error(error);
+		return {};
+	}
+}
+
+async function getUrlsToFile(attachmentUrls, fetch) {
+	let commentFiles = [];
+
+	for (const fileUrl of attachmentUrls) {
+		if (fileUrl) {
+			try {
+				const file = await urlToFile(fileUrl, fetch);
+				commentFiles.push(file || createEmptyFile());
+			} catch (error) {
+				console.error('Error converting URL to file:', error);
+				commentFiles.push(createEmptyFile());
+			}
+		} else {
+			commentFiles.push(createEmptyFile());
+		}
+	}
+
+	return commentFiles;
+}
+
+function createEmptyFile() {
 	return {
-		ticket,
-		teams: (await getTeams()) ?? [],
-		comments: (await getCommentsByTicketId(ticketId)) ?? [],
-		attachmentUrl,
-		attachment: (await urlToFile(attachmentUrl, fetch)) ?? [],
-		solutionCodes: (await getSolutionCodes()) ?? [],
-		site: (await getSiteById(ticket.siteId)) ?? [],
-		officeLocations: (await getOfficeLocations()) ?? []
+		name: 'No Attachment',
+		type: 'empty',
+		size: 0,
+		content: null
 	};
 }
