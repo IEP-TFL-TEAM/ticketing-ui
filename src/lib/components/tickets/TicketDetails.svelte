@@ -16,7 +16,7 @@
 	}
 
 	function getAvailability(ticket) {
-		const outageDuration = calculateOutageDuration(ticket.incidentStart, ticket?.incidentEnd);
+		const outageDuration = calculateOutageDuration(ticket.incidentStart, ticket.incidentEnd);
 		const totalTimeInYear = 525600;
 
 		return calculateAvailability(outageDuration, totalTimeInYear);
@@ -37,6 +37,12 @@
 			<td>Incident Start</td>
 			<td>{parseDateAndTime(ticket.incidentStart)}</td>
 		</tr>
+		{#if ticket.status === 'CLOSED'}
+			<tr>
+				<td>Incident End</td>
+				<td>{parseDateAndTime(ticket.incidentEnd)}</td>
+			</tr>
+		{/if}
 		<tr>
 			<td>Status</td>
 			<td class={`${getStatusColor(ticket.status)} font-bold`}>{ticket.status}</td>

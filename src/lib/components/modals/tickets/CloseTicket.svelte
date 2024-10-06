@@ -61,7 +61,8 @@
 				closedBy: pb.authStore.model.id,
 				solution,
 				cause,
-				closingRemarks
+				closingRemarks,
+				incidentEnd: new Date()
 			});
 			$modalStore[0].response({ updatedTicket });
 
