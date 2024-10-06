@@ -3,35 +3,12 @@
 	import { updateTicket } from '$lib/api/tickets';
 	import { currentUser } from '$lib/stores/auth';
 
-	export let ticket, teams, solutionCodes;
+	export let ticket, teams, solutionCodes, causeCodes;
 
 	$: role = $currentUser?.role;
 
 	const modalStore = getModalStore();
 	const toastStore = getToastStore();
-
-	async function approveTicket() {
-		modalStore.trigger({
-			type: 'confirm',
-			title: 'Approve this ticket',
-			body: 'Have you confirmed that this job is complete and should be verified?',
-			response: async (r) => {
-				if (r) {
-					const updatedTicket = await updateTicket({
-						...ticket,
-						status: 'APPROVED',
-						closedBy: ''
-					});
-					ticket = updatedTicket;
-
-					toastStore.trigger({
-						message: 'Ticket Approved successfully.',
-						background: 'variant-filled-success'
-					});
-				}
-			}
-		});
-	}
 
 	async function reOpenTicket() {
 		modalStore.trigger({
@@ -62,7 +39,7 @@
 		modalStore.trigger({
 			type: 'component',
 			component: 'closeTicket',
-			meta: { ticket, solutionCodes },
+			meta: { ticket, solutionCodes, causeCodes },
 			response: (r) => {
 				if (r) {
 					ticket = r.updatedTicket;
@@ -99,7 +76,7 @@
 <div class="btn-group variant-filled-primary h-10">
 	<button
 		type="button"
-		class="w-1/3"
+		class="w-1/2"
 		on:click={() => assignTicket()}
 		disabled={role !== 'admin' || ticket.status === 'CLOSED'}
 	>
@@ -108,16 +85,7 @@
 
 	<button
 		type="button"
-		class="w-1/3"
-		on:click={() => approveTicket()}
-		disabled={role !== 'admin' || ticket.status === 'APPROVED' || ticket.status === 'CLOSED'}
-	>
-		Approve
-	</button>
-
-	<button
-		type="button"
-		class="1/3"
+		class="1/2"
 		disabled={role !== 'admin'}
 		on:click={() =>
 			ticket.status === 'CLOSED' || ticket.status === 'COMPLETE' ? reOpenTicket() : closeTicket()}

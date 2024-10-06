@@ -1,7 +1,7 @@
 <script>
 	import pb from '$lib/api/pocketbaseClient';
 	import { updateTicket } from '$lib/api/tickets';
-	import { filter, getModalStore, getToastStore } from '@skeletonlabs/skeleton';
+	import { getModalStore, getToastStore } from '@skeletonlabs/skeleton';
 	import SpinnerOverlay from '$lib/components/layout/SpinnerOverlay.svelte';
 
 	const modalStore = getModalStore();
@@ -9,10 +9,14 @@
 
 	const ticket = $modalStore[0].meta.ticket;
 	const solutionCodes = $modalStore[0].meta.solutionCodes;
+	const causeCodes = $modalStore[0].meta.causeCodes;
+
 	const filteredSolutionCodes = solutionCodes.filter(
 		(code) => code.faultTypeId === ticket.faultTypeId
 	);
+	const filteredCauseCodes = causeCodes.filter((code) => code.faultTypeId === ticket.faultTypeId);
 
+	let cause;
 	let solution;
 	let closingRemarks;
 	let loading = false;
@@ -20,11 +24,22 @@
 	async function handleSubmit() {
 		loading = true;
 
+		if (!causeCodes.some((code) => code.id === cause)) {
+			loading = false;
+			toastStore.trigger({
+				message: 'Cause must be one of the types',
+				classes: 'variant-filled-error',
+				timeout: 3000
+			});
+			return;
+		}
+
 		if (!solutionCodes.some((code) => code.id === solution)) {
 			loading = false;
 			toastStore.trigger({
 				message: 'Solution must be one of the types',
-				classes: 'variant-filled-error'
+				classes: 'variant-filled-error',
+				timeout: 3000
 			});
 			return;
 		}
@@ -33,7 +48,8 @@
 			loading = false;
 			toastStore.trigger({
 				message: 'Closing remakrs cannot be empty',
-				classes: 'variant-filled-error'
+				classes: 'variant-filled-error',
+				timeout: 3000
 			});
 			return;
 		}
@@ -44,13 +60,15 @@
 				status: 'CLOSED',
 				closedBy: pb.authStore.model.id,
 				solution,
+				cause,
 				closingRemarks
 			});
 			$modalStore[0].response({ updatedTicket });
 
 			toastStore.trigger({
 				message: 'Closed Incident Successfully',
-				classes: 'variant-filled-success'
+				classes: 'variant-filled-success',
+				timeout: 3000
 			});
 		} catch (error) {
 			toastStore.trigger({
@@ -76,6 +94,30 @@
 	<hr />
 
 	<form on:submit|preventDefault={handleSubmit}>
+		<label class="label">
+			<p class="my-2 text-base font-semibold">
+				Select Cause
+				<span class="text-red-500">*</span>
+			</p>
+			<div class="flex flex-row">
+				<select
+					class="select rounded-none w-full bg-transparent dark:bg-transparent"
+					name="cause"
+					bind:value={cause}
+					required
+				>
+					<option value={''} disabled selected>
+						<span class="!text-gray-500">Select Cause</span>
+					</option>
+					{#each filteredCauseCodes as item}
+						<option value={item.id}>
+							{item.name}
+						</option>
+					{/each}
+				</select>
+			</div>
+		</label>
+
 		<label class="label">
 			<p class="my-2 text-base font-semibold">
 				Select Solution

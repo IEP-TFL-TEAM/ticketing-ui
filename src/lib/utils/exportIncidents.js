@@ -19,7 +19,7 @@ export const exportIncidents = (data) => {
 			Area: row.expand?.areaId?.name,
 			Site: row.expand?.siteId?.name,
 			'Fault Type': row.expand?.faultTypeId?.name,
-			'Caused By': row.expand?.causedBy?.name,
+			Cause: row.expand?.cause?.name,
 			'Technician Assigned': row.expand?.technicianId?.name,
 			Status: row.status,
 			Solution: row.expand?.solution?.name ?? '-',

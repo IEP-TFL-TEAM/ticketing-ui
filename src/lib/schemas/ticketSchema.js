@@ -39,7 +39,7 @@ export const ticketSchema = () =>
 
 			faultTypeId: z.string(),
 
-			causedBy: z.string().nullable(),
+			cause: z.string().nullable(),
 
 			technicianId: z.string(),
 

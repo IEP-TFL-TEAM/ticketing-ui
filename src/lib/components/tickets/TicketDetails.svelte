@@ -80,7 +80,7 @@
 		</tr>
 		<tr>
 			<td>Cause</td>
-			<td>{ticket.expand?.causedBy?.name ?? 'N/A'}</td>
+			<td>{ticket.expand?.cause?.name ?? 'N/A'}</td>
 		</tr>
 		<tr>
 			<td>Team Equipment(s)</td>
