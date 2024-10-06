@@ -62,7 +62,7 @@
 </script>
 
 <div class="w-full">
-	<div class="h-[42rem] overflow-y-auto">
+	<div class="h-full {combinedComments.length === 0 ? '' : 'max-h-[42rem] overflow-y-auto'}">
 		{#if combinedComments.length === 0}
 			<span class="text-sm mt-2">Comments will appear here ...</span>
 		{:else}
