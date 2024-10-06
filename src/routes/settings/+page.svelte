@@ -11,7 +11,7 @@
 	let showOldPassword = false;
 	let showPassword = false;
 	let showPasswordConfirm = false;
-	let timeOutValue = 2000;
+	let timeOutValue = 3000;
 
 	const oldPassword = '';
 	const password = '';

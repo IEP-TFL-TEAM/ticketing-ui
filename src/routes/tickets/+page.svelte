@@ -146,7 +146,8 @@
 					action: {
 						label: 'View',
 						response: () => goto(`/tickets/${e.record.ticketId}`)
-					}
+					},
+					timeout: 3000
 				});
 			},
 			{

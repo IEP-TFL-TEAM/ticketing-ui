@@ -25,7 +25,8 @@
 					loading = false;
 					toastStore.trigger({
 						message: 'Please provide a new name for the team',
-						background: 'variant-filled-error'
+						background: 'variant-filled-error',
+						timeout: 3000
 					});
 					return;
 				}
@@ -39,12 +40,14 @@
 
 			toastStore.trigger({
 				message,
-				classes: 'variant-filled-success'
+				classes: 'variant-filled-success',
+				timeout: 3000
 			});
 		} catch (error) {
 			toastStore.trigger({
 				message: error.error_description || error.message,
-				background: 'variant-filled-error'
+				background: 'variant-filled-error',
+				timeout: 3000
 			});
 		} finally {
 			loading = false;

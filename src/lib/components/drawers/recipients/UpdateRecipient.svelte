@@ -30,7 +30,8 @@
 				toastStore.trigger({
 					message: 'Please verify that all rquired fields are provided.',
 					background: 'variant-filled-error',
-					classes: 'rounded-none font-semibold'
+					classes: 'rounded-none font-semibold',
+					timeout: 3000
 				});
 				return { form };
 			}
@@ -43,7 +44,8 @@
 					type: 'success',
 					message: 'Recipient Created Successfully!',
 					background: 'variant-filled-success',
-					classes: 'rounded-none font-semibold'
+					classes: 'rounded-none font-semibold',
+					timeout: 3000
 				});
 			} catch (e) {
 				form.valid = false;
@@ -52,7 +54,8 @@
 				toastStore.trigger({
 					message: 'Oops ... Something went wrong!',
 					background: 'variant-filled-error',
-					classes: 'rounded-none font-semibold'
+					classes: 'rounded-none font-semibold',
+					timeout: 3000
 				});
 
 				form.message = e.data.data.email.message;

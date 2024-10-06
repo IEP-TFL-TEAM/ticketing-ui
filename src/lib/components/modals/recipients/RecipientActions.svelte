@@ -42,13 +42,15 @@
 
 			toastStore.trigger({
 				message,
-				classes: 'variant-filled-success'
+				classes: 'variant-filled-success',
+				timeout: 3000
 			});
 		} catch (error) {
 			toastStore.trigger({
 				message: error.error_description || error.message,
 				background: 'bg-[#252424] text-white',
-				classes: 'hover:scale-110 border-l-4 border-red-500 shadow-2xl transition'
+				classes: 'hover:scale-110 border-l-4 border-red-500 shadow-2xl transition',
+				timeout: 3000
 			});
 		} finally {
 			loading = false;

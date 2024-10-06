@@ -29,7 +29,8 @@
 				toastStore.trigger({
 					message: 'Please verify that all rquired fields are provided.',
 					background: 'variant-filled-error',
-					classes: 'rounded-none font-semibold'
+					classes: 'rounded-none font-semibold',
+					timeout: 3000
 				});
 				return { form };
 			}
@@ -43,7 +44,8 @@
 				toastStore.trigger({
 					message,
 					background: 'variant-filled-error',
-					classes: 'rounded-none font-semibold'
+					classes: 'rounded-none font-semibold',
+					timeout: 3000
 				});
 
 				form.message = e.data.data.email.message;

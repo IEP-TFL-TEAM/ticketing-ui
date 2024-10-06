@@ -28,7 +28,8 @@
 
 					toastStore.trigger({
 						message: 'Ticket Reopened successfully.',
-						background: 'variant-filled-success'
+						background: 'variant-filled-success',
+						timeout: 3000
 					});
 				}
 			}
@@ -65,7 +66,8 @@
 
 					toastStore.trigger({
 						message: 'Ticket Assigned successfully.',
-						background: 'variant-filled-success'
+						background: 'variant-filled-success',
+						timeout: 3000
 					});
 				}
 			}
