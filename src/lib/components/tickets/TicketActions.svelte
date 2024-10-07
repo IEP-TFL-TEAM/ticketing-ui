@@ -22,7 +22,8 @@
 						status: 'PENDING',
 						closedBy: '',
 						solution: null,
-						closingRemarks: ''
+						closingRemarks: '',
+						incidentEnd: ''
 					});
 					ticket = updatedTicket;
 
