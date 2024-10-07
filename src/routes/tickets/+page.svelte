@@ -122,6 +122,7 @@
 		unSubscribe = await pb.collection('tickets').subscribe(
 			'*',
 			async (e) => {
+				toastStore.clear();
 				toastStore.trigger({
 					message: `A ticket has been ${e.action}d! by ${e.record.expand.reportedBy.firstName} ${e.record.expand.reportedBy.lastName}`,
 					action: {
@@ -141,6 +142,7 @@
 		unSubscribe = await pb.collection('comments').subscribe(
 			'*',
 			async (e) => {
+				toastStore.clear();
 				toastStore.trigger({
 					message: `${e.record.expand.userId.firstName} ${e.record.expand.userId.lastName} ${e.action}d on ticket #${e.record.expand.ticketId.count}`,
 					action: {

@@ -59,6 +59,7 @@
 			let message =
 				e.action === 'create' ? 'A new team has been created' : `Team has been ${e.action}d!`;
 
+			toastStore.clear();
 			toastStore.trigger({
 				message,
 				timeout: 3000

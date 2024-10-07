@@ -23,6 +23,7 @@
 		unSubscribe = await pb.collection('comments').subscribe(
 			'*',
 			async function (e) {
+				toastStore.clear();
 				toastStore.trigger({
 					message: `Comment has been ${e.action}d!`,
 					action: {

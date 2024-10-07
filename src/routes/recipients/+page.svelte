@@ -75,6 +75,7 @@
 						? 'A new recipient has been created'
 						: `Recipient has been ${e.action}d!`;
 
+				toastStore.clear();
 				toastStore.trigger({
 					message,
 					timeout: 3000

@@ -56,6 +56,7 @@
 		unSubscribe = await pb.collection('routinemaintenance').subscribe(
 			routine.id,
 			async (e) => {
+				toastStore.clear();
 				toastStore.trigger({
 					message: `A form has been ${e.action}d!`,
 					timeout: 3000
