@@ -1,14 +1,16 @@
 <script>
 	import { onDestroy, onMount } from 'svelte';
-	import { getToastStore, getModalStore } from '@skeletonlabs/skeleton';
-	import { IconArrowNarrowLeft, IconDownload, IconMaximize } from '@tabler/icons-svelte';
 	import pb from '$lib/api/pocketbaseClient';
+	import { getToastStore, getModalStore } from '@skeletonlabs/skeleton';
 	import { lazyLoad } from '$lib/actions/lazyLoad.js';
 	import { parseDateAndTime } from '$lib/utils/parsers/parseDateAndTime';
+	import { expand } from '$lib/api/routineMaintenance';
+	import { IconArrowNarrowLeft, IconDownload, IconMaximize, IconEdit } from '@tabler/icons-svelte';
 
 	export let data;
 
 	$: ({ routine, attachmentUrl, attachment, members } = data);
+
 	$: isOfTypeDoc =
 		(attachment.type !== 'image/jpg') &
 		(attachment.type !== 'image/png') &
@@ -27,13 +29,21 @@
 	}
 
 	function onClickViewFile(fileSrc) {
-		const modal = {
+		modalStore.trigger({
 			type: 'component',
 			component: 'viewFile',
 			backdropClasses: '!bg-black/80',
 			meta: { fileSrc }
-		};
-		modalStore.trigger(modal);
+		});
+	}
+
+	function editApplication(routine) {
+		modalStore.trigger({
+			type: 'component',
+			component: 'editRoutineMaintenance',
+			backdropClasses: '!bg-black/50',
+			meta: { routine, attachment }
+		});
 	}
 
 	function extractMessage(message) {
@@ -43,14 +53,20 @@
 	let unSubscribe;
 
 	onMount(async () => {
-		unSubscribe = await pb.collection('routinemaintenance').subscribe(routine.id, async (e) => {
-			toastStore.trigger({
-				message: `A form has been ${e.action}d!`,
-				timeout: 3000
-			});
+		unSubscribe = await pb.collection('routinemaintenance').subscribe(
+			routine.id,
+			async (e) => {
+				toastStore.trigger({
+					message: `A form has been ${e.action}d!`,
+					timeout: 3000
+				});
 
-			routine = e.record;
-		});
+				routine = e.record;
+			},
+			{
+				expand
+			}
+		);
 	});
 
 	onDestroy(() => {
@@ -66,10 +82,21 @@
 </script>
 
 <div class="w-full mt-5 break-words">
-	<div class="flex justify-start mb-8">
+	<div class="flex justify-between items-center mb-8">
 		<a href="/routine-maintenance" class="-ml-2">
 			<IconArrowNarrowLeft size={40} />
 		</a>
+
+		<button
+			type="button"
+			on:click={() => editApplication(routine)}
+			class=" border border-black/30 dark:border-white/30 flex py-2.5 px-8 gap-x-1 items-center justify-center rounded uppercase font-semibold bg-white dark:bg-neutral-900"
+		>
+			<span>
+				<IconEdit />
+			</span>
+			<span>Edit Routine</span>
+		</button>
 	</div>
 
 	<div class="grid grid-cols-1 gap-1 pl-4 mt-4 lg:grid-cols-4 auto-rows-auto">
@@ -190,7 +217,7 @@
 					</div>
 
 					<div class="grid grid-cols-1 xl:grid-cols-2 auto-rows-auto">
-						<span> Updated At: </span>
+						<span> Last updated: </span>
 						<span class={spanStyles}>{parseDateAndTime(routine.updated)}</span>
 					</div>
 				</div>

@@ -10,12 +10,12 @@ const AcceptedAttachmentTypes = [
 	'image/png'
 ];
 
-export const routineMaintenanceSchema = () =>
+export const routineMaintenanceSchema = (attachment, date, startDate, endDate) =>
 	z
 		.object({
 			requestee: z.string(),
 
-			date: z.date({ message: 'Invalid date string!' }).max(new Date()),
+			date: z.date({ message: 'Invalid date string!' }).max(new Date()).default(date),
 
 			title: z.string().min(1, {
 				message: 'This field is required'
@@ -35,9 +35,9 @@ export const routineMaintenanceSchema = () =>
 
 			siteId: z.string(),
 
-			startDate: z.date({ message: 'Invalid date string!' }),
+			startDate: z.date({ message: 'Invalid date string!' }).default(startDate),
 
-			endDate: z.date({ message: 'Invalid date string!' }),
+			endDate: z.date({ message: 'Invalid date string!' }).default(endDate),
 
 			serviceImpact: z.string().refine((value) => ['Yes', 'No'].includes(value), {
 				message: 'Must be of one of the types'
@@ -79,6 +79,7 @@ export const routineMaintenanceSchema = () =>
 				.refine((file) => AcceptedAttachmentTypes.includes(file.type), {
 					message: 'Only .pdf, .doc, .docx, .jpg, .png formats are supported.'
 				})
+				.default(attachment)
 		})
 		.refine((obj) => Object.values(obj).every((value) => value !== undefined), {
 			message: 'All fields are required'
