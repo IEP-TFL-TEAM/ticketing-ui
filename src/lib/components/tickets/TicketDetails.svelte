@@ -1,5 +1,5 @@
 <script>
-	import { parseDateAndTime } from '$lib/utils/parsers/parseDateAndTime';
+	import { parseDateAndTime } from '$lib/utils/parsers';
 
 	export let ticket;
 

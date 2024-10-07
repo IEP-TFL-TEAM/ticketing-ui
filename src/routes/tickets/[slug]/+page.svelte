@@ -3,9 +3,10 @@
 	import pb from '$lib/api/pocketbaseClient';
 	import { goto } from '$app/navigation';
 	import { Accordion, AccordionItem, getToastStore } from '@skeletonlabs/skeleton';
-	import { parseStatus } from '$lib/utils/parsers';
+	import { parseStatus, parseDateAndTime } from '$lib/utils/parsers';
 	import { expand } from '$lib/api/tickets';
 	import { IconArrowNarrowLeft } from '@tabler/icons-svelte';
+	import { calculateSLAStatus } from '$lib/utils/calculateSLAStatus';
 
 	import TicketActions from '$lib/components/tickets/TicketActions.svelte';
 	import TicketComments from '$lib/components/tickets/TicketComments.svelte';
@@ -28,6 +29,11 @@
 		site,
 		officeLocations
 	} = data);
+
+	$: slaStatus = calculateSLAStatus(
+		parseDateAndTime(ticket.incidentStart),
+		parseDateAndTime(ticket.incidentEnd.length === 0 ? new Date() : ticket.incidentEnd)
+	);
 
 	const toastStore = getToastStore();
 	let unSubscribe;
@@ -70,17 +76,26 @@
 
 <div class="h-full w-full border-r-gray-300 mt-2">
 	<div class="flex justify-between items-end p-5">
-		<div>
-			<span class="text-primary-500 dark:text-tertiary-500 text-xl font-extrabold">
+		<div class="flex flex-col gap-2">
+			<h3 class="text-primary-500 dark:text-tertiary-500 text-xl font-extrabold">
 				Ticket #: {ticket.ticketNumber}
-			</span>
-			<div class="w-full flex mt-2">
+			</h3>
+
+			<div class="w-full flex items-center">
 				<span class={`${parseStatus(ticket.status)} mr-3`}>
 					{ticket.status}
 				</span>
 
 				<span class=" font-extrabold">{ticket.title}</span>
 			</div>
+
+			<p>
+				Status: <span
+					class="font-semibold {slaStatus.diffInHours <= 2 ? 'text-success-500' : 'text-error-500'}"
+				>
+					{slaStatus.status}
+				</span>
+			</p>
 		</div>
 
 		<TicketActions {teams} {ticket} {attachment} {solutionCodes} {causeCodes} />
