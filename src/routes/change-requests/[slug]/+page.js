@@ -9,16 +9,25 @@ export async function load({ params, url, fetch }) {
 		return { url, options };
 	};
 
-	const request = (await getRequestById(params.slug)) ?? [];
-	const fileToken = await pb.files.getToken();
-	const attachmentUrl = pb.files.getUrl(request, request.attachment, {
-		token: fileToken
-	});
+	try {
+		const results = await Promise.allSettled([pb.files.getToken(), getRequestById(params.slug)]);
 
-	return {
-		request,
-		attachmentUrl,
-		attachment: (await urlToFile(attachmentUrl, fetch)) ?? [],
-		members: (await getMembersByChangeTeamId(request.changeTeamId)) ?? []
-	};
+		const [fileToken, request] = results.map((result) =>
+			result.status === 'fulfilled' ? result.value : []
+		);
+
+		const attachmentUrl = pb.files.getUrl(request, request.attachment, {
+			token: fileToken
+		});
+
+		return {
+			request,
+			attachmentUrl,
+			attachment: (await urlToFile(attachmentUrl, fetch)) ?? [],
+			members: (await getMembersByChangeTeamId(request.changeTeamId)) ?? []
+		};
+	} catch (error) {
+		console.error(error);
+		return {};
+	}
 }

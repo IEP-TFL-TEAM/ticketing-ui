@@ -8,9 +8,9 @@ const createRequest = async (data) => {
 	return record;
 };
 
-const updateRequest = async (request) => {
+const updateRequest = async (id, request) => {
 	pb.autoCancellation(false);
-	const record = await pb.collection('changerequests').update(request.id, request);
+	const record = await pb.collection('changerequests').update(id, request);
 	pb.autoCancellation(false);
 	return record;
 };
