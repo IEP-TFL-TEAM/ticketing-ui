@@ -3,7 +3,7 @@
 	import { updateTicket } from '$lib/api/tickets';
 	import { currentUser } from '$lib/stores/auth';
 
-	export let ticket, teams, solutionCodes, causeCodes;
+	export let ticket, teams, solutionCodes, causeCodes, attachment;
 
 	$: role = $currentUser?.role;
 
@@ -73,12 +73,23 @@
 			}
 		});
 	}
+
+	function editApplication(ticket) {
+		modalStore.trigger({
+			type: 'component',
+			component: 'editTicket',
+			backdropClasses: '!bg-black/50',
+			meta: { ticket, attachment }
+		});
+	}
 </script>
 
 <div class="btn-group variant-filled-primary h-10">
+	<button type="button" class="w-1/3" on:click={() => editApplication(ticket)}>Update</button>
+
 	<button
 		type="button"
-		class="w-1/2"
+		class="w-1/3"
 		on:click={() => assignTicket()}
 		disabled={role !== 'admin' || ticket.status === 'CLOSED'}
 	>
@@ -87,7 +98,7 @@
 
 	<button
 		type="button"
-		class="1/2"
+		class="w-1/3"
 		disabled={role !== 'admin'}
 		on:click={() =>
 			ticket.status === 'CLOSED' || ticket.status === 'COMPLETE' ? reOpenTicket() : closeTicket()}

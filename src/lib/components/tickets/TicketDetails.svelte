@@ -84,10 +84,13 @@
 			<td>Fault Type</td>
 			<td>{ticket.expand?.faultTypeId?.name ?? 'N/A'}</td>
 		</tr>
-		<tr>
-			<td>Cause</td>
-			<td>{ticket.expand?.cause?.name ?? 'N/A'}</td>
-		</tr>
+
+		{#if ticket.status === 'CLOSED'}
+			<tr>
+				<td>Cause</td>
+				<td>{ticket.expand?.cause?.name ?? 'N/A'}</td>
+			</tr>
+		{/if}
 		<tr>
 			<td>Team Equipment(s)</td>
 			<td>

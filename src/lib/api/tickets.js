@@ -19,6 +19,13 @@ const updateTicket = async (ticket) => {
 	return record;
 };
 
+const updateTicketById = async (id, ticket) => {
+	pb.autoCancellation(false);
+	const record = await pb.collection('tickets').update(id, ticket);
+	pb.autoCancellation(false);
+	return record;
+};
+
 const getTickets = async (filters) => {
 	const records = await pb.collection('tickets').getList(filters.page, filters.perPage, {
 		sort: '-updated',
@@ -38,4 +45,4 @@ const getTicketById = async (id) => {
 	return record;
 };
 
-export { updateTicket, getTicketById, getTickets, createTicket, getAllTickets };
+export { updateTicket, updateTicketById, getTicketById, getTickets, createTicket, getAllTickets };

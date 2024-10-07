@@ -10,7 +10,7 @@ const AcceptedAttachmentTypes = [
 	'image/png'
 ];
 
-export const ticketSchema = () =>
+export const ticketSchema = (attachment, incidentStart) =>
 	z
 		.object({
 			title: z.string().min(1, {
@@ -21,7 +21,7 @@ export const ticketSchema = () =>
 				message: 'This field is required'
 			}),
 
-			incidentStart: z.date({ message: 'Invalid date string!' }),
+			incidentStart: z.date({ message: 'Invalid date string!' }).default(incidentStart),
 
 			teamIds: z.array(z.string()),
 
@@ -50,7 +50,8 @@ export const ticketSchema = () =>
 				})
 				.refine((file) => AcceptedAttachmentTypes.includes(file.type), {
 					message: 'Only .pdf, .doc, .docx, .jpg, .png formats are supported.'
-				}),
+				})
+				.default(attachment),
 
 			status: z.string().default('PENDING')
 		})

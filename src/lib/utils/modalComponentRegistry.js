@@ -6,6 +6,7 @@ import RecipientActions from '$lib/components/modals/recipients/RecipientActions
 import TeamActions from '$lib/components/modals/teams/TeamActions.svelte';
 import EditChangeRequest from '$lib/components/modals/change-requests/EditChangeRequest.svelte';
 import EditRoutineMaintenance from '$lib/components/modals/routine-maintenance/EditRoutineMaintenance.svelte';
+import EditTicket from '$lib/components/modals/tickets/EditTicket.svelte';
 
 export const modalComponentRegistry = {
 	viewImage: {
@@ -31,5 +32,8 @@ export const modalComponentRegistry = {
 	},
 	editRoutineMaintenance: {
 		ref: EditRoutineMaintenance
+	},
+	editTicket: {
+		ref: EditTicket
 	}
 };

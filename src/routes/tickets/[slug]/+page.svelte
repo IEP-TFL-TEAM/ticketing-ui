@@ -36,6 +36,7 @@
 		unSubscribe = await pb.collection('tickets').subscribe(
 			'*',
 			async (e) => {
+				toastStore.clear();
 				toastStore.trigger({
 					message: `A ticket has been ${e.action}d! by ${e.record.expand.reportedBy.firstName} ${e.record.expand.reportedBy.lastName}`,
 					action: {
@@ -82,7 +83,7 @@
 			</div>
 		</div>
 
-		<TicketActions {teams} {ticket} {solutionCodes} {causeCodes} />
+		<TicketActions {teams} {ticket} {attachment} {solutionCodes} {causeCodes} />
 	</div>
 
 	<div class="flex min-h-screen px-5 mb-5">
