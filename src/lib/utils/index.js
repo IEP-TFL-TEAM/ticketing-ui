@@ -1,1 +1,1 @@
-export const statuses = ['PENDING', 'APPROVED', 'CLOSED'];
+export const statuses = ['PENDING', 'OPEN', 'CLOSED'];

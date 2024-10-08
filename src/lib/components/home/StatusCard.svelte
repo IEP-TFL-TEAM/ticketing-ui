@@ -10,8 +10,8 @@
 			colorClass: 'text-primary-500'
 		},
 		{
-			label: 'Approved',
-			count: countByStatus(tickets, 'APPROVED'),
+			label: 'Open',
+			count: countByStatus(tickets, 'OPEN'),
 			colorClass: 'text-success-500'
 		},
 		{

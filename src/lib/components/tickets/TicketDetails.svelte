@@ -25,7 +25,7 @@
 	function getStatusColor(status) {
 		return status === 'PENDING'
 			? 'text-secondary-700 dark:text-secondary-500'
-			: status === 'APPROVED'
+			: status === 'OPEN'
 				? 'text-success-700 dark:text-success-500'
 				: 'text-error-500';
 	}
