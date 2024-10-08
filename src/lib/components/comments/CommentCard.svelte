@@ -5,7 +5,8 @@
 	import { IconDownload, IconMaximize } from '@tabler/icons-svelte';
 
 	export let avatar, content, date, firstName, lastName;
-	export let attachmentUrl, attachment;
+	export let attachmentUrl;
+	export const attachment = '';
 
 	const modalStore = getModalStore();
 
