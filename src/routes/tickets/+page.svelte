@@ -33,7 +33,6 @@
 	const drawerStore = getDrawerStore();
 	const toastStore = getToastStore();
 
-	let selectedTicket;
 	let loading = false;
 
 	let pageSettings = {
@@ -47,16 +46,16 @@
 
 	function onPageChange(e) {
 		filters = { ...filters, page: e.detail + 1 };
-		goto(`/tickets${selectedTicket ? `/${selectedTicket.id}` : ''}/?${parseQueryParams(filters)}`);
+		goto(`tickets?${parseQueryParams(filters)}`);
 	}
 
 	function onAmountChange(e) {
 		filters = {
 			...filters,
 			perPage: e.detail,
-			page: e.detail * filters.page > data.tickets.totalItems ? 0 : filters.page
+			page: e.detail * filters.page > pageSettings.size ? 0 : filters.page
 		};
-		goto(`/tickets${selectedTicket ? `/${selectedTicket.id}` : ''}/?${parseQueryParams(filters)}`);
+		goto(`tickets?${parseQueryParams(filters)}`);
 	}
 
 	function triggerDrawer(id, position) {

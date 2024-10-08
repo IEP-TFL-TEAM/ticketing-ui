@@ -16,17 +16,18 @@
 	$: maintenanceTeams = data.maintenanceTeams;
 	$: sites = data.sites;
 	$: staff = data.staff;
-	$: pageSettings.size = data.routines.totalItems;
 
 	const drawerStore = getDrawerStore();
 	let loading = false;
 
-	let pageSettings = {
+	$: pageSettings = {
 		page: data.routines.page - 1,
 		limit: data.routines.perPage,
 		size: data.routines.totalItems ?? 0,
-		amounts: [1, 5, 10, 20, 50, 100]
+		amounts: [1, 5, 10, 20]
 	};
+
+	$: pageSettings.size = data.routines.totalItems;
 
 	function triggerDrawer(id, position) {
 		drawerStore.open({

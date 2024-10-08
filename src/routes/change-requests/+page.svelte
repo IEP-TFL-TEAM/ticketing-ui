@@ -16,17 +16,18 @@
 	$: changeTeams = data.changeTeams;
 	$: sites = data.sites;
 	$: staff = data.staff;
-	$: pageSettings.size = data.requests.totalItems;
 
 	const drawerStore = getDrawerStore();
 	let loading = false;
 
-	let pageSettings = {
+	$: pageSettings = {
 		page: data.requests.page - 1,
 		limit: data.requests.perPage,
 		size: data.requests.totalItems ?? 0,
-		amounts: [1, 5, 10, 20, 50, 100]
+		amounts: [1, 5, 10, 20]
 	};
+
+	$: pageSettings.size = data.requests.totalItems;
 
 	function triggerDrawer(id, position) {
 		drawerStore.open({
