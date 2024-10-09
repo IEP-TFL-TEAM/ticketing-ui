@@ -18,6 +18,7 @@
 	const teamEquipment = $drawerStore.meta.teamEquipment;
 
 	let severityLevels = [];
+	let equipmentList = [];
 
 	const teamOptions = teams.map((team) => ({
 		label: team.name,
@@ -35,6 +36,13 @@
 			.map((level) => ({
 				label: level.name,
 				value: level.id
+			}));
+
+		equipmentList = teamEquipment
+			.filter((eq) => teamIds.includes(eq.teamId))
+			.map((eq) => ({
+				label: eq.name,
+				value: eq.id
 			}));
 	}
 </script>
@@ -79,9 +87,9 @@
 
 			<div class="card w-full max-h-48 p-4 overflow-y-auto" tabindex="-1">
 				<ListBox multiple>
-					{#each teamEquipment as { id, name }}
-						<ListBoxItem bind:group={equipIds} name="medium" value={id}>
-							{name}
+					{#each equipmentList as { value, label }}
+						<ListBoxItem bind:group={equipIds} name="medium" {value}>
+							{label}
 						</ListBoxItem>
 					{/each}
 				</ListBox>
