@@ -28,6 +28,7 @@
 		causeCodes,
 		categories,
 		categoryLevels,
+		teamEquipment,
 		site,
 		officeLocations
 	} = data);
@@ -108,6 +109,7 @@
 			{causeCodes}
 			{categories}
 			{categoryLevels}
+			{teamEquipment}
 		/>
 	</div>
 

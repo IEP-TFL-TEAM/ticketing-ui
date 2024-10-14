@@ -10,6 +10,7 @@ import { getOfficeLocations } from '$lib/api/officeLocations';
 import { urlToFile } from '$lib/utils/parsers';
 import { getCategories } from '$lib/api/categories';
 import { getCategoryLevels } from '$lib/api/categoryLevels';
+import { getTeamEquipmentList } from '$lib/api/teamEquipment';
 
 export async function load({ params, url, fetch }) {
 	pb.beforeSend = function (url, options) {
@@ -42,6 +43,7 @@ export async function load({ params, url, fetch }) {
 			getSolutionCodes(),
 			getCategories(),
 			getCategoryLevels(),
+			getTeamEquipmentList(),
 			urlToFile(attachmentUrl, fetch),
 			getUrlsToFile(commentAttachmentUrls, fetch)
 		]);
@@ -54,6 +56,7 @@ export async function load({ params, url, fetch }) {
 			solutionCodes,
 			categories,
 			categoryLevels,
+			teamEquipment,
 			attachment,
 			commentAttachments
 		] = results.map((result) => (result.status === 'fulfilled' ? result.value : []));
@@ -70,6 +73,7 @@ export async function load({ params, url, fetch }) {
 			solutionCodes,
 			categories,
 			categoryLevels,
+			teamEquipment,
 			site,
 			officeLocations
 		};

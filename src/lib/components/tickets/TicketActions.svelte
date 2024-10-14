@@ -3,7 +3,14 @@
 	import { updateTicket } from '$lib/api/tickets';
 	import { currentUser } from '$lib/stores/auth';
 
-	export let ticket, teams, solutionCodes, causeCodes, attachment, categories, categoryLevels;
+	export let ticket,
+		teams,
+		solutionCodes,
+		causeCodes,
+		attachment,
+		categories,
+		categoryLevels,
+		teamEquipment;
 
 	$: role = $currentUser?.role;
 
@@ -55,13 +62,14 @@
 			type: 'component',
 			title: 'Assign Ticket',
 			component: 'assignTicket',
-			body: 'Select a team to assign to',
-			meta: { teams },
-			response: async (team) => {
-				if (team) {
+			body: 'Select team(s) and team equipment(s) to assign this ticket to:',
+			meta: { teams, teamEquipment },
+			response: async (res) => {
+				if (res) {
 					const updatedTicket = await updateTicket({
 						...ticket,
-						teamId: team.id
+						teamIds: res.teamIds,
+						teamEquipmentIds: res.equipIds
 					});
 					ticket = updatedTicket;
 
