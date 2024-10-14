@@ -8,6 +8,8 @@ import { getCauseCodes } from '$lib/api/causeCodes';
 import { getSiteById } from '$lib/api/sites';
 import { getOfficeLocations } from '$lib/api/officeLocations';
 import { urlToFile } from '$lib/utils/parsers';
+import { getCategories } from '$lib/api/categories';
+import { getCategoryLevels } from '$lib/api/categoryLevels';
 
 export async function load({ params, url, fetch }) {
 	pb.beforeSend = function (url, options) {
@@ -38,6 +40,8 @@ export async function load({ params, url, fetch }) {
 			getSiteById(ticket.siteId),
 			getCauseCodes(),
 			getSolutionCodes(),
+			getCategories(),
+			getCategoryLevels(),
 			urlToFile(attachmentUrl, fetch),
 			getUrlsToFile(commentAttachmentUrls, fetch)
 		]);
@@ -48,6 +52,8 @@ export async function load({ params, url, fetch }) {
 			site,
 			causeCodes,
 			solutionCodes,
+			categories,
+			categoryLevels,
 			attachment,
 			commentAttachments
 		] = results.map((result) => (result.status === 'fulfilled' ? result.value : []));
@@ -62,6 +68,8 @@ export async function load({ params, url, fetch }) {
 			attachment,
 			causeCodes,
 			solutionCodes,
+			categories,
+			categoryLevels,
 			site,
 			officeLocations
 		};

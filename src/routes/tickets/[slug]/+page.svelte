@@ -26,6 +26,8 @@
 		attachment,
 		solutionCodes,
 		causeCodes,
+		categories,
+		categoryLevels,
 		site,
 		officeLocations
 	} = data);
@@ -98,7 +100,15 @@
 			</p>
 		</div>
 
-		<TicketActions {teams} {ticket} {attachment} {solutionCodes} {causeCodes} />
+		<TicketActions
+			{teams}
+			{ticket}
+			{attachment}
+			{solutionCodes}
+			{causeCodes}
+			{categories}
+			{categoryLevels}
+		/>
 	</div>
 
 	<div class="flex min-h-screen px-5 mb-5">

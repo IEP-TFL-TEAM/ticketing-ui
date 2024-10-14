@@ -3,7 +3,7 @@
 	import { updateTicket } from '$lib/api/tickets';
 	import { currentUser } from '$lib/stores/auth';
 
-	export let ticket, teams, solutionCodes, causeCodes, attachment;
+	export let ticket, teams, solutionCodes, causeCodes, attachment, categories, categoryLevels;
 
 	$: role = $currentUser?.role;
 
@@ -80,7 +80,7 @@
 			type: 'component',
 			component: 'editTicket',
 			backdropClasses: '!bg-black/50',
-			meta: { ticket, attachment }
+			meta: { ticket, attachment, categories, categoryLevels }
 		});
 	}
 </script>

@@ -9,11 +9,14 @@
 	const toastStore = getToastStore();
 	const modalStore = getModalStore();
 	const ticket = $modalStore[0].meta.ticket;
+	const categories = $modalStore[0].meta.categories;
+	const categoryLevels = $modalStore[0].meta.categoryLevels;
 	const zodForm = zod(ticketSchema($modalStore[0].meta.attachment, ticket.incidentStart));
 	const originalForm = defaults(zodForm);
 
 	let submitting = false;
 	let dirtyForm = false;
+	let severityLevels = [];
 
 	const { form, constraints, enhance, message, errors, delayed } = superForm(originalForm, {
 		SPA: true,
@@ -89,6 +92,10 @@
 		$form.cause = ticket.cause;
 		$form.technicianId = ticket.technicianId;
 	}
+
+	$: {
+		severityLevels = categoryLevels.filter((level) => level.categoryId === $form.categoryId);
+	}
 </script>
 
 {#if $delayed || submitting}
@@ -96,7 +103,7 @@
 {/if}
 
 <div
-	class="max-h-[50rem] w-full max-w-5xl p-8 bg-white border rounded shadow border-neutral-200 dark:bg-neutral-900 dark:border-neutral-700 max-xl:m-20 my-10 overflow-y-auto"
+	class="max-h-[50rem] w-full max-w-3xl p-8 bg-white border rounded shadow border-neutral-200 dark:bg-neutral-900 dark:border-neutral-700 max-xl:m-20 my-10 overflow-y-auto"
 >
 	<div class="flex flex-col gap-2">
 		<h3 class="text-center text-black h3 dark:text-white">
@@ -129,6 +136,52 @@
 							<span class=" text-error-500">{$errors.incidentStart}</span>
 						{/if}
 					</label>
+
+					<div class="grid grid-cols-2 auto-rows-auto gap-2">
+						<div class="flex flex-col gap-1">
+							{#if $errors.categoryId}
+								<span class=" text-error-500">{$errors.categoryId}</span>
+							{/if}
+
+							<select
+								class="bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 text-sm rounded focus:ring-primary-500 p-4 w-full"
+								name="categoryId"
+								bind:value={ticket.categoryId}
+								on:change={() => (dirtyForm = true)}
+								required
+								{...$constraints.categoryId}
+							>
+								<option value={''} disabled selected>select category</option>
+								{#each categories as item}
+									<option value={item.id}>
+										{item.name}
+									</option>
+								{/each}
+							</select>
+						</div>
+
+						<div class="flex flex-col gap-1">
+							{#if $errors.categoryLevelId}
+								<span class=" text-error-500">{$errors.categoryLevelId}</span>
+							{/if}
+
+							<select
+								class="bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 text-sm rounded focus:ring-primary-500 p-4 w-full"
+								name="categoryLevelId"
+								bind:value={ticket.categoryLevelId}
+								on:change={() => (dirtyForm = true)}
+								required
+								{...$constraints.categoryLevelId}
+							>
+								<option value={''} disabled selected>select severity</option>
+								{#each severityLevels as item}
+									<option value={item.id}>
+										{item.name}
+									</option>
+								{/each}
+							</select>
+						</div>
+					</div>
 
 					<div class="flex flex-col">
 						<div class="flex flex-col mb-4">
