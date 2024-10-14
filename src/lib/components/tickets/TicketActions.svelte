@@ -94,7 +94,14 @@
 </script>
 
 <div class="btn-group variant-filled-primary h-10">
-	<button type="button" class="w-1/3" on:click={() => editApplication(ticket)}>Update</button>
+	<button
+		type="button"
+		class="w-1/3"
+		on:click={() => editApplication(ticket)}
+		disabled={role !== 'admin' || ticket.status === 'CLOSED'}
+	>
+		Update
+	</button>
 
 	<button
 		type="button"
