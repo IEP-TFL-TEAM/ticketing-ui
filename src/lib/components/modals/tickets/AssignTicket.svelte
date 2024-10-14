@@ -60,6 +60,13 @@
 			{parent.buttonTextCancel}
 		</button>
 
-		<button class="btn {parent.buttonPositive}" on:click={() => onFormSubmit()}> Assign </button>
+		<button
+			type="button"
+			class="btn {parent.buttonPositive}"
+			on:click={() => onFormSubmit()}
+			disabled={teamIds.length === 0 || equipIds.length === 0}
+		>
+			Assign
+		</button>
 	</footer>
 </div>
