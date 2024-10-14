@@ -79,7 +79,7 @@ export async function load({ params, url, fetch }) {
 		};
 	} catch (error) {
 		console.error(error);
-		return {};
+		return [];
 	}
 }
 

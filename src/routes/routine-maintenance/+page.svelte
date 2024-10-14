@@ -7,6 +7,7 @@
 	import ExportButton from '$lib/components/layout/ExportButton.svelte';
 	import RoutineMaintenanceFilters from '$lib/components/routine-maintenace/RoutineMaintenanceFilters.svelte';
 	import RoutineMaintenanceTable from '$lib/components/routine-maintenace/RoutineMaintenanceTable.svelte';
+	import ErrorPage from '$lib/components/layout/ErrorPage.svelte';
 
 	export let data;
 
@@ -54,29 +55,33 @@
 	}
 </script>
 
-<div class="w-full mt-5 transition-colors rounded-none">
-	<div class="flex justify-between">
-		<h1 class="h1 font-extrabold">Routine Maintenance Forms</h1>
+{#if !routines}
+	<ErrorPage />
+{:else}
+	<div class="w-full mt-5 transition-colors rounded-none">
+		<div class="flex justify-between">
+			<h1 class="h1 font-extrabold">Routine Maintenance Forms</h1>
 
-		<div class="flex items-center gap-2">
-			<ExportButton
-				bind:loading
-				label="Routines"
-				{handleExportData}
-				noRecords={routines.length === 0}
-			/>
+			<div class="flex items-center gap-2">
+				<ExportButton
+					bind:loading
+					label="Routines"
+					{handleExportData}
+					noRecords={routines.length === 0}
+				/>
 
-			<button
-				type="button"
-				class="btn rounded-none variant-filled-primary"
-				on:click={() => triggerDrawer('createRoutine', 'right')}
-			>
-				<IconPlus size={20} />
-				<span> New Routine Maintenance </span>
-			</button>
+				<button
+					type="button"
+					class="btn rounded-none variant-filled-primary"
+					on:click={() => triggerDrawer('createRoutine', 'right')}
+				>
+					<IconPlus size={20} />
+					<span> New Routine Maintenance </span>
+				</button>
+			</div>
 		</div>
 	</div>
-</div>
 
-<RoutineMaintenanceFilters {filters} {pageSettings} requestees={staff} />
-<RoutineMaintenanceTable {routines} />
+	<RoutineMaintenanceFilters {filters} {pageSettings} requestees={staff} />
+	<RoutineMaintenanceTable {routines} />
+{/if}

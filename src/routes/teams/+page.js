@@ -7,5 +7,5 @@ export async function load({ url, fetch }) {
 		return { url, options };
 	};
 
-	return { teams: await getTeams() };
+	return { teams: (await getTeams()) ?? [] };
 }

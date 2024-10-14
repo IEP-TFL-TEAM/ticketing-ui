@@ -7,15 +7,12 @@
 	import ChangeRequestTable from '$lib/components/change-requests/ChangeRequestTable.svelte';
 	import ChangeRequestFilters from '$lib/components/change-requests/ChangeRequestFilters.svelte';
 	import ExportButton from '$lib/components/layout/ExportButton.svelte';
+	import ErrorPage from '$lib/components/layout/ErrorPage.svelte';
 
 	export let data;
 
-	$: filters = data.filters;
 	$: requests = data.requests.items;
-	$: teams = data.teams;
-	$: changeTeams = data.changeTeams;
-	$: sites = data.sites;
-	$: staff = data.staff;
+	$: ({ filters, teams, changeTeams, sites, staff } = data);
 
 	const drawerStore = getDrawerStore();
 	let loading = false;
@@ -54,29 +51,33 @@
 	}
 </script>
 
-<div class="w-full mt-5 transition-colors rounded-none">
-	<div class="flex justify-between">
-		<h1 class="h1 font-extrabold">Change Request Forms</h1>
+{#if !requests}
+	<ErrorPage />
+{:else}
+	<div class="w-full mt-5 transition-colors rounded-none">
+		<div class="flex justify-between">
+			<h1 class="h1 font-extrabold">Change Request Forms</h1>
 
-		<div class="flex items-center gap-2">
-			<ExportButton
-				bind:loading
-				label="Requests"
-				{handleExportData}
-				noRecords={requests.length === 0}
-			/>
+			<div class="flex items-center gap-2">
+				<ExportButton
+					bind:loading
+					label="Requests"
+					{handleExportData}
+					noRecords={requests.length === 0}
+				/>
 
-			<button
-				type="button"
-				class="btn rounded-none variant-filled-primary"
-				on:click={() => triggerDrawer('createRequest', 'right')}
-			>
-				<IconPlus size={20} />
-				<span> New Change Request </span>
-			</button>
+				<button
+					type="button"
+					class="btn rounded-none variant-filled-primary"
+					on:click={() => triggerDrawer('createRequest', 'right')}
+				>
+					<IconPlus size={20} />
+					<span> New Change Request </span>
+				</button>
+			</div>
 		</div>
 	</div>
-</div>
 
-<ChangeRequestFilters {filters} {pageSettings} requestees={staff} />
-<ChangeRequestTable {requests} />
+	<ChangeRequestFilters {filters} {pageSettings} requestees={staff} />
+	<ChangeRequestTable {requests} />
+{/if}

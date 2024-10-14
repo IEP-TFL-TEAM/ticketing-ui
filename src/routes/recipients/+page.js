@@ -21,6 +21,6 @@ export async function load({ url, fetch }) {
 		};
 	} catch (error) {
 		console.error(error);
-		return {};
+		return [];
 	}
 }

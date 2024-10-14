@@ -108,6 +108,7 @@
 			type="button"
 			class="btn rounded-none variant-filled-primary"
 			on:click={() => triggerDrawer('addRecipient', 'right')}
+			disabled={categories.length === 0}
 		>
 			<IconPlus size={20} />
 			<span> New Recipient </span>
