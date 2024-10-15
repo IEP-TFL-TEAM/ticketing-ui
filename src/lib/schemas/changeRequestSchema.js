@@ -13,10 +13,6 @@ const AcceptedAttachmentTypes = [
 export const changeRequestSchema = (attachment, date, startDate, endDate) =>
 	z
 		.object({
-			requestee: z.string(),
-
-			date: z.date({ message: 'Invalid date string!' }).max(new Date()).default(date),
-
 			title: z.string().min(1, {
 				message: 'This field is required'
 			}),
@@ -24,10 +20,6 @@ export const changeRequestSchema = (attachment, date, startDate, endDate) =>
 			objective: z.string().min(1, {
 				message: 'This field is required'
 			}),
-
-			startDate: z.date({ message: 'Invalid date string!' }).default(startDate),
-
-			endDate: z.date({ message: 'Invalid date string!' }).default(endDate),
 
 			serviceImpact: z.string().refine((value) => ['Yes', 'No'].includes(value), {
 				message: 'Must be of one of the types'
@@ -43,33 +35,57 @@ export const changeRequestSchema = (attachment, date, startDate, endDate) =>
 
 			teamIds: z.array(z.string()),
 
-			changeTeamId: z.string(),
+			requestee: z.string().nullable(),
 
-			summary: z.string().min(1, {
-				message: 'This field is required'
-			}),
+			date: z.date({ message: 'Invalid date string!' }).max(new Date()).default(date),
 
-			scopeOfWork: z.string().min(1, {
-				message: 'This field is required'
-			}),
+			startDate: z.date({ message: 'Invalid date string!' }).default(startDate),
 
-			risksAndMitigations: z.string().min(1, {
-				message: 'This field is required'
-			}),
+			endDate: z.date({ message: 'Invalid date string!' }).default(endDate),
 
-			rollbackProcedures: z.string().min(1, {
-				message: 'This field is required'
-			}),
+			changeTeamId: z.string().nullable(),
 
-			listOfServices: z.string().min(1, {
-				message: 'This field is required'
-			}),
+			summary: z
+				.string()
+				.min(1, {
+					message: 'This field is required'
+				})
+				.nullable(),
+
+			scopeOfWork: z
+				.string()
+				.min(1, {
+					message: 'This field is required'
+				})
+				.nullable(),
+
+			risksAndMitigations: z
+				.string()
+				.min(1, {
+					message: 'This field is required'
+				})
+				.nullable(),
+
+			rollbackProcedures: z
+				.string()
+				.min(1, {
+					message: 'This field is required'
+				})
+				.nullable(),
+
+			listOfServices: z
+				.string()
+				.min(1, {
+					message: 'This field is required'
+				})
+				.nullable(),
 
 			awarenessToBeMade: z
 				.string()
 				.refine((value) => ['No', 'Internal', 'External', 'Media'].includes(value), {
 					message: 'Must be of one of the types'
-				}),
+				})
+				.nullable(),
 
 			attachment: z
 				.instanceof(File)

@@ -1,5 +1,4 @@
 <script>
-	import { goto } from '$app/navigation';
 	import { IconArrowRight } from '@tabler/icons-svelte';
 
 	export let requests;
@@ -18,7 +17,6 @@
 			<thead class="uppercase bg-gray-100 dark:bg-neutral-700">
 				<tr>
 					<th scope="col" class={tableHeaderStyles}> Ticket # </th>
-					<th scope="col" class={tableHeaderStyles}> Requestee </th>
 					<th scope="col" class={tableHeaderStyles}> Title </th>
 					<th scope="col" class={tableHeaderStyles}> Objective </th>
 					<th scope="col" class={tableHeaderStyles}> Service Impact </th>
@@ -34,20 +32,6 @@
 							class="transition-colors bg-white border-b rounded dark:bg-neutral-800 dark:border-neutral-700 hover:bg-gray-50 dark:hover:bg-neutral-900"
 						>
 							<td class={tdStyles}> {request.ticketNumber} </td>
-
-							<th scope="row" class="flex items-center px-6 py-4 text-gray-900 dark:text-white">
-								<div class="ps-3">
-									<div
-										class="flex items-center text-base font-semibold text-primary-600 dark:text-tertiary-500"
-									>
-										{`${request.expand?.requestee?.name}`}
-									</div>
-
-									<div class="font-normal text-gray-500 dark:text-gray-300">
-										{request.expand?.requestee?.email}
-									</div>
-								</div>
-							</th>
 
 							<td class={tdStyles}> {request.title} </td>
 

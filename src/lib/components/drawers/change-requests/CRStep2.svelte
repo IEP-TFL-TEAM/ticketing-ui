@@ -105,14 +105,14 @@
 						/>
 					</div>
 
-					{#if $errors.title}
-						<span class=" text-error-500">{$errors.title}</span>
+					{#if $errors.date}
+						<span class=" text-error-500">{$errors.date}</span>
 					{/if}
 				</label>
 
 				<label class="label">
 					<p class="my-2 text-base font-semibold">
-						Enter Title
+						Enter Title of the Change Request
 						<span class="text-red-500">*</span>
 					</p>
 					<div class="flex flex-row">
@@ -133,7 +133,7 @@
 
 				<label class="label">
 					<p class="my-2 text-base font-semibold">
-						Enter Objective
+						Enter Objective of the Change Request
 						<span class="text-red-500">*</span>
 					</p>
 					<div class="flex flex-row">
@@ -266,10 +266,7 @@
 				</label>
 
 				<label class="label">
-					<p class="my-2 text-base font-semibold">
-						Enter Brief Summary of CR
-						<span class="text-red-500">*</span>
-					</p>
+					<p class="my-2 text-base font-semibold">Enter Brief Summary of CR</p>
 
 					<p class="mb-4 text-sm font-semibold text-primary-500 dark:text-tertiary-500">
 						(Background of the CR – Why you are performing this CR? Need for the CR?)
@@ -283,7 +280,6 @@
 							placeholder="Type here ..."
 							type="text"
 							rows="2"
-							required
 							{...$constraints.summary}
 						/>
 					</div>
@@ -294,10 +290,7 @@
 				</label>
 
 				<label class="label">
-					<p class="my-2 text-base font-semibold">
-						Enter CR Method of Procedure – Scope of Work
-						<span class="text-red-500">*</span>
-					</p>
+					<p class="my-2 text-base font-semibold">Enter CR Method of Procedure – Scope of Work</p>
 
 					<p class="mb-4 text-sm font-semibold text-primary-500 dark:text-tertiary-500">
 						(High level scope of the work to be carried out)
@@ -311,7 +304,6 @@
 							placeholder="Type here ..."
 							type="text"
 							rows="2"
-							required
 							{...$constraints.scopeOfWork}
 						/>
 					</div>
@@ -322,10 +314,7 @@
 				</label>
 
 				<label class="label">
-					<p class="my-2 text-base font-semibold">
-						Enter CR Risks & Mitigation
-						<span class="text-red-500">*</span>
-					</p>
+					<p class="my-2 text-base font-semibold">Enter CR Risks & Mitigation</p>
 
 					<p class="mb-4 text-sm font-semibold text-primary-500 dark:text-tertiary-500">
 						(Risks associated with performing work). (What is at Risk? Who is at Risk? How are they
@@ -340,7 +329,6 @@
 							placeholder="Type here ..."
 							type="text"
 							rows="2"
-							required
 							{...$constraints.risksAndMitigations}
 						/>
 					</div>
@@ -351,10 +339,7 @@
 				</label>
 
 				<label class="label">
-					<p class="my-2 text-base font-semibold">
-						Enter Roll Back Procedure
-						<span class="text-red-500">*</span>
-					</p>
+					<p class="my-2 text-base font-semibold">Enter Roll Back Procedure</p>
 					<div class="flex flex-row">
 						<textarea
 							class="textarea p-2"
@@ -363,7 +348,6 @@
 							placeholder="Type here ..."
 							type="text"
 							rows="2"
-							required
 							{...$constraints.rollbackProcedures}
 						/>
 					</div>
@@ -374,10 +358,7 @@
 				</label>
 
 				<label class="label">
-					<p class="my-2 text-base font-semibold">
-						Enter List of Services / Circuits
-						<span class="text-red-500">*</span>
-					</p>
+					<p class="my-2 text-base font-semibold">Enter List of Services / Circuits</p>
 
 					<p class="mb-4 text-sm font-semibold text-primary-500 dark:text-tertiary-500">
 						(All services and circuits surrounding the CR. Affected or not affected).
@@ -391,7 +372,6 @@
 							placeholder="Type here ..."
 							type="text"
 							rows="2"
-							required
 							{...$constraints.listOfServices}
 						/>
 					</div>
@@ -402,16 +382,12 @@
 				</label>
 
 				<label class="label">
-					<p class="my-2 text-base font-semibold">
-						Enter Awareness To Be Made
-						<span class="text-red-500">*</span>
-					</p>
+					<p class="my-2 text-base font-semibold">Enter Awareness To Be Made</p>
 					<div class="flex flex-row">
 						<select
 							class="select rounded-none w-full"
 							name="awarenessToBeMade"
 							bind:value={$form.awarenessToBeMade}
-							required
 							{...$constraints.awarenessToBeMade}
 						>
 							<option value={''} disabled selected>

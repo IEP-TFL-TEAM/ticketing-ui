@@ -78,7 +78,6 @@
 	$: endDateVal = dateProxy(form, 'endDate', { format: 'datetime-local', empty: 'null' });
 
 	$: {
-		$form.requestee = request.requestee;
 		$form.title = request.title;
 		$form.objective = request.objective;
 		$form.serviceImpact = request.serviceImpact;
@@ -86,13 +85,6 @@
 		$form.siteId = request.siteId;
 		$form.involvedSystem = request.involvedSystem;
 		$form.teamIds = request.teamIds;
-		$form.changeTeamId = request.changeTeamId;
-		$form.summary = request.summary;
-		$form.scopeOfWork = request.scopeOfWork;
-		$form.risksAndMitigations = request.risksAndMitigations;
-		$form.rollbackProcedures = request.rollbackProcedures;
-		$form.listOfServices = request.listOfServices;
-		$form.awarenessToBeMade = request.awarenessToBeMade;
 	}
 </script>
 

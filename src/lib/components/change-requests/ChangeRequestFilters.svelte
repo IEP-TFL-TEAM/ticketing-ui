@@ -4,7 +4,7 @@
 	import { goto } from '$app/navigation';
 	import { IconCaretDown, IconCaretUp } from '@tabler/icons-svelte';
 
-	export let filters, pageSettings, requestees;
+	export let filters, pageSettings;
 
 	let searchText = filters.title || filters.objective || filters.ticketNumber;
 	let searchImpact = filters.serviceImpact;
@@ -111,24 +111,6 @@
 							{item}
 						</button>
 					{/each}
-				</div>
-			</div>
-
-			<div class="flex items-start gap-4">
-				<h3 class="w-1/5">Requestee:</h3>
-				<div class={chipDiv + ' relative'}>
-					<select
-						class="select border-none mr-8 cursor-pointer"
-						bind:value={searchRequestee}
-						on:change={() => handle()}
-					>
-						<option value={null} disabled selected>Requestee List</option>
-						{#each requestees as item}
-							<option value={item.id}>
-								{item.name}
-							</option>
-						{/each}
-					</select>
 				</div>
 			</div>
 		</div>

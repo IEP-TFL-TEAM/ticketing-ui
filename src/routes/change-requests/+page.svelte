@@ -78,6 +78,6 @@
 		</div>
 	</div>
 
-	<ChangeRequestFilters {filters} {pageSettings} requestees={staff} />
+	<ChangeRequestFilters {filters} {pageSettings} />
 	<ChangeRequestTable {requests} />
 {/if}

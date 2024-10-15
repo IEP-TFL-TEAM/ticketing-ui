@@ -160,32 +160,50 @@
 
 					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
 						<span> Brief Summary of CR: </span>
-						<span class={spanStyles}>{extractMessage(request.summary)}</span>
+						<span class={spanStyles}>
+							{request.summary.length > 0 ? extractMessage(request.summary) : 'N/A'}
+						</span>
 					</div>
 
 					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
 						<span> CR Method of Procedure – Scope of Work: </span>
-						<span class={spanStyles}>{extractMessage(request.scopeOfWork)}</span>
+						<span class={spanStyles}>
+							{request.scopeOfWork.length > 0 ? extractMessage(request.scopeOfWork) : 'N/A'}
+						</span>
 					</div>
 
 					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
 						<span> CR Risks & Mitigation: </span>
-						<span class={spanStyles}>{extractMessage(request.risksAndMitigations)}</span>
+						<span class={spanStyles}>
+							{request.risksAndMitigations.length > 0
+								? extractMessage(request.risksAndMitigations)
+								: 'N/A'}
+						</span>
 					</div>
 
 					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
 						<span> Roll Back Procedures: </span>
-						<span class={spanStyles}>{extractMessage(request.rollbackProcedures)}</span>
+						<span class={spanStyles}>
+							{request.rollbackProcedures.length > 0
+								? extractMessage(request.rollbackProcedures)
+								: 'N/A'}
+						</span>
 					</div>
 
 					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
 						<span> List Of Services: </span>
-						<span class={spanStyles}>{extractMessage(request.listOfServices)}</span>
+						<span class={spanStyles}>
+							{request.listOfServices.length > 0 ? extractMessage(request.listOfServices) : 'N/A'}
+						</span>
 					</div>
 
 					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
 						<span> Awareness To Be Made: </span>
-						<span class={spanStyles}>{request.awarenessToBeMade}</span>
+						<span class={spanStyles}>
+							{request.awarenessToBeMade.length > 0
+								? extractMessage(request.awarenessToBeMade)
+								: 'N/A'}
+						</span>
 					</div>
 				</div>
 			</div>
@@ -198,7 +216,7 @@
 				<div class="flex flex-col pt-4 gap-y-2">
 					<div class="grid grid-cols-1 xl:grid-cols-2 auto-rows-auto">
 						<span> Date: </span>
-						<span class={spanStyles}>{parseDateAndTime(request.date)}</span>
+						<span class={spanStyles}>{parseDateAndTime(request.date) ?? 'N/A'}</span>
 					</div>
 
 					<div class="grid grid-cols-1 xl:grid-cols-2 auto-rows-auto">
