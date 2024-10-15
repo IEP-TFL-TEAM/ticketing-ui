@@ -126,7 +126,7 @@
 
 				<label class="label">
 					<p class="my-2 text-base font-semibold">
-						Enter Title
+						Enter Title for the Incident
 						<span class="text-red-500">*</span>
 					</p>
 					<div class="flex flex-row">
@@ -147,7 +147,7 @@
 
 				<label class="label">
 					<p class="my-2 text-base font-semibold">
-						Enter Description
+						Enter Description for the Incident
 						<span class="text-red-500">*</span>
 					</p>
 					<div class="flex flex-row">
