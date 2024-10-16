@@ -10,9 +10,9 @@
 </script>
 
 <div
-	class="sticky top-0 h-screen max-w-[17rem] bg-white dark:bg-transparent flex flex-col justify-between py-10 w-full px-5 overflow-y-auto border-r border-neutral-400/30"
+	class="sticky top-0 h-screen max-w-[17rem] bg-primary-800 text-white flex flex-col justify-between py-10 w-full px-5 overflow-y-auto"
 >
-	<div class="flex flex-col items-center justify-center p-4 gap-4">
+	<div class="flex flex-col items-center justify-center px-2 mt-5 gap-4">
 		<a href="/">
 			<img src={TransparentLogo} alt="logo" class="w-full" />
 		</a>
@@ -27,40 +27,30 @@
 		{#each sidebarItems as { label, icon, ref }}
 			<a
 				href={ref}
-				class="flex items-center w-full mb-2 space-x-5 py-2.5 px-2 rounded transition duration-200 group {$page
-					.url.pathname === ref
-					? 'text-black dark:text-white font-bold'
-					: 'dark:text-neutral-400'}"
+				class={`flex w-full mb-2 space-x-5 py-2.5 px-2 rounded transition duration-200 hover:bg-primary-700 group ${
+					$page.url.pathname === ref ? 'bg-primary-700 shadow-2xl text-white' : ''
+				}`}
 				aria-current={$page.url.pathname === ref}
 			>
-				<div
-					class="flex items-center h-6 {$page.url.pathname === ref
-						? 'bg-primary-500 text-white'
-						: ''}"
-				>
+				<div class="flex items-center h-6">
 					<svelte:component this={icon} name={icon} />
 				</div>
-
-				<p class="tracking-wide whitespace-nowrap">{label}</p>
+				<p class="pl-2 tracking-wide whitespace-nowrap">{label}</p>
 			</a>
 		{/each}
 
 		<button
 			type="button"
-			class="flex w-full mb-2 space-x-5 py-2.5 px-2 rounded transition duration-200"
+			class="flex w-full mb-2 space-x-5 py-2.5 px-2 rounded transition duration-200 hover:bg-primary-700 group"
 			on:click={() => signOut()}
 		>
 			<div class="flex items-center h-6">
 				<IconArrowBarRight class="w-[1.5rem] h-[1.5rem]" />
 			</div>
-
-			<p class="tracking-wide whitespace-nowrap">Sign out</p>
+			<p class="pl-2 tracking-wide whitespace-nowrap">Sign out</p>
 		</button>
 	</nav>
-
-	<div class="flex justify-between items-center w-full px-2">
-		<span class="font-medium"> Theme Toggle </span>
-
+	<div class="flex justify-center w-full">
 		<ThemeSwitch />
 	</div>
 </div>
