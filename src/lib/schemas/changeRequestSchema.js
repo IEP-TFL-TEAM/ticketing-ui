@@ -45,48 +45,6 @@ export const changeRequestSchema = (attachment, date, startDate, endDate) =>
 
 			changeTeamId: z.string().nullable(),
 
-			summary: z
-				.string()
-				.min(1, {
-					message: 'This field is required'
-				})
-				.nullable(),
-
-			scopeOfWork: z
-				.string()
-				.min(1, {
-					message: 'This field is required'
-				})
-				.nullable(),
-
-			risksAndMitigations: z
-				.string()
-				.min(1, {
-					message: 'This field is required'
-				})
-				.nullable(),
-
-			rollbackProcedures: z
-				.string()
-				.min(1, {
-					message: 'This field is required'
-				})
-				.nullable(),
-
-			listOfServices: z
-				.string()
-				.min(1, {
-					message: 'This field is required'
-				})
-				.nullable(),
-
-			awarenessToBeMade: z
-				.string()
-				.refine((value) => ['No', 'Internal', 'External', 'Media'].includes(value), {
-					message: 'Must be of one of the types'
-				})
-				.nullable(),
-
 			attachment: z
 				.instanceof(File)
 				.refine((file) => file.size < MaxAttachmentSize, {
