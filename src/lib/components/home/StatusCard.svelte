@@ -10,11 +10,6 @@
 			colorClass: 'text-primary-500'
 		},
 		{
-			label: 'Open',
-			count: countByStatus(tickets, 'OPEN'),
-			colorClass: 'text-success-500'
-		},
-		{
 			label: 'Pending',
 			count: countByStatus(tickets, 'PENDING'),
 			colorClass: 'text-secondary-500'
@@ -38,7 +33,7 @@
 		Incident Status
 	</h2>
 
-	<div class="grid w-full grid-cols-1 gap-4 text-center rounded-md shadow-md xl:grid-cols-4">
+	<div class="grid w-full grid-cols-1 gap-4 text-center rounded-md shadow-md xl:grid-cols-3">
 		{#each statusItems as { label, count, colorClass }}
 			<div class="p-6 bg-white rounded-md dark:bg-neutral-700/30">
 				<h3 class="mb-2 text-lg font-semibold uppercase">{label}</h3>
