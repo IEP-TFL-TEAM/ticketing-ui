@@ -13,16 +13,12 @@ const createTicket = async (data) => {
 };
 
 const updateTicket = async (ticket) => {
-	pb.autoCancellation(false);
-	const record = await pb.collection('tickets').update(ticket.id, ticket);
-	pb.autoCancellation(false);
+	const record = await pb.collection('tickets').update(ticket.id, ticket, { expand });
 	return record;
 };
 
 const updateTicketById = async (id, ticket) => {
-	pb.autoCancellation(false);
-	const record = await pb.collection('tickets').update(id, ticket);
-	pb.autoCancellation(false);
+	const record = await pb.collection('tickets').update(id, ticket, { expand });
 	return record;
 };
 
