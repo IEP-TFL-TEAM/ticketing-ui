@@ -5,7 +5,8 @@
 	import { lazyLoad } from '$lib/actions/lazyLoad.js';
 	import { parseDateAndTime } from '$lib/utils/parsers/parseDateAndTime';
 	import { IconArrowNarrowLeft, IconDownload, IconMaximize, IconEdit } from '@tabler/icons-svelte';
-	import { expand } from '$lib/api/changeRequests';
+	import { expand, updateRequest } from '$lib/api/changeRequests';
+	import { currentUser } from '$lib/stores/auth';
 
 	export let data;
 
@@ -45,8 +46,34 @@
 		});
 	}
 
-	function extractMessage(message) {
-		return message.replace(/<[^>]+>/g, '').trim();
+	function closeRequest(request) {
+		modalStore.trigger({
+			type: 'component',
+			component: 'closeRequest',
+			backdropClasses: '!bg-black/50',
+			meta: { request, attachment }
+		});
+	}
+
+	async function reopenRequest() {
+		modalStore.trigger({
+			type: 'confirm',
+			title: 'Are you sure you wish to re-open this request?',
+			body: 'Are you sure you wish to proceed?',
+			modalClasses: '!bg-white dark:!bg-neutral-800 !rounded-none',
+			response: async (r) => {
+				if (r) {
+					request = await updateRequest(request.id, {
+						isClosed: false,
+						submissionWithinFiveDays: null,
+						durationAdhered: null,
+						serviceImpactCorrect: null,
+						correctCustomerList: null,
+						taskCompletion: null
+					});
+				}
+			}
+		});
 	}
 
 	let unSubscribe;
@@ -87,16 +114,38 @@
 			<IconArrowNarrowLeft size={40} />
 		</a>
 
-		<button
-			type="button"
-			on:click={() => editApplication(request)}
-			class=" border border-black/30 dark:border-white/30 flex py-2.5 px-8 gap-x-1 items-center justify-center rounded uppercase font-semibold bg-white dark:bg-neutral-900"
-		>
-			<span>
-				<IconEdit />
-			</span>
-			<span>Edit Request</span>
-		</button>
+		<div class="flex items-center gap-2">
+			{#if !request.isClosed}
+				<button
+					type="button"
+					on:click={() => editApplication(request)}
+					class=" border border-black/30 dark:border-white/30 flex py-2.5 px-8 gap-x-1 items-center justify-center rounded uppercase font-semibold bg-white dark:bg-neutral-900"
+				>
+					<span>
+						<IconEdit />
+					</span>
+					<span>Edit Request</span>
+				</button>
+			{/if}
+
+			{#if !request.isClosed}
+				<button
+					type="button"
+					on:click={() => closeRequest(request)}
+					class="btn variant-ghost-error text-white-900 rounded uppercase font-semibold py-2.5 px-8"
+				>
+					Close Request
+				</button>
+			{:else if $currentUser.role === 'admin'}
+				<button
+					type="button"
+					on:click={() => reopenRequest()}
+					class="btn variant-ghost-success text-white-900 rounded uppercase font-semibold py-2.5 px-8"
+				>
+					Re-Open Request
+				</button>
+			{/if}
+		</div>
 	</div>
 
 	<div class="grid grid-cols-1 gap-1 pl-4 mt-4 lg:grid-cols-4 auto-rows-auto">
@@ -105,6 +154,16 @@
 				<h4 class="mb-2 h4">Change Request Information</h4>
 
 				<div class="flex flex-col gap-2 pt-4">
+					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
+						<span> Status: </span>
+
+						<span
+							class="{request.isClosed ? 'text-error-500' : 'text-success-500'} font-bold uppercase"
+						>
+							{request.isClosed ? 'Closed' : 'Open'}
+						</span>
+					</div>
+
 					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
 						<span> Ticket #: </span>
 						<span class={spanStyles}>{request.ticketNumber}</span>
@@ -123,11 +182,6 @@
 					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
 						<span> Service Impact: </span>
 						<span class={spanStyles}>{request.serviceImpact}</span>
-					</div>
-
-					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
-						<span> Duration: </span>
-						<span class={spanStyles}>{request.duration} minutes</span>
 					</div>
 
 					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
@@ -157,6 +211,64 @@
 						<span> Change Team: </span>
 						<span class={spanStyles}>{request.expand?.changeTeamId?.name ?? 'N/A'}</span>
 					</div>
+
+					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
+						<span> Brief Summary of CR: </span>
+						<span class={spanStyles}>
+							{request.summary}
+						</span>
+					</div>
+
+					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
+						<span> List Of Services: </span>
+						<span class={spanStyles}>
+							{request.listOfServices}
+						</span>
+					</div>
+
+					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
+						<span> Awareness To Be Made: </span>
+						<span class={spanStyles}>
+							{request.awarenessToBeMade}
+						</span>
+					</div>
+
+					{#if request.isClosed}
+						<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
+							<span> CR Submission within 5 Days: </span>
+							<span class={spanStyles}>
+								{request.submissionWithinFiveDays}
+							</span>
+						</div>
+
+						<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
+							<span> Duration of the CR is adhered to: </span>
+							<span class={spanStyles}>
+								{request.durationAdhered}
+							</span>
+						</div>
+
+						<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
+							<span> Service Impact is Correct: </span>
+							<span class={spanStyles}>
+								{request.serviceImpactCorrect}
+							</span>
+						</div>
+
+						<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
+							<span> Correct list of Customers Submitted: </span>
+							<span class={spanStyles}>
+								{request.correctCustomerList}
+							</span>
+						</div>
+
+						<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
+							<span> Completion of Task: </span>
+							<span class={spanStyles}>
+								{request.taskCompletion}
+							</span>
+						</div>
+					{/if}
 				</div>
 			</div>
 		</div>
@@ -166,11 +278,6 @@
 				<h4 class="mb-2 h4">Date Information</h4>
 
 				<div class="flex flex-col pt-4 gap-y-2">
-					<div class="grid grid-cols-1 xl:grid-cols-2 auto-rows-auto">
-						<span> Date: </span>
-						<span class={spanStyles}>{parseDateAndTime(request.date) ?? 'N/A'}</span>
-					</div>
-
 					<div class="grid grid-cols-1 xl:grid-cols-2 auto-rows-auto">
 						<span> Start Date: </span>
 						<span class={spanStyles}>{parseDateAndTime(request.startDate)}</span>

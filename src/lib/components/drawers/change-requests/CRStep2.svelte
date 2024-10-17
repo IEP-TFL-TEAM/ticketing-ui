@@ -5,8 +5,11 @@
 	import { changeRequestSchema } from '$lib/schemas/changeRequestSchema';
 	import { createRequest } from '$lib/api/changeRequests';
 	import SpinnerOverlay from '$lib/components/layout/SpinnerOverlay.svelte';
+	import { awarenessStatuses } from '$lib/utils';
 
-	export const onCompleteHandler = () => submit();
+	export function onCompleteHandler() {
+		submit();
+	}
 
 	export let staffId, teamIds, cteamId, siteId;
 
@@ -75,7 +78,6 @@
 		$form.siteId = siteId;
 	}
 
-	$: dateVal = dateProxy(form, 'date', { format: 'date', empty: 'null' });
 	$: startDateVal = dateProxy(form, 'startDate', { format: 'datetime-local', empty: 'null' });
 	$: endDateVal = dateProxy(form, 'endDate', { format: 'datetime-local', empty: 'null' });
 </script>
@@ -86,30 +88,10 @@
 
 <div class="h-full flex flex-col justify-between gap-y-4 w-full">
 	<div class="flex flex-col">
+		<!-- <SuperDebug data={$form} /> -->
+
 		<form method="POST" enctype="multipart/form-data" use:enhance>
 			<div class="flex flex-col justify-between gap-4">
-				<label class="label">
-					<p class="my-2 text-base font-semibold">
-						Enter Date
-						<span class="text-red-500">*</span>
-					</p>
-					<div class="flex flex-row">
-						<input
-							type="date"
-							name="date"
-							bind:value={$dateVal}
-							required
-							class="input p-4 border"
-							{...$constraints.date}
-							max={$constraints.date?.max?.toString().slice(0, 10)}
-						/>
-					</div>
-
-					{#if $errors.date}
-						<span class=" text-error-500">{$errors.date}</span>
-					{/if}
-				</label>
-
 				<label class="label">
 					<p class="my-2 text-base font-semibold">
 						Enter Title of the Change Request
@@ -225,27 +207,6 @@
 
 				<label class="label">
 					<p class="my-2 text-base font-semibold">
-						Enter Impact Duration (minutes)
-						<span class="text-red-500">*</span>
-					</p>
-					<div class="flex flex-row">
-						<input
-							class="input p-4 border"
-							type="number"
-							name="duration"
-							bind:value={$form.duration}
-							placeholder="Please enter duration"
-							{...$constraints.duration}
-						/>
-					</div>
-
-					{#if $errors.duration}
-						<span class=" text-error-500">{$errors.duration}</span>
-					{/if}
-				</label>
-
-				<label class="label">
-					<p class="my-2 text-base font-semibold">
 						Enter System Involved
 						<span class="text-red-500">*</span>
 					</p>
@@ -263,6 +224,91 @@
 					{#if $errors.involvedSystem}
 						<span class=" text-error-500">{$errors.involvedSystem}</span>
 					{/if}
+				</label>
+
+				<label class="label">
+					<p class="my-2 text-base font-semibold">
+						Brief Summary of CR
+						<span class="text-red-500">*</span>
+					</p>
+
+					<p class="mb-4 text-sm font-semibold text-primary-500 dark:text-tertiary-500">
+						(Background of the CR – Why you are performing this CR? Need for the CR?)
+					</p>
+
+					<div class="flex flex-row">
+						<textarea
+							class="textarea p-2"
+							name="summary"
+							bind:value={$form.summary}
+							placeholder="Type here ..."
+							type="text"
+							rows="2"
+							required
+							{...$constraints.summary}
+						/>
+					</div>
+
+					{#if $errors.summary}
+						<span class=" text-error-500">{$errors.summary}</span>
+					{/if}
+				</label>
+
+				<label class="label">
+					<p class="my-2 text-base font-semibold">
+						List of Services / Circuits
+						<span class="text-red-500">*</span>
+					</p>
+
+					<p class="mb-4 text-sm font-semibold text-primary-500 dark:text-tertiary-500">
+						(All services and circuits surrounding the CR. Affected or not affected).
+					</p>
+
+					<div class="flex flex-row">
+						<textarea
+							class="textarea p-2"
+							name="listOfServices"
+							bind:value={$form.listOfServices}
+							placeholder="Type here ..."
+							type="text"
+							rows="2"
+							required
+							{...$constraints.listOfServices}
+						/>
+					</div>
+
+					{#if $errors.listOfServices}
+						<span class=" text-error-500">{$errors.listOfServices}</span>
+					{/if}
+				</label>
+
+				<label class="label">
+					<p class="my-2 text-base font-semibold">
+						Enter Awareness To Be Made
+						<span class="text-red-500">*</span>
+					</p>
+					<div class="flex flex-row">
+						<select
+							class="select rounded-none w-full"
+							name="awarenessToBeMade"
+							bind:value={$form.awarenessToBeMade}
+							required
+							{...$constraints.awarenessToBeMade}
+						>
+							<option value={''} disabled selected>
+								<span class="!text-gray-500">Select Option</span>
+							</option>
+							{#each awarenessStatuses as item}
+								<option value={item}>
+									{item}
+								</option>
+							{/each}
+						</select>
+
+						{#if $errors.awarenessToBeMade}
+							<span class=" text-error-500">{$errors.awarenessToBeMade}</span>
+						{/if}
+					</div>
 				</label>
 
 				<div class="flex flex-col">

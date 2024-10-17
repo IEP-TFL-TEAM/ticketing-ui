@@ -15,5 +15,5 @@
 	{:else}
 		<IconFileSpreadsheet />
 	{/if}
-	<span class="hidden md:inline-block"> Export {label}</span>
+	<span class="hidden md:inline-block"> {loading ? 'Exporting ...' : `Export ${label}`}</span>
 </button>

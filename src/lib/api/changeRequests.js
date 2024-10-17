@@ -4,14 +4,15 @@ import { parseFilters } from '../utils/parsers';
 export const expand = 'requestee, siteId, teamIds, changeTeamId';
 
 const createRequest = async (data) => {
-	const record = await pb.collection('changerequests').create(data);
+	const record = await pb.collection('changerequests').create({
+		...data,
+		isClosed: false
+	});
 	return record;
 };
 
 const updateRequest = async (id, request) => {
-	pb.autoCancellation(false);
-	const record = await pb.collection('changerequests').update(id, request);
-	pb.autoCancellation(false);
+	const record = await pb.collection('changerequests').update(id, request, { expand });
 	return record;
 };
 

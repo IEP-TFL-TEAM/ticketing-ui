@@ -20,6 +20,8 @@
 					<th scope="col" class={tableHeaderStyles}> Title </th>
 					<th scope="col" class={tableHeaderStyles}> Objective </th>
 					<th scope="col" class={tableHeaderStyles}> Service Impact </th>
+					<th scope="col" class={tableHeaderStyles}> Awareness </th>
+					<th scope="col" class={tableHeaderStyles}> Status </th>
 					<th scope="col"></th>
 				</tr>
 			</thead>
@@ -43,6 +45,16 @@
 									: 'text-error-500'}"
 							>
 								{request.serviceImpact}
+							</td>
+
+							<td class={tdStyles}> {request.awarenessToBeMade} </td>
+
+							<td
+								class="{tdStyles} uppercase font-semibold {request.isClosed
+									? 'text-error-500'
+									: 'text-success-500'}"
+							>
+								{request.isClosed ? 'Closed' : 'Open'}
 							</td>
 
 							<td class={tdStyles}>

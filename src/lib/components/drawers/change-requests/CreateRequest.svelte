@@ -15,9 +15,6 @@
 
 <div class="w-full p-5">
 	<Stepper on:complete={onCompleteHandler}>
-		<p class="mb-4 font-semibold italic border border-dashed border-b-black">
-			<span class="text-xl text-red-500">*</span> indicates required fields
-		</p>
 		<Step locked={!(siteId && teamIds.length > 0)}>
 			<svelte:fragment slot="header">Select Requestee</svelte:fragment>
 			<CRStep1

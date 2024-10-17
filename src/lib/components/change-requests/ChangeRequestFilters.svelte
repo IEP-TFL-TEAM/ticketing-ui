@@ -3,11 +3,13 @@
 	import { parseQueryParams } from '$lib/utils/parsers';
 	import { goto } from '$app/navigation';
 	import { IconCaretDown, IconCaretUp } from '@tabler/icons-svelte';
+	import { awarenessStatuses } from '$lib/utils';
 
 	export let filters, pageSettings;
 
 	let searchText = filters.title || filters.objective || filters.ticketNumber;
 	let searchImpact = filters.serviceImpact;
+	let searchAwareness = filters.awarenessToBeMade;
 	let searchRequestee = filters.requestee;
 	let showFilters = false;
 
@@ -17,6 +19,7 @@
 			title: searchText,
 			objective: searchText,
 			serviceImpact: searchImpact,
+			awarenessToBeMade: searchAwareness,
 			requestee: searchRequestee,
 			ticketNumber: searchText,
 			page: 1
@@ -29,6 +32,7 @@
 		searchText = null;
 		searchImpact = null;
 		searchRequestee = null;
+		searchAwareness = null;
 		goto(`/change-requests`);
 	}
 
@@ -47,7 +51,7 @@
 	}
 
 	const chipStyles =
-		'btn variant-outline-primary dark:variant-outline-tertiary whitespace-nowrap rounded hover:variant-soft-primary dark:hover:variant-soft-tertiary';
+		'btn variant-outline-primary dark:variant-outline-tertiary whitespace-nowrap rounded-md hover:variant-soft-primary dark:hover:variant-soft-tertiary';
 	const chipDiv = ' flex items-center gap-4 flex-wrap w-full';
 	const active = 'variant-filled-primary dark:variant-filled-tertiary';
 </script>
@@ -96,7 +100,7 @@
 		class="relative p-8 my-8 bg-white border rounded border-gray-20 dark:border-white/30 dark:bg-neutral-900"
 	>
 		<div class="flex flex-col w-full gap-3 font-medium transition-transform whitespace-nowrap">
-			<div class="flex items-start gap-4">
+			<div class="flex items-center gap-4">
 				<h3 class="w-1/5">Service Impact:</h3>
 				<div class={chipDiv + ' relative'}>
 					{#each ['Yes', 'No'] as item}
@@ -105,6 +109,24 @@
 							class="{chipStyles} capitalize {searchImpact === item ? ` ${active}` : ''}"
 							on:click={() => {
 								searchImpact = item;
+								handle();
+							}}
+						>
+							{item}
+						</button>
+					{/each}
+				</div>
+			</div>
+
+			<div class="flex items-center gap-4">
+				<h3 class="w-1/5">Awareness To Be Made:</h3>
+				<div class={chipDiv + ' relative'}>
+					{#each awarenessStatuses as item}
+						<button
+							type="button"
+							class="{chipStyles} capitalize {searchAwareness === item ? ` ${active}` : ''}"
+							on:click={() => {
+								searchAwareness = item;
 								handle();
 							}}
 						>

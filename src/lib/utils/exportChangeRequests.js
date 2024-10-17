@@ -11,24 +11,29 @@ export const exportChangeRequests = (data) => {
 
 		return {
 			'Ticket #': row.ticketNumber,
-			Requesteee: row.expand?.requestee?.name,
-			Date: parseDateAndTime(row.date),
+			Requesteee: row.expand?.requestee?.name ?? '-',
 			'Change Title': row.title,
 			Objective: row.objective,
 			'Start Date & Time': parseDateAndTime(row.startDate),
 			'End Date & Time': parseDateAndTime(row.endDate),
 			'Service Impact': row.serviceImpact,
-			'Impact Duration (minutes)': row.duration,
 			'Task Site': row.expand?.siteId?.name,
 			'System Involved in Change': row.involvedSystem,
 			'Technical Groups Involved': teamNames.join(', '),
-			'Change Team': row.expand?.changeTeamId?.name,
+			'Change Team': row.expand?.changeTeamId?.name ?? '-',
 			Summary: extractMessage(row.summary),
-			'Scope of Work': extractMessage(row.scopeOfWork),
-			'CR Risks & Mitigations': extractMessage(row.risksAndMitigations),
-			'Roll Back Procedure': extractMessage(row.rollbackProcedures),
 			'List of Services / Circuits': extractMessage(row.listOfServices),
 			'Awareness To Be Made': row.awarenessToBeMade,
+			Closed: row.isClosed ? 'True' : 'False',
+			'CR Submission within 5 Days':
+				row?.submissionWithinFiveDays.length > 0 ? row.submissionWithinFiveDays : '-',
+			'Duration of the CR is adhered to':
+				row?.durationAdhered.length > 0 ? row.durationAdhered : '-',
+			'Service Impact is Correct':
+				row?.serviceImpactCorrect.length > 0 ? row.serviceImpactCorrect : '-',
+			'Correct list of Customers Submitted':
+				row?.correctCustomerList.length > 0 ? row.correctCustomerList : '-',
+			'Completion of Task': row?.taskCompletion.length > 0 ? row.taskCompletion : '-',
 			Created: parseDate(row.created),
 			Updated: parseDate(row.updated)
 		};
