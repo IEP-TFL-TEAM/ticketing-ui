@@ -11,11 +11,9 @@ export const exportRoutineMaintenance = (data) => {
 
 		return {
 			'Ticket #': row.ticketNumber,
-			Requesteee: row.expand?.requestee?.name,
-			Date: parseDateAndTime(row.date),
+			Requesteee: row.expand?.requestee?.name ?? '-',
 			'Maintenance Title': row.title,
-			'Maintenance Objective': row.objective,
-			'Risk Aversion': row.riskAversion,
+			Objective: row.objective,
 			'Scope of Work': extractMessage(row.scopeOfWork),
 			'Task Site': row.expand?.siteId?.name,
 			'Start Date & Time': parseDateAndTime(row.startDate),
@@ -25,10 +23,11 @@ export const exportRoutineMaintenance = (data) => {
 			'Team Conducting Maintenance': teamNames.join(', '),
 			'Maintenance Team': row.expand?.maintenanceTeamId?.name,
 			'List of Services / Circuits': extractMessage(row.listOfServices),
-			'Awareness To Be Made': row.awarenessToBeMade,
-			'Maintenance Risks': extractMessage(row.maintenanceRisks),
-			'Maintenance Pre-Checklist': extractMessage(row.maintenancePreChecklist),
-			'Maintenance Outcome': extractMessage(row.maintenanceOutcome),
+			Closed: row.isClosed ? 'True' : 'False',
+			'Completion of Task': row?.taskCompletion.length > 0 ? row.taskCompletion : '-',
+			'All related Alarms Cleared': row?.alarmsCleared.length > 0 ? row.alarmsCleared : '-',
+			'Service Impact is Correct':
+				row?.serviceImpactCorrect.length > 0 ? row.serviceImpactCorrect : '-',
 			Created: parseDate(row.created),
 			Updated: parseDate(row.updated)
 		};

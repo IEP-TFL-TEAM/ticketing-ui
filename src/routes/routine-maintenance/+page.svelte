@@ -11,12 +11,8 @@
 
 	export let data;
 
-	$: filters = data.filters;
 	$: routines = data.routines.items;
-	$: teams = data.teams;
-	$: maintenanceTeams = data.maintenanceTeams;
-	$: sites = data.sites;
-	$: staff = data.staff;
+	$: ({ filters, teams, maintenanceTeams, sites, staff } = data);
 
 	const drawerStore = getDrawerStore();
 	let loading = false;
@@ -82,6 +78,6 @@
 		</div>
 	</div>
 
-	<RoutineMaintenanceFilters {filters} {pageSettings} requestees={staff} />
+	<RoutineMaintenanceFilters {filters} {pageSettings} />
 	<RoutineMaintenanceTable {routines} />
 {/if}

@@ -4,13 +4,13 @@
 	import { getToastStore, getModalStore } from '@skeletonlabs/skeleton';
 	import { lazyLoad } from '$lib/actions/lazyLoad.js';
 	import { parseDateAndTime } from '$lib/utils/parsers/parseDateAndTime';
-	import { expand } from '$lib/api/routineMaintenance';
+	import { expand, updateRoutineMaintenance } from '$lib/api/routineMaintenance';
 	import { IconArrowNarrowLeft, IconDownload, IconMaximize, IconEdit } from '@tabler/icons-svelte';
+	import { currentUser } from '$lib/stores/auth';
 
 	export let data;
 
 	$: ({ routine, attachmentUrl, attachment, members } = data);
-
 	$: isOfTypeDoc =
 		(attachment.type !== 'image/jpg') &
 		(attachment.type !== 'image/png') &
@@ -43,6 +43,34 @@
 			component: 'editRoutineMaintenance',
 			backdropClasses: '!bg-black/50',
 			meta: { routine, attachment }
+		});
+	}
+
+	function closeRoutine(routine) {
+		modalStore.trigger({
+			type: 'component',
+			component: 'closeRoutine',
+			backdropClasses: '!bg-black/50',
+			meta: { routine, attachment }
+		});
+	}
+
+	async function reopenRoutine() {
+		modalStore.trigger({
+			type: 'confirm',
+			title: 'Are you sure you wish to re-open this routine?',
+			body: 'Are you sure you wish to proceed?',
+			modalClasses: '!bg-white dark:!bg-neutral-800 !rounded-none',
+			response: async (r) => {
+				if (r) {
+					routine = await updateRoutineMaintenance(routine.id, {
+						isClosed: false,
+						taskCompletion: null,
+						alarmsCleared: null,
+						serviceImpactCorrect: null
+					});
+				}
+			}
 		});
 	}
 
@@ -88,16 +116,38 @@
 			<IconArrowNarrowLeft size={40} />
 		</a>
 
-		<button
-			type="button"
-			on:click={() => editApplication(routine)}
-			class=" border border-black/30 dark:border-white/30 flex py-2.5 px-8 gap-x-1 items-center justify-center rounded uppercase font-semibold bg-white dark:bg-neutral-900"
-		>
-			<span>
-				<IconEdit />
-			</span>
-			<span>Edit Routine</span>
-		</button>
+		<div class="flex items-center gap-2">
+			{#if !routine.isClosed}
+				<button
+					type="button"
+					on:click={() => editApplication(routine)}
+					class=" border border-black/30 dark:border-white/30 flex py-2.5 px-8 gap-x-1 items-center justify-center rounded uppercase font-semibold bg-white dark:bg-neutral-900"
+				>
+					<span>
+						<IconEdit />
+					</span>
+					<span>Edit routine</span>
+				</button>
+			{/if}
+
+			{#if !routine.isClosed}
+				<button
+					type="button"
+					on:click={() => closeRoutine(routine)}
+					class="btn variant-ghost-error text-white-900 rounded uppercase font-semibold py-2.5 px-8"
+				>
+					Close routine
+				</button>
+			{:else if $currentUser.role === 'admin'}
+				<button
+					type="button"
+					on:click={() => reopenRoutine()}
+					class="btn variant-ghost-success text-white-900 rounded uppercase font-semibold py-2.5 px-8"
+				>
+					Re-Open Routine
+				</button>
+			{/if}
+		</div>
 	</div>
 
 	<div class="grid grid-cols-1 gap-1 pl-4 mt-4 lg:grid-cols-4 auto-rows-auto">
@@ -106,6 +156,16 @@
 				<h4 class="mb-2 h4">Routine Maintenance Information</h4>
 
 				<div class="flex flex-col gap-2 pt-4">
+					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
+						<span> Status: </span>
+
+						<span
+							class="{routine.isClosed ? 'text-error-500' : 'text-success-500'} font-bold uppercase"
+						>
+							{routine.isClosed ? 'Closed' : 'Open'}
+						</span>
+					</div>
+
 					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
 						<span> Ticket #: </span>
 						<span class={spanStyles}>{routine.ticketNumber}</span>
@@ -155,28 +215,8 @@
 					</div>
 
 					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
-						<span> Risk Aversion: </span>
-						<span class={spanStyles}>{extractMessage(routine.riskAversion)}</span>
-					</div>
-
-					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
 						<span> Summarized Scope of Work: </span>
 						<span class={spanStyles}>{extractMessage(routine.scopeOfWork)}</span>
-					</div>
-
-					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
-						<span> Maintenance Risks: </span>
-						<span class={spanStyles}>{extractMessage(routine.maintenanceRisks)}</span>
-					</div>
-
-					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
-						<span> Maintenance Pre-Checklist: </span>
-						<span class={spanStyles}>{extractMessage(routine.maintenancePreChecklist)}</span>
-					</div>
-
-					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
-						<span> Maintenance Outcome: </span>
-						<span class={spanStyles}>{extractMessage(routine.maintenanceOutcome)}</span>
 					</div>
 
 					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
@@ -184,10 +224,28 @@
 						<span class={spanStyles}>{extractMessage(routine.listOfServices)}</span>
 					</div>
 
-					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
-						<span> Awareness To Be Made: </span>
-						<span class={spanStyles}>{routine.awarenessToBeMade}</span>
-					</div>
+					{#if routine.isClosed}
+						<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
+							<span> Completion of Task: </span>
+							<span class={spanStyles}>
+								{routine.taskCompletion}
+							</span>
+						</div>
+
+						<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
+							<span> All related alarms cleared: </span>
+							<span class={spanStyles}>
+								{routine.alarmsCleared}
+							</span>
+						</div>
+
+						<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
+							<span> Service Impact is Correct: </span>
+							<span class={spanStyles}>
+								{routine.serviceImpactCorrect}
+							</span>
+						</div>
+					{/if}
 				</div>
 			</div>
 		</div>
@@ -197,11 +255,6 @@
 				<h4 class="mb-2 h4">Date Information</h4>
 
 				<div class="flex flex-col pt-4 gap-y-2">
-					<div class="grid grid-cols-1 xl:grid-cols-2 auto-rows-auto">
-						<span> Date: </span>
-						<span class={spanStyles}>{parseDateAndTime(routine.date)}</span>
-					</div>
-
 					<div class="grid grid-cols-1 xl:grid-cols-2 auto-rows-auto">
 						<span> Start Date: </span>
 						<span class={spanStyles}>{parseDateAndTime(routine.startDate)}</span>

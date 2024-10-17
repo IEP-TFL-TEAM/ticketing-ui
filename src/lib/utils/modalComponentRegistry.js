@@ -7,6 +7,7 @@ import TeamActions from '$lib/components/modals/teams/TeamActions.svelte';
 import EditChangeRequest from '$lib/components/modals/change-requests/EditChangeRequest.svelte';
 import CloseRequest from '$lib/components/modals/change-requests/CloseRequest.svelte';
 import EditRoutineMaintenance from '$lib/components/modals/routine-maintenance/EditRoutineMaintenance.svelte';
+import CloseRoutine from '$lib/components/modals/routine-maintenance/CloseRoutine.svelte';
 import EditTicket from '$lib/components/modals/tickets/EditTicket.svelte';
 
 export const modalComponentRegistry = {
@@ -36,6 +37,9 @@ export const modalComponentRegistry = {
 	},
 	editRoutineMaintenance: {
 		ref: EditRoutineMaintenance
+	},
+	closeRoutine: {
+		ref: CloseRoutine
 	},
 	editTicket: {
 		ref: EditTicket

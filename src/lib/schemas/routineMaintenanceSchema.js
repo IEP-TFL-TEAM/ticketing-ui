@@ -10,22 +10,16 @@ const AcceptedAttachmentTypes = [
 	'image/png'
 ];
 
-export const routineMaintenanceSchema = (attachment, date, startDate, endDate) =>
+export const routineMaintenanceSchema = (attachment, startDate, endDate) =>
 	z
 		.object({
-			requestee: z.string(),
-
-			date: z.date({ message: 'Invalid date string!' }).max(new Date()).default(date),
+			requestee: z.string().nullable(),
 
 			title: z.string().min(1, {
 				message: 'This field is required'
 			}),
 
 			objective: z.string().min(1, {
-				message: 'This field is required'
-			}),
-
-			riskAversion: z.string().min(1, {
 				message: 'This field is required'
 			}),
 
@@ -47,27 +41,9 @@ export const routineMaintenanceSchema = (attachment, date, startDate, endDate) =
 
 			teamIds: z.array(z.string()),
 
-			maintenanceTeamId: z.string(),
+			maintenanceTeamId: z.string().nullable(),
 
 			listOfServices: z.string().min(1, {
-				message: 'This field is required'
-			}),
-
-			awarenessToBeMade: z
-				.string()
-				.refine((value) => ['No', 'Internal', 'External', 'Media'].includes(value), {
-					message: 'Must be of one of the types'
-				}),
-
-			maintenanceRisks: z.string().min(1, {
-				message: 'This field is required'
-			}),
-
-			maintenancePreChecklist: z.string().min(1, {
-				message: 'This field is required'
-			}),
-
-			maintenanceOutcome: z.string().min(1, {
 				message: 'This field is required'
 			}),
 
@@ -79,7 +55,30 @@ export const routineMaintenanceSchema = (attachment, date, startDate, endDate) =
 				.refine((file) => AcceptedAttachmentTypes.includes(file.type), {
 					message: 'Only .pdf, .doc, .docx, .jpg, .png formats are supported.'
 				})
-				.default(attachment)
+				.default(attachment),
+
+			isClosed: z.boolean({ default: false }),
+
+			taskCompletion: z
+				.string()
+				.refine((value) => ['Yes', 'No', 'Partially Completed'].includes(value), {
+					message: 'Must be of one of the types'
+				})
+				.nullable(),
+
+			alarmsCleared: z
+				.string()
+				.refine((value) => ['Yes', 'No', 'Alarms Outstanding'].includes(value), {
+					message: 'Must be of one of the types'
+				})
+				.nullable(),
+
+			serviceImpactCorrect: z
+				.string()
+				.refine((value) => ['Yes', 'No'].includes(value), {
+					message: 'Must be of one of the types'
+				})
+				.nullable()
 		})
 		.refine((obj) => Object.values(obj).every((value) => value !== undefined), {
 			message: 'All fields are required'

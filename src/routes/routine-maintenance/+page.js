@@ -17,7 +17,6 @@ export async function load({ url, fetch }) {
 		title: url.searchParams.get('title'),
 		objective: url.searchParams.get('objective'),
 		serviceImpact: url.searchParams.get('serviceImpact'),
-		requestee: url.searchParams.get('requestee'),
 		ticketNumber: url.searchParams.get('ticketNumber')
 	};
 

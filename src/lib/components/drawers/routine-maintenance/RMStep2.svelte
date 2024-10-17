@@ -6,7 +6,9 @@
 	import { createRoutineMaintenance } from '$lib/api/routineMaintenance';
 	import SpinnerOverlay from '$lib/components/layout/SpinnerOverlay.svelte';
 
-	export const onCompleteHandler = () => submit();
+	export function onCompleteHandler() {
+		submit();
+	}
 
 	export let staffId, teamIds, maintenanceTeamId, siteId;
 
@@ -78,7 +80,6 @@
 		$form.siteId = siteId;
 	}
 
-	$: dateVal = dateProxy(form, 'date', { format: 'date', empty: 'null' });
 	$: startDateVal = dateProxy(form, 'startDate', { format: 'datetime-local', empty: 'null' });
 	$: endDateVal = dateProxy(form, 'endDate', { format: 'datetime-local', empty: 'null' });
 </script>
@@ -91,28 +92,6 @@
 	<div class="flex flex-col">
 		<form method="POST" enctype="multipart/form-data" use:enhance>
 			<div class="flex flex-col justify-between gap-4">
-				<label class="label">
-					<p class="my-2 text-base font-semibold">
-						Enter Date
-						<span class="text-red-500">*</span>
-					</p>
-					<div class="flex flex-row">
-						<input
-							type="date"
-							name="date"
-							bind:value={$dateVal}
-							required
-							class="input p-4 border"
-							{...$constraints.date}
-							max={$constraints.date?.max?.toString().slice(0, 10)}
-						/>
-					</div>
-
-					{#if $errors.title}
-						<span class=" text-error-500">{$errors.title}</span>
-					{/if}
-				</label>
-
 				<label class="label">
 					<p class="my-2 text-base font-semibold">
 						Enter Title
@@ -157,34 +136,6 @@
 
 					{#if $errors.objective}
 						<span class=" text-error-500">{$errors.objective}</span>
-					{/if}
-				</label>
-
-				<label class="label">
-					<p class="my-2 text-base font-semibold">
-						Enter Risk Aversion
-						<span class="text-red-500">*</span>
-					</p>
-
-					<p class="mb-4 text-sm font-semibold text-primary-500 dark:text-tertiary-500">
-						Risks/Consequences if maintenance Work is neglected
-					</p>
-
-					<div class="flex flex-row">
-						<textarea
-							class="textarea p-2"
-							name="riskAversion"
-							bind:value={$form.riskAversion}
-							placeholder="Type here ..."
-							type="text"
-							rows="2"
-							required
-							{...$constraints.riskAversion}
-						/>
-					</div>
-
-					{#if $errors.riskAversion}
-						<span class=" text-error-500">{$errors.riskAversion}</span>
 					{/if}
 				</label>
 
@@ -328,109 +279,6 @@
 
 					{#if $errors.listOfServices}
 						<span class=" text-error-500">{$errors.listOfServices}</span>
-					{/if}
-				</label>
-
-				<label class="label">
-					<p class="my-2 text-base font-semibold">
-						Enter Awareness To Be Made
-						<span class="text-red-500">*</span>
-					</p>
-					<div class="flex flex-row">
-						<select
-							class="select rounded-none w-full"
-							name="awarenessToBeMade"
-							bind:value={$form.awarenessToBeMade}
-							required
-							{...$constraints.awarenessToBeMade}
-						>
-							<option value={''} disabled selected>
-								<span class="!text-gray-500">Select Option</span>
-							</option>
-							{#each ['No', 'Internal', 'External', 'Media'] as item}
-								<option value={item}>
-									{item}
-								</option>
-							{/each}
-						</select>
-
-						{#if $errors.awarenessToBeMade}
-							<span class=" text-error-500">{$errors.awarenessToBeMade}</span>
-						{/if}
-					</div>
-				</label>
-
-				<label class="label">
-					<p class="my-2 text-base font-semibold">
-						Enter Maintenance Risks
-						<span class="text-red-500">*</span>
-					</p>
-
-					<p class="mb-4 text-sm font-semibold text-primary-500 dark:text-tertiary-500">
-						What is at Risk? Who is at Risk? How are they at Risk?
-					</p>
-
-					<div class="flex flex-row">
-						<textarea
-							class="textarea p-2"
-							name="maintenanceRisks"
-							bind:value={$form.maintenanceRisks}
-							placeholder="Type here ..."
-							type="text"
-							rows="2"
-							required
-							{...$constraints.maintenanceRisks}
-						/>
-					</div>
-
-					{#if $errors.maintenanceRisks}
-						<span class=" text-error-500">{$errors.maintenanceRisks}</span>
-					{/if}
-				</label>
-
-				<label class="label">
-					<p class="my-2 text-base font-semibold">
-						Enter Maintenance Pre-Checklist
-						<span class="text-red-500">*</span>
-					</p>
-					<div class="flex flex-row">
-						<textarea
-							class="textarea p-2"
-							name="maintenancePreChecklist"
-							bind:value={$form.maintenancePreChecklist}
-							placeholder="Type here ..."
-							type="text"
-							rows="2"
-							required
-							{...$constraints.maintenancePreChecklist}
-						/>
-					</div>
-
-					{#if $errors.maintenancePreChecklist}
-						<span class=" text-error-500">{$errors.maintenancePreChecklist}</span>
-					{/if}
-				</label>
-
-				<label class="label">
-					<p class="my-2 text-base font-semibold">
-						Enter Maintenance Outcome
-						<span class="text-red-500">*</span>
-					</p>
-					<div class="flex flex-row">
-						<textarea
-							class="textarea p-2"
-							name="maintenanceOutcome"
-							bind:value={$form.maintenanceOutcome}
-							placeholder="Type here ..."
-							type="text"
-							rows="2"
-							required
-							{...$constraints.maintenanceOutcome}
-						/>
-					</div>
-
-					{#if $errors.maintenanceOutcome}
-						<span class=" text-error-500">{$errors.maintenanceOutcome}</span>
 					{/if}
 				</label>
 

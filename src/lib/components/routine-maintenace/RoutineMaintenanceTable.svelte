@@ -1,5 +1,4 @@
 <script>
-	import { goto } from '$app/navigation';
 	import { IconArrowRight } from '@tabler/icons-svelte';
 
 	export let routines;
@@ -18,10 +17,10 @@
 			<thead class="uppercase bg-gray-100 dark:bg-neutral-700">
 				<tr>
 					<th scope="col" class={tableHeaderStyles}> Ticket # </th>
-					<th scope="col" class={tableHeaderStyles}> Requestee </th>
-					<th scope="col" class={tableHeaderStyles}> Maintenance Title </th>
-					<th scope="col" class={tableHeaderStyles}> Maintenance Objective </th>
+					<th scope="col" class={tableHeaderStyles}> Title </th>
+					<th scope="col" class={tableHeaderStyles}> Objective </th>
 					<th scope="col" class={tableHeaderStyles}> Service Impact </th>
+					<th scope="col" class={tableHeaderStyles}> Status </th>
 					<th scope="col"></th>
 				</tr>
 			</thead>
@@ -35,20 +34,6 @@
 						>
 							<td class={tdStyles}> {routine.ticketNumber} </td>
 
-							<th scope="row" class="flex items-center px-6 py-4 text-gray-900 dark:text-white">
-								<div class="ps-3">
-									<div
-										class="flex items-center text-base font-semibold text-primary-600 dark:text-tertiary-500"
-									>
-										{`${routine.expand?.requestee?.name}`}
-									</div>
-
-									<div class="font-normal text-gray-500 dark:text-gray-300">
-										{routine.expand?.requestee?.email}
-									</div>
-								</div>
-							</th>
-
 							<td class={tdStyles}> {routine.title} </td>
 
 							<td class={tdStyles}> {routine.objective} </td>
@@ -59,6 +44,14 @@
 									: 'text-error-500'}"
 							>
 								{routine.serviceImpact}
+							</td>
+
+							<td
+								class="{tdStyles} uppercase font-semibold {routine.isClosed
+									? 'text-error-500'
+									: 'text-success-500'}"
+							>
+								{routine.isClosed ? 'Closed' : 'Open'}
 							</td>
 
 							<td class={tdStyles}>

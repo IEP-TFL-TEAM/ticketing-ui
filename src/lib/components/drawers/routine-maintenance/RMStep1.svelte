@@ -1,13 +1,7 @@
 <script>
 	import { Autocomplete, getDrawerStore, ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
 
-	export let staffId,
-		teamIds,
-		maintenanceTeamId,
-		siteId,
-		selectedStaff,
-		selectedMTeam,
-		selectedSite;
+	export let staffId, teamIds, maintenanceTeamId, siteId, selectedStaff, selectedSite;
 
 	const drawerStore = getDrawerStore();
 
@@ -41,11 +35,6 @@
 		selectedStaff = e.detail.label;
 	}
 
-	function onMTeamSelect(e) {
-		maintenanceTeamId = e.detail.value;
-		selectedMTeam = e.detail.label;
-	}
-
 	function onSiteSelect(e) {
 		siteId = e.detail.value;
 		selectedSite = e.detail.label;
@@ -69,7 +58,10 @@
 	</form>
 
 	<div class="flex flex-col gap-4">
-		<h4 class="h4 font-bold">Select Team Conducting Maintenance</h4>
+		<h4 class="h4 font-bold">
+			Select Team Conducting Maintenance
+			<span class="text-red-500">*</span>
+		</h4>
 
 		<form class="card w-full max-h-48 p-4 overflow-y-auto" tabindex="-1">
 			<ListBox multiple>
@@ -85,28 +77,22 @@
 	<div class="flex flex-col gap-4">
 		<h4 class="h4 font-bold">Select Maintenance Team</h4>
 
-		<form class="flex flex-col gap-4">
-			<input
-				class="input"
-				type="search"
-				name="team"
-				bind:value={selectedMTeam}
-				placeholder="Search Maintenance Team ..."
-				required
-			/>
-
-			<div class="card w-full max-h-48 p-4 overflow-y-auto" tabindex="-1">
-				<Autocomplete
-					bind:input={selectedMTeam}
-					options={maintenanceTeamOptions}
-					on:selection={onMTeamSelect}
-				/>
-			</div>
+		<form class="card w-full max-h-48 p-4 overflow-y-auto" tabindex="-1">
+			<ListBox>
+				{#each maintenanceTeamOptions as { value, label }}
+					<ListBoxItem bind:group={maintenanceTeamId} name="medium" {value}>
+						{label}
+					</ListBoxItem>
+				{/each}
+			</ListBox>
 		</form>
 	</div>
 
 	<div class="flex flex-col gap-4">
-		<h4 class="h4 font-bold">Select Site</h4>
+		<h4 class="h4 font-bold">
+			Select Site
+			<span class="text-red-500">*</span>
+		</h4>
 
 		<form class="flex flex-col gap-4">
 			<input

@@ -9,9 +9,7 @@ const createRoutineMaintenance = async (data) => {
 };
 
 const updateRoutineMaintenance = async (id, routine) => {
-	pb.autoCancellation(false);
-	const record = await pb.collection('routinemaintenance').update(id, routine);
-	pb.autoCancellation(false);
+	const record = await pb.collection('routinemaintenance').update(id, routine, { expand });
 	return record;
 };
 

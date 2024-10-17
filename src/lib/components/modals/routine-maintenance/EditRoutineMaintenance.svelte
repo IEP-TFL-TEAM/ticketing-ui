@@ -10,12 +10,7 @@
 	const modalStore = getModalStore();
 	const routine = $modalStore[0].meta.routine;
 	const zodForm = zod(
-		routineMaintenanceSchema(
-			$modalStore[0].meta.attachment,
-			routine.date,
-			routine.startDate,
-			routine.endDate
-		)
+		routineMaintenanceSchema($modalStore[0].meta.attachment, routine.startDate, routine.endDate)
 	);
 	const originalForm = defaults(zodForm);
 
@@ -73,7 +68,6 @@
 
 	const attachment = fileProxy(form, 'attachment');
 
-	$: dateVal = dateProxy(form, 'date', { format: 'date', empty: 'null' });
 	$: startDateVal = dateProxy(form, 'startDate', { format: 'datetime-local', empty: 'null' });
 	$: endDateVal = dateProxy(form, 'endDate', { format: 'datetime-local', empty: 'null' });
 
@@ -89,10 +83,6 @@
 		$form.maintenanceTeamId = routine.maintenanceTeamId;
 		$form.listOfServices = routine.listOfServices;
 		$form.scopeOfWork = routine.scopeOfWork;
-		$form.awarenessToBeMade = routine.awarenessToBeMade;
-		$form.maintenanceRisks = routine.maintenanceRisks;
-		$form.maintenancePreChecklist = routine.maintenancePreChecklist;
-		$form.maintenanceOutcome = routine.maintenanceOutcome;
 	}
 </script>
 
@@ -113,30 +103,7 @@
 		<div>
 			<form method="POST" enctype="multipart/form-data" use:enhance>
 				<div class="flex flex-col justify-between gap-4">
-					<div class="grid grid-cols-3 auto-rows-auto gap-4">
-						<label class="label">
-							<p class="my-2 text-base font-semibold">
-								Enter Date
-								<span class="text-red-500">*</span>
-							</p>
-							<div class="flex flex-row">
-								<input
-									type="date"
-									name="date"
-									bind:value={$dateVal}
-									on:change={() => (dirtyForm = true)}
-									required
-									class="input p-4 border"
-									{...$constraints.date}
-									max={$constraints.date?.max?.toString().slice(0, 10)}
-								/>
-							</div>
-
-							{#if $errors.title}
-								<span class=" text-error-500">{$errors.title}</span>
-							{/if}
-						</label>
-
+					<div class="grid grid-cols-2 auto-rows-auto gap-4">
 						<label class="label">
 							<p class="my-2 text-base font-semibold">
 								Enter Start Date
