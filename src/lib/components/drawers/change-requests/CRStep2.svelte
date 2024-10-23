@@ -1,7 +1,7 @@
 <script>
 	import { superForm, defaults, fileProxy, dateProxy } from 'sveltekit-superforms';
 	import { zod } from 'sveltekit-superforms/adapters';
-	import { getToastStore, getDrawerStore } from '@skeletonlabs/skeleton';
+	import { getToastStore, getDrawerStore, ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
 	import { changeRequestSchema } from '$lib/schemas/changeRequestSchema';
 	import { createRequest } from '$lib/api/changeRequests';
 	import SpinnerOverlay from '$lib/components/layout/SpinnerOverlay.svelte';
@@ -15,6 +15,18 @@
 
 	const toastStore = getToastStore();
 	const drawerStore = getDrawerStore();
+
+	const servicesList = $drawerStore.meta.servicesList;
+	const servicesListOptions = servicesList
+		.map((item) => ({
+			label: item.name,
+			value: item.id
+		}))
+		.sort((a, b) => {
+			if (a.label < b.label) return -1;
+			if (a.label > b.label) return 1;
+			return 0;
+		});
 
 	let submitting = false;
 	const originalForm = defaults(zod(changeRequestSchema()));
@@ -254,33 +266,26 @@
 					{/if}
 				</label>
 
-				<label class="label">
-					<p class="my-2 text-base font-semibold">
+				<div class="flex flex-col gap-4">
+					<p class="mt-2 text-base font-semibold">
 						List of Services / Circuits
 						<span class="text-red-500">*</span>
 					</p>
 
-					<p class="mb-4 text-sm font-semibold text-primary-500 dark:text-tertiary-500">
+					<p class="text-sm font-semibold text-primary-500 dark:text-tertiary-500">
 						(All services and circuits surrounding the CR. Affected or not affected).
 					</p>
 
-					<div class="flex flex-row">
-						<textarea
-							class="textarea p-2"
-							name="listOfServices"
-							bind:value={$form.listOfServices}
-							placeholder="Type here ..."
-							type="text"
-							rows="2"
-							required
-							{...$constraints.listOfServices}
-						/>
-					</div>
-
-					{#if $errors.listOfServices}
-						<span class=" text-error-500">{$errors.listOfServices}</span>
-					{/if}
-				</label>
+					<form class="card w-full max-h-48 p-4 overflow-y-auto" tabindex="-1">
+						<ListBox multiple>
+							{#each servicesListOptions as { value, label }}
+								<ListBoxItem bind:group={$form.servicesListIds} name="medium" {value}>
+									{label}
+								</ListBoxItem>
+							{/each}
+						</ListBox>
+					</form>
+				</div>
 
 				<label class="label">
 					<p class="my-2 text-base font-semibold">
@@ -322,7 +327,7 @@
 					{/if}
 
 					<p class="mb-2 text-sm font-semibold text-primary-500 dark:text-tertiary-500">
-						Allowed Formats: .doc, .docx, .pdf, .jpg, .png only.
+						Max file upload 5 (MB)
 					</p>
 
 					<input
@@ -331,7 +336,6 @@
 						bind:files={$attachment}
 						required
 						type="file"
-						accept=".doc, .docx, .pdf, image/jpg, image/png, image/jpeg"
 						{...$constraints.attachment}
 					/>
 				</div>

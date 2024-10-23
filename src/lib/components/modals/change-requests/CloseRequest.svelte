@@ -1,5 +1,5 @@
 <script>
-	import { superForm, defaults } from 'sveltekit-superforms';
+	import { superForm, defaults, fileProxy } from 'sveltekit-superforms';
 	import { zod } from 'sveltekit-superforms/adapters';
 	import { getToastStore, getModalStore } from '@skeletonlabs/skeleton';
 	import { changeRequestSchema } from '$lib/schemas/changeRequestSchema';
@@ -66,6 +66,8 @@
 		}
 	});
 
+	const closingAttachment = fileProxy(form, 'closingAttachment');
+
 	$: {
 		$form.title = request.title;
 		$form.objective = request.objective;
@@ -74,11 +76,13 @@
 		$form.involvedSystem = request.involvedSystem;
 		$form.teamIds = request.teamIds;
 		$form.summary = request.summary;
-		$form.listOfServices = request.listOfServices;
+		$form.servicesListIds = request.servicesListIds;
 		$form.awarenessToBeMade = request.awarenessToBeMade;
 		$form.requestee = request?.requestee;
 		$form.changeTeamId = request?.changeTeamId;
 	}
+
+	$: specifyBeforeClosing = !$form.taskCompletion || $form.taskCompletion === 'Yes' ? false : true;
 </script>
 
 {#if $delayed || submitting}
@@ -243,6 +247,54 @@
 								{/if}
 							</div>
 						</label>
+
+						{#if specifyBeforeClosing}
+							<label class="label col-span-2">
+								<p class="my-2 text-base font-semibold">
+									Closing Remarks
+									<span class="text-red-500">*</span>
+								</p>
+
+								<textarea
+									class="textarea p-2 bg-transparent dark:bg-transparent"
+									name="closingRemarks"
+									type="text"
+									bind:value={$form.closingRemarks}
+									rows="2"
+									placeholder="Please provide a closing remark"
+									required={specifyBeforeClosing}
+									{...$constraints.closingRemarks}
+								/>
+
+								{#if $errors.closingRemarks}
+									<span class=" text-error-500">{$errors.closingRemarks}</span>
+								{/if}
+							</label>
+
+							<div class="flex flex-col col-span-2">
+								<label class="my-2 text-base font-semibold" for="closingAttachment">
+									Upload Closing Attachment
+									<span class="text-red-500">*</span>
+								</label>
+
+								{#if $errors.closingAttachment}
+									<span class=" text-error-500">{$errors.closingAttachment}</span>
+								{/if}
+
+								<p class="mb-2 text-sm font-semibold text-primary-500 dark:text-tertiary-500">
+									Max file upload 5 (MB)
+								</p>
+
+								<input
+									class="w-full rounded text-base text-gray-900 border border-gray-300 dark:border-gray-700 cursor-pointer bg-gray-50 dark:bg-transparent dark:text-white focus:outline-none p-1"
+									name="closingAttachment"
+									bind:files={$closingAttachment}
+									required={specifyBeforeClosing}
+									type="file"
+									{...$constraints.closingAttachment}
+								/>
+							</div>
+						{/if}
 					</div>
 
 					<div class="mt-8 flex flex-col items-center gap-y-4">

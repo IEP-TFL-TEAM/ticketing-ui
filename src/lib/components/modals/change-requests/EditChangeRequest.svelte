@@ -79,7 +79,7 @@
 		$form.involvedSystem = request.involvedSystem;
 		$form.teamIds = request.teamIds;
 		$form.summary = request.summary;
-		$form.listOfServices = request.listOfServices;
+		$form.servicesListIds = request.servicesListIds;
 		$form.awarenessToBeMade = request.awarenessToBeMade;
 		$form.requestee = request?.requestee;
 		$form.changeTeamId = request?.changeTeamId;
@@ -177,7 +177,6 @@
 							bind:files={$attachment}
 							on:change={() => (dirtyForm = true)}
 							type="file"
-							accept=".doc, .docx, .pdf, image/jpg, image/png, image/jpeg"
 							{...$constraints.attachment}
 						/>
 					</div>

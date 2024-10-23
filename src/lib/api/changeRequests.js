@@ -1,7 +1,7 @@
 import pb from './pocketbaseClient';
 import { parseFilters } from '../utils/parsers';
 
-export const expand = 'requestee, siteId, teamIds, changeTeamId';
+export const expand = 'requestee, siteId, teamIds, changeTeamId, servicesListIds';
 
 const createRequest = async (data) => {
 	const record = await pb.collection('changerequests').create({

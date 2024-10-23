@@ -1,7 +1,10 @@
 <script>
+	import { onDestroy, onMount } from 'svelte';
+	import { goto } from '$app/navigation';
+	import pb from '$lib/api/pocketbaseClient';
 	import { exportChangeRequests } from '$lib/utils/exportChangeRequests';
-	import { getAllRequests } from '$lib/api/changeRequests';
-	import { getDrawerStore } from '@skeletonlabs/skeleton';
+	import { getAllRequests, expand } from '$lib/api/changeRequests';
+	import { getDrawerStore, getToastStore } from '@skeletonlabs/skeleton';
 	import { IconPlus } from '@tabler/icons-svelte';
 
 	import ChangeRequestTable from '$lib/components/change-requests/ChangeRequestTable.svelte';
@@ -11,10 +14,10 @@
 
 	export let data;
 
-	$: requests = data.requests.items;
-	$: ({ filters, teams, changeTeams, sites, staff } = data);
+	$: ({ filters, teams, changeTeams, sites, staff, servicesList, requests } = data);
 
 	const drawerStore = getDrawerStore();
+	const toastStore = getToastStore();
 	let loading = false;
 
 	$: pageSettings = {
@@ -34,7 +37,8 @@
 				staff,
 				teams,
 				changeTeams,
-				sites
+				sites,
+				servicesList
 			}
 		});
 	}
@@ -49,6 +53,61 @@
 	async function handleExportData() {
 		handleExport(exportChangeRequests);
 	}
+
+	function updateRequests(e) {
+		const { record } = e;
+
+		switch (e.action) {
+			case 'create':
+				requests = { ...requests, items: [record, ...requests.items] };
+				break;
+
+			case 'delete':
+				requests = {
+					...requests,
+					items: requests.items.filter((item) => item !== record)
+				};
+				break;
+
+			case 'update':
+				requests = {
+					...requests,
+					items: [record, ...requests.items.filter((item) => item.id !== record.id)]
+				};
+				break;
+
+			default:
+				return;
+		}
+	}
+
+	let unSubscribe;
+
+	onMount(async () => {
+		unSubscribe = await pb.collection('changerequests').subscribe(
+			'*',
+			async (e) => {
+				toastStore.clear();
+				toastStore.trigger({
+					message: `A Change Requst has been ${e.action}d!`,
+					action: {
+						label: 'View',
+						response: () => goto(`/changerequests/${e.record.id}`)
+					},
+					timeout: 3000
+				});
+
+				updateRequests(e);
+			},
+			{
+				expand
+			}
+		);
+	});
+
+	onDestroy(() => {
+		unSubscribe?.();
+	});
 </script>
 
 {#if !requests}
@@ -63,7 +122,7 @@
 					bind:loading
 					label="Requests"
 					{handleExportData}
-					noRecords={requests.length === 0}
+					noRecords={requests.items.length === 0}
 				/>
 
 				<button
