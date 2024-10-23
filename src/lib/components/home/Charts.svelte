@@ -1,0 +1,85 @@
+<script>
+	import { Doughnut, Bar } from 'svelte-chartjs';
+	import {
+		Chart as ChartJS,
+		Title,
+		Tooltip,
+		Legend,
+		ArcElement,
+		CategoryScale,
+		BarElement,
+		LinearScale
+	} from 'chart.js';
+
+	ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale, BarElement, LinearScale);
+
+	export let data;
+
+	function countByStatus(array, status) {
+		return array.filter((record) => record.status === status).length;
+	}
+
+	function countByCategoryId(array, categoryId) {
+		return array.filter((record) => record.categoryId === categoryId).length;
+	}
+
+	const pendingTickets = countByStatus(data.tickets, 'PENDING');
+	const closedTickets = countByStatus(data.tickets, 'CLOSED');
+
+	const pieData = {
+		labels: ['Closed', 'Pending'],
+		datasets: [
+			{
+				data: [closedTickets, pendingTickets],
+				backgroundColor: ['#84cc16', '#e6b021'],
+				hoverBackgroundColor: ['#a9db5c', '#ffc425']
+			}
+		]
+	};
+
+	const categoryCounts = data.categories.map((category) => ({
+		name: category.name,
+		count: countByCategoryId(data.tickets, category.id)
+	}));
+
+	const colorMap = {
+		0: {
+			background: 'rgba(255, 87, 51, 0.4)',
+			border: 'rgba(255, 87, 51, 1)'
+		},
+		1: {
+			background: 'rgba(59, 203, 251, 0.4)',
+			border: 'rgba(59, 203, 251, 1)'
+		}
+	};
+
+	const barData = {
+		labels: ['Incidents'],
+		datasets: [
+			{
+				label: 'Total Incidents',
+				data: [data.tickets.length],
+				backgroundColor: ['rgba(3, 104, 177, 0.4)'],
+				borderColor: ['rgba(3, 104, 177, 1)'],
+				borderWidth: 2
+			},
+			...categoryCounts.map((c, i) => ({
+				label: c.name,
+				data: [c.count],
+				backgroundColor: colorMap[i]?.background || 'rgba(183, 182, 182, 0.4)',
+				borderColor: colorMap[i]?.border || 'rgba(183, 182, 182, 1)',
+				borderWidth: 2
+			}))
+		]
+	};
+</script>
+
+<div class="grid grid-cols-2 auto-rows-auto w-full gap-10">
+	<div>
+		<Bar data={barData} options={{ responsive: true }} />
+	</div>
+
+	<div>
+		<Doughnut data={pieData} options={{ responsive: true }} />
+	</div>
+</div>

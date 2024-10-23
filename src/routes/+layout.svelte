@@ -87,11 +87,7 @@
 	{/if}
 </Drawer>
 
-<div class="relative min-h-screen md:flex dark:bg-[#252424]">
-	<div
-		class="absolute inset-0 -z-10 h-full w-full bg-gray-100 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"
-	/>
-
+<div class="relative min-h-screen md:flex bg-white dark:bg-[#252424]">
 	{#if $currentUser}
 		<Sidebar />
 

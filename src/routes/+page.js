@@ -1,5 +1,6 @@
 import pb from '$lib/api/pocketbaseClient';
 import { getAllTickets } from '$lib/api/tickets';
+import { getCategories } from '$lib/api/categories';
 
 export async function load({ url, fetch }) {
 	pb.beforeSend = function (url, options) {
@@ -8,6 +9,7 @@ export async function load({ url, fetch }) {
 	};
 
 	return {
-		tickets: (await getAllTickets()) ?? []
+		tickets: (await getAllTickets()) ?? [],
+		categories: (await getCategories()) ?? []
 	};
 }

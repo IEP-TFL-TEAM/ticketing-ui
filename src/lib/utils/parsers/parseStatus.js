@@ -1,5 +1,5 @@
 const statusMap = {
-	CLOSED: 'badge variant-filled-error !text-white',
+	CLOSED: 'badge variant-filled-success',
 	PENDING: 'badge variant-filled-secondary'
 };
 

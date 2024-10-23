@@ -1,13 +1,11 @@
 <script>
-	export let data;
-
-	$: tickets = data.tickets;
+	export let tickets;
 
 	$: statusItems = [
 		{
 			label: 'Total',
-			count: data.tickets.length,
-			colorClass: 'text-primary-500'
+			count: tickets.length,
+			colorClass: 'text-primary-500 dark:text-tertiary-500'
 		},
 		{
 			label: 'Pending',
@@ -17,7 +15,7 @@
 		{
 			label: 'Closed',
 			count: countByStatus(tickets, 'CLOSED'),
-			colorClass: 'text-red-500'
+			colorClass: 'text-success-500'
 		}
 	];
 
@@ -27,9 +25,7 @@
 </script>
 
 <div class="flex flex-col items-start gap-2 py-6">
-	<h2
-		class="self-center 2xl:self-start text-2xl font-bold mb-4 text-primary-500 dark:text-tertiary-500"
-	>
+	<h2 class="self-start text-2xl font-bold mb-4 text-primary-500 dark:text-tertiary-500">
 		Incident Status
 	</h2>
 
