@@ -81,7 +81,7 @@
 		$form.siteId = routine.siteId;
 		$form.teamIds = routine.teamIds;
 		$form.maintenanceTeamId = routine.maintenanceTeamId;
-		$form.listOfServices = routine.listOfServices;
+		$form.servicesListIds = routine.servicesListIds;
 		$form.scopeOfWork = routine.scopeOfWork;
 	}
 </script>
@@ -177,7 +177,6 @@
 							bind:files={$attachment}
 							on:change={() => (dirtyForm = true)}
 							type="file"
-							accept=".doc, .docx, .pdf, image/jpg, image/png, image/jpeg"
 							{...$constraints.attachment}
 						/>
 					</div>

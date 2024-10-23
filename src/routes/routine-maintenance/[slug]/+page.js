@@ -23,10 +23,16 @@ export async function load({ params, url, fetch }) {
 			token: fileToken
 		});
 
+		const closingAttachmentUrl = pb.files.getUrl(routine, routine?.closingAttachment, {
+			token: fileToken
+		});
+
 		return {
 			routine,
 			attachmentUrl,
+			closingAttachmentUrl,
 			attachment: (await urlToFile(attachmentUrl, fetch)) ?? [],
+			closingAttachment: (await urlToFile(closingAttachmentUrl, fetch)) ?? [],
 			members: (await getMembersByMaintenanceTeamId(routine.maintenanceTeamId)) ?? []
 		};
 	} catch (error) {

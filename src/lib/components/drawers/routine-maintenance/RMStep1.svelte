@@ -15,20 +15,32 @@
 		value: item.id
 	}));
 
-	const teamOptions = teams.map((team) => ({
-		label: team.name,
-		value: team.id
-	}));
+	const teamOptions = teams
+		.map((team) => ({
+			label: team.name,
+			value: team.id
+		}))
+		.sort((a, b) => {
+			if (a.label < b.label) return -1;
+			if (a.label > b.label) return 1;
+			return 0;
+		});
 
 	const maintenanceTeamOptions = maintenanceTeams.map((team) => ({
 		label: team.name,
 		value: team.id
 	}));
 
-	const siteOptions = sites.map((team) => ({
-		label: team.name,
-		value: team.id
-	}));
+	const siteOptions = sites
+		.map((team) => ({
+			label: team.name,
+			value: team.id
+		}))
+		.sort((a, b) => {
+			if (a.label < b.label) return -1;
+			if (a.label > b.label) return 1;
+			return 0;
+		});
 
 	function onStaffSelect(e) {
 		staffId = e.detail.value;

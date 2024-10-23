@@ -1,5 +1,5 @@
 <script>
-	import { superForm, defaults } from 'sveltekit-superforms';
+	import { superForm, defaults, fileProxy } from 'sveltekit-superforms';
 	import { zod } from 'sveltekit-superforms/adapters';
 	import { getToastStore, getModalStore } from '@skeletonlabs/skeleton';
 	import SpinnerOverlay from '$lib/components/layout/SpinnerOverlay.svelte';
@@ -66,6 +66,8 @@
 		}
 	});
 
+	const closingAttachment = fileProxy(form, 'closingAttachment');
+
 	$: {
 		$form.title = routine.title;
 		$form.objective = routine.objective;
@@ -74,10 +76,12 @@
 		$form.serviceImpact = routine.serviceImpact;
 		$form.teamIds = routine.teamIds;
 		$form.duration = routine.duration;
-		$form.listOfServices = routine.listOfServices;
+		$form.servicesListIds = routine.servicesListIds;
 		$form.requestee = routine?.requestee;
 		$form.maintenanceTeamId = routine?.maintenanceTeamId;
 	}
+
+	$: specifyBeforeClosing = !$form.taskCompletion || $form.taskCompletion === 'Yes' ? false : true;
 </script>
 
 {#if $delayed || submitting}
@@ -98,35 +102,6 @@
 			<form method="POST" enctype="multipart/form-data" use:enhance>
 				<div class="flex flex-col justify-between gap-4">
 					<div class="grid grid-cols-2 auto-rows-auto gap-4">
-						<label class="label col-span-2">
-							<p class="my-2 text-base font-semibold">
-								Completion of Task
-								<span class="text-red-500">*</span>
-							</p>
-							<div class="flex flex-row">
-								<select
-									class="select rounded-none w-full"
-									name="taskCompletion"
-									bind:value={$form.taskCompletion}
-									required
-									{...$constraints.taskCompletion}
-								>
-									<option value={null} disabled selected>
-										<span class="!text-gray-500">Select Option</span>
-									</option>
-									{#each ['Yes', 'No', 'Partially Completed'] as item}
-										<option value={item}>
-											{item}
-										</option>
-									{/each}
-								</select>
-
-								{#if $errors.taskCompletion}
-									<span class=" text-error-500">{$errors.taskCompletion}</span>
-								{/if}
-							</div>
-						</label>
-
 						<label class="label">
 							<p class="my-2 text-base font-semibold">
 								All related alarms cleared
@@ -184,6 +159,83 @@
 								{/if}
 							</div>
 						</label>
+
+						<label class="label col-span-2">
+							<p class="my-2 text-base font-semibold">
+								Completion of Task
+								<span class="text-red-500">*</span>
+							</p>
+							<div class="flex flex-row">
+								<select
+									class="select rounded-none w-full"
+									name="taskCompletion"
+									bind:value={$form.taskCompletion}
+									required
+									{...$constraints.taskCompletion}
+								>
+									<option value={null} disabled selected>
+										<span class="!text-gray-500">Select Option</span>
+									</option>
+									{#each ['Yes', 'No', 'Partially Completed'] as item}
+										<option value={item}>
+											{item}
+										</option>
+									{/each}
+								</select>
+
+								{#if $errors.taskCompletion}
+									<span class=" text-error-500">{$errors.taskCompletion}</span>
+								{/if}
+							</div>
+						</label>
+
+						{#if specifyBeforeClosing}
+							<label class="label col-span-2">
+								<p class="my-2 text-base font-semibold">
+									Closing Remarks
+									<span class="text-red-500">*</span>
+								</p>
+
+								<textarea
+									class="textarea p-2 bg-transparent dark:bg-transparent"
+									name="closingRemarks"
+									type="text"
+									bind:value={$form.closingRemarks}
+									rows="2"
+									placeholder="Please provide a closing remark"
+									required={specifyBeforeClosing}
+									{...$constraints.closingRemarks}
+								/>
+
+								{#if $errors.closingRemarks}
+									<span class=" text-error-500">{$errors.closingRemarks}</span>
+								{/if}
+							</label>
+
+							<div class="flex flex-col col-span-2">
+								<label class="my-2 text-base font-semibold" for="closingAttachment">
+									Upload Closing Attachment
+									<span class="text-red-500">*</span>
+								</label>
+
+								{#if $errors.closingAttachment}
+									<span class=" text-error-500">{$errors.closingAttachment}</span>
+								{/if}
+
+								<p class="mb-2 text-sm font-semibold text-primary-500 dark:text-tertiary-500">
+									Max file upload 5 (MB)
+								</p>
+
+								<input
+									class="w-full rounded text-base text-gray-900 border border-gray-300 dark:border-gray-700 cursor-pointer bg-gray-50 dark:bg-transparent dark:text-white focus:outline-none p-1"
+									name="closingAttachment"
+									bind:files={$closingAttachment}
+									required={specifyBeforeClosing}
+									type="file"
+									{...$constraints.closingAttachment}
+								/>
+							</div>
+						{/if}
 					</div>
 
 					<div class="mt-8 flex flex-col items-center gap-y-4">

@@ -1,14 +1,6 @@
 import { z } from 'zod';
 
 const MaxAttachmentSize = 5000000; // 5MB
-const AcceptedAttachmentTypes = [
-	'application/msword',
-	'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-	'application/pdf',
-	'image/jpeg',
-	'image/jpg',
-	'image/png'
-];
 
 export const routineMaintenanceSchema = (attachment, startDate, endDate) =>
 	z
@@ -43,17 +35,12 @@ export const routineMaintenanceSchema = (attachment, startDate, endDate) =>
 
 			maintenanceTeamId: z.string().nullable(),
 
-			listOfServices: z.string().min(1, {
-				message: 'This field is required'
-			}),
+			servicesListIds: z.array(z.string()),
 
 			attachment: z
 				.instanceof(File)
-				.refine((file) => file.size < MaxAttachmentSize, {
+				.refine((file) => file.size <= MaxAttachmentSize, {
 					message: 'Max size is 5MB.'
-				})
-				.refine((file) => AcceptedAttachmentTypes.includes(file.type), {
-					message: 'Only .pdf, .doc, .docx, .jpg, .png formats are supported.'
 				})
 				.default(attachment),
 
@@ -77,6 +64,20 @@ export const routineMaintenanceSchema = (attachment, startDate, endDate) =>
 				.string()
 				.refine((value) => ['Yes', 'No'].includes(value), {
 					message: 'Must be of one of the types'
+				})
+				.nullable(),
+
+			closingRemarks: z
+				.string()
+				.min(1, {
+					message: 'This field is required'
+				})
+				.nullable(),
+
+			closingAttachment: z
+				.instanceof(File)
+				.refine((file) => file.size <= MaxAttachmentSize, {
+					message: 'Max size is 5MB.'
 				})
 				.nullable()
 		})

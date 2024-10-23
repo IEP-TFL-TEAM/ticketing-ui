@@ -10,7 +10,8 @@
 
 	export let data;
 
-	$: ({ routine, attachmentUrl, attachment, members } = data);
+	$: ({ routine, attachmentUrl, closingAttachmentUrl, attachment, closingAttachment, members } =
+		data);
 	$: isOfTypeDoc =
 		(attachment.type !== 'image/jpg') &
 		(attachment.type !== 'image/png') &
@@ -86,7 +87,7 @@
 			async (e) => {
 				toastStore.clear();
 				toastStore.trigger({
-					message: `A form has been ${e.action}d!`,
+					message: `A routine has been ${e.action}d!`,
 					timeout: 3000
 				});
 
@@ -219,33 +220,18 @@
 						<span class={spanStyles}>{extractMessage(routine.scopeOfWork)}</span>
 					</div>
 
-					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
-						<span> List Of Services: </span>
-						<span class={spanStyles}>{extractMessage(routine.listOfServices)}</span>
+					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6 my-4">
+						<span> List of Services: </span>
+
+						<ol class="list {spanStyles}">
+							{#each routine.expand?.servicesListIds as { name }, idx}
+								<li>
+									<span>{idx + 1}.</span>
+									<span class="flex-auto">{name}</span>
+								</li>
+							{/each}
+						</ol>
 					</div>
-
-					{#if routine.isClosed}
-						<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
-							<span> Completion of Task: </span>
-							<span class={spanStyles}>
-								{routine.taskCompletion}
-							</span>
-						</div>
-
-						<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
-							<span> All related alarms cleared: </span>
-							<span class={spanStyles}>
-								{routine.alarmsCleared}
-							</span>
-						</div>
-
-						<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
-							<span> Service Impact is Correct: </span>
-							<span class={spanStyles}>
-								{routine.serviceImpactCorrect}
-							</span>
-						</div>
-					{/if}
 				</div>
 			</div>
 		</div>
@@ -397,5 +383,101 @@
 				</table>
 			</div>
 		</div>
+
+		{#if routine.isClosed}
+			<div class={colStyles + ' lg:col-span-2 lg:row-span-2'}>
+				<div class={divideStyles}>
+					<h4 class="mb-2 h4">Closure Summary</h4>
+
+					<div class="flex flex-col gap-2 pt-4">
+						<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
+							<span> All related alarms cleared: </span>
+							<span class={spanStyles}>
+								{routine.alarmsCleared}
+							</span>
+						</div>
+
+						<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
+							<span> Service Impact is Correct: </span>
+							<span class={spanStyles}>
+								{routine.serviceImpactCorrect}
+							</span>
+						</div>
+
+						<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
+							<span> Completion of Task: </span>
+							<span class={spanStyles}>
+								{routine.taskCompletion}
+							</span>
+						</div>
+
+						{#if routine.closingRemarks.length > 0}
+							<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
+								<span> Closing Remarks: </span>
+								<span class={spanStyles}>
+									{routine.closingRemarks ?? 'N/A'}
+								</span>
+							</div>
+						{/if}
+
+						{#if routine.isClosed && routine.closingAttachment.length > 0}
+							<div class={divideStyles}>
+								{#if (closingAttachment.type !== 'image/jpg') & (closingAttachment.type !== 'image/png') & (closingAttachment.type !== 'image/jpeg')}
+									<div class="flex flex-col pt-4 gap-y-2">
+										<span> Attachment: </span>
+
+										<div class="flex flex-col items-center justify-between xl:flex-row">
+											<div class="flex items-center gap-2">
+												<a href={closingAttachmentUrl + '&download=1'} download>
+													<IconDownload size={30} />
+												</a>
+
+												{#if closingAttachment.type === 'application/pdf'}
+													<button
+														type="button"
+														on:click={() => onClickViewFile(closingAttachmentUrl)}
+														class="cursor-pointer"
+													>
+														<IconMaximize size={30} />
+													</button>
+												{/if}
+											</div>
+
+											<span class={spanStyles}>{closingAttachment.name}</span>
+										</div>
+									</div>
+								{:else}
+									<div class="flex items-center justify-between gap-4 mb-2 pt-4">
+										<span> Attachment: </span>
+
+										<div class="flex gap-2">
+											<a href={closingAttachmentUrl + '&download=1'} download>
+												<IconDownload size={30} />
+											</a>
+
+											<button
+												type="button"
+												on:click={() => onClickView(closingAttachmentUrl)}
+												class="cursor-pointer"
+											>
+												<IconMaximize size={30} />
+											</button>
+										</div>
+									</div>
+
+									<div class="pt-4">
+										<img
+											use:lazyLoad={closingAttachmentUrl}
+											class="transition duration-500 opacity-0 w-full object-contain h-[20rem]"
+											alt="_"
+										/>
+									</div>
+								{/if}
+							</div>
+						{/if}
+					</div>
+				</div>
+			</div>
+		{/if}
 	</div>
 </div>

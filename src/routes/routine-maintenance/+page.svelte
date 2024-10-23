@@ -1,7 +1,10 @@
 <script>
+	import { onDestroy, onMount } from 'svelte';
+	import { goto } from '$app/navigation';
+	import pb from '$lib/api/pocketbaseClient';
 	import { exportRoutineMaintenance } from '$lib/utils/exportRoutineMaintenance';
-	import { getAllRoutines } from '$lib/api/routineMaintenance';
-	import { getDrawerStore } from '@skeletonlabs/skeleton';
+	import { getAllRoutines, expand } from '$lib/api/routineMaintenance';
+	import { getDrawerStore, getToastStore } from '@skeletonlabs/skeleton';
 	import { IconPlus } from '@tabler/icons-svelte';
 
 	import ExportButton from '$lib/components/layout/ExportButton.svelte';
@@ -11,10 +14,10 @@
 
 	export let data;
 
-	$: routines = data.routines.items;
-	$: ({ filters, teams, maintenanceTeams, sites, staff } = data);
+	$: ({ filters, teams, maintenanceTeams, sites, staff, routines, servicesList } = data);
 
 	const drawerStore = getDrawerStore();
+	const toastStore = getToastStore();
 	let loading = false;
 
 	$: pageSettings = {
@@ -34,7 +37,8 @@
 				staff,
 				teams,
 				maintenanceTeams,
-				sites
+				sites,
+				servicesList
 			}
 		});
 	}
@@ -49,6 +53,61 @@
 	async function handleExportData() {
 		handleExport(exportRoutineMaintenance);
 	}
+
+	function updateRoutines(e) {
+		const { record } = e;
+
+		switch (e.action) {
+			case 'create':
+				routines = { ...routines, items: [record, ...routines.items] };
+				break;
+
+			case 'delete':
+				routines = {
+					...routines,
+					items: routines.items.filter((item) => item !== record)
+				};
+				break;
+
+			case 'update':
+				routines = {
+					...routines,
+					items: [record, ...routines.items.filter((item) => item.id !== record.id)]
+				};
+				break;
+
+			default:
+				return;
+		}
+	}
+
+	let unSubscribe;
+
+	onMount(async () => {
+		unSubscribe = await pb.collection('routinemaintenance').subscribe(
+			'*',
+			async (e) => {
+				toastStore.clear();
+				toastStore.trigger({
+					message: `A Routine Maintenance has been ${e.action}d!`,
+					action: {
+						label: 'View',
+						response: () => goto(`/routine-maintenance/${e.record.id}`)
+					},
+					timeout: 3000
+				});
+
+				updateRoutines(e);
+			},
+			{
+				expand
+			}
+		);
+	});
+
+	onDestroy(() => {
+		unSubscribe?.();
+	});
 </script>
 
 {#if !routines}
@@ -63,7 +122,7 @@
 					bind:loading
 					label="Routines"
 					{handleExportData}
-					noRecords={routines.length === 0}
+					noRecords={routines.items.length === 0}
 				/>
 
 				<button
