@@ -115,6 +115,52 @@
 		<div>
 			<form method="POST" enctype="multipart/form-data" use:enhance>
 				<div class="flex flex-col justify-between gap-4">
+					<div class="grid grid-cols-2 auto-rows-auto gap-2">
+						<label class="label">
+							<p class="my-2 text-base font-semibold">
+								Enter Title for the Incident
+								<span class="text-red-500">*</span>
+							</p>
+							<div class="flex flex-row">
+								<input
+									class="input p-4 border"
+									type="text"
+									name="title"
+									bind:value={ticket.title}
+									on:change={() => (dirtyForm = true)}
+									placeholder="Please enter ticket title"
+									{...$constraints.title}
+								/>
+							</div>
+
+							{#if $errors.title}
+								<span class=" text-error-500">{$errors.title}</span>
+							{/if}
+						</label>
+
+						<label class="label">
+							<p class="my-2 text-base font-semibold">
+								Enter Description for the Incident
+								<span class="text-red-500">*</span>
+							</p>
+							<div class="flex flex-row">
+								<input
+									class="input p-4 border"
+									type="text"
+									name="description"
+									bind:value={ticket.description}
+									on:change={() => (dirtyForm = true)}
+									placeholder="Please enter ticket description"
+									{...$constraints.description}
+								/>
+							</div>
+
+							{#if $errors.description}
+								<span class=" text-error-500">{$errors.description}</span>
+							{/if}
+						</label>
+					</div>
+
 					<label class="label">
 						<p class="my-2 text-base font-semibold">
 							Enter Incident Start Date
