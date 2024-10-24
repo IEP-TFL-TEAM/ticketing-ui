@@ -23,6 +23,8 @@
 	import CreateTeam from '$lib/components/drawers/teams/CreateTeam.svelte';
 	import CreateRequest from '$lib/components/drawers/change-requests/CreateRequest.svelte';
 	import CreateRoutineMaintenance from '$lib/components/drawers/routine-maintenance/CreateRoutineMaintenance.svelte';
+	import SidebarDrawer from '$lib/components/home/SidebarDrawer.svelte';
+	import { IconChevronsRight } from '@tabler/icons-svelte';
 
 	initializeStores();
 
@@ -47,6 +49,18 @@
 	afterNavigate(() => {
 		drawerStore.close();
 	});
+
+	function toggleSidebar(id, position) {
+		drawerStore.open({
+			id,
+			position,
+			bgDrawer: 'bg-surface-800 dark:bg-secondary-800 text-white',
+			bgBackdrop: 'bg-black/70',
+			width: 'w-[290px]',
+			padding: 'p-0',
+			rounded: 'rounded-none'
+		});
+	}
 
 	$: if ($navigating) toastStore.clear();
 </script>
@@ -84,11 +98,21 @@
 		<CreateRequest />
 	{:else if $drawerStore.id === 'createRoutine'}
 		<CreateRoutineMaintenance />
+	{:else if $drawerStore.id === 'sidebarDrawer'}
+		<SidebarDrawer />
 	{/if}
 </Drawer>
 
 <div class="relative min-h-screen md:flex bg-white dark:bg-[#252424]">
 	{#if $currentUser}
+		<button
+			type="button"
+			on:click={() => toggleSidebar('sidebarDrawer', 'left')}
+			class="block xl:hidden fixed top-1 left-1 btn rounded bg-primary-500 p-4"
+		>
+			<IconChevronsRight size={30} class="text-white" />
+		</button>
+
 		<Sidebar />
 
 		<div class="h-full w-full p-12">

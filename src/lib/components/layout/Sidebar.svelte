@@ -6,11 +6,11 @@
 	import { IconArrowBarRight } from '@tabler/icons-svelte';
 	import { TransparentLogo } from '$lib/assets';
 
-	const sidebarItems = getSidebarItems($currentUser.role);
+	const sidebarItems = getSidebarItems($currentUser?.role);
 </script>
 
 <div
-	class="sticky top-0 h-screen max-w-[17rem] bg-primary-800 text-white flex flex-col justify-between py-10 w-full px-5 overflow-y-auto"
+	class="sticky top-0 h-screen max-w-[17rem] bg-primary-800 text-white hidden xl:flex flex-col justify-between py-10 w-full px-5 overflow-y-auto"
 >
 	<div class="flex flex-col items-center justify-center px-2 mt-5 gap-4">
 		<a href="/">
@@ -18,7 +18,7 @@
 		</a>
 
 		<span class="badge variant-filled uppercase">
-			{$currentUser.role} Portal
+			{$currentUser?.role} Portal
 		</span>
 	</div>
 
