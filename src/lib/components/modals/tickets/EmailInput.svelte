@@ -51,7 +51,7 @@
 		on:keydown={handleKeydown}
 		on:blur={addEmail}
 		disabled={loading}
-		placeholder="Enter email addresses separated by comma. Press enter to add to list."
+		placeholder="Enter email addresses here ..."
 		class="input max-w-60 !bg-white dark:!bg-neutral-800 placeholder-primary-500 dark:placeholder-tertiary-500 rounded-none text-sm flex-grow !border-none !focus:outline-none !focus:ring-0 !focus:ring-offset-0"
 	/>
 </div>
