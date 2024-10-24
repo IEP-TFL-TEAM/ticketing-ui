@@ -2,10 +2,10 @@
 	import { onDestroy, onMount } from 'svelte';
 	import pb from '$lib/api/pocketbaseClient';
 	import { goto } from '$app/navigation';
-	import { Accordion, AccordionItem, getToastStore } from '@skeletonlabs/skeleton';
+	import { Accordion, AccordionItem, getToastStore, getModalStore } from '@skeletonlabs/skeleton';
 	import { parseStatus, parseDateAndTime } from '$lib/utils/parsers';
 	import { expand } from '$lib/api/tickets';
-	import { IconArrowNarrowLeft } from '@tabler/icons-svelte';
+	import { IconArrowNarrowLeft, IconMailFast } from '@tabler/icons-svelte';
 	import { calculateSLAStatus } from '$lib/utils/calculateSLAStatus';
 
 	import TicketActions from '$lib/components/tickets/TicketActions.svelte';
@@ -39,6 +39,16 @@
 	);
 
 	const toastStore = getToastStore();
+	const modalStore = getModalStore();
+
+	function onClickSend() {
+		modalStore.trigger({
+			type: 'component',
+			component: 'sendBroadcast',
+			meta: { ticket }
+		});
+	}
+
 	let unSubscribe;
 
 	onMount(async () => {
@@ -101,16 +111,27 @@
 			</p>
 		</div>
 
-		<TicketActions
-			{teams}
-			{ticket}
-			{attachment}
-			{solutionCodes}
-			{causeCodes}
-			{categories}
-			{categoryLevels}
-			{teamEquipment}
-		/>
+		<div class="flex flex-col gap-4">
+			<button
+				type="button"
+				on:click={() => onClickSend()}
+				class="font-medium text-white border rounded btn variant-filled dark:text-black"
+			>
+				<IconMailFast />
+				<span class="hidden md:inline-block">Email Broadcast</span>
+			</button>
+
+			<TicketActions
+				{teams}
+				{ticket}
+				{attachment}
+				{solutionCodes}
+				{causeCodes}
+				{categories}
+				{categoryLevels}
+				{teamEquipment}
+			/>
+		</div>
 	</div>
 
 	<div class="flex min-h-screen px-5 mb-5">

@@ -41,4 +41,42 @@ const getTicketById = async (id) => {
 	return record;
 };
 
-export { updateTicket, updateTicketById, getTicketById, getTickets, createTicket, getAllTickets };
+const sendBroadcastEmail = async ({
+	id,
+	email,
+	cc,
+	subject,
+	incidentStart,
+	description,
+	location,
+	assignedTeams,
+	update,
+	ticketNumber
+}) => {
+	const response = await pb.send(`/api/send-broadcast`, {
+		method: 'POST',
+		body: {
+			id,
+			email,
+			cc,
+			subject,
+			incidentStart,
+			description,
+			location,
+			assignedTeams,
+			update,
+			ticketNumber
+		}
+	});
+	return response;
+};
+
+export {
+	updateTicket,
+	updateTicketById,
+	getTicketById,
+	getTickets,
+	createTicket,
+	getAllTickets,
+	sendBroadcastEmail
+};
