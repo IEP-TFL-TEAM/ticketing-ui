@@ -235,7 +235,7 @@
 					{/if}
 
 					<p class="mb-2 text-sm font-semibold text-primary-500 dark:text-tertiary-500">
-						Allowed Formats: .doc, .docx, .pdf, .jpg, .png only.
+						Max file upload 5 (MB)
 					</p>
 
 					<input
@@ -244,7 +244,6 @@
 						bind:files={$attachment}
 						required
 						type="file"
-						accept=".doc, .docx, .pdf, image/jpg, image/png, image/jpeg"
 						{...$constraints.attachment}
 					/>
 				</div>

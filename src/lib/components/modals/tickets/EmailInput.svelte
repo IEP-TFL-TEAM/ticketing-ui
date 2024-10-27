@@ -1,4 +1,6 @@
 <script>
+	import { IconX } from '@tabler/icons-svelte';
+
 	export let emails = [];
 	export let loading;
 
@@ -34,13 +36,15 @@
 <div class="border border-gray-300 dark:border-gray-200/30 rounded flex flex-wrap">
 	<div class="flex flex-wrap">
 		{#each emails as email}
-			<span class="bg-surface-100 text-gray-700 rounded px-2 py-1 m-1 text-xs flex items-center">
+			<span class="bg-surface-100 text-gray-700 rounded px-2 py-1 m-1 text-sm flex items-center">
 				{email}
 				<button
+					type="button"
+					disabled={loading}
 					on:click={() => removeEmail(email)}
 					class="ml-2 text-gray-600 hover:text-gray-800 focus:outline-none"
 				>
-					×
+					<IconX />
 				</button>
 			</span>
 		{/each}

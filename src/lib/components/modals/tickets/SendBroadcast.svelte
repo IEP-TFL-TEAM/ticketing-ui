@@ -3,6 +3,7 @@
 	import { getModalStore, getToastStore } from '@skeletonlabs/skeleton';
 	import { sendBroadcastEmail } from '$lib/api/tickets';
 	import { parseDateAndTime } from '$lib/utils/parsers';
+	import { broadcastTypes } from '$lib/utils';
 
 	const modalStore = getModalStore();
 	const toastStore = getToastStore();
@@ -10,6 +11,7 @@
 	const ticket = $modalStore[0].meta.ticket;
 	let emails = [];
 	let ccEmail;
+	let typeOfBroadcast;
 	let update;
 	let errors;
 	let loading = false;
@@ -23,12 +25,36 @@
 		loading = true;
 		errors = null;
 
-		if (ccEmail && !isValidEmail(ccEmail)) {
+		if (!isValidEmail(ccEmail)) {
 			loading = false;
 
 			let message = 'CC Email must be an email';
 			errors = message;
 
+			toastStore.trigger({
+				message,
+				background: 'variant-filled-error'
+			});
+			return;
+		}
+
+		if (!typeOfBroadcast) {
+			loading = false;
+
+			let message = 'Type of Broadcast cannot be empty';
+			errors = message;
+			toastStore.trigger({
+				message,
+				background: 'variant-filled-error'
+			});
+			return;
+		}
+
+		if (!update) {
+			loading = false;
+
+			let message = 'Update cannot be empty';
+			errors = message;
 			toastStore.trigger({
 				message,
 				background: 'variant-filled-error'
@@ -44,14 +70,19 @@
 				await sendBroadcastEmail({
 					id: ticket.id,
 					email,
-					cc: ccEmail ?? '',
+					cc: ccEmail,
 					subject: ticket.title,
 					incidentStart: parseDateAndTime(ticket.incidentStart),
+					incidentEnd:
+						typeOfBroadcast === 'Service Restoration Notice'
+							? parseDateAndTime(ticket.incidentEnd)
+							: 'not-yet-closed',
 					description: ticket.description,
 					location: ticket.expand?.siteId?.name,
 					assignedTeams: teams,
-					update: !update || update.length === 0 ? '' : update,
-					ticketNumber: ticket.ticketNumber
+					update,
+					ticketNumber: ticket.ticketNumber,
+					broadcastType: typeOfBroadcast
 				});
 
 				toastStore.trigger({
@@ -67,8 +98,11 @@
 
 		update = null;
 		ccEmail = null;
+		typeOfBroadcast = null;
 		loading = false;
 	}
+
+	$: ticket.status === 'CLOSED' ? broadcastTypes.push('Service Restoration Notice') : '';
 
 	const customInputStyle =
 		'!bg-white dark:!bg-neutral-800 placeholder-primary-500 dark:placeholder-tertiary-500 text-sm flex-grow border border-gray-300 dark:border-gray-200/30 rounded-none !focus:outline-none !focus:ring-0 !focus:ring-offset-0';
@@ -90,60 +124,93 @@
 	<hr class="!border-gray-200 dark:!border-gray-200/30 my-5" />
 
 	<div class="flex flex-col my-5 gap-2">
-		<span class="text-lg">Provide emails below</span>
+		<p class="my-2 text-base font-semibold">
+			Provide email(s) below
+			<span class="text-red-500">*</span>
+		</p>
 
 		<EmailInput bind:emails bind:loading />
 
-		<div class="flex flex-col gap-2 mt-4">
-			<span class="text-lg">Enter an email to CC</span>
+		<form method="POST" enctype="multipart/form-data" class="w-full flex flex-col gap-2">
+			<label class="label">
+				<p class="my-3 text-base font-semibold">
+					Enter an email to CC
+					<span class="text-red-500">*</span>
+				</p>
+				<div class="flex flex-row">
+					<input
+						class="input p-2 {customInputStyle}"
+						type="email"
+						name="ccEmail"
+						bind:value={ccEmail}
+						required
+						disabled={loading}
+						placeholder="Please enter an email to cc"
+					/>
+				</div>
+			</label>
 
-			<form method="POST" enctype="multipart/form-data" class="w-full rounded-lg">
-				<input
-					class="input p-2 {customInputStyle}"
-					type="email"
-					name="ccEmail"
-					bind:value={ccEmail}
-					on:keydown={(event) => {
-						if (event.key === 'Enter') {
-							event.preventDefault();
-						}
-					}}
-					disabled={loading}
-					placeholder="Please enter an email to cc"
-				/>
-			</form>
-		</div>
+			<label class="label">
+				<p class="my-3 text-base font-semibold">
+					Type of Broadcast
+					<span class="text-red-500">*</span>
+				</p>
+				<div class="flex flex-row">
+					<select
+						class="select rounded-none w-full"
+						name="typeOfBroadcast"
+						bind:value={typeOfBroadcast}
+						disabled={loading}
+						required
+					>
+						<option value={null} disabled selected>
+							<span class="!text-gray-500">-- select type of broadcast --</span>
+						</option>
+						{#each broadcastTypes as item}
+							<option value={item}>
+								{item}
+							</option>
+						{/each}
+					</select>
+				</div>
+			</label>
 
-		<div class="flex flex-col gap-2 mt-4">
-			<span class="text-lg">Provide an update below if any</span>
+			<label class="label">
+				<p class="my-3 text-base font-semibold">
+					Please, provide an update below
+					<span class="text-red-500">*</span>
+				</p>
+				<div class="flex flex-row">
+					<textarea
+						class="textarea p-2 {customInputStyle}"
+						name="update"
+						bind:value={update}
+						required
+						placeholder="Provide an update here ..."
+						type="text"
+						rows="4"
+						disabled={loading}
+					/>
+				</div>
+			</label>
 
-			<form method="POST" enctype="multipart/form-data" class="w-full rounded-lg">
-				<textarea
-					class="textarea p-2 {customInputStyle}"
-					name="update"
-					bind:value={update}
-					disabled={loading}
-					placeholder="Provide an update here ..."
-					type="text"
-					rows="2"
-				/>
-			</form>
-		</div>
-	</div>
-
-	{#if errors}
-		<div class="flex items-center justify-between">
-			<span class="text-red-500 text-sm">{errors}</span>
-		</div>
-	{/if}
-	<div class="flex justify-end">
-		<button
-			type="submit"
-			disabled={emails.length === 0 || loading}
-			on:click={() => onSendBroadcast()}
-			class="btn variant-filled dark:variant-filled-tertiary rounded-sm p-1.5 px-5 mb-2"
-		>
-			{loading ? 'Sending ...' : 'Send'}
-		</button>
+			<div>
+				{#if errors}
+					<div class="flex items-center justify-between">
+						<span class="text-red-500 text-sm uppercase font-medium">{errors}</span>
+					</div>
+				{/if}
+				<div class="flex justify-end">
+					<button
+						type="submit"
+						disabled={emails.length === 0 || loading}
+						on:click={() => onSendBroadcast()}
+						class="btn variant-filled dark:variant-filled-tertiary rounded-sm p-1.5 px-5 mb-2"
+					>
+						{loading ? 'Sending ...' : 'Send'}
+					</button>
+				</div>
+			</div>
+		</form>
 	</div>
 </div>

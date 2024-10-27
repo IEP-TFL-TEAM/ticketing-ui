@@ -90,25 +90,27 @@
 <div class="h-full w-full border-r-gray-300 mt-2">
 	<div class="flex justify-between items-end p-5">
 		<div class="flex flex-col gap-2">
-			<h3 class="text-primary-500 dark:text-tertiary-500 text-xl font-extrabold">
-				Ticket #: {ticket.ticketNumber}
-			</h3>
+			<div class="flex gap-2 items-center">
+				<h3 class="text-primary-500 dark:text-tertiary-500 text-xl font-extrabold">
+					Ticket #: {ticket.ticketNumber}
+				</h3>
 
-			<div class="w-full flex items-center">
 				<span class={`${parseStatus(ticket.status)} mr-3`}>
 					{ticket.status}
 				</span>
-
-				<span class=" font-extrabold">{ticket.title}</span>
 			</div>
 
-			<p>
-				Status: <span
-					class="font-semibold {slaStatus.diffInHours <= 2 ? 'text-success-500' : 'text-error-500'}"
-				>
+			<h4 class="text-lg font-extrabold">
+				Title: {ticket.title}
+			</h4>
+
+			<h5 class="text-base font-semibold">
+				SLA Status:
+
+				<span class={slaStatus.diffInHours <= 2 ? 'text-success-500' : 'text-error-500'}>
 					{slaStatus.status}
 				</span>
-			</p>
+			</h5>
 		</div>
 
 		<div class="flex flex-col gap-4">

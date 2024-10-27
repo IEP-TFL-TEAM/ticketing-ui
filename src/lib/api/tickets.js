@@ -47,11 +47,13 @@ const sendBroadcastEmail = async ({
 	cc,
 	subject,
 	incidentStart,
+	incidentEnd,
 	description,
 	location,
 	assignedTeams,
 	update,
-	ticketNumber
+	ticketNumber,
+	broadcastType
 }) => {
 	const response = await pb.send(`/api/send-broadcast`, {
 		method: 'POST',
@@ -61,11 +63,13 @@ const sendBroadcastEmail = async ({
 			cc,
 			subject,
 			incidentStart,
+			incidentEnd,
 			description,
 			location,
 			assignedTeams,
 			update,
-			ticketNumber
+			ticketNumber,
+			broadcastType
 		}
 	});
 	return response;

@@ -1,14 +1,6 @@
 import { z } from 'zod';
 
 const MaxAttachmentSize = 5000000; // 5MB
-const AcceptedAttachmentTypes = [
-	'application/msword',
-	'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-	'application/pdf',
-	'image/jpeg',
-	'image/jpg',
-	'image/png'
-];
 
 export const ticketSchema = (attachment, incidentStart) =>
 	z
@@ -45,11 +37,8 @@ export const ticketSchema = (attachment, incidentStart) =>
 
 			attachment: z
 				.instanceof(File)
-				.refine((file) => file.size < MaxAttachmentSize, {
+				.refine((file) => file.size <= MaxAttachmentSize, {
 					message: 'Max size is 5MB.'
-				})
-				.refine((file) => AcceptedAttachmentTypes.includes(file.type), {
-					message: 'Only .pdf, .doc, .docx, .jpg, .png formats are supported.'
 				})
 				.default(attachment),
 
