@@ -42,10 +42,25 @@
 			if (!form.valid) {
 				form.valid = false;
 				submitting = false;
-				form.message = 'Please verify that all rquired fields are provided.';
+				let message = 'Please verify that all rquired fields are provided.';
+				form.message = message;
 
 				toastStore.trigger({
-					message: 'Please verify that all rquired fields are provided.',
+					message,
+					background: 'variant-filled-error',
+					classes: 'rounded-none font-semibold'
+				});
+				return { form };
+			}
+
+			if (specifyListOfServices && form.data.servicesListIds.length === 0) {
+				form.valid = false;
+				submitting = false;
+				let message = 'List of Services cannot be empty';
+				form.message = message;
+
+				toastStore.trigger({
+					message,
 					background: 'variant-filled-error',
 					classes: 'rounded-none font-semibold'
 				});
@@ -92,6 +107,10 @@
 
 	$: startDateVal = dateProxy(form, 'startDate', { format: 'datetime-local', empty: 'null' });
 	$: endDateVal = dateProxy(form, 'endDate', { format: 'datetime-local', empty: 'null' });
+	$: specifyListOfServices = $form.serviceImpact === 'Yes' ? true : false;
+	$: if ($form.serviceImpact === 'No') {
+		$form.servicesListIds = [];
+	}
 </script>
 
 {#if $delayed || submitting}
@@ -100,8 +119,6 @@
 
 <div class="h-full flex flex-col justify-between gap-y-4 w-full">
 	<div class="flex flex-col">
-		<!-- <SuperDebug data={$form} /> -->
-
 		<form method="POST" enctype="multipart/form-data" use:enhance>
 			<div class="flex flex-col justify-between gap-4">
 				<label class="label">
@@ -266,26 +283,28 @@
 					{/if}
 				</label>
 
-				<div class="flex flex-col gap-4">
-					<p class="mt-2 text-base font-semibold">
-						List of Services / Circuits
-						<span class="text-red-500">*</span>
-					</p>
+				{#if specifyListOfServices}
+					<div class="flex flex-col gap-4">
+						<p class="mt-2 text-base font-semibold">
+							List of Services / Circuits
+							<span class="text-red-500">*</span>
+						</p>
 
-					<p class="text-sm font-semibold text-primary-500 dark:text-tertiary-500">
-						(All services and circuits surrounding the CR. Affected or not affected).
-					</p>
+						<p class="text-sm font-semibold text-primary-500 dark:text-tertiary-500">
+							(All services and circuits surrounding the CR. Affected or not affected).
+						</p>
 
-					<form class="card w-full max-h-48 p-4 overflow-y-auto" tabindex="-1">
-						<ListBox multiple>
-							{#each servicesListOptions as { value, label }}
-								<ListBoxItem bind:group={$form.servicesListIds} name="medium" {value}>
-									{label}
-								</ListBoxItem>
-							{/each}
-						</ListBox>
-					</form>
-				</div>
+						<form class="card w-full max-h-48 p-4 overflow-y-auto" tabindex="-1">
+							<ListBox multiple>
+								{#each servicesListOptions as { value, label }}
+									<ListBoxItem bind:group={$form.servicesListIds} name="medium" {value}>
+										{label}
+									</ListBoxItem>
+								{/each}
+							</ListBox>
+						</form>
+					</div>
+				{/if}
 
 				<label class="label">
 					<p class="my-2 text-base font-semibold">

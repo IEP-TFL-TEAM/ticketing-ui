@@ -225,14 +225,18 @@
 					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6 my-4">
 						<span> List of Services: </span>
 
-						<ol class="list {spanStyles}">
-							{#each request.expand?.servicesListIds as { name }, idx}
-								<li>
-									<span>{idx + 1}.</span>
-									<span class="flex-auto">{name}</span>
-								</li>
-							{/each}
-						</ol>
+						{#if request.expand?.servicesListIds}
+							<ol class="list {spanStyles}">
+								{#each request.expand?.servicesListIds as { name }, idx}
+									<li>
+										<span>{idx + 1}.</span>
+										<span class="flex-auto">{name}</span>
+									</li>
+								{/each}
+							</ol>
+						{:else}
+							<span class={spanStyles}>-- none selected --</span>
+						{/if}
 					</div>
 
 					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">

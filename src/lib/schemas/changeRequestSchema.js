@@ -38,7 +38,7 @@ export const changeRequestSchema = (attachment, startDate, endDate) =>
 				message: 'This field is required'
 			}),
 
-			servicesListIds: z.array(z.string()),
+			servicesListIds: z.array(z.string()).optional().default([]),
 
 			awarenessToBeMade: z.string().refine((value) => awarenessStatuses.includes(value), {
 				message: 'Must be of one of the types'
