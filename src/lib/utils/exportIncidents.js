@@ -6,6 +6,7 @@ export const exportIncidents = (data) => {
 	const rows = data.map((row) => {
 		const teamNames = row.expand?.teamIds?.map((team) => team.name) || [];
 		const equipmentList = row.expand?.teamEquipmentIds?.map((eq) => eq.name) || [];
+		const listOfServices = row.expand?.servicesListIds?.map((item) => item.name) || [];
 
 		const slaStatus = calculateSLAStatus(
 			parseDateAndTime(row.incidentStart),
@@ -26,9 +27,11 @@ export const exportIncidents = (data) => {
 			Region: row.expand?.regionId?.name,
 			Area: row.expand?.areaId?.name,
 			Site: row.expand?.siteId?.name,
+			'Service Impact': row.serviceImpact,
+			'List of Services / Circuits': listOfServices.join(', '),
 			'Fault Type': row.expand?.faultTypeId?.name,
 			Cause: row.expand?.cause?.name,
-			'Technician Assigned': row.expand?.technicianId?.name,
+			'Technician Assigned': row.expand?.technicianId?.name ?? '-',
 			Status: row.status,
 			Solution: row.expand?.solution?.name ?? '-',
 			'Closed by':

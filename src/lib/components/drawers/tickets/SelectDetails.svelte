@@ -1,12 +1,14 @@
 <script>
 	import { superForm, defaults, fileProxy, dateProxy } from 'sveltekit-superforms';
 	import { zod } from 'sveltekit-superforms/adapters';
-	import { getToastStore, getDrawerStore } from '@skeletonlabs/skeleton';
+	import { getToastStore, getDrawerStore, ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
 	import { ticketSchema } from '$lib/schemas/ticketSchema';
 	import { createTicket } from '$lib/api/tickets';
 	import SpinnerOverlay from '$lib/components/layout/SpinnerOverlay.svelte';
 
-	export const onCompleteHandler = () => submit();
+	export function onCompleteHandler() {
+		submit();
+	}
 
 	export let teamIds, catId, catLevelId, equipIds, regionId, areaId, siteId;
 
@@ -16,6 +18,17 @@
 	const faultTypeList = $drawerStore.meta.faultTypeList;
 	const causeCodes = $drawerStore.meta.causeCodes;
 	const technicians = $drawerStore.meta.technicians;
+	const servicesList = $drawerStore.meta.servicesList;
+	const servicesListOptions = servicesList
+		.map((item) => ({
+			label: item.name,
+			value: item.id
+		}))
+		.sort((a, b) => {
+			if (a.label < b.label) return -1;
+			if (a.label > b.label) return 1;
+			return 0;
+		});
 
 	let filteredCauseCodes = [];
 
@@ -33,13 +46,27 @@
 			if (!form.valid) {
 				form.valid = false;
 				submitting = false;
-				form.message = 'Please verify that all rquired fields are provided.';
+				let message = 'Please verify that all rquired fields are provided.';
+				form.message = message;
 
 				toastStore.trigger({
-					message: 'Please verify that all rquired fields are provided.',
+					message,
 					background: 'variant-filled-error',
-					classes: 'rounded-none font-semibold',
-					timeout: 3000
+					classes: 'rounded-none font-semibold'
+				});
+				return { form };
+			}
+
+			if (specifyListOfServices && form.data.servicesListIds.length === 0) {
+				form.valid = false;
+				submitting = false;
+				let message = 'List of Services cannot be empty';
+				form.message = message;
+
+				toastStore.trigger({
+					message,
+					background: 'variant-filled-error',
+					classes: 'rounded-none font-semibold'
 				});
 				return { form };
 			}
@@ -92,6 +119,11 @@
 		$form.siteId = siteId;
 
 		filteredCauseCodes = causeCodes.filter((code) => code.faultTypeId === $form.faultTypeId);
+	}
+
+	$: specifyListOfServices = $form.serviceImpact === 'Yes' ? true : false;
+	$: if ($form.serviceImpact === 'No') {
+		$form.servicesListIds = [];
 	}
 </script>
 
@@ -167,20 +199,16 @@
 				</label>
 
 				<label class="label">
-					<p class="my-2 text-base font-semibold">
-						Select Technician
-						<span class="text-red-500">*</span>
-					</p>
+					<p class="my-2 text-base font-semibold">Select Technician</p>
 					<div class="flex flex-row">
 						<select
 							class="select rounded-none w-full"
 							name="technicianId"
 							bind:value={$form.technicianId}
-							required
 							{...$constraints.technicianId}
 						>
-							<option value={''} disabled selected>
-								<span class="!text-gray-500">Select Technician</span>
+							<option value={null} disabled selected>
+								<span class="!text-gray-500">-- select --</span>
 							</option>
 							{#each technicians as item}
 								<option value={item.id}>
@@ -223,6 +251,54 @@
 						{/if}
 					</div>
 				</label>
+
+				<label class="label">
+					<p class="my-2 text-base font-semibold">
+						Service Impact
+						<span class="text-red-500">*</span>
+					</p>
+					<div class="flex flex-row">
+						<select
+							class="select rounded-none w-full"
+							name="serviceImpact"
+							bind:value={$form.serviceImpact}
+							required
+							{...$constraints.serviceImpact}
+						>
+							<option value={''} disabled selected>
+								<span class="!text-gray-500">Select Option</span>
+							</option>
+							{#each ['Yes', 'No'] as item}
+								<option value={item}>
+									{item}
+								</option>
+							{/each}
+						</select>
+
+						{#if $errors.serviceImpact}
+							<span class=" text-error-500">{$errors.serviceImpact}</span>
+						{/if}
+					</div>
+				</label>
+
+				{#if specifyListOfServices}
+					<div class="flex flex-col gap-4">
+						<p class="mt-2 text-base font-semibold">
+							List of Services / Circuits
+							<span class="text-red-500">*</span>
+						</p>
+
+						<form class="card w-full max-h-48 p-4 overflow-y-auto" tabindex="-1">
+							<ListBox multiple>
+								{#each servicesListOptions as { value, label }}
+									<ListBoxItem bind:group={$form.servicesListIds} name="medium" {value}>
+										{label}
+									</ListBoxItem>
+								{/each}
+							</ListBox>
+						</form>
+					</div>
+				{/if}
 
 				<div class="flex flex-col">
 					<label class="my-2 text-base font-semibold" for="attachment">

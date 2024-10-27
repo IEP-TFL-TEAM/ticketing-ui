@@ -27,7 +27,8 @@
 		teamEquipment,
 		faultTypeList,
 		causeCodes,
-		technicians
+		technicians,
+		servicesList
 	} = data);
 
 	const drawerStore = getDrawerStore();
@@ -72,7 +73,8 @@
 				teamEquipment,
 				faultTypeList,
 				causeCodes,
-				technicians
+				technicians,
+				servicesList
 			}
 		});
 	}

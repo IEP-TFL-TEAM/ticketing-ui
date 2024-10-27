@@ -11,6 +11,7 @@ import { getFaultList } from '$lib/api/faultTypes';
 import { getRecentHistory } from '$lib/api/history';
 import { getCauseCodes } from '$lib/api/causeCodes';
 import { getTechnicians } from '$lib/api/technicians';
+import { getServicesList } from '$lib/api/servicesList';
 
 export async function load({ url, fetch }) {
 	pb.beforeSend = function (url, options) {
@@ -43,7 +44,8 @@ export async function load({ url, fetch }) {
 			getTeamEquipmentList(),
 			getFaultList(),
 			getCauseCodes(),
-			getTechnicians()
+			getTechnicians(),
+			getServicesList()
 		]);
 
 		const [
@@ -57,7 +59,8 @@ export async function load({ url, fetch }) {
 			teamEquipment,
 			faultTypeList,
 			causeCodes,
-			technicians
+			technicians,
+			servicesList
 		] = results.map((result) => (result.status === 'fulfilled' ? result.value : []));
 
 		return {
@@ -72,7 +75,8 @@ export async function load({ url, fetch }) {
 			teamEquipment,
 			faultTypeList,
 			causeCodes,
-			technicians
+			technicians,
+			servicesList
 		};
 	} catch (error) {
 		console.error(error);

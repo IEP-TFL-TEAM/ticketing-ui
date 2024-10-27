@@ -87,6 +87,7 @@
 				<td>{ticket.expand?.cause?.name ?? 'N/A'}</td>
 			</tr>
 		{/if}
+
 		<tr>
 			<td>Team Equipment(s)</td>
 			<td>
@@ -100,6 +101,30 @@
 				{/each}
 			</td>
 		</tr>
+
+		<tr>
+			<td>Service Impact</td>
+			<td>{ticket.serviceImpact}</td>
+		</tr>
+
+		<tr>
+			<td>List of Services</td>
+			<td>
+				{#if ticket.expand?.servicesListIds}
+					<ol class="list text-primary-600 dark:text-tertiary-500">
+						{#each ticket.expand?.servicesListIds as { name }, idx}
+							<li>
+								<span>{idx + 1}.</span>
+								<span class="flex-auto">{name}</span>
+							</li>
+						{/each}
+					</ol>
+				{:else}
+					<span>-- none selected --</span>
+				{/if}
+			</td>
+		</tr>
+
 		<tr>
 			<td>Reported By</td>
 			<td>{ticket.expand?.reportedBy?.firstName + ' ' + ticket.expand?.reportedBy?.lastName}</td>

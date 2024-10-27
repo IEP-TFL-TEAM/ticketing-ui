@@ -90,7 +90,9 @@
 		$form.siteId = ticket.siteId;
 		$form.faultTypeId = ticket.faultTypeId;
 		$form.cause = ticket.cause;
-		$form.technicianId = ticket.technicianId;
+		$form.technicianId = ticket?.technicianId;
+		$form.serviceImpact = ticket.serviceImpact;
+		$form.servicesListIds = ticket?.servicesListIds;
 	}
 
 	$: {

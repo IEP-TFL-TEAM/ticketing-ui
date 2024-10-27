@@ -33,7 +33,13 @@ export const ticketSchema = (attachment, incidentStart) =>
 
 			cause: z.string().nullable(),
 
-			technicianId: z.string(),
+			technicianId: z.string().nullable(),
+
+			serviceImpact: z.string().refine((value) => ['Yes', 'No'].includes(value), {
+				message: 'Must be of one of the types'
+			}),
+
+			servicesListIds: z.array(z.string()).optional().default([]),
 
 			attachment: z
 				.instanceof(File)
