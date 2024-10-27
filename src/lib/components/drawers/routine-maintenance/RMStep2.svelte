@@ -41,13 +41,27 @@
 			if (!form.valid) {
 				form.valid = false;
 				submitting = false;
-				form.message = 'Please verify that all rquired fields are provided.';
+				let message = 'Please verify that all rquired fields are provided.';
+				form.message = message;
 
 				toastStore.trigger({
-					message: 'Please verify that all rquired fields are provided.',
+					message,
 					background: 'variant-filled-error',
-					classes: 'rounded-none font-semibold',
-					timeout: 3000
+					classes: 'rounded-none font-semibold'
+				});
+				return { form };
+			}
+
+			if (specifyListOfServices && form.data.servicesListIds.length === 0) {
+				form.valid = false;
+				submitting = false;
+				let message = 'List of Services cannot be empty';
+				form.message = message;
+
+				toastStore.trigger({
+					message,
+					background: 'variant-filled-error',
+					classes: 'rounded-none font-semibold'
 				});
 				return { form };
 			}
@@ -94,6 +108,10 @@
 
 	$: startDateVal = dateProxy(form, 'startDate', { format: 'datetime-local', empty: 'null' });
 	$: endDateVal = dateProxy(form, 'endDate', { format: 'datetime-local', empty: 'null' });
+	$: specifyListOfServices = $form.serviceImpact === 'Yes' ? true : false;
+	$: if ($form.serviceImpact === 'No') {
+		$form.servicesListIds = [];
+	}
 </script>
 
 {#if $delayed || submitting}
@@ -266,26 +284,28 @@
 					{/if}
 				</label>
 
-				<div class="flex flex-col gap-4">
-					<p class="mt-2 text-base font-semibold">
-						List of Services / Circuits (At Risk Services/Circuits)
-						<span class="text-red-500">*</span>
-					</p>
+				{#if specifyListOfServices}
+					<div class="flex flex-col gap-4">
+						<p class="mt-2 text-base font-semibold">
+							List of Services / Circuits (At Risk Services/Circuits)
+							<span class="text-red-500">*</span>
+						</p>
 
-					<p class="text-sm font-semibold text-primary-500 dark:text-tertiary-500">
-						List all services surrounding the work. Non-service affecting or service affecting.
-					</p>
+						<p class="text-sm font-semibold text-primary-500 dark:text-tertiary-500">
+							List all services surrounding the work. Non-service affecting or service affecting.
+						</p>
 
-					<form class="card w-full max-h-48 p-4 overflow-y-auto" tabindex="-1">
-						<ListBox multiple>
-							{#each servicesListOptions as { value, label }}
-								<ListBoxItem bind:group={$form.servicesListIds} name="medium" {value}>
-									{label}
-								</ListBoxItem>
-							{/each}
-						</ListBox>
-					</form>
-				</div>
+						<form class="card w-full max-h-48 p-4 overflow-y-auto" tabindex="-1">
+							<ListBox multiple>
+								{#each servicesListOptions as { value, label }}
+									<ListBoxItem bind:group={$form.servicesListIds} name="medium" {value}>
+										{label}
+									</ListBoxItem>
+								{/each}
+							</ListBox>
+						</form>
+					</div>
+				{/if}
 
 				<div class="flex flex-col">
 					<label class="my-2 text-base font-semibold" for="attachment">

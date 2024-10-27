@@ -35,7 +35,7 @@ export const routineMaintenanceSchema = (attachment, startDate, endDate) =>
 
 			maintenanceTeamId: z.string().nullable(),
 
-			servicesListIds: z.array(z.string()),
+			servicesListIds: z.array(z.string()).optional().default([]),
 
 			attachment: z
 				.instanceof(File)
