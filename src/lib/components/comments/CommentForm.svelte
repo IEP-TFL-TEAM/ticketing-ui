@@ -67,10 +67,10 @@
 <div class="w-full">
 	<form method="POST" enctype="multipart/form-data" use:enhance class="w-full rounded-lg">
 		<textarea
-			class="textarea text-xs p-2"
+			class="textarea text-sm p-2 placeholder:text-black dark:placeholder:text-white"
 			name="content"
 			bind:value={$form.content}
-			placeholder="Type Your Comment"
+			placeholder="Type Your Comment here ..."
 			type="text"
 			rows="2"
 			required
@@ -83,11 +83,10 @@
 			{/if}
 
 			<input
-				class="w-full rounded text-sm text-gray-900 border border-gray-300 dark:border-gray-700 cursor-pointer bg-gray-50 dark:bg-transparent dark:text-white focus:outline-none"
+				class="w-full rounded text-sm text-neutral-900 border border-neutral-500 dark:border-neutral-700 cursor-pointer bg-transparent dark:text-white focus:outline-none"
 				name="attachment"
 				bind:files={$attachment}
 				type="file"
-				accept="image/jpg, image/png, image/jpeg, image/vnd.mozilla.apng, image/webp, image/svg+xml, image/gif"
 				{...$constraints.attachment}
 			/>
 		</div>
