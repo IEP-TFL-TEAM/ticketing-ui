@@ -43,11 +43,13 @@
 	}));
 
 	const colorMap = {
-		0: {
+		// Default red color scheme
+		default: {
 			background: 'rgba(255, 87, 51, 0.4)',
 			border: 'rgba(255, 87, 51, 1)'
 		},
-		1: {
+		// Alternative color scheme for names containing "non" #3bcbfb
+		nonCategory: {
 			background: 'rgba(59, 203, 251, 0.4)',
 			border: 'rgba(59, 203, 251, 1)'
 		}
@@ -56,20 +58,25 @@
 	const barData = {
 		labels: ['Incidents'],
 		datasets: [
-			{
-				label: 'Total Incidents',
-				data: [data.tickets.length],
-				backgroundColor: ['rgba(3, 104, 177, 0.4)'],
-				borderColor: ['rgba(3, 104, 177, 1)'],
-				borderWidth: 2
-			},
-			...categoryCounts.map((c, i) => ({
-				label: c.name,
-				data: [c.count],
-				backgroundColor: colorMap[i]?.background || 'rgba(183, 182, 182, 0.4)',
-				borderColor: colorMap[i]?.border || 'rgba(183, 182, 182, 1)',
-				borderWidth: 2
-			}))
+			// {
+			// 	label: 'Total Incidents',
+			// 	data: [data.tickets.length],
+			// 	backgroundColor: ['rgba(3, 104, 177, 0.4)'],
+			// 	borderColor: ['rgba(3, 104, 177, 1)'],
+			// 	borderWidth: 2
+			// },
+			...categoryCounts.map((c) => {
+				const isNonCategory = c.name.toLowerCase().includes('non');
+				const colors = isNonCategory ? colorMap.nonCategory : colorMap.default;
+
+				return {
+					label: c.name,
+					data: [c.count],
+					backgroundColor: colors.background,
+					borderColor: colors.border,
+					borderWidth: 2
+				};
+			})
 		]
 	};
 </script>

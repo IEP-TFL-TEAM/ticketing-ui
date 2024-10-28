@@ -1,6 +1,6 @@
 <script>
 	import StatusCard from '$lib/components/home/StatusCard.svelte';
-	import Charts from '$lib/components/home/Charts.svelte';
+	import IncidentCharts from '$lib/components/home/IncidentCharts.svelte';
 
 	export let data;
 	$: ({ tickets } = data);
@@ -21,6 +21,6 @@
 			<StatusCard {tickets} />
 		</div>
 
-		<Charts {data} />
+		<IncidentCharts {data} />
 	</div>
 </div>
