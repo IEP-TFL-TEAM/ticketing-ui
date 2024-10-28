@@ -1,4 +1,5 @@
 <script>
+	import { ProgressRadial, ConicGradient } from '@skeletonlabs/skeleton';
 	import { Doughnut, Bar } from 'svelte-chartjs';
 	import {
 		Chart as ChartJS,
@@ -79,9 +80,33 @@
 			})
 		]
 	};
+
+	const fullCompletionPercentage =
+		data.tickets.length > 0 ? (closedTickets / data.tickets.length) * 100 : 0;
+
+	const conicStops = [
+		{ label: 'One', color: 'rgba(3, 104, 177, 1)', start: 0, end: 10 },
+		{ label: 'Two', color: 'rgba(255, 196, 37, 0.5)', start: 10, end: 35 },
+		{ label: 'Three', color: 'rgba(59, 203, 251, 0.25)', start: 35, end: 100 }
+	];
 </script>
 
 <div class="grid grid-cols-2 auto-rows-auto w-full gap-10">
+	<div>
+		<ProgressRadial
+			value={fullCompletionPercentage}
+			meter="stroke-success-500"
+			stroke={50}
+			track="stroke-primary-500/30 dark:stroke-primary-100"
+		>
+			{fullCompletionPercentage.toFixed(2)}%
+		</ProgressRadial>
+	</div>
+
+	<div>
+		<ConicGradient stops={conicStops} legend>Map</ConicGradient>
+	</div>
+
 	<div>
 		<Bar data={barData} options={{ responsive: true }} />
 	</div>
