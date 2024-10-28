@@ -25,8 +25,7 @@ const removeRecipient = async (id) => {
 
 const getRecipientList = async () => {
 	const records = await pb.collection('recipients').getFullList({
-		sort: '-created',
-		expand: 'categoryId'
+		sort: '-created'
 	});
 	return records;
 };

@@ -6,7 +6,7 @@
 
 	export let data;
 
-	$: ({ recipients, categories } = data);
+	$: ({ recipients } = data);
 	$: sortedRecipients = recipients.sort((a, b) => {
 		const aStatus = a.name ? (a.verified ? 1 : 2) : 3;
 		const bStatus = b.name ? (b.verified ? 1 : 2) : 3;
@@ -20,10 +20,7 @@
 	function triggerDrawer(id, position) {
 		drawerStore.open({
 			id,
-			position,
-			meta: {
-				categories
-			}
+			position
 		});
 	}
 
@@ -31,7 +28,7 @@
 		modalStore.trigger({
 			type: 'component',
 			component: 'recipientActions',
-			meta: { recipient, sortedRecipients, categories },
+			meta: { recipient, sortedRecipients },
 			response: (r) => {
 				if (r) {
 					recipients = [
@@ -67,26 +64,20 @@
 	let unSubscribe;
 
 	onMount(async () => {
-		unSubscribe = await pb.collection('recipients').subscribe(
-			'*',
-			async function (e) {
-				let message =
-					e.action === 'create'
-						? 'A new recipient has been created'
-						: `Recipient has been ${e.action}d!`;
+		unSubscribe = await pb.collection('recipients').subscribe('*', async function (e) {
+			let message =
+				e.action === 'create'
+					? 'A new recipient has been created'
+					: `Recipient has been ${e.action}d!`;
 
-				toastStore.clear();
-				toastStore.trigger({
-					message,
-					timeout: 3000
-				});
+			toastStore.clear();
+			toastStore.trigger({
+				message,
+				timeout: 3000
+			});
 
-				updateRecipients(e);
-			},
-			{
-				expand: 'categoryId'
-			}
-		);
+			updateRecipients(e);
+		});
 	});
 
 	onDestroy(() => {
@@ -108,7 +99,6 @@
 			type="button"
 			class="btn rounded-none variant-filled-primary"
 			on:click={() => triggerDrawer('addRecipient', 'right')}
-			disabled={categories.length === 0}
 		>
 			<IconPlus size={20} />
 			<span> New Recipient </span>
@@ -128,7 +118,6 @@
 					<th class={thStyle}>id</th>
 					<th class={thStyle}>name</th>
 					<th class={thStyle}>email</th>
-					<th class={thStyle}>category</th>
 					<th class={thStyle}>status</th>
 					<th class={thStyle}></th>
 				</tr>
@@ -143,7 +132,6 @@
 						<td class="px-6 py-4">{recipient.id}</td>
 						<td class="px-6 py-4">{recipient.name}</td>
 						<td class="px-6 py-4">{recipient.email}</td>
-						<td class="px-6 py-4">{recipient.expand?.categoryId?.name}</td>
 						<td
 							class="px-6 py-4 font-semibold uppercase {recipient.verified
 								? 'text-success-500'

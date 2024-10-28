@@ -8,7 +8,6 @@
 
 	const toastStore = getToastStore();
 	const drawerStore = getDrawerStore();
-	const categories = $drawerStore.meta.categories;
 
 	let submitting = false;
 	const originalForm = defaults(zod(recipientSchema()));
@@ -124,23 +123,6 @@
 						<span class=" text-error-500">{$errors.email}</span>
 					{/if}
 				</label>
-
-				<div class="space-y-2">
-					{#each categories as { id, name }}
-						<label class="flex items-center space-x-2">
-							<input
-								name="radio-direct"
-								class="radio"
-								type="radio"
-								bind:group={$form.categoryId}
-								value={id}
-								checked
-								required
-							/>
-							<p>{name}</p>
-						</label>
-					{/each}
-				</div>
 
 				<div class="flex justify-between items-center mt-4">
 					<button type="button" class="btn variant-outline" on:click={() => drawerStore.close()}>

@@ -1,6 +1,5 @@
 import pb from '$lib/api/pocketbaseClient';
 import { getRecipientList } from '$lib/api/recipients';
-import { getCategories } from '$lib/api/categories';
 
 export async function load({ url, fetch }) {
 	pb.beforeSend = function (url, options) {
@@ -9,15 +8,14 @@ export async function load({ url, fetch }) {
 	};
 
 	try {
-		const results = await Promise.allSettled([getRecipientList(), getCategories()]);
+		const results = await Promise.allSettled([getRecipientList()]);
 
-		const [recipients, categories] = results.map((result) =>
+		const [recipients] = results.map((result) =>
 			result.status === 'fulfilled' ? result.value : []
 		);
 
 		return {
-			recipients,
-			categories
+			recipients
 		};
 	} catch (error) {
 		console.error(error);

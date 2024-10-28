@@ -15,7 +15,6 @@
 	const drawerStore = getDrawerStore();
 	const recipient = $modalStore[0].meta.recipient;
 	const sortedRecipients = $modalStore[0].meta.sortedRecipients;
-	const categories = $modalStore[0].meta.categories;
 
 	let selectedOption;
 	let loading = false;
@@ -63,7 +62,7 @@
 		drawerStore.open({
 			id,
 			position,
-			meta: { categories, record }
+			meta: { record }
 		});
 	}
 </script>

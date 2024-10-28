@@ -9,10 +9,6 @@ export const recipientSchema = () =>
 
 			email: z.string().email({
 				message: 'Invalid email address'
-			}),
-
-			categoryId: z.string().min(1, {
-				message: 'This field is required'
 			})
 		})
 		.refine((obj) => Object.values(obj).every((value) => value !== undefined), {
