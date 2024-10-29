@@ -1,9 +1,6 @@
 import { xls } from './xls';
 import { parseDateAndTime } from './parsers';
-
-const extractMessage = (message) => {
-	return message.replace(/<[^>]+>/g, '').trim();
-};
+import { extractMessage } from '$lib/actions/extractMessage';
 
 export const exportRoutineMaintenance = (data) => {
 	const rows = data.map((row) => {

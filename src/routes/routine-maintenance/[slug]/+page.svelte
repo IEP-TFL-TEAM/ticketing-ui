@@ -3,6 +3,7 @@
 	import pb from '$lib/api/pocketbaseClient';
 	import { getToastStore, getModalStore } from '@skeletonlabs/skeleton';
 	import { lazyLoad } from '$lib/actions/lazyLoad.js';
+	import { extractMessage } from '$lib/actions/extractMessage';
 	import { parseDateAndTime } from '$lib/utils/parsers/parseDateAndTime';
 	import { expand, updateRoutineMaintenance } from '$lib/api/routineMaintenance';
 	import { IconArrowNarrowLeft, IconDownload, IconMaximize, IconEdit } from '@tabler/icons-svelte';
@@ -73,10 +74,6 @@
 				}
 			}
 		});
-	}
-
-	function extractMessage(message) {
-		return message.replace(/<[^>]+>/g, '').trim();
 	}
 
 	let unSubscribe;

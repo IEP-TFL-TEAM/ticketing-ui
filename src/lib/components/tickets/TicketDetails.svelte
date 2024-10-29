@@ -1,5 +1,6 @@
 <script>
 	import { parseDateAndTime } from '$lib/utils/parsers';
+	import { getStatusColor } from '$lib/actions/getStatusColor';
 
 	export let ticket;
 
@@ -20,10 +21,6 @@
 		const totalTimeInYear = 525600;
 
 		return calculateAvailability(outageDuration, totalTimeInYear);
-	}
-
-	function getStatusColor(status) {
-		return status === 'PENDING' ? 'text-secondary-700 dark:text-secondary-500' : 'text-error-500';
 	}
 </script>
 
