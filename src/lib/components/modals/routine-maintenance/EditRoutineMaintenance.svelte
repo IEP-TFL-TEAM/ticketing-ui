@@ -123,7 +123,7 @@
 							</div>
 
 							{#if $errors.startDate}
-								<span class=" text-error-500">{$errors.startDate}</span>
+								<span class="mt-2 text-error-500">{$errors.startDate}</span>
 							{/if}
 						</label>
 
@@ -134,6 +134,7 @@
 									type="datetime-local"
 									name="endDate"
 									bind:value={$endDateVal}
+									min={$startDateVal}
 									on:change={() => (dirtyForm = true)}
 									class="input p-4 border"
 									{...$constraints.endDate}
@@ -141,7 +142,7 @@
 							</div>
 
 							{#if $errors.endDate}
-								<span class=" text-error-500">{$errors.endDate}</span>
+								<span class="mt-2 text-error-500">{$errors.endDate}</span>
 							{/if}
 						</label>
 					</div>
@@ -162,7 +163,7 @@
 						</div>
 
 						{#if $errors.attachment}
-							<span class=" text-error-500">{$errors.attachment}</span>
+							<span class="mt-2 text-error-500">{$errors.attachment}</span>
 						{/if}
 
 						<p class="mb-2 text-sm font-semibold text-primary-500 dark:text-tertiary-500">

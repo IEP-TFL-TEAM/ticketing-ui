@@ -67,9 +67,10 @@
 		}
 	});
 
+	const attachment = fileProxy(form, 'attachment');
 	const closingAttachment = fileProxy(form, 'closingAttachment');
 
-	const attachment = fileProxy(form, 'attachment');
+	$: startDateVal = dateProxy(form, 'startDate', { format: 'datetime-local', empty: 'null' });
 	$: endDateVal = dateProxy(form, 'endDate', { format: 'datetime-local', empty: 'null' });
 
 	$: {
@@ -117,6 +118,7 @@
 										type="datetime-local"
 										name="endDate"
 										bind:value={$endDateVal}
+										min={$startDateVal}
 										required={routine.endDate.length === 0}
 										class="input p-4 border"
 										{...$constraints.endDate}
@@ -124,7 +126,7 @@
 								</div>
 
 								{#if $errors.endDate}
-									<span class=" text-error-500">{$errors.endDate}</span>
+									<span class="mt-2 text-error-500">{$errors.endDate}</span>
 								{/if}
 							</label>
 						{/if}
@@ -137,7 +139,7 @@
 								</label>
 
 								{#if $errors.attachment}
-									<span class=" text-error-500">{$errors.attachment}</span>
+									<span class="mt-2 text-error-500">{$errors.attachment}</span>
 								{/if}
 
 								<p class="my-2 text-sm font-semibold text-primary-500 dark:text-tertiary-500">
@@ -183,7 +185,7 @@
 								</select>
 
 								{#if $errors.alarmsCleared}
-									<span class=" text-error-500">{$errors.alarmsCleared}</span>
+									<span class="mt-2 text-error-500">{$errors.alarmsCleared}</span>
 								{/if}
 							</div>
 						</label>
@@ -212,7 +214,7 @@
 								</select>
 
 								{#if $errors.serviceImpactCorrect}
-									<span class=" text-error-500">{$errors.serviceImpactCorrect}</span>
+									<span class="mt-2 text-error-500">{$errors.serviceImpactCorrect}</span>
 								{/if}
 							</div>
 						</label>
@@ -241,7 +243,7 @@
 								</select>
 
 								{#if $errors.taskCompletion}
-									<span class=" text-error-500">{$errors.taskCompletion}</span>
+									<span class="mt-2 text-error-500">{$errors.taskCompletion}</span>
 								{/if}
 							</div>
 						</label>
@@ -265,7 +267,7 @@
 								/>
 
 								{#if $errors.closingRemarks}
-									<span class=" text-error-500">{$errors.closingRemarks}</span>
+									<span class="mt-2 text-error-500">{$errors.closingRemarks}</span>
 								{/if}
 							</label>
 
@@ -276,7 +278,7 @@
 								</label>
 
 								{#if $errors.closingAttachment}
-									<span class=" text-error-500">{$errors.closingAttachment}</span>
+									<span class="mt-2 text-error-500">{$errors.closingAttachment}</span>
 								{/if}
 
 								<p class="mb-2 text-sm font-semibold text-primary-500 dark:text-tertiary-500">

@@ -139,7 +139,7 @@
 					</div>
 
 					{#if $errors.title}
-						<span class=" text-error-500">{$errors.title}</span>
+						<span class="mt-2 text-error-500">{$errors.title}</span>
 					{/if}
 				</label>
 
@@ -165,7 +165,7 @@
 					</div>
 
 					{#if $errors.objective}
-						<span class=" text-error-500">{$errors.objective}</span>
+						<span class="mt-2 text-error-500">{$errors.objective}</span>
 					{/if}
 				</label>
 
@@ -188,7 +188,7 @@
 					</div>
 
 					{#if $errors.scopeOfWork}
-						<span class=" text-error-500">{$errors.scopeOfWork}</span>
+						<span class="mt-2 text-error-500">{$errors.scopeOfWork}</span>
 					{/if}
 				</label>
 
@@ -209,7 +209,7 @@
 					</div>
 
 					{#if $errors.startDate}
-						<span class=" text-error-500">{$errors.startDate}</span>
+						<span class="mt-2 text-error-500">{$errors.startDate}</span>
 					{/if}
 				</label>
 
@@ -221,12 +221,13 @@
 							name="endDate"
 							bind:value={$endDateVal}
 							class="input p-4 border"
+							min={$startDateVal}
 							{...$constraints.endDate}
 						/>
 					</div>
 
 					{#if $errors.endDate}
-						<span class=" text-error-500">{$errors.endDate}</span>
+						<span class="mt-2 text-error-500">{$errors.endDate}</span>
 					{/if}
 				</label>
 
@@ -254,7 +255,7 @@
 						</select>
 
 						{#if $errors.serviceImpact}
-							<span class=" text-error-500">{$errors.serviceImpact}</span>
+							<span class="mt-2 text-error-500">{$errors.serviceImpact}</span>
 						{/if}
 					</div>
 				</label>
@@ -276,7 +277,7 @@
 					</div>
 
 					{#if $errors.duration}
-						<span class=" text-error-500">{$errors.duration}</span>
+						<span class="mt-2 text-error-500">{$errors.duration}</span>
 					{/if}
 				</label>
 
@@ -307,7 +308,7 @@
 					<label class="my-2 text-base font-semibold" for="attachment"> Upload Attachment </label>
 
 					{#if $errors.attachment}
-						<span class=" text-error-500">{$errors.attachment}</span>
+						<span class="mt-2 text-error-500">{$errors.attachment}</span>
 					{/if}
 
 					<p class="mb-2 text-sm font-semibold text-primary-500 dark:text-tertiary-500">

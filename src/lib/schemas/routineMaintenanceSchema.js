@@ -95,4 +95,8 @@ export const routineMaintenanceSchema = (attachment, startDate, endDate) =>
 		})
 		.refine((obj) => Object.values(obj).every((value) => value !== undefined), {
 			message: 'All fields are required'
+		})
+		.refine((data) => !data.endDate || data.endDate >= data.startDate, {
+			message: 'End date must be after the start date',
+			path: ['endDate']
 		});
