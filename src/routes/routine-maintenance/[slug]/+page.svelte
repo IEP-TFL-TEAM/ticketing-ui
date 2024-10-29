@@ -9,7 +9,7 @@
 	import { expand, updateRoutineMaintenance } from '$lib/api/routineMaintenance';
 	import { IconArrowNarrowLeft, IconDownload, IconMaximize, IconEdit } from '@tabler/icons-svelte';
 	import { currentUser } from '$lib/stores/auth';
-
+	import { goto } from '$app/navigation';
 	export let data;
 
 	$: ({ routine, attachmentUrl, closingAttachmentUrl, attachment, closingAttachment, members } =
@@ -58,6 +58,33 @@
 		});
 	}
 
+	async function cancelRoutine(id) {
+		modalStore.trigger({
+			type: 'confirm',
+			title: 'This action CANNOT be undone!',
+			body: 'Are you sure you wish to cancel this routine?',
+			modalClasses: '!bg-white dark:!bg-neutral-800 !rounded-none',
+			response: async (r) => {
+				if (r) {
+					try {
+						await pb.collection('routinemaintenance').delete(id);
+
+						toastStore.trigger({
+							type: 'success',
+							message: 'Routine Deleted Successfully!',
+							background: 'variant-filled-success',
+							classes: 'rounded-none font-semibold'
+						});
+
+						goto('/routine-maintenance');
+					} catch (error) {
+						console.error(error);
+					}
+				}
+			}
+		});
+	}
+
 	async function reopenRoutine() {
 		modalStore.trigger({
 			type: 'confirm',
@@ -66,21 +93,25 @@
 			modalClasses: '!bg-white dark:!bg-neutral-800 !rounded-none',
 			response: async (r) => {
 				if (r) {
-					routine = await updateRoutineMaintenance(routine.id, {
-						status: 'PENDING',
-						taskCompletion: null,
-						alarmsCleared: null,
-						serviceImpactCorrect: null,
-						closingAttachment: null,
-						closingRemarks: null
-					});
+					try {
+						routine = await updateRoutineMaintenance(routine.id, {
+							status: 'PENDING',
+							taskCompletion: null,
+							alarmsCleared: null,
+							serviceImpactCorrect: null,
+							closingAttachment: null,
+							closingRemarks: null
+						});
 
-					toastStore.trigger({
-						type: 'success',
-						message: 'Routine Re-Opened Successfully!',
-						background: 'variant-filled-success',
-						classes: 'rounded-none font-semibold'
-					});
+						toastStore.trigger({
+							type: 'success',
+							message: 'Routine Re-Opened Successfully!',
+							background: 'variant-filled-success',
+							classes: 'rounded-none font-semibold'
+						});
+					} catch (error) {
+						console.error(error);
+					}
 				}
 			}
 		});
@@ -125,6 +156,16 @@
 		</a>
 
 		<div class="flex items-center gap-2">
+			{#if $currentUser.role === 'admin'}
+				<button
+					type="button"
+					on:click={() => cancelRoutine(routine.id)}
+					class="btn variant-ghost-error text-white-900 rounded uppercase font-semibold py-2.5 px-8"
+				>
+					Cancel Routine
+				</button>
+			{/if}
+
 			{#if routine.status === 'PENDING'}
 				<button
 					type="button"
@@ -136,13 +177,11 @@
 					</span>
 					<span>Edit routine</span>
 				</button>
-			{/if}
 
-			{#if routine.status === 'PENDING'}
 				<button
 					type="button"
 					on:click={() => closeRoutine(routine)}
-					class="btn variant-ghost-error text-white-900 rounded uppercase font-semibold py-2.5 px-8"
+					class="btn variant-filled text-white-900 rounded uppercase font-semibold py-2.5 px-8"
 				>
 					Close routine
 				</button>
