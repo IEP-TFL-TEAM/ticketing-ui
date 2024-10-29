@@ -1,5 +1,6 @@
 <script>
 	import { IconArrowRight } from '@tabler/icons-svelte';
+	import { getStatusColor } from '$lib/actions/getStatusColor';
 
 	export let routines;
 
@@ -43,13 +44,9 @@
 							{routine.serviceImpact}
 						</td>
 
-						<td
-							class="{tdStyles} uppercase font-semibold {routine.isClosed
-								? 'text-error-500'
-								: 'text-success-500'}"
+						<td class={`${getStatusColor(routine.status)} font-bold ${tdStyles}`}
+							>{routine.status}</td
 						>
-							{routine.isClosed ? 'Closed' : 'Open'}
-						</td>
 
 						<td class={tdStyles}>
 							<a

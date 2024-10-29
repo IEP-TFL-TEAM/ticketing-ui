@@ -39,13 +39,13 @@
 			}
 
 			try {
-				form.data.isClosed = true;
+				form.data.status = 'CLOSED';
 				await updateRoutineMaintenance(routine.id, form.data);
 				modalStore.close();
 
 				toastStore.trigger({
 					type: 'success',
-					message: 'Routine Updated Successfully!',
+					message: 'Routine Closed Successfully!',
 					background: 'variant-filled-success',
 					classes: 'rounded-none font-semibold'
 				});

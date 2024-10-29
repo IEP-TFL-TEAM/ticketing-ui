@@ -24,7 +24,7 @@ export const routineMaintenanceSchema = (attachment, startDate, endDate) =>
 			startDate: z.date({ message: 'Invalid date string!' }).default(startDate),
 
 			endDate:
-				endDate.length === 0
+				!endDate || endDate.length === 0
 					? z.date({ message: 'Invalid date string!' }).nullable().optional()
 					: z.date({ message: 'Invalid date string!' }).default(endDate),
 
@@ -41,7 +41,7 @@ export const routineMaintenanceSchema = (attachment, startDate, endDate) =>
 			servicesListIds: z.array(z.string()).optional().default([]),
 
 			attachment:
-				attachment.length === 0
+				!attachment || attachment.length === 0
 					? z
 							.instanceof(File)
 							.refine((file) => file.size <= MaxAttachmentSize, {
@@ -56,7 +56,7 @@ export const routineMaintenanceSchema = (attachment, startDate, endDate) =>
 							})
 							.default(attachment),
 
-			isClosed: z.boolean({ default: false }),
+			status: z.string().default('PENDING'),
 
 			taskCompletion: z
 				.string()

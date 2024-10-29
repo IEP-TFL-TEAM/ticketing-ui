@@ -18,7 +18,8 @@ export async function load({ url, fetch }) {
 		title: url.searchParams.get('title'),
 		objective: url.searchParams.get('objective'),
 		serviceImpact: url.searchParams.get('serviceImpact'),
-		ticketNumber: url.searchParams.get('ticketNumber')
+		ticketNumber: url.searchParams.get('ticketNumber'),
+		status: url.searchParams.get('status')
 	};
 
 	try {

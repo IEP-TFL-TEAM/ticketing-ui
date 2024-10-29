@@ -4,6 +4,7 @@
 	import { getToastStore, getModalStore } from '@skeletonlabs/skeleton';
 	import { lazyLoad } from '$lib/actions/lazyLoad.js';
 	import { extractMessage } from '$lib/actions/extractMessage';
+	import { getStatusColor } from '$lib/actions/getStatusColor';
 	import { parseDateAndTime } from '$lib/utils/parsers/parseDateAndTime';
 	import { expand, updateRoutineMaintenance } from '$lib/api/routineMaintenance';
 	import { IconArrowNarrowLeft, IconDownload, IconMaximize, IconEdit } from '@tabler/icons-svelte';
@@ -66,10 +67,19 @@
 			response: async (r) => {
 				if (r) {
 					routine = await updateRoutineMaintenance(routine.id, {
-						isClosed: false,
+						status: 'PENDING',
 						taskCompletion: null,
 						alarmsCleared: null,
-						serviceImpactCorrect: null
+						serviceImpactCorrect: null,
+						closingAttachment: null,
+						closingRemarks: null
+					});
+
+					toastStore.trigger({
+						type: 'success',
+						message: 'Routine Re-Opened Successfully!',
+						background: 'variant-filled-success',
+						classes: 'rounded-none font-semibold'
 					});
 				}
 			}
@@ -115,7 +125,7 @@
 		</a>
 
 		<div class="flex items-center gap-2">
-			{#if !routine.isClosed}
+			{#if routine.status === 'PENDING'}
 				<button
 					type="button"
 					on:click={() => editApplication(routine)}
@@ -128,7 +138,7 @@
 				</button>
 			{/if}
 
-			{#if !routine.isClosed}
+			{#if routine.status === 'PENDING'}
 				<button
 					type="button"
 					on:click={() => closeRoutine(routine)}
@@ -157,11 +167,7 @@
 					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
 						<span> Status: </span>
 
-						<span
-							class="{routine.isClosed ? 'text-error-500' : 'text-success-500'} font-bold uppercase"
-						>
-							{routine.isClosed ? 'Closed' : 'Open'}
-						</span>
+						<span class={`${getStatusColor(routine.status)} font-bold`}>{routine.status}</span>
 					</div>
 
 					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
@@ -389,7 +395,7 @@
 			</div>
 		</div>
 
-		{#if routine.isClosed}
+		{#if routine.status === 'CLOSED'}
 			<div class={colStyles + ' lg:col-span-2 lg:row-span-2'}>
 				<div class={divideStyles}>
 					<h4 class="mb-2 h4">Closure Summary</h4>
@@ -425,7 +431,7 @@
 							</div>
 						{/if}
 
-						{#if routine.isClosed && routine.closingAttachment.length > 0}
+						{#if routine.status === 'CLOSED' && routine.closingAttachment.length > 0}
 							<div class={divideStyles}>
 								{#if (closingAttachment.type !== 'image/jpg') & (closingAttachment.type !== 'image/png') & (closingAttachment.type !== 'image/jpeg')}
 									<div class="flex flex-col pt-4 gap-y-2">

@@ -3,12 +3,14 @@
 	import { parseQueryParams } from '$lib/utils/parsers';
 	import { goto } from '$app/navigation';
 	import { IconCaretDown, IconCaretUp } from '@tabler/icons-svelte';
+	import { statuses } from '$lib/utils';
 
 	export let filters, pageSettings;
 
 	let searchText = filters.title || filters.objective;
 	let searchImpact = filters.serviceImpact;
 	let showFilters = false;
+	let searchStatus = filters.status;
 
 	function handle() {
 		const search = {
@@ -17,6 +19,7 @@
 			objective: searchText,
 			serviceImpact: searchImpact,
 			ticketNumber: searchText,
+			status: searchStatus,
 			page: 1
 		};
 		const queryParams = parseQueryParams(search);
@@ -26,6 +29,7 @@
 	function reset() {
 		searchText = null;
 		searchImpact = null;
+		searchStatus = null;
 		goto(`/routine-maintenance`);
 	}
 
@@ -93,6 +97,24 @@
 		class="relative p-8 my-8 bg-white border rounded border-gray-20 dark:border-white/30 dark:bg-neutral-900"
 	>
 		<div class="flex flex-col w-full gap-3 font-medium transition-transform whitespace-nowrap">
+			<div class="flex items-start gap-4">
+				<h3 class="w-1/5">Status:</h3>
+				<div class={chipDiv + ' relative'}>
+					{#each statuses as status}
+						<button
+							type="button"
+							class="{chipStyles} capitalize {searchStatus === status ? ` ${active}` : ''}"
+							on:click={() => {
+								searchStatus = status;
+								handle();
+							}}
+						>
+							{status}
+						</button>
+					{/each}
+				</div>
+			</div>
+
 			<div class="flex items-start gap-4">
 				<h3 class="w-1/5">Service Impact:</h3>
 				<div class={chipDiv + ' relative'}>

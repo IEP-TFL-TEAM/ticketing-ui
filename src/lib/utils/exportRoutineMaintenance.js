@@ -21,7 +21,7 @@ export const exportRoutineMaintenance = (data) => {
 			'Team Conducting Maintenance': teamNames.join(', '),
 			'Maintenance Team': row.expand?.maintenanceTeamId?.name,
 			'List of Services / Circuits': listOfServices.join(', '),
-			Closed: row.isClosed ? 'True' : 'False',
+			Status: row.status,
 			'Completion of Task': row?.taskCompletion.length > 0 ? row.taskCompletion : '-',
 			'All related Alarms Cleared': row?.alarmsCleared.length > 0 ? row.alarmsCleared : '-',
 			'Service Impact is Correct':
