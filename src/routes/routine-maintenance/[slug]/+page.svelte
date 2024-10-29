@@ -252,7 +252,9 @@
 
 					<div class="grid grid-cols-1 xl:grid-cols-2 auto-rows-auto">
 						<span> End Date: </span>
-						<span class={spanStyles}>{parseDateAndTime(routine.endDate)}</span>
+						<span class={spanStyles}>
+							{routine.endDate ? parseDateAndTime(routine.endDate) : 'N/A'}
+						</span>
 					</div>
 
 					<div class="grid grid-cols-1 xl:grid-cols-2 auto-rows-auto">
@@ -293,7 +295,9 @@
 
 		<div class="{colStyles} lg:col-span-2">
 			<div class={divideStyles}>
-				{#if (attachment.type !== 'image/jpg') & (attachment.type !== 'image/png') & (attachment.type !== 'image/jpeg')}
+				{#if attachment.length === 0}
+					<span>Attachments will appear here</span>
+				{:else if (attachment.type !== 'image/jpg') & (attachment.type !== 'image/png') & (attachment.type !== 'image/jpeg')}
 					<h4 class="mb-2 h4">Uploaded documents</h4>
 
 					<div class="flex flex-col pt-4 gap-y-2">

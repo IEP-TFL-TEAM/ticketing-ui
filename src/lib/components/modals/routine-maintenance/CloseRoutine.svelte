@@ -1,5 +1,5 @@
 <script>
-	import { superForm, defaults, fileProxy } from 'sveltekit-superforms';
+	import { superForm, defaults, fileProxy, dateProxy } from 'sveltekit-superforms';
 	import { zod } from 'sveltekit-superforms/adapters';
 	import { getToastStore, getModalStore } from '@skeletonlabs/skeleton';
 	import SpinnerOverlay from '$lib/components/layout/SpinnerOverlay.svelte';
@@ -27,10 +27,11 @@
 			if (!form.valid) {
 				form.valid = false;
 				submitting = false;
-				form.message = 'Please verify that all rquired fields are provided.';
+				let message = 'Please verify that all rquired fields are provided.';
+				form.message = message;
 
 				toastStore.trigger({
-					message: 'Please verify that all rquired fields are provided.',
+					message,
 					background: 'variant-filled-error',
 					classes: 'rounded-none font-semibold'
 				});
@@ -68,6 +69,9 @@
 
 	const closingAttachment = fileProxy(form, 'closingAttachment');
 
+	const attachment = fileProxy(form, 'attachment');
+	$: endDateVal = dateProxy(form, 'endDate', { format: 'datetime-local', empty: 'null' });
+
 	$: {
 		$form.title = routine.title;
 		$form.objective = routine.objective;
@@ -102,6 +106,59 @@
 			<form method="POST" enctype="multipart/form-data" use:enhance>
 				<div class="flex flex-col justify-between gap-4">
 					<div class="grid grid-cols-2 auto-rows-auto gap-4">
+						{#if routine.endDate.length === 0}
+							<label class="label col-span-2">
+								<p class="my-2 text-base font-semibold">
+									Enter End Date
+									<span class="text-red-500">*</span>
+								</p>
+								<div class="flex flex-row">
+									<input
+										type="datetime-local"
+										name="endDate"
+										bind:value={$endDateVal}
+										required={routine.endDate.length === 0}
+										class="input p-4 border"
+										{...$constraints.endDate}
+									/>
+								</div>
+
+								{#if $errors.endDate}
+									<span class=" text-error-500">{$errors.endDate}</span>
+								{/if}
+							</label>
+						{/if}
+
+						{#if routine.attachment.length === 0}
+							<div class="flex flex-col col-span-2">
+								<label class="mt-2 text-base font-semibold" for="attachment">
+									Upload Attachment
+									<span class="text-red-500">*</span>
+								</label>
+
+								{#if $errors.attachment}
+									<span class=" text-error-500">{$errors.attachment}</span>
+								{/if}
+
+								<p class="my-2 text-sm font-semibold text-primary-500 dark:text-tertiary-500">
+									Max file upload 5 (MB)
+								</p>
+
+								<input
+									class="w-full rounded text-base text-gray-900 border border-gray-300 dark:border-gray-700 cursor-pointer bg-gray-50 dark:bg-transparent dark:text-white focus:outline-none p-1"
+									name="attachment"
+									bind:files={$attachment}
+									type="file"
+									required={routine.attachment.length === 0}
+									{...$constraints.attachment}
+								/>
+							</div>
+						{/if}
+
+						{#if routine.endDate.length === 0 || routine.attachment.length === 0}
+							<hr class="!border-gray-200 dark:!border-gray-200/30 my-5 col-span-2" />
+						{/if}
+
 						<label class="label">
 							<p class="my-2 text-base font-semibold">
 								All related alarms cleared

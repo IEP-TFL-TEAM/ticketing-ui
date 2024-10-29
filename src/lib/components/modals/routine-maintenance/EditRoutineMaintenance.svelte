@@ -28,10 +28,11 @@
 			if (!form.valid) {
 				form.valid = false;
 				submitting = false;
-				form.message = 'Please verify that all rquired fields are provided.';
+				let message = 'Please verify that all rquired fields are provided.';
+				form.message = message;
 
 				toastStore.trigger({
-					message: 'Please verify that all rquired fields are provided.',
+					message,
 					background: 'variant-filled-error',
 					classes: 'rounded-none font-semibold'
 				});
@@ -127,17 +128,13 @@
 						</label>
 
 						<label class="label">
-							<p class="my-2 text-base font-semibold">
-								Enter End Date
-								<span class="text-red-500">*</span>
-							</p>
+							<p class="my-2 text-base font-semibold">Enter End Date</p>
 							<div class="flex flex-row">
 								<input
 									type="datetime-local"
 									name="endDate"
 									bind:value={$endDateVal}
 									on:change={() => (dirtyForm = true)}
-									required
 									class="input p-4 border"
 									{...$constraints.endDate}
 								/>
@@ -151,16 +148,17 @@
 
 					<div class="flex flex-col">
 						<div class="flex flex-col mb-4">
-							<label class="my-2 text-base font-semibold" for="attachment">
+							<label class="mt-2 text-base font-semibold" for="attachment">
 								Upload Attachment
-								<span class="text-red-500">*</span>
 							</label>
 
-							<div>
-								<span class="text-sm underline break-words">
-									{routine.attachment}
-								</span> (current)
-							</div>
+							{#if routine.attachment.length > 0}
+								<div class="mt-2">
+									<span class="text-sm underline break-words">
+										{routine.attachment}
+									</span> (current)
+								</div>
+							{/if}
 						</div>
 
 						{#if $errors.attachment}
@@ -168,7 +166,7 @@
 						{/if}
 
 						<p class="mb-2 text-sm font-semibold text-primary-500 dark:text-tertiary-500">
-							Allowed Formats: .doc, .docx, .pdf, .jpg, .png only.
+							Max file upload 5 (MB)
 						</p>
 
 						<input

@@ -214,16 +214,12 @@
 				</label>
 
 				<label class="label">
-					<p class="my-2 text-base font-semibold">
-						Enter End Date
-						<span class="text-red-500">*</span>
-					</p>
+					<p class="my-2 text-base font-semibold">Enter End Date</p>
 					<div class="flex flex-row">
 						<input
 							type="datetime-local"
 							name="endDate"
 							bind:value={$endDateVal}
-							required
 							class="input p-4 border"
 							{...$constraints.endDate}
 						/>
@@ -308,10 +304,7 @@
 				{/if}
 
 				<div class="flex flex-col">
-					<label class="my-2 text-base font-semibold" for="attachment">
-						Upload Attachment
-						<span class="text-red-500">*</span>
-					</label>
+					<label class="my-2 text-base font-semibold" for="attachment"> Upload Attachment </label>
 
 					{#if $errors.attachment}
 						<span class=" text-error-500">{$errors.attachment}</span>
@@ -325,7 +318,6 @@
 						class="w-full rounded text-base text-gray-900 border border-gray-300 dark:border-gray-700 cursor-pointer bg-gray-50 dark:bg-transparent dark:text-white focus:outline-none p-1"
 						name="attachment"
 						bind:files={$attachment}
-						required
 						type="file"
 						{...$constraints.attachment}
 					/>

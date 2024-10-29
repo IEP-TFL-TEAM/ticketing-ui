@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const MaxAttachmentSize = 5000000; // 5MB
+const MaxAttachmentSize = 5242880; // 5MB
 
 export const routineMaintenanceSchema = (attachment, startDate, endDate) =>
 	z
@@ -23,7 +23,10 @@ export const routineMaintenanceSchema = (attachment, startDate, endDate) =>
 
 			startDate: z.date({ message: 'Invalid date string!' }).default(startDate),
 
-			endDate: z.date({ message: 'Invalid date string!' }).default(endDate),
+			endDate:
+				endDate.length === 0
+					? z.date({ message: 'Invalid date string!' }).nullable().optional()
+					: z.date({ message: 'Invalid date string!' }).default(endDate),
 
 			serviceImpact: z.string().refine((value) => ['Yes', 'No'].includes(value), {
 				message: 'Must be of one of the types'
@@ -37,12 +40,21 @@ export const routineMaintenanceSchema = (attachment, startDate, endDate) =>
 
 			servicesListIds: z.array(z.string()).optional().default([]),
 
-			attachment: z
-				.instanceof(File)
-				.refine((file) => file.size <= MaxAttachmentSize, {
-					message: 'Max size is 5MB.'
-				})
-				.default(attachment),
+			attachment:
+				attachment.length === 0
+					? z
+							.instanceof(File)
+							.refine((file) => file.size <= MaxAttachmentSize, {
+								message: 'Max size is 5MB.'
+							})
+							.nullable()
+							.optional()
+					: z
+							.instanceof(File)
+							.refine((file) => file.size <= MaxAttachmentSize, {
+								message: 'Max size is 5MB.'
+							})
+							.default(attachment),
 
 			isClosed: z.boolean({ default: false }),
 
