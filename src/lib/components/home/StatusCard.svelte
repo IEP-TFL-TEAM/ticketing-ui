@@ -1,20 +1,22 @@
 <script>
-	export let tickets;
+	import { IconTicket } from '@tabler/icons-svelte';
+
+	export let records, title;
 
 	$: statusItems = [
 		{
 			label: 'Total',
-			count: tickets.length,
+			count: records.length,
 			colorClass: 'text-primary-500 dark:text-tertiary-500'
 		},
 		{
 			label: 'Pending',
-			count: countByStatus(tickets, 'PENDING'),
+			count: countByStatus(records, 'PENDING'),
 			colorClass: 'text-secondary-500'
 		},
 		{
 			label: 'Closed',
-			count: countByStatus(tickets, 'CLOSED'),
+			count: countByStatus(records, 'CLOSED'),
 			colorClass: 'text-success-500'
 		}
 	];
@@ -25,16 +27,25 @@
 </script>
 
 <div class="flex flex-col items-start gap-2 py-6">
-	<h2 class="self-start text-2xl font-bold mb-4 text-primary-500 dark:text-tertiary-500">
-		Incident Status
+	<h2 class="self-start text-2xl font-bold mb-4">
+		{title} Status
 	</h2>
 
-	<div class="grid w-full grid-cols-1 gap-4 text-center rounded-md shadow-md xl:grid-cols-3">
+	<div class="grid w-full grid-cols-1 gap-4 xl:grid-cols-3">
 		{#each statusItems as { label, count, colorClass }}
-			<div class="p-6 bg-white rounded-md dark:bg-neutral-700/30">
-				<h3 class="mb-2 text-lg font-semibold uppercase">{label}</h3>
+			<div
+				class="card p-8 rounded-lg bg-transparent dark:bg-transparent shadow border border-black/5 dark:border-white/10"
+			>
+				<div class="flex justify-between items-start">
+					<h3 class="mb-2 text-lg font-semibold uppercase">{label}</h3>
+
+					<span>
+						<IconTicket />
+					</span>
+				</div>
+
 				<p class="text-3xl font-bold {colorClass}">
-					{count}
+					+{count}
 				</p>
 			</div>
 		{/each}

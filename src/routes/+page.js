@@ -10,10 +10,26 @@ export async function load({ url, fetch }) {
 		return { url, options };
 	};
 
-	return {
-		tickets: (await getAllTickets()) ?? [],
-		categories: (await getCategories()) ?? [],
-		requests: (await getAllRequests()) ?? [],
-		routine: (await getAllRoutines()) ?? []
-	};
+	try {
+		const results = await Promise.allSettled([
+			getCategories(),
+			getAllTickets(),
+			getAllRequests(),
+			getAllRoutines()
+		]);
+
+		const [categories, tickets, requests, routines] = results.map((result) =>
+			result.status === 'fulfilled' ? result.value : []
+		);
+
+		return {
+			categories,
+			tickets,
+			requests,
+			routines
+		};
+	} catch (error) {
+		console.error(error);
+		return [];
+	}
 }

@@ -1,9 +1,12 @@
 <script>
 	import StatusCard from '$lib/components/home/StatusCard.svelte';
 	import IncidentCharts from '$lib/components/home/IncidentCharts.svelte';
+	import { RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
 
 	export let data;
-	$: ({ tickets } = data);
+	$: ({ tickets, requests, routines } = data);
+
+	let value = 'Incidents';
 </script>
 
 <svelte:head>
@@ -16,11 +19,29 @@
 		<p>Navigate through the system with options on the sidebar</p>
 	</div>
 
-	<div class="flex flex-col w-full mt-8">
-		<div class="flex flex-col w-full gap-10">
-			<StatusCard {tickets} />
-		</div>
+	<div class="mt-4 w-1/2">
+		<RadioGroup rounded="rounded-lg">
+			{#each ['Incidents', 'Change Requests', 'Routine Maintenance'] as item}
+				<RadioItem bind:group={value} name="justify" value={item}>{item}</RadioItem>
+			{/each}
+		</RadioGroup>
+	</div>
 
-		<IncidentCharts {data} />
+	<div class="flex flex-col w-full mt-8">
+		{#if value === 'Incidents'}
+			<div class="flex flex-col w-full gap-10">
+				<StatusCard records={tickets} title="Incidents" />
+			</div>
+
+			<!-- <IncidentCharts {data} /> -->
+		{:else if value === 'Change Requests'}
+			<div class="flex flex-col w-full gap-10">
+				<StatusCard records={requests} title="Change Requests" />
+			</div>
+		{:else if value === 'Routine Maintenance'}
+			<div class="flex flex-col w-full gap-10">
+				<StatusCard records={routines} title="Routine Maintenance" />
+			</div>
+		{/if}
 	</div>
 </div>
