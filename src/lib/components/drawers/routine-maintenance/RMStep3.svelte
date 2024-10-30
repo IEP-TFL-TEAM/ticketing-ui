@@ -3,14 +3,18 @@
 	import { zod } from 'sveltekit-superforms/adapters';
 	import { getToastStore, getDrawerStore, ListBoxItem, ListBox } from '@skeletonlabs/skeleton';
 	import { routineMaintenanceSchema } from '$lib/schemas/routineMaintenanceSchema';
-	import { createRoutineMaintenance } from '$lib/api/routineMaintenance';
+	import {
+		createRoutineMaintenance,
+		sendRoutineCreationNotification
+	} from '$lib/api/routineMaintenance';
 	import SpinnerOverlay from '$lib/components/layout/SpinnerOverlay.svelte';
+	import { parseDateAndTime } from '$lib/utils/parsers';
 
 	export function onCompleteHandler() {
 		submit();
 	}
 
-	export let staffId, teamIds, maintenanceTeamId, siteId, regionId, areaId;
+	export let staffId, teamIds, teamEmails, maintenanceTeamId, siteId, regionId, areaId;
 
 	const toastStore = getToastStore();
 	const drawerStore = getDrawerStore();
@@ -67,7 +71,10 @@
 			}
 
 			try {
-				await createRoutineMaintenance(form.data);
+				const { id, title, startDate, objective, ticketNumber } = await createRoutineMaintenance(
+					form.data
+				);
+
 				drawerStore.close();
 
 				toastStore.trigger({
@@ -76,6 +83,25 @@
 					background: 'variant-filled-success',
 					classes: 'rounded-none font-semibold',
 					timeout: 3000
+				});
+
+				for (const email of teamEmails) {
+					await sendRoutineCreationNotification({
+						id,
+						email,
+						subject: title,
+						startDate: parseDateAndTime(startDate),
+						objective,
+						ticketNumber
+					});
+				}
+
+				toastStore.trigger({
+					type: 'success',
+					message: 'Teams assigned have been successfully notified of the created Routine!',
+					background: 'variant-filled-success',
+					classes: 'rounded-none font-semibold',
+					timeout: 5000
 				});
 			} catch (e) {
 				form.valid = false;
@@ -88,7 +114,7 @@
 					timeout: 3000
 				});
 
-				form.message = e.data.data.email.message;
+				form.message = e.response.details;
 
 				return { form };
 			}
@@ -124,6 +150,10 @@
 	<div class="flex flex-col">
 		<form method="POST" enctype="multipart/form-data" use:enhance>
 			<div class="flex flex-col justify-between gap-4">
+				{#if $message}
+					<span class="my-2 text-error-500 input p-4 border-red-500 font-semibold">{$message}</span>
+				{/if}
+
 				<label class="label">
 					<p class="my-2 text-base font-semibold">
 						Enter Title

@@ -1,7 +1,7 @@
 <script>
 	import { Autocomplete, getDrawerStore, ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
 
-	export let staffId, teamIds, maintenanceTeamId, selectedStaff;
+	export let staffId, teamIds, teamEmails, maintenanceTeamId, selectedStaff;
 
 	const drawerStore = getDrawerStore();
 
@@ -17,7 +17,8 @@
 	const teamOptions = teams
 		.map((team) => ({
 			label: team.name,
-			value: team.id
+			value: team.id,
+			email: team.email
 		}))
 		.sort((a, b) => {
 			if (a.label < b.label) return -1;
@@ -60,8 +61,17 @@
 
 		<form class="card w-full max-h-48 p-4 overflow-y-auto" tabindex="-1">
 			<ListBox multiple>
-				{#each teamOptions as { value, label }}
-					<ListBoxItem bind:group={teamIds} name="medium" {value}>
+				{#each teamOptions as { value, label, email }}
+					<ListBoxItem
+						bind:group={teamIds}
+						name="medium"
+						{value}
+						on:click={() => {
+							teamEmails.includes(email)
+								? (teamEmails = teamEmails.filter((item) => item !== email))
+								: teamEmails.push(email);
+						}}
+					>
 						{label}
 					</ListBoxItem>
 				{/each}

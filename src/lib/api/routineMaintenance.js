@@ -1,5 +1,5 @@
 import pb from './pocketbaseClient';
-import { parseFilters } from '../utils/parsers';
+import { parseFilters } from '$lib/utils/parsers';
 
 export const expand =
 	'requestee, siteId, teamIds, maintenanceTeamId, servicesListIds, areaId, regionId';
@@ -33,10 +33,34 @@ const getAllRoutines = async () => {
 	return records;
 };
 
+const sendRoutineCreationNotification = async ({
+	id,
+	email,
+	subject,
+	startDate,
+	objective,
+	ticketNumber
+}) => {
+	const response = await pb.send(`/api/send-routine-creation-notification`, {
+		method: 'POST',
+		body: {
+			id,
+			email,
+			subject,
+			startDate,
+			objective,
+			ticketNumber
+		}
+	});
+
+	return response;
+};
+
 export {
 	updateRoutineMaintenance,
 	getRoutineMaintenanceById,
 	getRoutines,
 	createRoutineMaintenance,
-	getAllRoutines
+	getAllRoutines,
+	sendRoutineCreationNotification
 };

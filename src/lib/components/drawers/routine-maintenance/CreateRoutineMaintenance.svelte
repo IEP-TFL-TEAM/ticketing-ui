@@ -6,6 +6,7 @@
 
 	let staffId = null,
 		teamIds = [],
+		teamEmails = [],
 		maintenanceTeamId = null,
 		siteId = null,
 		regionId = null,
@@ -21,7 +22,14 @@
 	<Stepper on:complete={onCompleteHandler}>
 		<Step locked={teamIds.length === 0}>
 			<svelte:fragment slot="header">Select Requestee</svelte:fragment>
-			<RMStep1 bind:staffId bind:teamIds bind:maintenanceTeamId bind:siteId bind:selectedStaff />
+			<RMStep1
+				bind:staffId
+				bind:teamIds
+				bind:teamEmails
+				bind:maintenanceTeamId
+				bind:siteId
+				bind:selectedStaff
+			/>
 		</Step>
 
 		<Step locked={!(regionId && selectedArea && selectedSite)}>
@@ -34,6 +42,7 @@
 			<RMStep3
 				{staffId}
 				{teamIds}
+				{teamEmails}
 				{maintenanceTeamId}
 				{siteId}
 				{regionId}
