@@ -145,8 +145,6 @@
 		'p-6 border border-gray-20 dark:border-white/30 rounded divide-x-2 divide-black/10 dark:divide-white/30 bg-white dark:bg-neutral-900';
 	const divideStyles = 'divide-y-2 divide-black/20 dark:divide-white/50';
 	const spanStyles = 'text-primary-600 dark:text-tertiary-500';
-	const tableHeaderStyles = 'px-6 font-semibold py-2';
-	const tdStyles = 'px-6 py-4';
 </script>
 
 <div class="w-full mt-5 break-words">
@@ -234,11 +232,6 @@
 						<span class={spanStyles}>{routine.duration} minutes</span>
 					</div>
 
-					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
-						<span> Task Site: </span>
-						<span class={spanStyles}>{routine.expand?.siteId?.name ?? 'N/A'}</span>
-					</div>
-
 					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6 my-4">
 						<span> Technical Group(s) Involved: </span>
 
@@ -250,11 +243,6 @@
 								</li>
 							{/each}
 						</ol>
-					</div>
-
-					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
-						<span> Maintenance Team: </span>
-						<span class={spanStyles}>{routine.expand?.maintenanceTeamId?.name ?? 'N/A'}</span>
 					</div>
 
 					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
@@ -314,22 +302,22 @@
 
 		<div class="{colStyles} lg:col-span-2">
 			<div class={divideStyles}>
-				<h4 class="mb-2 h4">Requestee Information</h4>
+				<h4 class="mb-2 h4">Location Information</h4>
 
 				<div class="flex flex-col pt-4 gap-y-2">
 					<div class="grid grid-cols-1 xl:grid-cols-2 auto-rows-auto">
-						<span> Name: </span>
-						<span class={spanStyles}>{routine.expand?.requestee?.name ?? 'N/A'}</span>
+						<span> Region: </span>
+						<span class={spanStyles}>{routine.expand?.regionId?.name ?? 'N/A'}</span>
 					</div>
 
 					<div class="grid grid-cols-1 xl:grid-cols-2 auto-rows-auto">
-						<span> Email: </span>
-						<span class={spanStyles}>{routine.expand?.requestee?.email ?? 'N/A'}</span>
+						<span> Area: </span>
+						<span class={spanStyles}>{routine.expand?.areaId?.name ?? 'N/A'}</span>
 					</div>
 
 					<div class="grid grid-cols-1 xl:grid-cols-2 auto-rows-auto">
-						<span> Job Description: </span>
-						<span class={spanStyles}>{routine.expand?.requestee?.jobDescription ?? 'N/A'}</span>
+						<span> Task Site: </span>
+						<span class={spanStyles}>{routine.expand?.siteId?.name ?? 'N/A'}</span>
 					</div>
 				</div>
 			</div>
@@ -397,40 +385,27 @@
 
 		<div class="{colStyles} lg:col-span-2 {isOfTypeDoc ? 'lg:row-span-2' : ''}">
 			<div class={divideStyles}>
-				<h4 class="mb-2 h4">
-					{routine.expand?.maintenanceTeamId?.name ?? 'N/A'} - {members.length} records found
-				</h4>
+				<h4 class="mb-2 h4">Additional Information</h4>
 
-				<table class="w-full text-sm text-left">
-					<thead class="uppercase bg-gray-100 dark:bg-neutral-800">
-						<tr>
-							<th scope="col" class={tableHeaderStyles}> Name </th>
-							<th scope="col" class={tableHeaderStyles}> Job Description </th>
-							<th scope="col" class={tableHeaderStyles}> Status </th>
-						</tr>
-					</thead>
-					<tbody>
-						{#if members.length === 0}
-							<h4 class="h4 self-center p-2">No members for this team</h4>
-						{:else}
-							{#each members as member}
-								<tr
-									class="transition-colors bg-white border-b rounded dark:bg-neutral-900 dark:border-neutral-800 hover:bg-gray-50 dark:hover:bg-neutral-900"
-								>
-									<td class={tdStyles}> {member.name} </td>
-									<td class={tdStyles}> {member.jobDescription} </td>
-									<td
-										class="{tdStyles} {member.isLead
-											? ' text-primary-600 dark:text-tertiary-500 font-semibold uppercase'
-											: ''}"
-									>
-										{member.isLead ? 'Lead' : ''}
-									</td>
-								</tr>
+				<div class="flex flex-col pt-4 gap-y-2">
+					<div class="grid grid-cols-1 xl:grid-cols-2 auto-rows-auto">
+						<span> Requestee: </span>
+						<span class={spanStyles}>{routine.expand?.requestee?.name ?? 'N/A'}</span>
+					</div>
+
+					<div class="grid grid-cols-1 md:grid-cols-2 my-4">
+						<span> Maintenance Team: </span>
+
+						<ol class="list {spanStyles}">
+							{#each routine.expand?.teamIds as { name }, idx}
+								<li>
+									<span>{idx + 1}.</span>
+									<span class="flex-auto">{name}</span>
+								</li>
 							{/each}
-						{/if}
-					</tbody>
-				</table>
+						</ol>
+					</div>
+				</div>
 			</div>
 		</div>
 

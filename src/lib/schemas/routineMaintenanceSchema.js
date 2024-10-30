@@ -19,6 +19,10 @@ export const routineMaintenanceSchema = (attachment, startDate, endDate) =>
 				message: 'This field is required'
 			}),
 
+			regionId: z.string(),
+
+			areaId: z.string(),
+
 			siteId: z.string(),
 
 			startDate: z.date({ message: 'Invalid date string!' }).default(startDate),

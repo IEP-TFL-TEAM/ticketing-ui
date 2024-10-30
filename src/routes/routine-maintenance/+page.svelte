@@ -14,7 +14,8 @@
 
 	export let data;
 
-	$: ({ filters, teams, maintenanceTeams, sites, staff, routines, servicesList } = data);
+	$: ({ filters, teams, maintenanceTeams, sites, staff, routines, servicesList, areas, regions } =
+		data);
 
 	const drawerStore = getDrawerStore();
 	const toastStore = getToastStore();
@@ -38,7 +39,9 @@
 				teams,
 				maintenanceTeams,
 				sites,
-				servicesList
+				servicesList,
+				areas,
+				regions
 			}
 		});
 	}

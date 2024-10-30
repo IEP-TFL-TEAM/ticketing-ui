@@ -80,6 +80,8 @@
 		$form.serviceImpact = routine.serviceImpact;
 		$form.duration = routine.duration;
 		$form.siteId = routine.siteId;
+		$form.regionId = routine.regionId;
+		$form.areaId = routine.areaId;
 		$form.teamIds = routine.teamIds;
 		$form.maintenanceTeamId = routine.maintenanceTeamId;
 		$form.servicesListIds = routine.servicesListIds;

@@ -5,6 +5,8 @@ import { getMaintenanceTeams } from '$lib/api/maintenanceTeams';
 import { getSiteList } from '$lib/api/sites';
 import { getStaffList } from '$lib/api/staff';
 import { getServicesList } from '$lib/api/servicesList';
+import { getRegionList } from '$lib/api/region';
+import { getAreaList } from '$lib/api/area';
 
 export async function load({ url, fetch }) {
 	pb.beforeSend = function (url, options) {
@@ -29,12 +31,13 @@ export async function load({ url, fetch }) {
 			getMaintenanceTeams(),
 			getSiteList(),
 			getStaffList(),
-			getServicesList()
+			getServicesList(),
+			getRegionList(),
+			getAreaList()
 		]);
 
-		const [routines, teams, maintenanceTeams, sites, staff, servicesList] = results.map((result) =>
-			result.status === 'fulfilled' ? result.value : []
-		);
+		const [routines, teams, maintenanceTeams, sites, staff, servicesList, regions, areas] =
+			results.map((result) => (result.status === 'fulfilled' ? result.value : []));
 
 		return {
 			filters,
@@ -43,7 +46,9 @@ export async function load({ url, fetch }) {
 			maintenanceTeams,
 			sites,
 			staff,
-			servicesList
+			servicesList,
+			regions,
+			areas
 		};
 	} catch (error) {
 		console.error(error);

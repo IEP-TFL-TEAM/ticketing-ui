@@ -78,6 +78,8 @@
 		$form.objective = routine.objective;
 		$form.scopeOfWork = routine.scopeOfWork;
 		$form.siteId = routine.siteId;
+		$form.regionId = routine.regionId;
+		$form.areaId = routine.areaId;
 		$form.serviceImpact = routine.serviceImpact;
 		$form.teamIds = routine.teamIds;
 		$form.duration = routine.duration;
