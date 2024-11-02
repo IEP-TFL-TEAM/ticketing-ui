@@ -10,6 +10,7 @@
 	import { IconArrowNarrowLeft, IconDownload, IconMaximize, IconEdit } from '@tabler/icons-svelte';
 	import { currentUser } from '$lib/stores/auth';
 	import { goto } from '$app/navigation';
+
 	export let data;
 
 	$: ({ routine, attachmentUrl, closingAttachmentUrl, attachment, closingAttachment, members } =

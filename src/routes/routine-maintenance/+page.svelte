@@ -3,7 +3,7 @@
 	import { goto } from '$app/navigation';
 	import pb from '$lib/api/pocketbaseClient';
 	import { exportRoutineMaintenance } from '$lib/utils/exportRoutineMaintenance';
-	import { getAllRoutines, expand } from '$lib/api/routineMaintenance';
+	import { expand } from '$lib/api/routineMaintenance';
 	import { getDrawerStore, getToastStore } from '@skeletonlabs/skeleton';
 	import { IconPlus } from '@tabler/icons-svelte';
 
@@ -48,8 +48,7 @@
 
 	async function handleExport(exportType) {
 		loading = true;
-		const routines = await getAllRoutines();
-		exportType(routines);
+		exportType(data.routines.items);
 		loading = false;
 	}
 

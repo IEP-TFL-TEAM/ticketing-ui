@@ -7,8 +7,9 @@
 		createRoutineMaintenance,
 		sendRoutineCreationNotification
 	} from '$lib/api/routineMaintenance';
-	import SpinnerOverlay from '$lib/components/layout/SpinnerOverlay.svelte';
 	import { parseDateAndTime } from '$lib/utils/parsers';
+
+	import SpinnerOverlay from '$lib/components/layout/SpinnerOverlay.svelte';
 
 	export function onCompleteHandler() {
 		submit();
