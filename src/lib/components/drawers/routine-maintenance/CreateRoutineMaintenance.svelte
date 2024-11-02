@@ -27,7 +27,6 @@
 				bind:teamIds
 				bind:teamEmails
 				bind:maintenanceTeamId
-				bind:siteId
 				bind:selectedStaff
 			/>
 		</Step>
