@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { awarenessStatuses } from '$lib/utils';
 
-const MaxAttachmentSize = 5000000; // 5MB
+const MaxAttachmentSize = 5242880; // 5MB
 
 export const changeRequestSchema = (attachment, startDate, endDate) =>
 	z
@@ -16,15 +16,22 @@ export const changeRequestSchema = (attachment, startDate, endDate) =>
 				message: 'This field is required'
 			}),
 
+			regionId: z.string(),
+
+			areaId: z.string(),
+
+			siteId: z.string(),
+
 			startDate: z.date({ message: 'Invalid date string!' }).default(startDate),
 
-			endDate: z.date({ message: 'Invalid date string!' }).default(endDate),
+			endDate:
+				!endDate || endDate.length === 0
+					? z.date({ message: 'Invalid date string!' }).nullable().optional()
+					: z.date({ message: 'Invalid date string!' }).default(endDate),
 
 			serviceImpact: z.string().refine((value) => ['Yes', 'No'].includes(value), {
 				message: 'Must be of one of the types'
 			}),
-
-			siteId: z.string(),
 
 			involvedSystem: z.string().min(1, {
 				message: 'This field is required'
@@ -40,9 +47,11 @@ export const changeRequestSchema = (attachment, startDate, endDate) =>
 
 			servicesListIds: z.array(z.string()).optional().default([]),
 
-			awarenessToBeMade: z.string().refine((value) => awarenessStatuses.includes(value), {
-				message: 'Must be of one of the types'
-			}),
+			awarenessToBeMade: z.array(
+				z.string().refine((value) => awarenessStatuses.includes(value), {
+					message: 'Must be of one of the types'
+				})
+			),
 
 			attachment: z
 				.instanceof(File)
@@ -51,7 +60,7 @@ export const changeRequestSchema = (attachment, startDate, endDate) =>
 				})
 				.default(attachment),
 
-			isClosed: z.boolean({ default: false }),
+			status: z.string().default('PENDING'),
 
 			submissionWithinFiveDays: z
 				.string()

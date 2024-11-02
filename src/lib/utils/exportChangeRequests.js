@@ -6,6 +6,7 @@ export const exportChangeRequests = (data) => {
 	const rows = data.map((row) => {
 		const teamNames = row.expand?.teamIds?.map((team) => team.name) || [];
 		const listOfServices = row.expand?.servicesListIds?.map((item) => item.name) || [];
+		const awarenessList = row.awarenessToBeMade.map((item) => item) || [];
 
 		return {
 			'Ticket #': row.ticketNumber,
@@ -21,8 +22,8 @@ export const exportChangeRequests = (data) => {
 			'Change Team': row.expand?.changeTeamId?.name ?? '-',
 			Summary: extractMessage(row.summary),
 			'List of Services / Circuits': listOfServices.join(', '),
-			'Awareness To Be Made': row.awarenessToBeMade,
-			Closed: row.isClosed ? 'True' : 'False',
+			'Awareness To Be Made': awarenessList.join(', '),
+			Status: row.status,
 			'CR Submission within 5 Days':
 				row?.submissionWithinFiveDays.length > 0 ? row.submissionWithinFiveDays : '-',
 			'Duration of the CR is adhered to':

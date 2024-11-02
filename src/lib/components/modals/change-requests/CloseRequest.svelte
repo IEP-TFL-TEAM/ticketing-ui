@@ -27,10 +27,12 @@
 			if (!form.valid) {
 				form.valid = false;
 				submitting = false;
-				form.message = 'Please verify that all rquired fields are provided.';
+				let message = 'Please verify that all rquired fields are provided.';
+
+				form.message = message;
 
 				toastStore.trigger({
-					message: 'Please verify that all rquired fields are provided.',
+					message,
 					background: 'variant-filled-error',
 					classes: 'rounded-none font-semibold'
 				});
@@ -38,7 +40,7 @@
 			}
 
 			try {
-				form.data.isClosed = true;
+				form.data.status = 'CLOSED';
 				await updateRequest(request.id, form.data);
 				modalStore.close();
 
@@ -73,6 +75,8 @@
 		$form.objective = request.objective;
 		$form.serviceImpact = request.serviceImpact;
 		$form.siteId = request.siteId;
+		$form.regionId = request.regionId;
+		$form.areaId = request.areaId;
 		$form.involvedSystem = request.involvedSystem;
 		$form.teamIds = request.teamIds;
 		$form.summary = request.summary;

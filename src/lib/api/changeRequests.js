@@ -1,7 +1,7 @@
 import pb from './pocketbaseClient';
 import { parseFilters } from '../utils/parsers';
 
-export const expand = 'requestee, siteId, teamIds, changeTeamId, servicesListIds';
+export const expand = 'requestee, siteId, teamIds, changeTeamId, servicesListIds, areaId, regionId';
 
 const createRequest = async (data) => {
 	const record = await pb.collection('changerequests').create({
@@ -35,4 +35,34 @@ const getAllRequests = async () => {
 	return records;
 };
 
-export { updateRequest, getRequestById, getRequests, createRequest, getAllRequests };
+const sendRequestCreationNotification = async ({
+	id,
+	email,
+	subject,
+	startDate,
+	objective,
+	ticketNumber
+}) => {
+	const response = await pb.send(`/api/send-request-creation-notification`, {
+		method: 'POST',
+		body: {
+			id,
+			email,
+			subject,
+			startDate,
+			objective,
+			ticketNumber
+		}
+	});
+
+	return response;
+};
+
+export {
+	updateRequest,
+	getRequestById,
+	getRequests,
+	createRequest,
+	getAllRequests,
+	sendRequestCreationNotification
+};

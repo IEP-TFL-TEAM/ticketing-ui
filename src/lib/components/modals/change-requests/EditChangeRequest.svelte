@@ -76,6 +76,8 @@
 		$form.objective = request.objective;
 		$form.serviceImpact = request.serviceImpact;
 		$form.siteId = request.siteId;
+		$form.regionId = request.regionId;
+		$form.areaId = request.areaId;
 		$form.involvedSystem = request.involvedSystem;
 		$form.teamIds = request.teamIds;
 		$form.summary = request.summary;
@@ -136,6 +138,7 @@
 									type="datetime-local"
 									name="endDate"
 									bind:value={$endDateVal}
+									min={$startDateVal}
 									on:change={() => (dirtyForm = true)}
 									required
 									class="input p-4 border"

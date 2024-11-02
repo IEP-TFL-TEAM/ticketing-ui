@@ -3,10 +3,13 @@
 	import pb from '$lib/api/pocketbaseClient';
 	import { getToastStore, getModalStore } from '@skeletonlabs/skeleton';
 	import { lazyLoad } from '$lib/actions/lazyLoad.js';
+	import { extractMessage } from '$lib/actions/extractMessage';
+	import { getStatusColor } from '$lib/actions/getStatusColor';
 	import { parseDateAndTime } from '$lib/utils/parsers/parseDateAndTime';
 	import { IconArrowNarrowLeft, IconDownload, IconMaximize, IconEdit } from '@tabler/icons-svelte';
 	import { expand, updateRequest } from '$lib/api/changeRequests';
 	import { currentUser } from '$lib/stores/auth';
+	import { goto } from '$app/navigation';
 
 	export let data;
 
@@ -56,6 +59,33 @@
 		});
 	}
 
+	async function cancelRequest(id) {
+		modalStore.trigger({
+			type: 'confirm',
+			title: 'This action CANNOT be undone!',
+			body: 'Are you sure you wish to cancel this request?',
+			modalClasses: '!bg-white dark:!bg-neutral-800 !rounded-none',
+			response: async (r) => {
+				if (r) {
+					try {
+						await pb.collection('changerequests').delete(id);
+
+						toastStore.trigger({
+							type: 'success',
+							message: 'Request Deleted Successfully!',
+							background: 'variant-filled-success',
+							classes: 'rounded-none font-semibold'
+						});
+
+						goto('/change-requests');
+					} catch (error) {
+						console.error(error);
+					}
+				}
+			}
+		});
+	}
+
 	async function reopenRequest() {
 		modalStore.trigger({
 			type: 'confirm',
@@ -65,7 +95,7 @@
 			response: async (r) => {
 				if (r) {
 					request = await updateRequest(request.id, {
-						isClosed: false,
+						status: 'PENDING',
 						submissionWithinFiveDays: null,
 						durationAdhered: null,
 						serviceImpactCorrect: null,
@@ -73,6 +103,13 @@
 						taskCompletion: null,
 						closingRemarks: null,
 						closingAttachment: null
+					});
+
+					toastStore.trigger({
+						type: 'success',
+						message: 'Request Re-Opened Successfully!',
+						background: 'variant-filled-success',
+						classes: 'rounded-none font-semibold'
 					});
 				}
 			}
@@ -118,7 +155,17 @@
 		</a>
 
 		<div class="flex items-center gap-2">
-			{#if !request.isClosed}
+			{#if $currentUser.role === 'admin'}
+				<button
+					type="button"
+					on:click={() => cancelRequest(request.id)}
+					class="btn variant-ghost-error text-white-900 rounded uppercase font-semibold py-2.5 px-8"
+				>
+					Cancel Request
+				</button>
+			{/if}
+
+			{#if request.status === 'PENDING'}
 				<button
 					type="button"
 					on:click={() => editApplication(request)}
@@ -129,13 +176,11 @@
 					</span>
 					<span>Edit Request</span>
 				</button>
-			{/if}
 
-			{#if !request.isClosed}
 				<button
 					type="button"
 					on:click={() => closeRequest(request)}
-					class="btn variant-ghost-error text-white-900 rounded uppercase font-semibold py-2.5 px-8"
+					class="btn variant-filled text-white-900 rounded uppercase font-semibold py-2.5 px-8"
 				>
 					Close Request
 				</button>
@@ -160,11 +205,7 @@
 					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
 						<span> Status: </span>
 
-						<span
-							class="{request.isClosed ? 'text-error-500' : 'text-success-500'} font-bold uppercase"
-						>
-							{request.isClosed ? 'Closed' : 'Open'}
-						</span>
+						<span class={`${getStatusColor(request.status)} font-bold`}>{request.status}</span>
 					</div>
 
 					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
@@ -211,14 +252,9 @@
 					</div>
 
 					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
-						<span> Change Team: </span>
-						<span class={spanStyles}>{request.expand?.changeTeamId?.name ?? 'N/A'}</span>
-					</div>
-
-					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
 						<span> Brief Summary of CR: </span>
 						<span class={spanStyles}>
-							{request.summary}
+							{extractMessage(request.summary)}
 						</span>
 					</div>
 
@@ -239,11 +275,16 @@
 						{/if}
 					</div>
 
-					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
+					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6 my-4">
 						<span> Awareness To Be Made: </span>
-						<span class={spanStyles}>
-							{request.awarenessToBeMade}
-						</span>
+						<ol class="list {spanStyles}">
+							{#each request.awarenessToBeMade as item, idx}
+								<li>
+									<span>{idx + 1}.</span>
+									<span class="flex-auto">{item}</span>
+								</li>
+							{/each}
+						</ol>
 					</div>
 				</div>
 			</div>
@@ -279,22 +320,22 @@
 
 		<div class="{colStyles} lg:col-span-2">
 			<div class={divideStyles}>
-				<h4 class="mb-2 h4">Requestee Information</h4>
+				<h4 class="mb-2 h4">Location Information</h4>
 
 				<div class="flex flex-col pt-4 gap-y-2">
 					<div class="grid grid-cols-1 xl:grid-cols-2 auto-rows-auto">
-						<span> Name: </span>
-						<span class={spanStyles}>{request.expand?.requestee?.name ?? 'N/A'}</span>
+						<span> Region: </span>
+						<span class={spanStyles}>{request.expand?.regionId?.name ?? 'N/A'}</span>
 					</div>
 
 					<div class="grid grid-cols-1 xl:grid-cols-2 auto-rows-auto">
-						<span> Email: </span>
-						<span class={spanStyles}>{request.expand?.requestee?.email ?? 'N/A'}</span>
+						<span> Area: </span>
+						<span class={spanStyles}>{request.expand?.areaId?.name ?? 'N/A'}</span>
 					</div>
 
 					<div class="grid grid-cols-1 xl:grid-cols-2 auto-rows-auto">
-						<span> Job Description: </span>
-						<span class={spanStyles}>{request.expand?.requestee?.jobDescription ?? 'N/A'}</span>
+						<span> Task Site: </span>
+						<span class={spanStyles}>{request.expand?.siteId?.name ?? 'N/A'}</span>
 					</div>
 				</div>
 			</div>
@@ -360,44 +401,31 @@
 
 		<div class="{colStyles} lg:col-span-2 {isOfTypeDoc ? 'lg:row-span-2' : ''}">
 			<div class={divideStyles}>
-				<h4 class="mb-2 h4">
-					{request.expand?.changeTeamId?.name ?? 'N/A'} - {members.length} records found
-				</h4>
+				<h4 class="mb-2 h4">Additional Information</h4>
 
-				<table class="w-full text-sm text-left">
-					<thead class="uppercase bg-gray-100 dark:bg-neutral-800">
-						<tr>
-							<th scope="col" class={tableHeaderStyles}> Name </th>
-							<th scope="col" class={tableHeaderStyles}> Job Description </th>
-							<th scope="col" class={tableHeaderStyles}> Status </th>
-						</tr>
-					</thead>
-					<tbody>
-						{#if members.length === 0}
-							<h4 class="h4 self-center p-2">No members for this team</h4>
-						{:else}
-							{#each members as member}
-								<tr
-									class="transition-colors bg-white border-b rounded dark:bg-neutral-900 dark:border-neutral-800 hover:bg-gray-50 dark:hover:bg-neutral-900"
-								>
-									<td class={tdStyles}> {member.name} </td>
-									<td class={tdStyles}> {member.jobDescription} </td>
-									<td
-										class="{tdStyles} {member.isLead
-											? ' text-primary-600 dark:text-tertiary-500 font-semibold uppercase'
-											: ''}"
-									>
-										{member.isLead ? 'Lead' : ''}
-									</td>
-								</tr>
+				<div class="flex flex-col pt-4 gap-y-2">
+					<div class="grid grid-cols-1 xl:grid-cols-2 auto-rows-auto">
+						<span> Requestee: </span>
+						<span class={spanStyles}>{request.expand?.requestee?.name ?? 'N/A'}</span>
+					</div>
+
+					<div class="grid grid-cols-1 md:grid-cols-2 my-4">
+						<span> Change Team: </span>
+
+						<ol class="list {spanStyles}">
+							{#each request.expand?.teamIds as { name }, idx}
+								<li>
+									<span>{idx + 1}.</span>
+									<span class="flex-auto">{name}</span>
+								</li>
 							{/each}
-						{/if}
-					</tbody>
-				</table>
+						</ol>
+					</div>
+				</div>
 			</div>
 		</div>
 
-		{#if request.isClosed}
+		{#if request.status === 'CLOSED'}
 			<div class={colStyles + ' lg:col-span-2 lg:row-span-2'}>
 				<div class={divideStyles}>
 					<h4 class="mb-2 h4">Closure Summary</h4>
@@ -447,7 +475,7 @@
 							</div>
 						{/if}
 
-						{#if request.isClosed && request.closingAttachment.length > 0}
+						{#if request.status === 'CLOSED' && request.closingAttachment.length > 0}
 							<div class={divideStyles}>
 								{#if (closingAttachment.type !== 'image/jpg') & (closingAttachment.type !== 'image/png') & (closingAttachment.type !== 'image/jpeg')}
 									<div class="flex flex-col pt-4 gap-y-2">

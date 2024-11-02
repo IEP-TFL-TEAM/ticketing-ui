@@ -1,5 +1,6 @@
 <script>
 	import { IconArrowRight } from '@tabler/icons-svelte';
+	import { getStatusColor } from '$lib/actions/getStatusColor';
 
 	export let requests;
 
@@ -20,7 +21,6 @@
 					<th scope="col" class={tableHeaderStyles}> Title </th>
 					<th scope="col" class={tableHeaderStyles}> Objective </th>
 					<th scope="col" class={tableHeaderStyles}> Service Impact </th>
-					<th scope="col" class={tableHeaderStyles}> Awareness </th>
 					<th scope="col" class={tableHeaderStyles}> Status </th>
 					<th scope="col"></th>
 				</tr>
@@ -44,14 +44,8 @@
 							{request.serviceImpact}
 						</td>
 
-						<td class={tdStyles}> {request.awarenessToBeMade} </td>
-
-						<td
-							class="{tdStyles} uppercase font-semibold {request.isClosed
-								? 'text-error-500'
-								: 'text-success-500'}"
-						>
-							{request.isClosed ? 'Closed' : 'Open'}
+						<td class={`${getStatusColor(request.status)} font-bold ${tdStyles}`}>
+							{request.status}
 						</td>
 
 						<td class={tdStyles}>

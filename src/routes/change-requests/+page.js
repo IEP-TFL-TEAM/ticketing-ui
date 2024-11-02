@@ -5,6 +5,8 @@ import { getChangeTeams } from '$lib/api/changeTeams';
 import { getSiteList } from '$lib/api/sites';
 import { getStaffList } from '$lib/api/staff';
 import { getServicesList } from '$lib/api/servicesList';
+import { getRegionList } from '$lib/api/region';
+import { getAreaList } from '$lib/api/area';
 
 export async function load({ url, fetch }) {
 	pb.beforeSend = function (url, options) {
@@ -18,8 +20,8 @@ export async function load({ url, fetch }) {
 		title: url.searchParams.get('title'),
 		objective: url.searchParams.get('objective'),
 		serviceImpact: url.searchParams.get('serviceImpact'),
-		awarenessToBeMade: url.searchParams.get('awarenessToBeMade'),
-		ticketNumber: url.searchParams.get('ticketNumber')
+		ticketNumber: url.searchParams.get('ticketNumber'),
+		status: url.searchParams.get('status')
 	};
 
 	try {
@@ -29,11 +31,13 @@ export async function load({ url, fetch }) {
 			getChangeTeams(),
 			getSiteList(),
 			getStaffList(),
-			getServicesList()
+			getServicesList(),
+			getRegionList(),
+			getAreaList()
 		]);
 
-		const [requests, teams, changeTeams, sites, staff, servicesList] = results.map((result) =>
-			result.status === 'fulfilled' ? result.value : []
+		const [requests, teams, changeTeams, sites, staff, servicesList, regions, areas] = results.map(
+			(result) => (result.status === 'fulfilled' ? result.value : [])
 		);
 
 		return {
@@ -43,7 +47,9 @@ export async function load({ url, fetch }) {
 			changeTeams,
 			sites,
 			staff,
-			servicesList
+			servicesList,
+			regions,
+			areas
 		};
 	} catch (error) {
 		console.error(error);

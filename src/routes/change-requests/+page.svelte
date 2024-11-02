@@ -3,7 +3,7 @@
 	import { goto } from '$app/navigation';
 	import pb from '$lib/api/pocketbaseClient';
 	import { exportChangeRequests } from '$lib/utils/exportChangeRequests';
-	import { getAllRequests, expand } from '$lib/api/changeRequests';
+	import { expand } from '$lib/api/changeRequests';
 	import { getDrawerStore, getToastStore } from '@skeletonlabs/skeleton';
 	import { IconPlus } from '@tabler/icons-svelte';
 
@@ -14,7 +14,7 @@
 
 	export let data;
 
-	$: ({ filters, teams, changeTeams, sites, staff, servicesList, requests } = data);
+	$: ({ filters, teams, changeTeams, sites, staff, servicesList, requests, regions, areas } = data);
 
 	const drawerStore = getDrawerStore();
 	const toastStore = getToastStore();
@@ -38,15 +38,16 @@
 				teams,
 				changeTeams,
 				sites,
-				servicesList
+				servicesList,
+				regions,
+				areas
 			}
 		});
 	}
 
 	async function handleExport(exportType) {
 		loading = true;
-		const request = await getAllRequests();
-		exportType(request);
+		exportType(data.requests.items);
 		loading = false;
 	}
 
@@ -115,7 +116,7 @@
 {:else}
 	<div class="w-full mt-5 transition-colors rounded-none">
 		<div class="flex justify-between">
-			<h1 class="h1 font-extrabold">Change Request Forms</h1>
+			<h1 class="h1 font-extrabold">Change Request Module</h1>
 
 			<div class="flex items-center gap-2">
 				<ExportButton

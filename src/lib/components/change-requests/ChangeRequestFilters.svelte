@@ -3,14 +3,14 @@
 	import { parseQueryParams } from '$lib/utils/parsers';
 	import { goto } from '$app/navigation';
 	import { IconCaretDown, IconCaretUp } from '@tabler/icons-svelte';
-	import { awarenessStatuses } from '$lib/utils';
+	import { statuses } from '$lib/utils';
 
 	export let filters, pageSettings;
 
 	let searchText = filters.title || filters.objective || filters.ticketNumber;
 	let searchImpact = filters.serviceImpact;
-	let searchAwareness = filters.awarenessToBeMade;
 	let searchRequestee = filters.requestee;
+	let searchStatus = filters.status;
 	let showFilters = false;
 
 	function handle() {
@@ -19,9 +19,9 @@
 			title: searchText,
 			objective: searchText,
 			serviceImpact: searchImpact,
-			awarenessToBeMade: searchAwareness,
 			requestee: searchRequestee,
 			ticketNumber: searchText,
+			status: searchStatus,
 			page: 1
 		};
 		const queryParams = parseQueryParams(search);
@@ -32,7 +32,7 @@
 		searchText = null;
 		searchImpact = null;
 		searchRequestee = null;
-		searchAwareness = null;
+		searchStatus = null;
 		goto(`/change-requests`);
 	}
 
@@ -100,6 +100,24 @@
 		class="relative p-8 my-8 bg-white border rounded border-gray-20 dark:border-white/30 dark:bg-neutral-900"
 	>
 		<div class="flex flex-col w-full gap-3 font-medium transition-transform whitespace-nowrap">
+			<div class="flex items-start gap-4">
+				<h3 class="w-1/5">Status:</h3>
+				<div class={chipDiv + ' relative'}>
+					{#each statuses as status}
+						<button
+							type="button"
+							class="{chipStyles} capitalize {searchStatus === status ? ` ${active}` : ''}"
+							on:click={() => {
+								searchStatus = status;
+								handle();
+							}}
+						>
+							{status}
+						</button>
+					{/each}
+				</div>
+			</div>
+
 			<div class="flex items-center gap-4">
 				<h3 class="w-1/5">Service Impact:</h3>
 				<div class={chipDiv + ' relative'}>
@@ -109,24 +127,6 @@
 							class="{chipStyles} capitalize {searchImpact === item ? ` ${active}` : ''}"
 							on:click={() => {
 								searchImpact = item;
-								handle();
-							}}
-						>
-							{item}
-						</button>
-					{/each}
-				</div>
-			</div>
-
-			<div class="flex items-center gap-4">
-				<h3 class="w-1/5">Awareness To Be Made:</h3>
-				<div class={chipDiv + ' relative'}>
-					{#each awarenessStatuses as item}
-						<button
-							type="button"
-							class="{chipStyles} capitalize {searchAwareness === item ? ` ${active}` : ''}"
-							on:click={() => {
-								searchAwareness = item;
 								handle();
 							}}
 						>
