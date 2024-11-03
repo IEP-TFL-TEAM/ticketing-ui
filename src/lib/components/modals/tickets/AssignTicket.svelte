@@ -25,7 +25,9 @@
 	}
 </script>
 
-<div class="card p-4 w-modal shadow-xl space-y-4 max-w-3xl bg-white dark:bg-neutral-900">
+<div
+	class="card p-4 w-modal shadow-xl space-y-4 max-w-3xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700"
+>
 	<header class="text-2xl font-bold">{$modalStore[0]?.title ?? '(title missing)'}</header>
 
 	<article>{$modalStore[0]?.body ?? '(body missing)'}</article>

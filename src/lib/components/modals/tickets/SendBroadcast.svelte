@@ -108,7 +108,9 @@
 		'!bg-white dark:!bg-neutral-800 placeholder-primary-500 dark:placeholder-tertiary-500 text-sm flex-grow border border-gray-300 dark:border-gray-200/30 rounded-none !focus:outline-none !focus:ring-0 !focus:ring-offset-0';
 </script>
 
-<div class="max-w-xl w-full p-10 bg-white dark:bg-neutral-800">
+<div
+	class="max-w-xl w-full p-10 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700"
+>
 	<div class="flex flex-col gap-2 mb-5">
 		<span class="text-2xl font-semibold tracking-wide">
 			Send Broadcast Email for incident <span class="text-primary-500 dark:text-tertiary-500">

@@ -89,7 +89,9 @@
 	<SpinnerOverlay />
 {/if}
 
-<div class="p-5 card w-full max-w-md bg-white dark:bg-neutral-900">
+<div
+	class="p-5 card w-full max-w-md bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700"
+>
 	<h3 class="mb-5 text-xl text-primary-500 dark:text-tertiary-500 font-bold uppercase">
 		Please provide the following to close the incident
 	</h3>

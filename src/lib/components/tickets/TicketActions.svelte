@@ -22,6 +22,7 @@
 			type: 'confirm',
 			title: 'Re-open this ticket',
 			body: 'Are you sure you wish to proceed? This action will revert the status of the ticket to pending',
+			modalClasses: '!bg-white dark:!bg-neutral-800 !rounded-none',
 			response: async (r) => {
 				if (r) {
 					const updatedTicket = await updateTicket({

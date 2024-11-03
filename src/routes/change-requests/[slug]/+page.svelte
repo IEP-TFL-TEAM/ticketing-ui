@@ -144,8 +144,6 @@
 		'p-6 border border-gray-20 dark:border-white/30 rounded divide-x-2 divide-black/10 dark:divide-white/30 bg-white dark:bg-neutral-900';
 	const divideStyles = 'divide-y-2 divide-black/20 dark:divide-white/50';
 	const spanStyles = 'text-primary-600 dark:text-tertiary-500';
-	const tableHeaderStyles = 'px-6 font-semibold py-2';
-	const tdStyles = 'px-6 py-4';
 </script>
 
 <div class="w-full mt-5 break-words">
