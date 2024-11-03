@@ -34,7 +34,7 @@
 	<div class="grid w-full grid-cols-1 gap-4 xl:grid-cols-3">
 		{#each statusItems as { label, count, colorClass }}
 			<div
-				class="card p-8 rounded-lg bg-transparent dark:bg-transparent shadow border border-black/5 dark:border-white/10"
+				class="card p-8 rounded bg-transparent dark:bg-transparent shadow border border-black/5 dark:border-white/10"
 			>
 				<div class="flex justify-between items-start">
 					<h3 class="mb-2 text-lg font-semibold uppercase">{label}</h3>

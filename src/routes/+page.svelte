@@ -19,8 +19,8 @@
 		<p>Navigate through the system with options on the sidebar</p>
 	</div>
 
-	<div class="mt-4 w-1/2">
-		<RadioGroup rounded="rounded-lg">
+	<div class="mt-4 2xl:w-1/2 w-full">
+		<RadioGroup rounded="rounded-none">
 			{#each ['Incidents', 'Change Requests', 'Routine Maintenance'] as item}
 				<RadioItem bind:group={value} name="justify" value={item}>{item}</RadioItem>
 			{/each}

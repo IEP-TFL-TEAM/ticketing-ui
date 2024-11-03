@@ -76,7 +76,7 @@
 					incidentEnd:
 						typeOfBroadcast === 'Service Restoration Notice'
 							? parseDateAndTime(ticket.incidentEnd)
-							: 'not-yet-closed',
+							: 'N/A',
 					description: ticket.description,
 					location: ticket.expand?.siteId?.name,
 					assignedTeams: teams,
