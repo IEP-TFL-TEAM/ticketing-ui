@@ -5,7 +5,6 @@ import CloseTicket from '$lib/components/modals/tickets/CloseTicket.svelte';
 import EditTicket from '$lib/components/modals/tickets/EditTicket.svelte';
 import SendBroadcast from '$lib/components/modals/tickets/SendBroadcast.svelte';
 import RecipientActions from '$lib/components/modals/recipients/RecipientActions.svelte';
-import TeamActions from '$lib/components/modals/teams/TeamActions.svelte';
 import EditChangeRequest from '$lib/components/modals/change-requests/EditChangeRequest.svelte';
 import CloseRequest from '$lib/components/modals/change-requests/CloseRequest.svelte';
 import EditRoutineMaintenance from '$lib/components/modals/routine-maintenance/EditRoutineMaintenance.svelte';
@@ -23,9 +22,6 @@ export const modalComponentRegistry = {
 	},
 	recipientActions: {
 		ref: RecipientActions
-	},
-	teamActions: {
-		ref: TeamActions
 	},
 	closeTicket: {
 		ref: CloseTicket
