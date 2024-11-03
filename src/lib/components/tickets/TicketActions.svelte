@@ -3,14 +3,7 @@
 	import { updateTicket } from '$lib/api/tickets';
 	import { currentUser } from '$lib/stores/auth';
 
-	export let ticket,
-		teams,
-		solutionCodes,
-		causeCodes,
-		attachment,
-		categories,
-		categoryLevels,
-		teamEquipment;
+	export let ticket, teams, solutionCodes, causeCodes, attachment, categories, categoryLevels;
 
 	$: role = $currentUser?.role;
 
@@ -36,8 +29,9 @@
 					ticket = updatedTicket;
 
 					toastStore.trigger({
-						message: 'Ticket Reopened successfully.',
+						message: 'Incident Reopened successfully.',
 						background: 'variant-filled-success',
+						classes: 'rounded-none font-semibold',
 						timeout: 3000
 					});
 				}
@@ -63,20 +57,19 @@
 			type: 'component',
 			title: 'Assign Ticket',
 			component: 'assignTicket',
-			body: 'Select team(s) and team equipment(s) to assign this ticket to:',
-			meta: { teams, teamEquipment },
+			meta: { teams },
 			response: async (res) => {
 				if (res) {
 					const updatedTicket = await updateTicket({
 						...ticket,
-						teamIds: res.teamIds,
-						teamEquipmentIds: res.equipIds
+						teamIds: res.teamIds
 					});
 					ticket = updatedTicket;
 
 					toastStore.trigger({
-						message: 'Ticket Assigned successfully.',
+						message: 'Incident Assigned successfully.',
 						background: 'variant-filled-success',
+						classes: 'rounded-none font-semibold',
 						timeout: 3000
 					});
 				}

@@ -12,6 +12,8 @@
 	import TicketComments from '$lib/components/tickets/TicketComments.svelte';
 	import TicketAttachments from '$lib/components/tickets/TicketAttachments.svelte';
 	import TicketDetails from '$lib/components/tickets/TicketDetails.svelte';
+	import TicketClosureDetails from '$lib/components/tickets/TicketClosureDetails.svelte';
+	import DepartmentAndTeamInfo from '$lib/components/tickets/DepartmentAndTeamInfo.svelte';
 	import TicketHistory from '$lib/components/tickets/TicketHistory.svelte';
 	import TicketMap from '$lib/components/tickets/TicketMap.svelte';
 
@@ -28,7 +30,6 @@
 		causeCodes,
 		categories,
 		categoryLevels,
-		teamEquipment,
 		site,
 		officeLocations
 	} = data);
@@ -57,7 +58,7 @@
 			async (e) => {
 				toastStore.clear();
 				toastStore.trigger({
-					message: `A ticket has been ${e.action}d! by ${e.record.expand.reportedBy.firstName} ${e.record.expand.reportedBy.lastName}`,
+					message: `An incident has been ${e.action}d! by ${e.record.expand.reportedBy.firstName} ${e.record.expand.reportedBy.lastName}`,
 					action: {
 						label: 'View',
 						response: () => goto(`/tickets/${e.record.id}`)
@@ -131,7 +132,6 @@
 				{causeCodes}
 				{categories}
 				{categoryLevels}
-				{teamEquipment}
 			/>
 		</div>
 	</div>
@@ -188,13 +188,37 @@
 			<div class="flex flex-col justify-start items-start">
 				<div class="w-full">
 					<Accordion class="w-full">
-						<AccordionItem open class={accordionStyles}>
+						<AccordionItem open={ticket.status !== 'CLOSED'} class={accordionStyles}>
 							<svelte:fragment slot="summary">
-								<h5 class="font-medium">Details</h5>
+								<h5 class="font-medium">Incident Details</h5>
 							</svelte:fragment>
 							<svelte:fragment slot="content">
 								<div class="table-container">
 									<TicketDetails {ticket} />
+								</div>
+							</svelte:fragment>
+						</AccordionItem>
+
+						{#if ticket.status === 'CLOSED'}
+							<AccordionItem open class={accordionStyles}>
+								<svelte:fragment slot="summary">
+									<h5 class="font-medium">Closure Information</h5>
+								</svelte:fragment>
+								<svelte:fragment slot="content">
+									<div class="table-container">
+										<TicketClosureDetails {ticket} />
+									</div>
+								</svelte:fragment>
+							</AccordionItem>
+						{/if}
+
+						<AccordionItem open class={accordionStyles}>
+							<svelte:fragment slot="summary">
+								<h5 class="font-medium">Department / Team Information</h5>
+							</svelte:fragment>
+							<svelte:fragment slot="content">
+								<div class="table-container">
+									<DepartmentAndTeamInfo {ticket} />
 								</div>
 							</svelte:fragment>
 						</AccordionItem>

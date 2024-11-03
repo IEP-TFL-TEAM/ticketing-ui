@@ -17,11 +17,13 @@ export const ticketSchema = (attachment, incidentStart) =>
 
 			teamIds: z.array(z.string()),
 
+			departmentIds: z.array(z.string()),
+
 			categoryId: z.string(),
 
 			categoryLevelId: z.string(),
 
-			teamEquipmentIds: z.array(z.string()),
+			departmentEquipmentIds: z.array(z.string()),
 
 			regionId: z.string(),
 

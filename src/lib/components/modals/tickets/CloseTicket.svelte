@@ -11,9 +11,13 @@
 	const solutionCodes = $modalStore[0].meta.solutionCodes;
 	const causeCodes = $modalStore[0].meta.causeCodes;
 
-	const filteredSolutionCodes = solutionCodes.filter(
-		(code) => code.faultTypeId === ticket.faultTypeId
-	);
+	const filteredSolutionCodes = solutionCodes
+		.filter((code) => code.faultTypeId === ticket.faultTypeId)
+		.sort((a, b) => {
+			if (a.name < b.name) return -1;
+			if (a.name > b.name) return 1;
+			return 0;
+		});
 	const filteredCauseCodes = causeCodes.filter((code) => code.faultTypeId === ticket.faultTypeId);
 
 	let cause;
@@ -69,6 +73,7 @@
 			toastStore.trigger({
 				message: 'Closed Incident Successfully',
 				classes: 'variant-filled-success',
+				classes: 'rounded-none font-semibold',
 				timeout: 3000
 			});
 		} catch (error) {

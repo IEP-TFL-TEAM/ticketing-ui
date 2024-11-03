@@ -3,14 +3,24 @@
 	import { zod } from 'sveltekit-superforms/adapters';
 	import { getToastStore, getDrawerStore, ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
 	import { ticketSchema } from '$lib/schemas/ticketSchema';
-	import { createTicket } from '$lib/api/tickets';
+	import { createTicket, sendTicketCreationNotification } from '$lib/api/tickets';
+	import { parseDateAndTime } from '$lib/utils/parsers';
+
 	import SpinnerOverlay from '$lib/components/layout/SpinnerOverlay.svelte';
 
 	export function onCompleteHandler() {
 		submit();
 	}
 
-	export let teamIds, catId, catLevelId, equipIds, regionId, areaId, siteId;
+	export let teamIds,
+		departmentIds,
+		catId,
+		catLevelId,
+		equipIds,
+		regionId,
+		areaId,
+		siteId,
+		teamEmails;
 
 	const toastStore = getToastStore();
 	const drawerStore = getDrawerStore();
@@ -72,15 +82,37 @@
 			}
 
 			try {
-				await createTicket(form.data);
+				const { id, title, incidentStart, description, ticketNumber } = await createTicket(
+					form.data
+				);
+
 				drawerStore.close();
 
 				toastStore.trigger({
 					type: 'success',
-					message: 'Ticket Created Successfully!',
+					message: 'Incident Created Successfully!',
 					background: 'variant-filled-success',
 					classes: 'rounded-none font-semibold',
 					timeout: 3000
+				});
+
+				for (const email of teamEmails) {
+					await sendTicketCreationNotification({
+						id,
+						email,
+						subject: title,
+						startDate: parseDateAndTime(incidentStart),
+						description,
+						ticketNumber
+					});
+				}
+
+				toastStore.trigger({
+					type: 'success',
+					message: 'Teams assigned have been successfully notified of the created Incident!',
+					background: 'variant-filled-success',
+					classes: 'rounded-none font-semibold',
+					timeout: 5000
 				});
 			} catch (e) {
 				form.valid = false;
@@ -93,7 +125,7 @@
 					timeout: 3000
 				});
 
-				form.message = e.data.data.email.message;
+				form.message = e.response.details;
 
 				return { form };
 			}
@@ -111,9 +143,10 @@
 
 	$: {
 		$form.teamIds = teamIds;
+		$form.departmentIds = departmentIds;
 		$form.categoryId = catId;
 		$form.categoryLevelId = catLevelId;
-		$form.teamEquipmentIds = equipIds;
+		$form.departmentEquipmentIds = equipIds;
 		$form.regionId = regionId;
 		$form.areaId = areaId;
 		$form.siteId = siteId;
@@ -135,6 +168,10 @@
 	<div class="flex flex-col">
 		<form method="POST" enctype="multipart/form-data" use:enhance>
 			<div class="flex flex-col justify-between gap-4">
+				{#if $message}
+					<span class="my-2 text-error-500 input p-4 border-red-500 font-semibold">{$message}</span>
+				{/if}
+
 				<label class="label">
 					<p class="my-2 text-base font-semibold">
 						Enter Starting Date and Time

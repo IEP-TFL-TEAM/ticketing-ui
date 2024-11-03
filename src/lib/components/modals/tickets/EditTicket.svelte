@@ -46,7 +46,7 @@
 
 				toastStore.trigger({
 					type: 'success',
-					message: 'Ticket Updated Successfully!',
+					message: 'Incident Updated Successfully!',
 					background: 'variant-filled-success',
 					classes: 'rounded-none font-semibold',
 					timeout: 3000
@@ -82,9 +82,10 @@
 		$form.title = ticket.title;
 		$form.description = ticket.description;
 		$form.teamIds = ticket.teamIds;
+		$form.departmentIds = ticket.departmentIds;
 		$form.categoryId = ticket.categoryId;
 		$form.categoryLevelId = ticket.categoryLevelId;
-		$form.teamEquipmentIds = ticket.teamEquipmentIds;
+		$form.departmentEquipmentIds = ticket.departmentEquipmentIds;
 		$form.regionId = ticket.regionId;
 		$form.areaId = ticket.areaId;
 		$form.siteId = ticket.siteId;

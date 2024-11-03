@@ -5,7 +5,8 @@ import { calculateSLAStatus } from './calculateSLAStatus';
 export const exportIncidents = (data) => {
 	const rows = data.map((row) => {
 		const teamNames = row.expand?.teamIds?.map((team) => team.name) || [];
-		const equipmentList = row.expand?.teamEquipmentIds?.map((eq) => eq.name) || [];
+		const departmentNames = row.expand?.departmentIds?.map((dep) => dep.name) || [];
+		const equipmentList = row.expand?.departmentEquipmentIds?.map((eq) => eq.name) || [];
 		const listOfServices = row.expand?.servicesListIds?.map((item) => item.name) || [];
 
 		const slaStatus = calculateSLAStatus(
@@ -20,10 +21,11 @@ export const exportIncidents = (data) => {
 			'Incident Start': parseDateAndTime(row.incidentStart),
 			'Incident End': row.incidentEnd.length === 0 ? '-' : parseDateAndTime(row.incidentEnd),
 			'Reported By': row.expand?.reportedBy?.firstName + ' ' + row.expand?.reportedBy?.lastName,
-			'Team(s)': teamNames.join(', '),
 			Category: row.expand?.categoryId?.name,
 			Severity: row.expand?.categoryLevelId?.name,
-			'Team Equipment': equipmentList.join(', '),
+			'Department(s) Concerned': departmentNames.join(', '),
+			'Team(s) Involved': teamNames.join(', '),
+			'Deparment Equipment(s)': equipmentList.join(', '),
 			Region: row.expand?.regionId?.name,
 			Area: row.expand?.areaId?.name,
 			Site: row.expand?.siteId?.name,

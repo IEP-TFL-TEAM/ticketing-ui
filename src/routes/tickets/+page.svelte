@@ -19,12 +19,13 @@
 		filters,
 		tickets,
 		teams,
+		departments,
 		categories,
 		categoryLevels,
 		regions,
 		areas,
 		sites,
-		teamEquipment,
+		departmentEquipments,
 		faultTypeList,
 		causeCodes,
 		technicians,
@@ -65,12 +66,13 @@
 			position,
 			meta: {
 				teams,
+				departments,
 				categories,
 				categoryLevels,
 				regions,
 				areas,
 				sites,
-				teamEquipment,
+				departmentEquipments,
 				faultTypeList,
 				causeCodes,
 				technicians,
@@ -125,7 +127,7 @@
 			async (e) => {
 				toastStore.clear();
 				toastStore.trigger({
-					message: `A ticket has been ${e.action}d! by ${e.record.expand.reportedBy.firstName} ${e.record.expand.reportedBy.lastName}`,
+					message: `An incident has been ${e.action}d! by ${e.record.expand.reportedBy.firstName} ${e.record.expand.reportedBy.lastName}`,
 					action: {
 						label: 'View',
 						response: () => goto(`/tickets/${e.record.id}`)

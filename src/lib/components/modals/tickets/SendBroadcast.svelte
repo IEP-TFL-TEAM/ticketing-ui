@@ -87,7 +87,8 @@
 
 				toastStore.trigger({
 					message: `Broadcast Sent Successfully to ${email}`,
-					background: 'variant-filled-success'
+					background: 'variant-filled-success',
+					classes: 'rounded-none font-semibold'
 				});
 
 				emails = emails.filter((e) => e !== email);

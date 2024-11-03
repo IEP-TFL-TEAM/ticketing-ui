@@ -2,7 +2,7 @@ import pb from './pocketbaseClient';
 import { parseFilters } from '../utils/parsers';
 
 export const expand =
-	'reportedBy, categoryLevelId, teamIds, teamEquipmentIds, categoryId, regionId, siteId, areaId, faultTypeId, closedBy, solution, cause, technicianId, servicesListIds';
+	'reportedBy, categoryLevelId, teamIds, departmentIds, departmentEquipmentIds, categoryId, regionId, siteId, areaId, faultTypeId, closedBy, solution, cause, technicianId, servicesListIds';
 
 const createTicket = async (data) => {
 	const record = await pb.collection('tickets').create({
@@ -75,6 +75,29 @@ const sendBroadcastEmail = async ({
 	return response;
 };
 
+const sendTicketCreationNotification = async ({
+	id,
+	email,
+	subject,
+	startDate,
+	description,
+	ticketNumber
+}) => {
+	const response = await pb.send(`/api/send-incident-creation-notification`, {
+		method: 'POST',
+		body: {
+			id,
+			email,
+			subject,
+			startDate,
+			description,
+			ticketNumber
+		}
+	});
+
+	return response;
+};
+
 export {
 	updateTicket,
 	updateTicketById,
@@ -82,5 +105,6 @@ export {
 	getTickets,
 	createTicket,
 	getAllTickets,
-	sendBroadcastEmail
+	sendBroadcastEmail,
+	sendTicketCreationNotification
 };

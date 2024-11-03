@@ -1,6 +1,7 @@
 import pb from '$lib/api/pocketbaseClient';
 import { getTicketById } from '$lib/api/tickets';
 import { getTeams } from '$lib/api/teams';
+import { getDepartments } from '$lib/api/departments';
 import { getCommentsByTicketId } from '$lib/api/comments';
 import { getHistoryByTicketId } from '$lib/api/history';
 import { getSolutionCodes } from '$lib/api/solutionCodes';
@@ -10,7 +11,6 @@ import { getOfficeLocations } from '$lib/api/officeLocations';
 import { urlToFile } from '$lib/utils/parsers';
 import { getCategories } from '$lib/api/categories';
 import { getCategoryLevels } from '$lib/api/categoryLevels';
-import { getTeamEquipmentList } from '$lib/api/teamEquipment';
 
 export async function load({ params, url, fetch }) {
 	pb.beforeSend = function (url, options) {
@@ -37,32 +37,33 @@ export async function load({ params, url, fetch }) {
 
 		const results = await Promise.allSettled([
 			getTeams(),
+			getDepartments(),
 			getOfficeLocations(),
 			getSiteById(ticket.siteId),
 			getCauseCodes(),
 			getSolutionCodes(),
 			getCategories(),
 			getCategoryLevels(),
-			getTeamEquipmentList(),
 			urlToFile(attachmentUrl, fetch),
 			getUrlsToFile(commentAttachmentUrls, fetch)
 		]);
 
 		const [
 			teams,
+			departments,
 			officeLocations,
 			site,
 			causeCodes,
 			solutionCodes,
 			categories,
 			categoryLevels,
-			teamEquipment,
 			attachment,
 			commentAttachments
 		] = results.map((result) => (result.status === 'fulfilled' ? result.value : []));
 
 		return {
 			teams,
+			departments,
 			ticket,
 			comments,
 			commentAttachmentUrls,
@@ -73,7 +74,6 @@ export async function load({ params, url, fetch }) {
 			solutionCodes,
 			categories,
 			categoryLevels,
-			teamEquipment,
 			site,
 			officeLocations
 		};
