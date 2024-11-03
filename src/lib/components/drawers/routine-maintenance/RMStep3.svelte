@@ -99,7 +99,7 @@
 
 				toastStore.trigger({
 					type: 'success',
-					message: 'Teams assigned have been successfully notified of the created Routine!',
+					message: 'Teams involved have been successfully notified of the new Routine Maintenance!',
 					background: 'variant-filled-success',
 					classes: 'rounded-none font-semibold',
 					timeout: 5000

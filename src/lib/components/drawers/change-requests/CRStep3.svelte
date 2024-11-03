@@ -109,7 +109,7 @@
 
 				toastStore.trigger({
 					type: 'success',
-					message: 'Teams assigned have been successfully notified of the created Request!',
+					message: 'Teams involved have been successfully notified of the new Change Request!',
 					background: 'variant-filled-success',
 					classes: 'rounded-none font-semibold',
 					timeout: 5000

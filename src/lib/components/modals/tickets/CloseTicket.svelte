@@ -72,7 +72,7 @@
 
 			toastStore.trigger({
 				message: 'Closed Incident Successfully',
-				classes: 'variant-filled-success',
+				background: 'variant-filled-success',
 				classes: 'rounded-none font-semibold',
 				timeout: 3000
 			});

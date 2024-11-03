@@ -18,7 +18,7 @@
 >
 	<header class="text-2xl font-bold">Select team(s) involved to assign this ticket to:</header>
 
-	<article>{$modalStore[0]?.body ?? '(body missing)'}</article>
+	<article>The newly assigned Teams will be notified.</article>
 
 	<form
 		class="card w-full max-h-[38rem] p-4 overflow-y-scroll bg-white dark:bg-neutral-900"

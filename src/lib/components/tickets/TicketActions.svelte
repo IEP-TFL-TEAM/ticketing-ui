@@ -67,7 +67,7 @@
 					ticket = updatedTicket;
 
 					toastStore.trigger({
-						message: 'Incident Assigned successfully.',
+						message: 'Incident Re-Assigned successfully.',
 						background: 'variant-filled-success',
 						classes: 'rounded-none font-semibold',
 						timeout: 3000
