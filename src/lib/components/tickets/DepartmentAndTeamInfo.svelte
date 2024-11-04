@@ -21,7 +21,7 @@
 		<tr>
 			<td>Department Equipment(s)</td>
 			<td>
-				{#each ticket.expand?.departmentEquipmentIds as { name }, idx}
+				{#each ticket.expand?.teamEquipmentIds as { name }, idx}
 					<ol class="list text-primary-600 dark:text-tertiary-500">
 						<li>
 							<span>{idx + 1}.</span>

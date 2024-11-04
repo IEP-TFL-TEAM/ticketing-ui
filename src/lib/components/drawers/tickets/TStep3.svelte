@@ -93,7 +93,7 @@
 					message: 'Incident Created Successfully!',
 					background: 'variant-filled-success',
 					classes: 'rounded-none font-semibold',
-					timeout: 3000
+					timeout: 5000
 				});
 
 				for (const email of teamEmails) {
@@ -146,7 +146,7 @@
 		$form.departmentIds = departmentIds;
 		$form.categoryId = catId;
 		$form.categoryLevelId = catLevelId;
-		$form.departmentEquipmentIds = equipIds;
+		$form.teamEquipmentIds = equipIds;
 		$form.regionId = regionId;
 		$form.areaId = areaId;
 		$form.siteId = siteId;

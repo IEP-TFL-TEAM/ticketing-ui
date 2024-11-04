@@ -49,7 +49,7 @@
 					message: 'Incident Updated Successfully!',
 					background: 'variant-filled-success',
 					classes: 'rounded-none font-semibold',
-					timeout: 3000
+					timeout: 5000
 				});
 			} catch (e) {
 				form.valid = false;
@@ -85,7 +85,7 @@
 		$form.departmentIds = ticket.departmentIds;
 		$form.categoryId = ticket.categoryId;
 		$form.categoryLevelId = ticket.categoryLevelId;
-		$form.departmentEquipmentIds = ticket.departmentEquipmentIds;
+		$form.teamEquipmentIds = ticket.teamEquipmentIds;
 		$form.regionId = ticket.regionId;
 		$form.areaId = ticket.areaId;
 		$form.siteId = ticket.siteId;

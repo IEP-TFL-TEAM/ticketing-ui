@@ -1,7 +1,6 @@
 import pb from '$lib/api/pocketbaseClient';
 import { getTicketById } from '$lib/api/tickets';
 import { getTeams } from '$lib/api/teams';
-import { getDepartments } from '$lib/api/departments';
 import { getCommentsByTicketId } from '$lib/api/comments';
 import { getHistoryByTicketId } from '$lib/api/history';
 import { getSolutionCodes } from '$lib/api/solutionCodes';
@@ -38,7 +37,6 @@ export async function load({ params, url, fetch }) {
 
 		const results = await Promise.allSettled([
 			getTeams(),
-			getDepartments(),
 			getOfficeLocations(),
 			getSiteById(ticket.siteId),
 			getCauseCodes(),
@@ -52,7 +50,6 @@ export async function load({ params, url, fetch }) {
 
 		const [
 			teams,
-			departments,
 			officeLocations,
 			site,
 			causeCodes,
@@ -66,7 +63,6 @@ export async function load({ params, url, fetch }) {
 
 		return {
 			teams,
-			departments,
 			ticket,
 			comments,
 			commentAttachmentUrls,

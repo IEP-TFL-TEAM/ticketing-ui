@@ -6,7 +6,7 @@ export const exportIncidents = (data) => {
 	const rows = data.map((row) => {
 		const teamNames = row.expand?.teamIds?.map((team) => team.name) || [];
 		const departmentNames = row.expand?.departmentIds?.map((dep) => dep.name) || [];
-		const equipmentList = row.expand?.departmentEquipmentIds?.map((eq) => eq.name) || [];
+		const equipmentList = row.expand?.teamEquipmentIds?.map((eq) => eq.name) || [];
 		const listOfServices = row.expand?.servicesListIds?.map((item) => item.name) || [];
 
 		const slaStatus = calculateSLAStatus(

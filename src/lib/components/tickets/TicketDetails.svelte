@@ -25,7 +25,7 @@
 		</tr>
 
 		<tr>
-			<td>Category Level</td>
+			<td>Severity</td>
 			<td>{ticket.expand?.categoryLevelId?.name}</td>
 		</tr>
 

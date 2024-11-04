@@ -1,13 +1,12 @@
 import pb from '$lib/api/pocketbaseClient';
 import { getTickets } from '$lib/api/tickets';
 import { getTeams } from '$lib/api/teams';
-import { getDepartments } from '$lib/api/departments';
 import { getCategories } from '$lib/api/categories';
 import { getCategoryLevels } from '$lib/api/categoryLevels';
 import { getRegionList } from '$lib/api/region';
 import { getAreaList } from '$lib/api/area';
 import { getSiteList } from '$lib/api/sites';
-import { getDepartmentEquipmentList } from '$lib/api/departmentEquipments';
+import { getTeamEquipmentList } from '$lib/api/teamEquipments';
 import { getFaultList } from '$lib/api/faultTypes';
 import { getRecentHistory } from '$lib/api/history';
 import { getCauseCodes } from '$lib/api/causeCodes';
@@ -37,13 +36,12 @@ export async function load({ url, fetch }) {
 		const results = await Promise.allSettled([
 			getTickets(filters),
 			getTeams(),
-			getDepartments(),
 			getCategories(),
 			getCategoryLevels(),
 			getRegionList(),
 			getAreaList(),
 			getSiteList(),
-			getDepartmentEquipmentList(),
+			getTeamEquipmentList(),
 			getFaultList(),
 			getCauseCodes(),
 			getTechnicians(),
@@ -53,13 +51,12 @@ export async function load({ url, fetch }) {
 		const [
 			tickets,
 			teams,
-			departments,
 			categories,
 			categoryLevels,
 			regions,
 			areas,
 			sites,
-			departmentEquipments,
+			teamEquipments,
 			faultTypeList,
 			causeCodes,
 			technicians,
@@ -70,13 +67,12 @@ export async function load({ url, fetch }) {
 			filters,
 			tickets,
 			teams,
-			departments,
 			categories,
 			categoryLevels,
 			regions,
 			areas,
 			sites,
-			departmentEquipments,
+			teamEquipments,
 			faultTypeList,
 			causeCodes,
 			technicians,

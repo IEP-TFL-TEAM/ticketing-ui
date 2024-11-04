@@ -137,7 +137,7 @@
 			</div>
 
 			<div class="flex items-start gap-4">
-				<h3 class="w-1/5">Category Levels:</h3>
+				<h3 class="w-1/5">Severity:</h3>
 				<div class={chipDiv + ' relative'}>
 					{#each filteredCategoryLevels as { id, name }}
 						<button

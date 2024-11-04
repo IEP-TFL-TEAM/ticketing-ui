@@ -33,7 +33,7 @@
 						message: 'Incident Reopened successfully.',
 						background: 'variant-filled-success',
 						classes: 'rounded-none font-semibold',
-						timeout: 3000
+						timeout: 5000
 					});
 				}
 			}
@@ -72,7 +72,7 @@
 						message: 'Incident Re-Assigned Successfully.',
 						background: 'variant-filled-success',
 						classes: 'rounded-none font-semibold',
-						timeout: 3000
+						timeout: 5000
 					});
 
 					const { id, title, incidentStart, description, ticketNumber } = updatedTicket;
@@ -91,7 +91,7 @@
 						message: 'Newly Re-Assigned Teams have been notified Successfully.',
 						background: 'variant-filled-success',
 						classes: 'rounded-none font-semibold',
-						timeout: 3000
+						timeout: 5000
 					});
 				}
 			}

@@ -74,7 +74,7 @@
 				message: 'Closed Incident Successfully',
 				background: 'variant-filled-success',
 				classes: 'rounded-none font-semibold',
-				timeout: 3000
+				timeout: 5000
 			});
 		} catch (error) {
 			toastStore.trigger({
