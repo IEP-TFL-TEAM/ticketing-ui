@@ -30,10 +30,19 @@ const getRecipientList = async () => {
 	return records;
 };
 
+const getVerifiedRecipients = async () => {
+	const records = await pb.collection('recipients').getFullList({
+		sort: '-created',
+		filter: `verified = true`
+	});
+	return records;
+};
+
 export {
 	addRecipient,
 	updateRecipient,
 	updateRecipientByStatus,
 	removeRecipient,
-	getRecipientList
+	getRecipientList,
+	getVerifiedRecipients
 };

@@ -13,7 +13,7 @@
 	let submitting = false;
 	const originalForm = defaults(zod(recipientSchema()));
 
-	const { form, constraints, enhance, errors, delayed } = superForm(originalForm, {
+	const { form, constraints, enhance, errors, delayed, message } = superForm(originalForm, {
 		SPA: true,
 		taintedMessage: 'Are you sure you want to leave?',
 		multipleSubmits: 'prevent',
@@ -24,10 +24,11 @@
 			if (!form.valid) {
 				form.valid = false;
 				submitting = false;
-				form.message = 'Please verify that all rquired fields are provided.';
+				let message = 'Please verify that all rquired fields are provided.';
+				form.message = message;
 
 				toastStore.trigger({
-					message: 'Please verify that all rquired fields are provided.',
+					message,
 					background: 'variant-filled-error',
 					classes: 'rounded-none font-semibold',
 					timeout: 3000
@@ -41,7 +42,7 @@
 
 				toastStore.trigger({
 					type: 'success',
-					message: 'Recipient Created Successfully!',
+					message: 'Recipient Updated Successfully!',
 					background: 'variant-filled-success',
 					classes: 'rounded-none font-semibold',
 					timeout: 3000
@@ -57,7 +58,7 @@
 					timeout: 3000
 				});
 
-				form.message = e.data.data.email.message;
+				form.message = e.response.details;
 
 				return { form };
 			}
@@ -87,6 +88,10 @@
 
 		<form method="POST" enctype="multipart/form-data" use:enhance>
 			<div class="flex flex-col justify-between gap-4">
+				{#if $message}
+					<span class="my-2 text-error-500 input p-4 border-red-500 font-semibold">{$message}</span>
+				{/if}
+
 				<label class="label">
 					<p class="my-2 text-base font-semibold">
 						Enter Name

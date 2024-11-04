@@ -1,5 +1,6 @@
 <script>
-	import EmailInput from './EmailInput.svelte';
+	import Svelecte from 'svelecte';
+	// import EmailInput from './EmailInput.svelte';
 	import { getModalStore, getToastStore } from '@skeletonlabs/skeleton';
 	import { sendBroadcastEmail } from '$lib/api/tickets';
 	import { parseDateAndTime } from '$lib/utils/parsers';
@@ -9,6 +10,9 @@
 	const toastStore = getToastStore();
 
 	const ticket = $modalStore[0].meta.ticket;
+	const verifiedRecipients = $modalStore[0].meta.verifiedRecipients;
+
+	let verifiedEmails = [];
 	let emails = [];
 	let ccEmail;
 	let typeOfBroadcast;
@@ -103,6 +107,7 @@
 		loading = false;
 	}
 
+	$: verifiedEmails = verifiedRecipients.map((item) => item.email);
 	$: ticket.status === 'CLOSED' ? broadcastTypes.push('Service Restoration Notice') : '';
 
 	const customInputStyle =
@@ -128,11 +133,18 @@
 
 	<div class="flex flex-col my-5 gap-2">
 		<p class="my-2 text-base font-semibold">
-			Provide email(s) below
+			Select email(s) below
 			<span class="text-red-500">*</span>
 		</p>
 
-		<EmailInput bind:emails bind:loading />
+		<!-- <EmailInput bind:emails bind:loading /> -->
+		<Svelecte
+			options={verifiedEmails}
+			on:change={() => {}}
+			bind:value={emails}
+			multiple
+			disabled={loading}
+		/>
 
 		<form method="POST" enctype="multipart/form-data" class="w-full flex flex-col gap-2">
 			<label class="label">

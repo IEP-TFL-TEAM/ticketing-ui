@@ -31,7 +31,8 @@
 		categories,
 		categoryLevels,
 		site,
-		officeLocations
+		officeLocations,
+		verifiedRecipients
 	} = data);
 
 	$: slaStatus = calculateSLAStatus(
@@ -46,7 +47,7 @@
 		modalStore.trigger({
 			type: 'component',
 			component: 'sendBroadcast',
-			meta: { ticket }
+			meta: { ticket, verifiedRecipients }
 		});
 	}
 

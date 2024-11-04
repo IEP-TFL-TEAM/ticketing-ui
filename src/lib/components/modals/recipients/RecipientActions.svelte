@@ -29,19 +29,20 @@
 			let message;
 			if (selectedOption === 'delete') {
 				await removeRecipient(recipient.id);
-				message = 'Successfully removed recipient!';
+				message = 'Removed Recipient Successfully';
 			} else {
 				const updatedRecipient = await updateRecipientByStatus(recipient.id, {
 					...recipient,
 					verified: selectedOption === 'verify' ? true : false
 				});
 				$modalStore[0].response({ updatedRecipient });
-				message = 'Updated recipient status successfully!';
+				message = 'Recipient Status Updated Successfully';
 			}
 
 			toastStore.trigger({
 				message,
-				classes: 'variant-filled-success',
+				background: 'variant-filled-success',
+				classes: 'rounded-none font-semibold',
 				timeout: 3000
 			});
 		} catch (error) {

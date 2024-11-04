@@ -11,6 +11,7 @@ import { getOfficeLocations } from '$lib/api/officeLocations';
 import { urlToFile } from '$lib/utils/parsers';
 import { getCategories } from '$lib/api/categories';
 import { getCategoryLevels } from '$lib/api/categoryLevels';
+import { getVerifiedRecipients } from '$lib/api/recipients';
 
 export async function load({ params, url, fetch }) {
 	pb.beforeSend = function (url, options) {
@@ -45,7 +46,8 @@ export async function load({ params, url, fetch }) {
 			getCategories(),
 			getCategoryLevels(),
 			urlToFile(attachmentUrl, fetch),
-			getUrlsToFile(commentAttachmentUrls, fetch)
+			getUrlsToFile(commentAttachmentUrls, fetch),
+			getVerifiedRecipients()
 		]);
 
 		const [
@@ -58,7 +60,8 @@ export async function load({ params, url, fetch }) {
 			categories,
 			categoryLevels,
 			attachment,
-			commentAttachments
+			commentAttachments,
+			verifiedRecipients
 		] = results.map((result) => (result.status === 'fulfilled' ? result.value : []));
 
 		return {
@@ -75,7 +78,8 @@ export async function load({ params, url, fetch }) {
 			categories,
 			categoryLevels,
 			site,
-			officeLocations
+			officeLocations,
+			verifiedRecipients
 		};
 	} catch (error) {
 		console.error(error);
