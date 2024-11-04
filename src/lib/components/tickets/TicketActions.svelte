@@ -83,7 +83,8 @@
 							subject: title,
 							startDate: parseDateAndTime(incidentStart),
 							description,
-							ticketNumber
+							ticketNumber,
+							actionType: 'reassign'
 						});
 					}
 

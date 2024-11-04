@@ -81,7 +81,8 @@ const sendTicketCreationNotification = async ({
 	subject,
 	startDate,
 	description,
-	ticketNumber
+	ticketNumber,
+	actionType = 'create'
 }) => {
 	const response = await pb.send(`/api/send-incident-creation-notification`, {
 		method: 'POST',
@@ -91,7 +92,8 @@ const sendTicketCreationNotification = async ({
 			subject,
 			startDate,
 			description,
-			ticketNumber
+			ticketNumber,
+			actionType
 		}
 	});
 
