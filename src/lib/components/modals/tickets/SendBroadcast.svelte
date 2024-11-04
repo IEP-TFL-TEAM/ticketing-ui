@@ -1,6 +1,5 @@
 <script>
 	import Svelecte from 'svelecte';
-	// import EmailInput from './EmailInput.svelte';
 	import { getModalStore, getToastStore } from '@skeletonlabs/skeleton';
 	import { sendBroadcastEmail } from '$lib/api/tickets';
 	import { parseDateAndTime } from '$lib/utils/parsers';
@@ -137,13 +136,12 @@
 			<span class="text-red-500">*</span>
 		</p>
 
-		<!-- <EmailInput bind:emails bind:loading /> -->
 		<Svelecte
 			options={verifiedEmails}
-			on:change={() => {}}
 			bind:value={emails}
 			multiple
 			disabled={loading}
+			class="!text-primary-500 dark:!text-tertiary-500"
 		/>
 
 		<form method="POST" enctype="multipart/form-data" class="w-full flex flex-col gap-2">
