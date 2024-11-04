@@ -6,9 +6,10 @@
 
 	export let parent;
 	let teamIds = [];
+	let teamEmails = [];
 
 	function onFormSubmit() {
-		$modalStore[0].response({ teamIds });
+		$modalStore[0].response({ teamIds, teamEmails });
 		modalStore.close();
 	}
 </script>
@@ -26,8 +27,17 @@
 	>
 		<div class="border border-surface-500 p-4 rounded-container-token overflow-y-auto">
 			<ListBox multiple>
-				{#each teams as { id, name }}
-					<ListBoxItem bind:group={teamIds} {name} value={id}>
+				{#each teams as { id, name, email }}
+					<ListBoxItem
+						bind:group={teamIds}
+						{name}
+						value={id}
+						on:click={() => {
+							teamEmails.includes(email)
+								? (teamEmails = teamEmails.filter((item) => item !== email))
+								: teamEmails.push(email);
+						}}
+					>
 						{name}
 					</ListBoxItem>
 				{/each}

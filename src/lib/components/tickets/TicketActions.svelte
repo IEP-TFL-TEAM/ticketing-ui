@@ -1,7 +1,8 @@
 <script>
 	import { getModalStore, getToastStore } from '@skeletonlabs/skeleton';
-	import { updateTicket } from '$lib/api/tickets';
+	import { updateTicket, sendTicketCreationNotification } from '$lib/api/tickets';
 	import { currentUser } from '$lib/stores/auth';
+	import { parseDateAndTime } from '$lib/utils/parsers';
 
 	export let ticket, teams, solutionCodes, causeCodes, attachment, categories, categoryLevels;
 
@@ -60,14 +61,34 @@
 			meta: { teams },
 			response: async (res) => {
 				if (res) {
+					const { teamIds, teamEmails } = res;
 					const updatedTicket = await updateTicket({
 						...ticket,
-						teamIds: res.teamIds
+						teamIds: teamIds
 					});
 					ticket = updatedTicket;
 
 					toastStore.trigger({
-						message: 'Incident Re-Assigned successfully.',
+						message: 'Incident Re-Assigned Successfully.',
+						background: 'variant-filled-success',
+						classes: 'rounded-none font-semibold',
+						timeout: 3000
+					});
+
+					const { id, title, incidentStart, description, ticketNumber } = updatedTicket;
+					for (const email of teamEmails) {
+						await sendTicketCreationNotification({
+							id,
+							email,
+							subject: title,
+							startDate: parseDateAndTime(incidentStart),
+							description,
+							ticketNumber
+						});
+					}
+
+					toastStore.trigger({
+						message: 'Newly Re-Assigned Teams have been notified Successfully.',
 						background: 'variant-filled-success',
 						classes: 'rounded-none font-semibold',
 						timeout: 3000
