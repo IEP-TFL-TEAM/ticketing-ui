@@ -1,15 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 @tailwind variants;
 
-:root [data-theme='tfl'] {
-    --theme-font-family-base: 'Roboto', sans-serif;
-    --theme-font-family-heading: 'Roboto', sans-serif;
+.modal-backdrop {
+	@apply overflow-y-auto;
 }
 
-*, html, body {
-  font-family: 'Roboto', sans-serif;
+@font-face {
+	font-family: 'Effra Regular';
+	src: url('/fonts/Effra-Regular.ttf');
+}
+
+:root [data-theme='tfl'] {
+	--theme-font-family-base: 'Effra Regular', sans-serif;
+	--theme-font-family-heading: 'Effra Regular', sans-serif;
 }
