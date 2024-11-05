@@ -8,8 +8,8 @@
 
 	import SpinnerOverlay from '$lib/components/layout/SpinnerOverlay.svelte';
 
-	export function onCompleteHandler() {
-		submit();
+	export async function onCompleteHandler(e) {
+		await submit();
 	}
 
 	export let teamIds,
@@ -26,7 +26,6 @@
 	const drawerStore = getDrawerStore();
 
 	const faultTypeList = $drawerStore.meta.faultTypeList;
-	const causeCodes = $drawerStore.meta.causeCodes;
 	const technicians = $drawerStore.meta.technicians;
 	const servicesList = $drawerStore.meta.servicesList;
 	const servicesListOptions = servicesList
@@ -39,8 +38,6 @@
 			if (a.label > b.label) return 1;
 			return 0;
 		});
-
-	let filteredCauseCodes = [];
 
 	let submitting = false;
 	const originalForm = defaults(zod(ticketSchema()));
@@ -150,8 +147,6 @@
 		$form.regionId = regionId;
 		$form.areaId = areaId;
 		$form.siteId = siteId;
-
-		filteredCauseCodes = causeCodes.filter((code) => code.faultTypeId === $form.faultTypeId);
 	}
 
 	$: specifyListOfServices = $form.serviceImpact === 'Yes' ? true : false;
