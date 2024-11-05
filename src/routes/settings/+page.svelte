@@ -98,8 +98,6 @@
 			const formData = new FormData(event.target);
 			const data = Object.fromEntries(formData);
 
-			const userRecord = await pb.collection('users').getFirstListItem(`id="${userId}"`);
-
 			if (!data.password || !data.passwordConfirm) {
 				throw new Error('Both password and password confirm fields are required');
 			}
