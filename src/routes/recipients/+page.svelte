@@ -92,7 +92,7 @@
 		<div class="flex flex-col justify-between gap-2">
 			<h1 class="h1 font-extrabold">Recipients</h1>
 
-			<p class="p text-xl">Manage recipients that will receive emails upon incident actions</p>
+			<p class="p text-xl">Manage recipients that will be available for sending emails to.</p>
 		</div>
 
 		<button

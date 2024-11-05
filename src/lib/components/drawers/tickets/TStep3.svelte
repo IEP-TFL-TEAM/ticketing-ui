@@ -40,8 +40,6 @@
 			return 0;
 		});
 
-	let filteredCauseCodes = [];
-
 	let submitting = false;
 	const originalForm = defaults(zod(ticketSchema()));
 
