@@ -109,7 +109,11 @@
 			<h5 class="text-base font-semibold">
 				SLA Status:
 
-				<span class={slaStatus.diffInHours <= 2 ? 'text-success-500' : 'text-error-500'}>
+				<span
+					class={slaStatus.diffInHours <= 2
+						? 'text-success-700 dark:text-success-500'
+						: 'text-error-500'}
+				>
 					{slaStatus.status}
 				</span>
 			</h5>

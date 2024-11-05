@@ -17,6 +17,7 @@
 	let typeOfBroadcast;
 	let update;
 	let errors;
+	let message;
 	let loading = false;
 
 	function isValidEmail(email) {
@@ -88,8 +89,10 @@
 					broadcastType: typeOfBroadcast
 				});
 
+				message = `Broadcast Sent Successfully to ${email}`;
+
 				toastStore.trigger({
-					message: `Broadcast Sent Successfully to ${email}`,
+					message,
 					background: 'variant-filled-success',
 					classes: 'rounded-none font-semibold'
 				});
@@ -136,6 +139,14 @@
 	<hr class="!border-gray-200 dark:!border-gray-200/30 my-5" />
 
 	<div class="flex flex-col my-5 gap-2">
+		{#if message}
+			<div class="flex items-center justify-between">
+				<span class="text-success-700 dark:text-success-500 text-sm uppercase font-semibold">
+					{message}
+				</span>
+			</div>
+		{/if}
+
 		<p class="my-2 text-base font-semibold">
 			Select email(s) below
 			<span class="text-red-500">*</span>
@@ -218,6 +229,7 @@
 						<span class="text-red-500 text-sm uppercase font-medium">{errors}</span>
 					</div>
 				{/if}
+
 				<div class="flex justify-end">
 					<button
 						type="submit"

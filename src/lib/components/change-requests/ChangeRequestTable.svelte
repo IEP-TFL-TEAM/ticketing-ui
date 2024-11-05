@@ -38,7 +38,7 @@
 
 						<td
 							class="{tdStyles} uppercase font-semibold {request.serviceImpact === 'Yes'
-								? 'text-success-500'
+								? 'text-success-700 dark:text-success-500'
 								: 'text-error-500'}"
 						>
 							{request.serviceImpact}

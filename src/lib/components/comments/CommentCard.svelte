@@ -37,7 +37,7 @@
 		</div>
 
 		<div class="w-full">
-			<span class="text-sm text-secondary-900 dark:text-secondary-500">
+			<span class="text-sm text-secondary-700 dark:text-secondary-500">
 				{toZonedTime(date, 'Pacific/Fiji')}
 			</span>
 		</div>

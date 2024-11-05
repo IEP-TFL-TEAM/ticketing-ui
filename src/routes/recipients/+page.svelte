@@ -134,7 +134,7 @@
 						<td class="px-6 py-4">{recipient.email}</td>
 						<td
 							class="px-6 py-4 font-semibold uppercase {recipient.verified
-								? 'text-success-500'
+								? 'text-success-700 dark:text-success-500'
 								: 'text-error-500'}"
 						>
 							{recipient.verified ? 'Verified' : 'Unverified'}

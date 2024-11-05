@@ -112,7 +112,7 @@
 		<h3 class="text-center text-black h3 dark:text-white">
 			Updating
 			<br />
-			<span class="font-bold text-primary-500 dark:text-secondary-500">{ticket.ticketNumber}</span>
+			<span class="font-bold text-primary-500 dark:text-tertiary-500">{ticket.ticketNumber}</span>
 		</h3>
 
 		<div>
@@ -271,7 +271,7 @@
 
 						<button
 							type="submit"
-							class="w-40 font-semibold text-white uppercase rounded btn variant-filled-primary dark:variant-filled-secondary max-lg:w-full"
+							class="w-40 font-semibold text-white uppercase rounded btn variant-filled-primary dark:variant-filled-tertiary max-lg:w-full"
 							disabled={submitting || !dirtyForm}
 						>
 							Submit

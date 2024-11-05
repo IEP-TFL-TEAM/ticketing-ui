@@ -13,12 +13,12 @@
 		{
 			label: 'Pending',
 			count: countByStatus(records, 'PENDING'),
-			colorClass: 'text-secondary-500'
+			colorClass: 'text-secondary-700 dark:text-secondary-500'
 		},
 		{
 			label: 'Closed',
 			count: countByStatus(records, 'CLOSED'),
-			colorClass: 'text-success-500'
+			colorClass: 'text-success-700 dark:text-success-500'
 		}
 	];
 </script>
