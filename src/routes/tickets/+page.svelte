@@ -182,7 +182,7 @@
 				on:click={() => triggerDrawer('createTicket', 'right')}
 			>
 				<IconPlus size={20} />
-				<span> New Ticket </span>
+				<span> New Incident </span>
 			</button>
 		</div>
 	</div>
@@ -196,6 +196,7 @@
 				bind:settings={pageSettings}
 				on:page={onPageChange}
 				on:amount={onAmountChange}
+				select="bg-white dark:bg-[#252424] rounded-sm border"
 			/>
 
 			<TicketCard {tickets} />

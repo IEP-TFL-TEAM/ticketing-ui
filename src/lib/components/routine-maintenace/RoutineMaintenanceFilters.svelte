@@ -142,5 +142,6 @@
 		bind:settings={pageSettings}
 		on:page={onPageChange}
 		on:amount={onAmountChange}
+		select="bg-white dark:bg-[#252424] rounded-sm border"
 	/>
 </div>
