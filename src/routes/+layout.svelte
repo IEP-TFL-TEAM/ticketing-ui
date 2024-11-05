@@ -102,7 +102,7 @@
 
 		<Sidebar />
 
-		<div class="h-full w-full p-12">
+		<div class="h-full w-full px-20 py-20 xl:py-18">
 			<slot />
 		</div>
 	{:else}
