@@ -145,7 +145,7 @@
 			async (e) => {
 				toastStore.clear();
 				toastStore.trigger({
-					message: `${e.record.expand.userId.firstName} ${e.record.expand.userId.lastName} ${e.action}d on ticket #${e.record.expand.ticketId.count}`,
+					message: `${e.record.expand.userId.firstName} ${e.record.expand.userId.lastName} ${e.action}d on ticket #${e.record.ticketNumber}`,
 					action: {
 						label: 'View',
 						response: () => goto(`/tickets/${e.record.ticketId}`)

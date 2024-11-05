@@ -21,7 +21,6 @@
 			description: searchText,
 			categoryId: searchCategory,
 			categoryLevelId: searchCategoryLevelId,
-			count: searchText,
 			ticketNumber: searchText,
 			page: 1
 		};

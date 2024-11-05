@@ -8,7 +8,7 @@ export const parseFilters = (filters) => {
 				}
 			} else {
 				if (value) {
-					acc += `${key} ~ '${value}' ${key === 'title' || key === 'description' || key === 'objective' || key === 'email' || key === 'count' || key === 'ticketNumber' || key === 'status' ? ' || ' : ' && '}`;
+					acc += `${key} ~ '${value}' ${key === 'title' || key === 'description' || key === 'objective' || key === 'email' || key === 'ticketNumber' || key === 'status' ? ' || ' : ' && '}`;
 				}
 			}
 		}
