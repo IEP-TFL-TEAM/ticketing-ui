@@ -1,5 +1,6 @@
 <script>
 	import { IconTicket } from '@tabler/icons-svelte';
+	import { countByStatus } from '$lib/actions/countByStatus';
 
 	export let records, title;
 
@@ -20,10 +21,6 @@
 			colorClass: 'text-success-500'
 		}
 	];
-
-	function countByStatus(array, status) {
-		return array.filter((record) => record.status === status).length;
-	}
 </script>
 
 <div class="flex flex-col items-start gap-2 py-6">

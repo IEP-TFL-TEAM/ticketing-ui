@@ -11,14 +11,11 @@
 		BarElement,
 		LinearScale
 	} from 'chart.js';
+	import { countByStatus } from '$lib/actions/countByStatus';
 
 	ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale, BarElement, LinearScale);
 
 	export let data;
-
-	function countByStatus(array, status) {
-		return array.filter((record) => record.status === status).length;
-	}
 
 	function countByCategoryId(array, categoryId) {
 		return array.filter((record) => record.categoryId === categoryId).length;

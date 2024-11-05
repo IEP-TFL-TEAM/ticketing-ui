@@ -3,10 +3,8 @@ import {
 	IconSquareLetterI,
 	IconSquareLetterC,
 	IconSquareLetterM,
-	IconSquareLetterT,
 	IconSettings,
-	IconMailForward,
-	IconReport
+	IconMailForward
 } from '@tabler/icons-svelte';
 
 export const getSidebarItems = (role) => {
@@ -34,21 +32,11 @@ export const getSidebarItems = (role) => {
 				icon: IconSquareLetterM,
 				ref: '/routine-maintenance'
 			},
-			// {
-			// 	label: 'Reports',
-			// 	icon: IconReport,
-			// 	ref: '/reports'
-			// },
 			{
 				label: 'Recipients',
 				icon: IconMailForward,
 				ref: '/recipients'
 			},
-			// {
-			// 	label: 'Teams',
-			// 	icon: IconSquareLetterT,
-			// 	ref: '/teams'
-			// },
 			{
 				label: 'Settings',
 				icon: IconSettings,
