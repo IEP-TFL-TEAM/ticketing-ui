@@ -80,7 +80,7 @@
 	});
 
 	const accordionStyles =
-		'border accordion card p-2 text-token border-black/10 dark:border-white/30';
+		'border accordion card p-2 text-token border-black/10 dark:border-white/30 !bg-neutral-200/20 dark:!bg-neutral-900/30';
 </script>
 
 <div class="flex">

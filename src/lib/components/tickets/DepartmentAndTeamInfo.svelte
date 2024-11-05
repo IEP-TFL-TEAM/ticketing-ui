@@ -2,7 +2,7 @@
 	export let ticket;
 </script>
 
-<table class="table table-hover w-full">
+<table class="table table-hover w-full !bg-neutral-200/20 dark:!bg-neutral-900/30">
 	<tbody>
 		<tr>
 			<td>Department(s) Concerned</td>
