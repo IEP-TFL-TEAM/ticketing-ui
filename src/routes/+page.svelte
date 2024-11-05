@@ -13,14 +13,14 @@
 	<title>Welcome to the System</title>
 </svelte:head>
 
-<div class="container flex flex-col p-8 mx-auto">
+<div class="container flex flex-col mx-auto">
 	<div class="flex flex-col mt-5 gap-y-2">
 		<h1 class="h1 font-extrabold">Welcome to TFL NOC Ticketing System</h1>
 		<p>Navigate through the system with options on the sidebar</p>
 	</div>
 
 	<div class="mt-4 2xl:w-1/2 w-full">
-		<RadioGroup rounded="rounded-none">
+		<RadioGroup rounded="rounded-none" background="bg-white dark:bg-[#252424]">
 			{#each ['Incidents', 'Change Requests', 'Routine Maintenance'] as item}
 				<RadioItem bind:group={value} name="justify" value={item}>{item}</RadioItem>
 			{/each}
