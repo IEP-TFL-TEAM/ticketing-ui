@@ -106,8 +106,13 @@
 		loading = false;
 	}
 
-	$: verifiedEmails = verifiedRecipients.map((item) => item.email);
-	$: ticket.status === 'CLOSED' ? broadcastTypes.push('Service Restoration Notice') : '';
+	$: {
+		verifiedEmails = verifiedRecipients.map((item) => item.email);
+
+		let newType = 'Service Restoration Notice';
+		if (ticket.status === 'CLOSED' && !broadcastTypes.includes(newType))
+			broadcastTypes.push(newType);
+	}
 
 	const customInputStyle =
 		'!bg-white dark:!bg-neutral-800 placeholder-primary-500 dark:placeholder-tertiary-500 text-sm flex-grow border border-gray-300 dark:border-gray-200/30 rounded-none !focus:outline-none !focus:ring-0 !focus:ring-offset-0';
