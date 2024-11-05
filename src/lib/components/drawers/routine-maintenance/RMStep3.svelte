@@ -11,8 +11,8 @@
 
 	import SpinnerOverlay from '$lib/components/layout/SpinnerOverlay.svelte';
 
-	export function onCompleteHandler() {
-		submit();
+	export async function onCompleteHandler() {
+		await submit();
 	}
 
 	export let staffId, teamIds, teamEmails, maintenanceTeamId, siteId, regionId, areaId;
