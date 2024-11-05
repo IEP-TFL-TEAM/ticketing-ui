@@ -2,7 +2,7 @@
 	import { onDestroy, onMount } from 'svelte';
 	import pb from '$lib/api/pocketbaseClient';
 	import { getDrawerStore, getModalStore, getToastStore } from '@skeletonlabs/skeleton';
-	import { IconPlus, IconArrowRight } from '@tabler/icons-svelte';
+	import { IconUserPlus, IconArrowRight } from '@tabler/icons-svelte';
 
 	export let data;
 
@@ -84,15 +84,16 @@
 		unSubscribe?.();
 	});
 
-	const thStyle = '!font-semibold uppercase text-base px-6 py-2';
+	const tableHeaderStyles = 'px-6 font-semibold py-2';
+	const tdStyles = 'px-6 py-4';
 </script>
 
 <div class="flex flex-col mt-5 w-full">
-	<div class="flex justify-between items-center mb-8">
+	<div class="flex justify-between items-start mb-8">
 		<div class="flex flex-col justify-between gap-2">
 			<h1 class="h1 font-extrabold">Recipients</h1>
 
-			<p class="p text-xl">Manage recipients that will be available for sending emails to.</p>
+			<p class="p text-xl">Manage recipients that will be available for Email Broadcasting.</p>
 		</div>
 
 		<button
@@ -100,7 +101,7 @@
 			class="btn rounded-none variant-filled-primary"
 			on:click={() => triggerDrawer('addRecipient', 'right')}
 		>
-			<IconPlus size={20} />
+			<IconUserPlus size={20} />
 			<span> New Recipient </span>
 		</button>
 	</div>
@@ -111,37 +112,40 @@
 		<p class="text-black dark:text-white font-medium">Oops... No recipients found!</p>
 	</div>
 {:else}
-	<div class="mt-5 table-container rounded-none">
-		<table class="table table-interactive table-compact rounded-none">
-			<thead>
-				<tr class="bg-neutral-100 dark:bg-neutral-700 !font-light">
-					<th class={thStyle}>id</th>
-					<th class={thStyle}>name</th>
-					<th class={thStyle}>email</th>
-					<th class={thStyle}>status</th>
-					<th class={thStyle}></th>
+	<div class="relative mt-5 overflow-x-auto">
+		<table class="w-full text-sm text-left">
+			<thead class="uppercase bg-gray-100 dark:bg-neutral-700">
+				<tr>
+					<th scope="col" class={tableHeaderStyles}> Name </th>
+					<th scope="col" class={tableHeaderStyles}> Email </th>
+					<th scope="col" class={tableHeaderStyles}> Status </th>
+					<th scope="col" class={tableHeaderStyles}></th>
+					<th scope="col"></th>
 				</tr>
 			</thead>
-
-			<tbody class="bg-white dark:bg-neutral-800">
+			<tbody>
 				{#each sortedRecipients as recipient}
 					<tr
-						class="bg-white hover:bg-neutral-50 border-b dark:bg-neutral-800 dark:border-neutral-700 dark:hover:bg-neutral-900 transition-colors rounded"
-						on:click={() => displayUserActions(recipient)}
+						class="transition-colors bg-white border-b rounded dark:bg-neutral-800 dark:border-neutral-700 hover:bg-gray-50 dark:hover:bg-neutral-900"
 					>
-						<td class="px-6 py-4">{recipient.id}</td>
-						<td class="px-6 py-4">{recipient.name}</td>
-						<td class="px-6 py-4">{recipient.email}</td>
+						<td class={tdStyles}>{recipient.name}</td>
+						<td class={tdStyles}>{recipient.email}</td>
 						<td
-							class="px-6 py-4 font-semibold uppercase {recipient.verified
+							class="{tdStyles} font-semibold uppercase {recipient.verified
 								? 'text-success-700 dark:text-success-500'
 								: 'text-error-500'}"
 						>
 							{recipient.verified ? 'Verified' : 'Unverified'}
 						</td>
 
-						<td class="px-6 py-4">
-							<IconArrowRight />
+						<td class={tdStyles}>
+							<button
+								type="button"
+								class="font-medium text-primary-500 dark:text-tertiary-500 hover:underline cursor-pointer"
+								on:click={() => displayUserActions(recipient)}
+							>
+								<IconArrowRight />
+							</button>
 						</td>
 					</tr>
 				{/each}
