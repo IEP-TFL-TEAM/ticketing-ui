@@ -141,7 +141,7 @@
 	<div class="flex flex-col my-5 gap-2">
 		{#if message}
 			<div class="flex items-center justify-between">
-				<span class="text-success-700 dark:text-success-500 text-sm uppercase font-semibold">
+				<span class="text-success-700 dark:text-success-500 text-sm font-semibold">
 					{message}
 				</span>
 			</div>
