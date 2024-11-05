@@ -73,7 +73,8 @@
 			toastStore.clear();
 			toastStore.trigger({
 				message,
-				timeout: 3000
+				timeout: 3000,
+				classes: 'rounded-none font-semibold'
 			});
 
 			updateRecipients(e);

@@ -34,7 +34,8 @@
 			toastStore.trigger({
 				message: 'Avatar removed successfully.',
 				timeout: timeOutValue,
-				background: 'variant-filled-success'
+				background: 'variant-filled-success',
+				classes: 'rounded-none font-semibold'
 			});
 		} catch (error) {
 			toastStore.trigger({
@@ -71,7 +72,8 @@
 			toastStore.trigger({
 				message: 'Avatar updated successfully.',
 				timeout: timeOutValue,
-				background: 'variant-filled-success'
+				background: 'variant-filled-success',
+				classes: 'rounded-none font-semibold'
 			});
 		} catch (error) {
 			toastStore.trigger({
@@ -114,7 +116,8 @@
 			toastStore.trigger({
 				message: 'Password Successfully Changed',
 				timeout: timeOutValue,
-				background: 'variant-filled-success'
+				background: 'variant-filled-success',
+				classes: 'rounded-none font-semibold'
 			});
 		} catch (error) {
 			toastStore.trigger({
