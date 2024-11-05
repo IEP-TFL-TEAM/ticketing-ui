@@ -13,8 +13,7 @@
 
 	export let data;
 
-	$: ({ routine, attachmentUrl, closingAttachmentUrl, attachment, closingAttachment, members } =
-		data);
+	$: ({ routine, attachmentUrl, closingAttachmentUrl, attachment, closingAttachment } = data);
 	$: isOfTypeDoc =
 		(attachment.type !== 'image/jpg') &
 		(attachment.type !== 'image/png') &
@@ -143,7 +142,7 @@
 	});
 
 	const colStyles =
-		'p-6 border border-gray-20 dark:border-white/30 rounded divide-x-2 divide-black/10 dark:divide-white/30 bg-white dark:bg-neutral-900';
+		'p-6 border border-gray-20 dark:border-white/30 rounded divide-x-2 divide-black/10 dark:divide-white/30 bg-neutral-200/20 dark:bg-neutral-900/30';
 	const divideStyles = 'divide-y-2 divide-black/20 dark:divide-white/50';
 	const spanStyles = 'text-primary-600 dark:text-tertiary-500';
 </script>
