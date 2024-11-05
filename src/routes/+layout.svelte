@@ -1,38 +1,50 @@
 <script>
 	import '../app.postcss';
 
-	import { currentUser } from '$lib/stores/auth';
-	import { navigating } from '$app/stores';
-	import { beforeNavigate, afterNavigate } from '$app/navigation';
-	import { Toast, initializeStores, getDrawerStore, Drawer, Modal } from '@skeletonlabs/skeleton';
-	import SpinnerOverlay from '$lib/components/layout/SpinnerOverlay.svelte';
 	import pb from '$lib/api/pocketbaseClient';
-	import { goto } from '$app/navigation';
+	import { navigating } from '$app/stores';
+	import { currentUser } from '$lib/stores/auth';
+	import { beforeNavigate, afterNavigate, goto } from '$app/navigation';
+
+	import {
+		Toast,
+		initializeStores,
+		getDrawerStore,
+		getToastStore,
+		Drawer,
+		Modal
+	} from '@skeletonlabs/skeleton';
+	import { IconChevronsRight } from '@tabler/icons-svelte';
+
 	import { modalComponentRegistry } from '$lib/utils/modalComponentRegistry';
-	import Sidebar from '$lib/components/layout/Sidebar.svelte';
 	import CreateTicket from '$lib/components/drawers/tickets/CreateTicket.svelte';
 	import AddRecipient from '$lib/components/drawers/recipients/AddRecipient.svelte';
 	import UpdateRecipient from '$lib/components/drawers/recipients/UpdateRecipient.svelte';
 	import CreateRequest from '$lib/components/drawers/change-requests/CreateRequest.svelte';
 	import CreateRoutineMaintenance from '$lib/components/drawers/routine-maintenance/CreateRoutineMaintenance.svelte';
 	import SidebarDrawer from '$lib/components/home/SidebarDrawer.svelte';
-	import { IconChevronsRight } from '@tabler/icons-svelte';
+	import Sidebar from '$lib/components/layout/Sidebar.svelte';
+	import SpinnerOverlay from '$lib/components/layout/SpinnerOverlay.svelte';
+	import LoginPage from '$lib/components/layout/LoginPage.svelte';
 
 	initializeStores();
 
 	const drawerStore = getDrawerStore();
-
-	currentUser.subscribe((user) => {
-		if (!user) {
-			goto('/login');
-		}
-	});
+	const toastStore = getToastStore();
 
 	beforeNavigate((navigation) => {
 		if (!pb.authStore.isValid) {
 			if ($currentUser) {
-				currentUser.set(null);
 				navigation.cancel();
+				toastStore.trigger({
+					message: 'Session expired, please login again. You are now being redirected',
+					background: 'variant-filled-error',
+					classes: 'hover:scale-110 border-t-4 border-gray-300 shadow-2xl transition'
+				});
+				setTimeout(() => {
+					currentUser.set(null);
+					goto('/login');
+				}, 5000);
 			}
 		}
 	});
@@ -90,8 +102,8 @@
 	{/if}
 </Drawer>
 
-<div class="relative min-h-screen md:flex bg-white dark:bg-[#252424]">
-	{#if $currentUser}
+{#if $currentUser}
+	<div class="relative min-h-screen md:flex bg-white dark:bg-[#252424]">
 		<button
 			type="button"
 			on:click={() => toggleSidebar('sidebarDrawer', 'left')}
@@ -105,7 +117,7 @@
 		<div class="h-full w-full px-20 py-20 xl:py-18">
 			<slot />
 		</div>
-	{:else}
-		<slot />
-	{/if}
-</div>
+	</div>
+{:else}
+	<LoginPage />
+{/if}
