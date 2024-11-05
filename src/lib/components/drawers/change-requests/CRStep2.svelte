@@ -28,14 +28,24 @@
 			.map((area) => ({
 				label: area.name,
 				value: area.id
-			}));
+			}))
+			.sort((a, b) => {
+				if (a.label < b.label) return -1;
+				if (a.label > b.label) return 1;
+				return 0;
+			});
 
 		siteList = sites
 			.filter((site) => site.expand.areaId.name === selectedArea)
 			.map((site) => ({
 				label: site.name,
 				value: site.id
-			}));
+			}))
+			.sort((a, b) => {
+				if (a.label < b.label) return -1;
+				if (a.label > b.label) return 1;
+				return 0;
+			});
 	}
 </script>
 
