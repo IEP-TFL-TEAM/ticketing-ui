@@ -1,7 +1,7 @@
 <script>
 	import pb from '$lib/api/pocketbaseClient';
 	import { get } from 'svelte/store';
-	import { currentUser, signOut } from '$lib/stores/auth';
+	import { currentUser } from '$lib/stores/auth';
 	import { getAvatarUrl } from '$lib/utils/getAvatarUrl';
 	import { Avatar, getToastStore } from '@skeletonlabs/skeleton';
 	import { IconUpload } from '@tabler/icons-svelte';
@@ -132,7 +132,7 @@
 	$: avatar = getAvatarUrl($currentUser) ?? null;
 </script>
 
-<div class=" px-6 py-[4rem] sm:py-[6rem] lg:px-8 bg-white dark:bg-inherit h-full border rounded-md">
+<div class="bg-white dark:bg-inherit">
 	<div class="mx-auto max-w-2xl text-center">
 		<span class="text-xl font-semibold tracking-wide"> -- General -- </span>
 		<h2 class="text-3xl font-extrabold sm:text-4xl">Settings</h2>
@@ -144,13 +144,13 @@
 		enctype="multipart/form-data"
 		on:submit|preventDefault={(event) => updatePassword(event)}
 	>
-		<div class=" -mt-5 flex flex-col py-4 gap-y-4 mb-4 justify-center items-center">
+		<div class="-mt-5 flex flex-col py-4 gap-y-4 mb-4 justify-center items-center">
 			<Avatar
 				src={avatar}
 				initials={$currentUser?.firstName.charAt(0) + $currentUser?.lastName.charAt(0)}
 				width="w-32"
 				rounded="rounded-full"
-				border="border-4 border-gray-300 dark:border-gray-500 hover:!border-secondary-500 dark:hover:border-primary-500"
+				border="border-4 border-gray-300 dark:border-gray-500 hover:border-primary-500 dark:hover:border-tertiary-500"
 				background="bg-transparent"
 			/>
 
@@ -188,13 +188,13 @@
 
 		<div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
 			<div>
-				<label for="firstName" class="block text-sm font-semibold leading-6 text-left">
+				<label for="firstName" class="block text-sm font-semibold leading-6 text-center">
 					First name
 				</label>
 
 				<div class="mt-2.5">
 					<input
-						class=" block w-full rounded-md input placeholder:text-left placeholder:font-bold placeholder:tracking-widest text-center"
+						class=" block w-full rounded-md input placeholder:text-center placeholder:font-bold placeholder:tracking-widest text-center"
 						type="text"
 						placeholder={$currentUser?.firstName}
 						readonly
@@ -202,12 +202,12 @@
 				</div>
 			</div>
 			<div>
-				<label for="lastName" class="block text-sm font-semibold leading-6 text-left">
+				<label for="lastName" class="block text-sm font-semibold leading-6 text-center">
 					Last name
 				</label>
 				<div class="mt-2.5">
 					<input
-						class=" block w-full rounded-md input placeholder:text-left placeholder:font-bold placeholder:tracking-widest text-center"
+						class=" block w-full rounded-md input placeholder:text-center placeholder:font-bold placeholder:tracking-widest text-center"
 						type="text"
 						placeholder={$currentUser?.lastName}
 						readonly
@@ -215,12 +215,12 @@
 				</div>
 			</div>
 			<div class="sm:col-span-2">
-				<label for="email" class="block text-sm font-semibold leading-6 text-left">
+				<label for="email" class="block text-sm font-semibold leading-6 text-center">
 					<span> Email address </span>
 				</label>
 				<div class="mt-2.5">
 					<input
-						class=" block w-full rounded-md input placeholder:text-left placeholder:font-bold placeholder:tracking-widest text-center"
+						class=" block w-full rounded-md input placeholder:text-center placeholder:font-bold placeholder:tracking-widest text-center"
 						type="email"
 						placeholder={$currentUser?.email}
 						readonly
@@ -230,7 +230,7 @@
 		</div>
 		<div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2 mt-4">
 			<div>
-				<label for="oldPassword" class="block text-sm font-semibold leading-6 text-left">
+				<label for="oldPassword" class="block text-sm font-semibold leading-6 text-center">
 					<span> Old Password </span>
 				</label>
 				<div class="mt-2.5 relative">
@@ -239,7 +239,7 @@
 						value={oldPassword}
 						name="oldPassword"
 						required
-						class="block w-full rounded-md input placeholder:text-left placeholder:font-bold placeholder:tracking-widest text-left hover:scale-105"
+						class="block w-full rounded-md input placeholder:text-center placeholder:font-bold placeholder:tracking-widest text-center hover:scale-105"
 					/>
 					<span class="absolute inset-y-0 right-0 pr-3 flex items-center">
 						{#if showOldPassword}
@@ -259,7 +259,7 @@
 				</div>
 			</div>
 			<div>
-				<label for="newPassword" class="block text-sm font-semibold leading-6 text-left">
+				<label for="newPassword" class="block text-sm font-semibold leading-6 text-center">
 					<span> New Password </span>
 				</label>
 				<div class="mt-2.5 relative">
@@ -268,12 +268,12 @@
 						value={password}
 						name="password"
 						required
-						class="block w-full rounded-md input placeholder:text-left placeholder:font-bold placeholder:tracking-widest text-left hover:scale-105"
+						class="block w-full rounded-md input placeholder:text-center placeholder:font-bold placeholder:tracking-widest text-center hover:scale-105"
 					/>
 				</div>
 			</div>
 			<div class="sm:col-span-2">
-				<label for="passwordConfirm" class="block text-sm font-semibold leading-6 text-left">
+				<label for="passwordConfirm" class="block text-sm font-semibold leading-6 text-center">
 					<span> Confirm Password </span>
 				</label>
 				<div class="mt-2.5 relative">
@@ -282,7 +282,7 @@
 						value={passwordConfirm}
 						name="passwordConfirm"
 						required
-						class="block w-full rounded-md input placeholder:text-left placeholder:font-bold placeholder:tracking-widest text-left hover:scale-105"
+						class="block w-full rounded-md input placeholder:text-center placeholder:font-bold placeholder:tracking-widest text-center hover:scale-105"
 					/>
 				</div>
 			</div>
@@ -291,10 +291,10 @@
 		<div class="flex items-center space-x-4 mt-6 justify-center">
 			<button
 				type="submit"
-				class="btn rounded-md variant-filled-primary dark:variant-filled-secondary w-full hover:scale-105"
+				class="btn rounded-md variant-filled-primary dark:variant-filled-tertiary w-full hover:scale-105"
 				disabled={loading}
 			>
-				{!loading ? 'Update' : 'Updating ...'}
+				{loading ? 'Updating ...' : 'Update'}
 			</button>
 		</div>
 	</form>
