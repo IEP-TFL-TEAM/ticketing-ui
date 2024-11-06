@@ -1,6 +1,6 @@
 <script>
-	import { ProgressRadial, ConicGradient } from '@skeletonlabs/skeleton';
-	import { Doughnut, Bar } from 'svelte-chartjs';
+	import { ProgressRadial } from '@skeletonlabs/skeleton';
+	import { Bar, Doughnut } from 'svelte-chartjs';
 	import {
 		Chart as ChartJS,
 		Title,
@@ -18,26 +18,16 @@
 	export let data;
 
 	function countByCategoryId(array, categoryId) {
-		return array.filter((record) => record.categoryId === categoryId).length;
+		return array.filter((record) => record.categoryId === categoryId && record.status === 'PENDING')
+			.length;
 	}
 
 	const pendingTickets = countByStatus(data.tickets, 'PENDING');
 	const closedTickets = countByStatus(data.tickets, 'CLOSED');
 
-	const pieData = {
-		labels: ['Closed', 'Pending'],
-		datasets: [
-			{
-				data: [closedTickets, pendingTickets],
-				backgroundColor: ['#84cc16', '#e6b021'],
-				hoverBackgroundColor: ['#a9db5c', '#ffc425']
-			}
-		]
-	};
-
-	const categoryCounts = data.categories.map((category) => ({
-		name: category.name,
-		count: countByCategoryId(data.tickets, category.id)
+	const categoryCounts = data.categories.map(({ id, name }) => ({
+		name,
+		count: countByCategoryId(data.tickets, id)
 	}));
 
 	const colorMap = {
@@ -53,17 +43,23 @@
 		}
 	};
 
+	const pieData = {
+		labels: ['Closed', 'Pending'],
+		datasets: [
+			{
+				data: [closedTickets, pendingTickets],
+				backgroundColor: ['#84cc16', '#e6b021'],
+				hoverBackgroundColor: ['#a9db5c', '#ffc425']
+			}
+		]
+	};
+
+	let categoryNames = [];
 	const barData = {
 		labels: ['Incidents'],
 		datasets: [
-			// {
-			// 	label: 'Total Incidents',
-			// 	data: [data.tickets.length],
-			// 	backgroundColor: ['rgba(3, 104, 177, 0.4)'],
-			// 	borderColor: ['rgba(3, 104, 177, 1)'],
-			// 	borderWidth: 2
-			// },
 			...categoryCounts.map((c) => {
+				categoryNames.push(c.name);
 				const isNonCategory = c.name.toLowerCase().includes('non');
 				const colors = isNonCategory ? colorMap.nonCategory : colorMap.default;
 
@@ -80,35 +76,56 @@
 
 	const fullCompletionPercentage =
 		data.tickets.length > 0 ? (closedTickets / data.tickets.length) * 100 : 0;
-
-	const conicStops = [
-		{ label: 'One', color: 'rgba(3, 104, 177, 1)', start: 0, end: 10 },
-		{ label: 'Two', color: 'rgba(255, 196, 37, 0.5)', start: 10, end: 35 },
-		{ label: 'Three', color: 'rgba(59, 203, 251, 0.25)', start: 35, end: 100 }
-	];
 </script>
 
-<div class="grid grid-cols-2 auto-rows-auto w-full gap-10">
-	<div>
-		<ProgressRadial
-			value={fullCompletionPercentage}
-			meter="stroke-success-500"
-			stroke={50}
-			track="stroke-primary-500/30 dark:stroke-primary-100"
+<div class="flex flex-col items-start gap-2 py-6">
+	<div class="grid w-full grid-cols-1 gap-4 xl:grid-cols-2">
+		<div
+			class="card p-8 rounded bg-transparent dark:bg-white/95 shadow border border-black/5 dark:border-white/10 text-black"
 		>
-			{fullCompletionPercentage.toFixed(2)}%
-		</ProgressRadial>
-	</div>
+			<div class="flex flex-col justify-between items-start w-full">
+				<h3 class="mb-2 text-lg font-semibold uppercase">
+					{categoryNames[0]} vs {categoryNames[1]} - Pending
+				</h3>
 
-	<div>
-		<ConicGradient stops={conicStops} legend>Map</ConicGradient>
-	</div>
+				<Bar data={barData} options={{ responsive: true }} />
+			</div>
+		</div>
 
-	<div>
-		<Bar data={barData} options={{ responsive: true }} />
-	</div>
+		<div class="grid w-full grid-cols-1 gap-4 xl:grid-cols-2">
+			<div
+				class="card p-8 rounded bg-transparent dark:bg-white/95 shadow border border-black/5 dark:border-white/10 text-black"
+			>
+				<div class="h-full w-full">
+					<h3 class="mb-2 text-lg font-semibold uppercase">Pending vs Closed</h3>
 
-	<div>
-		<Doughnut data={pieData} options={{ responsive: true }} />
+					<div class="flex items-center justify-between">
+						<div>
+							<Doughnut data={pieData} options={{ responsive: true }} />
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div
+				class="card p-8 rounded bg-transparent dark:bg-transparent shadow border border-black/5 dark:border-white/10"
+			>
+				<div class="h-full w-full">
+					<h3 class="mb-2 text-lg font-semibold uppercase">Completion %</h3>
+
+					<div class="flex items-center justify-center p-6">
+						<ProgressRadial
+							value={fullCompletionPercentage}
+							meter="stroke-success-700 dark:stroke-success-500"
+							stroke={80}
+							track="stroke-surface-500/30 dark:stroke-surface-600"
+							class="w-full h-full"
+						>
+							{fullCompletionPercentage.toFixed(2)}%
+						</ProgressRadial>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
