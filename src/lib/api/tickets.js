@@ -79,7 +79,7 @@ const sendTicketCreationNotification = async ({
 	id,
 	email,
 	subject,
-	startDate,
+	incidentStart,
 	description,
 	ticketNumber,
 	actionType = 'create'
@@ -90,7 +90,7 @@ const sendTicketCreationNotification = async ({
 			id,
 			email,
 			subject,
-			startDate,
+			incidentStart,
 			description,
 			ticketNumber,
 			actionType

@@ -81,7 +81,7 @@
 							id,
 							email,
 							subject: title,
-							startDate: parseDateAndTime(incidentStart),
+							incidentStart: parseDateAndTime(incidentStart),
 							description,
 							ticketNumber,
 							actionType: 'reassign'
