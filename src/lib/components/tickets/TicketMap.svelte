@@ -29,6 +29,9 @@
 		};
 	}
 
+	const defaultLat = '-17.713371';
+	const defaultLong = '178.065033';
+
 	$: officeLocationsMarker = officeLocations.map((location) => {
 		const distances = haversine(lat, lng, location.latitude, location.longitude);
 		return {
@@ -41,17 +44,21 @@
 </script>
 
 <div class="w-full h-screen">
-	<Leaflet view={[lat, lng]} zoom={14} bounds={null}>
+	<Leaflet view={[lat ?? defaultLat, lng ?? defaultLong]} zoom={14} bounds={null}>
 		<!-- Incident Marker -->
-		<Marker latLng={[lat, lng]} width={40} height={40}>
+		<Marker latLng={[lat ?? defaultLat, lng ?? defaultLong]} width={40} height={40}>
 			<IconMapPinFilled class="text-red-500" />
 			<Popup>
-				<p class="font-semibold">
-					Incident at
-					<span class="text-red-500">
-						{site}
-					</span>
-				</p>
+				{#if !lng && !lng}
+					<p class="font-semibold">Default Location</p>
+				{:else}
+					<p class="font-semibold">
+						Incident at
+						<span class="text-red-500">
+							{site}
+						</span>
+					</p>
+				{/if}
 			</Popup>
 		</Marker>
 
