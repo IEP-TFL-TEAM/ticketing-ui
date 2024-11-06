@@ -16,6 +16,7 @@
 	import DepartmentAndTeamInfo from '$lib/components/tickets/DepartmentAndTeamInfo.svelte';
 	import TicketHistory from '$lib/components/tickets/TicketHistory.svelte';
 	import TicketMap from '$lib/components/tickets/TicketMap.svelte';
+	import TicketAssignees from '$lib/components/tickets/TicketAssignees.svelte';
 
 	export let data;
 	$: ({
@@ -227,6 +228,19 @@
 								</div>
 							</svelte:fragment>
 						</AccordionItem>
+
+						{#if ticket.expand?.technicianId}
+							<AccordionItem open class={accordionStyles}>
+								<svelte:fragment slot="summary">
+									<h5 class="font-medium">Assignees</h5>
+								</svelte:fragment>
+								<svelte:fragment slot="content">
+									<div class="table-container">
+										<TicketAssignees {ticket} />
+									</div>
+								</svelte:fragment>
+							</AccordionItem>
+						{/if}
 
 						<AccordionItem open class={accordionStyles}>
 							<svelte:fragment slot="summary">
