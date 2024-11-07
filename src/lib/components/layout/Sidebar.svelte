@@ -4,7 +4,7 @@
 	import { getSidebarItems } from '$lib/utils/getSidebarItems';
 	import ThemeSwitch from './ThemeSwitch.svelte';
 	import { IconArrowBarRight } from '@tabler/icons-svelte';
-	import { TransparentLogo } from '$lib/assets';
+	import { TransparentWhiteLogoWithName } from '$lib/assets';
 
 	const sidebarItems = getSidebarItems($currentUser?.role);
 </script>
@@ -14,7 +14,7 @@
 >
 	<div class="flex flex-col items-center justify-center px-2 mt-5 gap-4">
 		<a href="/">
-			<img src={TransparentLogo} alt="logo" class="w-full" />
+			<img src={TransparentWhiteLogoWithName} alt="logo" class="w-full" />
 		</a>
 
 		<span class="badge variant-filled uppercase">

@@ -1,5 +1,13 @@
-import TransparentLogo from './logo.png';
+import TransparentColoredLogo from './logo.png';
 import Hero from './Hero.jpg';
-import SimpleLogo from './favicon.png';
+import Favicon from './favicon.png';
+import TransparentWhiteJustLogo from './TFL-LOGO--.png';
+import TransparentWhiteLogoWithName from './TFL-LOGO---Full-colour.png';
 
-export { TransparentLogo, Hero, SimpleLogo };
+export {
+	TransparentColoredLogo as TransparentLogo,
+	Hero,
+	Favicon,
+	TransparentWhiteJustLogo,
+	TransparentWhiteLogoWithName
+};
