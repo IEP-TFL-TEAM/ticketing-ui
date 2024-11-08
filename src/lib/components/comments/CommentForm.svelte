@@ -24,10 +24,11 @@
 			if (!form.valid) {
 				form.valid = false;
 				submitting = false;
-				form.message = 'Please verify that all rquired fields are provided.';
+				let message = 'Please verify that all rquired fields are provided.';
+				form.message = message;
 
 				toastStore.trigger({
-					message: 'Please verify that all rquired fields are provided.',
+					message,
 					background: 'variant-filled-error',
 					classes: 'rounded-none font-semibold',
 					timeout: 3000
@@ -37,6 +38,13 @@
 
 			try {
 				await addComment(ticketId, form.data);
+
+				toastStore.trigger({
+					message: 'Comment successfully added to this incident',
+					background: 'variant-filled-success',
+					classes: 'rounded-none font-semibold',
+					timeout: 3000
+				});
 			} catch (e) {
 				form.valid = false;
 				submitting = false;
@@ -66,31 +74,33 @@
 
 <div class="w-full">
 	<form method="POST" enctype="multipart/form-data" use:enhance class="w-full rounded-lg">
-		<textarea
-			class="textarea text-sm p-2 placeholder:text-black dark:placeholder:text-white"
-			name="content"
-			bind:value={$form.content}
-			placeholder="Type Your Comment here ..."
-			type="text"
-			rows="2"
-			required
-			{...$constraints.content}
-		/>
+		<div class="input-group input-group-divider grid-cols-[auto_1fr_auto] rounded-lg">
+			<div class="bg-white dark:bg-black/40" />
 
-		<div class="flex flex-col mb-4">
+			<textarea
+				class="bg-white dark:bg-black/40 border-0 ring-0"
+				name="prompt"
+				required
+				placeholder="Write a comment..."
+				bind:value={$form.content}
+				rows="1"
+			/>
+
+			<button type="submit" class="variant-filled-primary">Send</button>
+		</div>
+
+		<div class="flex flex-col my-4">
 			{#if $errors.attachment}
 				<span class=" text-error-500">{$errors.attachment}</span>
 			{/if}
 
 			<input
-				class="w-full rounded text-sm text-neutral-900 border border-neutral-500 dark:border-neutral-700 cursor-pointer bg-transparent dark:text-white focus:outline-none"
+				class="w-full rounded-lg text-sm text-neutral-900 border border-neutral-500 dark:border-neutral-700 cursor-pointer bg-transparent dark:text-white focus:outline-none"
 				name="attachment"
 				bind:files={$attachment}
 				type="file"
 				{...$constraints.attachment}
 			/>
 		</div>
-
-		<button type="submit" class="btn variant-filled-primary text-sm p-2 my-2"> Add Comment </button>
 	</form>
 </div>

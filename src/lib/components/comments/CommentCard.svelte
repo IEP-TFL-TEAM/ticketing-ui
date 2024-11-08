@@ -1,45 +1,45 @@
 <script>
+	import { currentUser } from '$lib/stores/auth';
 	import { Avatar } from '@skeletonlabs/skeleton';
 	import { toZonedTime } from 'date-fns-tz';
 	import TicketAttachments from '../tickets/TicketAttachments.svelte';
 
 	export let avatar, content, date, firstName, lastName;
 	export let attachmentUrl, attachment;
+
+	$: isUsersOwnComment = $currentUser.firstName === firstName && $currentUser.lastName === lastName;
 </script>
 
-<div class="w-full flex items-start justify-start gap-2 mb-6">
-	<div>
+<div class="w-full mb-6 pr-4">
+	<div class="grid grid-cols-[auto_1fr] gap-2">
 		<Avatar
 			src={avatar}
 			initials={firstName.charAt(0) + lastName.charAt(0)}
 			width="w-12"
 			rounded="rounded-full"
-			border="border border-gray-500 dark:border-gray-300 hover:!border-secondary-500 dark:hover:border-primary-500"
+			border="border {isUsersOwnComment
+				? 'border-primary-500'
+				: 'border-gray-500 dark:border-gray-300 hover:!border-secondary-500 dark:hover:border-primary-500'}"
 			background="bg-transparent"
 		/>
-	</div>
 
-	<div class="flex flex-col w-full">
-		<div class="w-full text-base bg-neutral-200 dark:bg-neutral-700 p-2 rounded-lg">
-			<div class="flex flex-col gap-2 justify-start items-start">
-				<span
-					class="inline-flex items-center mr-3 text-base text-primary-500 dark:text-tertiary-500 font-semibold"
-				>
-					{firstName + ' ' + lastName}
-				</span>
+		<div
+			class="card p-4 variant-soft rounded-tl-none rounded-lg space-y-2 {isUsersOwnComment
+				? 'bg-white border-2 border-primary-500/40 dark:bg-black/20 dark:border-primary-900/70'
+				: 'bg-white dark:bg-black/20 border dark:border-white/20'}"
+		>
+			<header class="flex justify-between items-center">
+				<p class="font-bold">{firstName + ' ' + lastName}</p>
+				<small class="opacity-90 text-primary-700 dark:text-tertiary-500">
+					{toZonedTime(date, 'Pacific/Fiji')}
+				</small>
+			</header>
 
-				<span class="text-base">{content}</span>
-			</div>
+			<p>{content}</p>
 
 			{#if attachmentUrl}
 				<TicketAttachments {attachmentUrl} {attachment} />
 			{/if}
-		</div>
-
-		<div class="w-full">
-			<span class="text-sm text-secondary-700 dark:text-secondary-500">
-				{toZonedTime(date, 'Pacific/Fiji')}
-			</span>
 		</div>
 	</div>
 </div>
