@@ -71,7 +71,7 @@
 
 						toastStore.trigger({
 							type: 'success',
-							message: 'Routine Deleted Successfully!',
+							message: 'Routine Cancelled Successfully!',
 							background: 'variant-filled-success',
 							classes: 'rounded-none font-semibold'
 						});

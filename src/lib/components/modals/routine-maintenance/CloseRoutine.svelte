@@ -122,7 +122,7 @@
 										bind:value={$endDateVal}
 										min={$startDateVal}
 										required={routine.endDate.length === 0}
-										class="input p-4 border"
+										class="input p-4 border bg-white dark:bg-gradient-to-r dark:from-black/10 dark:to-neutral-300/80"
 										{...$constraints.endDate}
 									/>
 								</div>
@@ -170,7 +170,7 @@
 							</p>
 							<div class="flex flex-row">
 								<select
-									class="select rounded-none w-full"
+									class="bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 text-sm rounded focus:ring-primary-500 p-4 w-full"
 									name="alarmsCleared"
 									bind:value={$form.alarmsCleared}
 									required
@@ -199,7 +199,7 @@
 							</p>
 							<div class="flex flex-row">
 								<select
-									class="select rounded-none w-full"
+									class="bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 text-sm rounded focus:ring-primary-500 p-4 w-full"
 									name="serviceImpactCorrect"
 									bind:value={$form.serviceImpactCorrect}
 									required
@@ -228,7 +228,7 @@
 							</p>
 							<div class="flex flex-row">
 								<select
-									class="select rounded-none w-full"
+									class="bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 text-sm rounded focus:ring-primary-500 p-4 w-full"
 									name="taskCompletion"
 									bind:value={$form.taskCompletion}
 									required
@@ -258,7 +258,7 @@
 								</p>
 
 								<textarea
-									class="textarea p-2 bg-transparent dark:bg-transparent"
+									class="textarea border border-black/20 p-2 bg-transparent dark:bg-transparent"
 									name="closingRemarks"
 									type="text"
 									bind:value={$form.closingRemarks}
