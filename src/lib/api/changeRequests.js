@@ -4,10 +4,7 @@ import { parseFilters } from '../utils/parsers';
 export const expand = 'requestee, siteId, teamIds, changeTeamId, servicesListIds, areaId, regionId';
 
 const createRequest = async (data) => {
-	const record = await pb.collection('changerequests').create({
-		...data,
-		isClosed: false
-	});
+	const record = await pb.collection('changerequests').create(data, { expand });
 	return record;
 };
 

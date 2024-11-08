@@ -5,7 +5,7 @@ export const expand =
 	'requestee, siteId, teamIds, maintenanceTeamId, servicesListIds, areaId, regionId';
 
 const createRoutineMaintenance = async (data) => {
-	const record = await pb.collection('routinemaintenance').create(data);
+	const record = await pb.collection('routinemaintenance').create(data, { expand });
 	return record;
 };
 
