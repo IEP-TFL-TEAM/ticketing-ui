@@ -85,7 +85,7 @@
 			}
 
 			try {
-				const { id, title, incidentStart, description, ticketNumber } = await createTicket(
+				const { id, title, incidentStart, description, ticketNumber, expand } = await createTicket(
 					form.data
 				);
 
@@ -107,7 +107,10 @@
 						subject: title,
 						incidentStart: parseDateAndTime(incidentStart),
 						description,
-						ticketNumber
+						ticketNumber,
+						category: expand?.categoryId?.name,
+						severity: expand?.categoryLevelId?.name,
+						technician: expand?.technicianId?.name ?? 'N/A'
 					});
 				}
 

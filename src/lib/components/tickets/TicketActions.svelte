@@ -75,7 +75,7 @@
 						timeout: 5000
 					});
 
-					const { id, title, incidentStart, description, ticketNumber } = updatedTicket;
+					const { id, title, incidentStart, description, ticketNumber, expand } = updatedTicket;
 					for (const email of teamEmails) {
 						await sendTicketCreationNotification({
 							id,
@@ -84,6 +84,9 @@
 							incidentStart: parseDateAndTime(incidentStart),
 							description,
 							ticketNumber,
+							category: expand?.categoryId?.name,
+							severity: expand?.categoryLevelId?.name,
+							technician: expand?.technicianId?.name ?? 'N/A',
 							actionType: 'reassign'
 						});
 					}

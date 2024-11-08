@@ -5,10 +5,13 @@ export const expand =
 	'reportedBy, categoryLevelId, teamIds, departmentIds, teamEquipmentIds, categoryId, regionId, siteId, areaId, faultTypeId, closedBy, solution, cause, technicianId, servicesListIds';
 
 const createTicket = async (data) => {
-	const record = await pb.collection('tickets').create({
-		...data,
-		reportedBy: pb.authStore.model.id
-	});
+	const record = await pb.collection('tickets').create(
+		{
+			...data,
+			reportedBy: pb.authStore.model.id
+		},
+		{ expand }
+	);
 	return record;
 };
 
@@ -83,6 +86,9 @@ const sendTicketCreationNotification = async ({
 	incidentStart,
 	description,
 	ticketNumber,
+	category,
+	severity,
+	technician,
 	actionType = 'create'
 }) => {
 	const response = await pb.send(`/api/send-incident-creation-notification`, {
@@ -95,6 +101,9 @@ const sendTicketCreationNotification = async ({
 			incidentStart,
 			description,
 			ticketNumber,
+			category,
+			severity,
+			technician,
 			actionType
 		}
 	});
