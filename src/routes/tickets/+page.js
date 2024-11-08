@@ -12,6 +12,7 @@ import { getRecentHistory } from '$lib/api/history';
 import { getCauseCodes } from '$lib/api/causeCodes';
 import { getTechnicians } from '$lib/api/technicians';
 import { getServicesList } from '$lib/api/servicesList';
+import { getSolutionCodes } from '$lib/api/solutionCodes';
 
 export async function load({ url, fetch }) {
 	pb.beforeSend = function (url, options) {
@@ -26,6 +27,12 @@ export async function load({ url, fetch }) {
 		description: url.searchParams.get('description'),
 		categoryId: url.searchParams.get('categoryId'),
 		categoryLevelId: url.searchParams.get('categoryLevelId'),
+		regionId: url.searchParams.get('regionId'),
+		siteId: url.searchParams.get('siteId'),
+		areaId: url.searchParams.get('areaId'),
+		faultTypeId: url.searchParams.get('faultTypeId'),
+		cause: url.searchParams.get('cause'),
+		solution: url.searchParams.get('solution'),
 		ticketNumber: url.searchParams.get('ticketNumber'),
 		status: url.searchParams.get('status')
 	};
@@ -44,7 +51,8 @@ export async function load({ url, fetch }) {
 			getFaultList(),
 			getCauseCodes(),
 			getTechnicians(),
-			getServicesList()
+			getServicesList(),
+			getSolutionCodes()
 		]);
 
 		const [
@@ -59,7 +67,8 @@ export async function load({ url, fetch }) {
 			faultTypeList,
 			causeCodes,
 			technicians,
-			servicesList
+			servicesList,
+			solutionCodes
 		] = results.map((result) => (result.status === 'fulfilled' ? result.value : []));
 
 		return {
@@ -75,7 +84,8 @@ export async function load({ url, fetch }) {
 			faultTypeList,
 			causeCodes,
 			technicians,
-			servicesList
+			servicesList,
+			solutionCodes
 		};
 	} catch (error) {
 		console.error(error);

@@ -28,7 +28,8 @@
 		faultTypeList,
 		causeCodes,
 		technicians,
-		servicesList
+		servicesList,
+		solutionCodes
 	} = data);
 
 	const drawerStore = getDrawerStore();
@@ -187,7 +188,17 @@
 		</div>
 	</div>
 
-	<TicketFilters {filters} {categories} {categoryLevels} />
+	<TicketFilters
+		{filters}
+		{categories}
+		{categoryLevels}
+		{areas}
+		{regions}
+		{sites}
+		{faultTypeList}
+		{causeCodes}
+		{solutionCodes}
+	/>
 
 	<div class="grid grid-cols-3 w-full gap-10 mt-4">
 		<div class="col-span-2">

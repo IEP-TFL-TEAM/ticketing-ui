@@ -49,10 +49,17 @@
 			<td>{ticket.expand?.siteId?.name}</td>
 		</tr>
 
-		<tr>
-			<td>Fault Type</td>
-			<td>{ticket.expand?.faultTypeId?.name ?? 'N/A'}</td>
-		</tr>
+		{#if ticket.status === 'PENDING'}
+			<tr>
+				<td>Fault Type</td>
+				<td>{ticket.expand?.faultTypeId?.name ?? 'N/A'}</td>
+			</tr>
+
+			<tr>
+				<td>Cause</td>
+				<td>{ticket.expand?.cause?.name ?? 'N/A'}</td>
+			</tr>
+		{/if}
 
 		<tr>
 			<td>Service Impact</td>

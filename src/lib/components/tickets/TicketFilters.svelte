@@ -1,16 +1,33 @@
 <script>
+	import Svelecte from 'svelecte';
 	import { goto } from '$app/navigation';
 	import { parseQueryParams } from '$lib/utils/parsers';
 	import { statuses } from '$lib/utils';
 	import { IconCaretUp, IconCaretDown } from '@tabler/icons-svelte';
 
-	export let filters, categories, categoryLevels;
+	export let filters,
+		categories,
+		categoryLevels,
+		sites,
+		areas,
+		regions,
+		faultTypeList,
+		causeCodes,
+		solutionCodes;
 
 	let searchStatus = filters.status;
 	let searchText = filters.title || filters.description;
 	let searchCategory = filters.categoryId;
 	let searchCategoryLevelId = filters.categoryLevelId;
 	let filteredCategoryLevels = [];
+
+	let searchRegion = filters.regionId;
+	let searchArea = filters.areaId;
+	let searchSite = filters.siteId;
+	let searchFaultType = filters.faultTypeId;
+	let searchCause = filters.cause;
+	let searchSolution = filters.solution;
+
 	let showFilters = false;
 
 	function handle() {
@@ -22,6 +39,12 @@
 			categoryId: searchCategory,
 			categoryLevelId: searchCategoryLevelId,
 			ticketNumber: searchText,
+			areaId: searchArea,
+			regionId: searchRegion,
+			siteId: searchSite,
+			faultTypeId: searchFaultType,
+			cause: searchCause,
+			solution: searchSolution,
 			page: 1
 		};
 		const queryParams = parseQueryParams(search);
@@ -33,6 +56,12 @@
 		searchText = null;
 		searchCategory = null;
 		searchCategoryLevelId = null;
+		searchRegion = null;
+		searchArea = null;
+		searchSite = null;
+		searchFaultType = null;
+		searchCause = null;
+		searchSolution = null;
 		goto(`/tickets`);
 	}
 
@@ -48,10 +77,7 @@
 		}
 	}
 
-	const chipStyles =
-		'btn variant-outline-primary dark:variant-outline-tertiary whitespace-nowrap rounded hover:variant-soft-primary dark:hover:variant-soft-tertiary';
-	const chipDiv = ' flex items-center gap-4 flex-wrap w-full';
-	const active = 'variant-filled-primary dark:variant-filled-tertiary';
+	const chipDiv = 'flex items-center gap-4 flex-wrap w-full';
 </script>
 
 <div class="flex flex-col items-start justify-between w-full mt-10 gap-y-4">
@@ -101,55 +127,111 @@
 			<div class="flex items-start gap-4">
 				<h3 class="w-1/5">Status:</h3>
 				<div class={chipDiv + ' relative'}>
-					{#each statuses as status}
-						<button
-							type="button"
-							class="{chipStyles} capitalize {searchStatus === status ? ` ${active}` : ''}"
-							on:click={() => {
-								searchStatus = status;
-								handle();
-							}}
-						>
-							{status}
-						</button>
-					{/each}
+					<Svelecte
+						options={statuses}
+						bind:value={searchStatus}
+						on:change={() => handle()}
+						class="!text-primary-500 dark:!text-tertiary-500"
+					/>
 				</div>
 			</div>
 
 			<div class="flex items-start gap-4">
 				<h3 class="w-1/5">Category:</h3>
 				<div class={chipDiv + ' relative'}>
-					{#each categories as { id, name }}
-						<button
-							type="button"
-							class="{chipStyles} capitalize {searchCategory === id ? ` ${active}` : ''}"
-							on:click={() => {
-								searchCategory = id;
-								searchCategoryLevelId = null;
-								handle();
-							}}
-						>
-							{name}
-						</button>
-					{/each}
+					<Svelecte
+						options={categories}
+						bind:value={searchCategory}
+						on:change={() => {
+							searchCategoryLevelId = null;
+							handle();
+						}}
+						class="!text-primary-500 dark:!text-tertiary-500"
+					/>
 				</div>
 			</div>
 
 			<div class="flex items-start gap-4">
 				<h3 class="w-1/5">Severity:</h3>
 				<div class={chipDiv + ' relative'}>
-					{#each filteredCategoryLevels as { id, name }}
-						<button
-							type="button"
-							class="{chipStyles} capitalize {searchCategoryLevelId === id ? ` ${active}` : ''}"
-							on:click={() => {
-								searchCategoryLevelId = id;
-								handle();
-							}}
-						>
-							{name}
-						</button>
-					{/each}
+					<Svelecte
+						options={filteredCategoryLevels}
+						bind:value={searchCategoryLevelId}
+						on:change={() => handle()}
+						class="!text-primary-500 dark:!text-tertiary-500"
+					/>
+				</div>
+			</div>
+
+			<div class="flex items-start gap-4">
+				<h3 class="w-1/5">Region:</h3>
+				<div class={chipDiv + ' relative'}>
+					<Svelecte
+						options={regions}
+						bind:value={searchRegion}
+						on:change={() => handle()}
+						class="!text-primary-500 dark:!text-tertiary-500"
+					/>
+				</div>
+			</div>
+
+			<div class="flex items-start gap-4">
+				<h3 class="w-1/5">Area:</h3>
+				<div class={chipDiv + ' relative'}>
+					<Svelecte
+						options={areas}
+						bind:value={searchArea}
+						on:change={() => handle()}
+						class="!text-primary-500 dark:!text-tertiary-500"
+					/>
+				</div>
+			</div>
+
+			<div class="flex items-start gap-4">
+				<h3 class="w-1/5">Site:</h3>
+				<div class={chipDiv + ' relative'}>
+					<Svelecte
+						options={sites}
+						bind:value={searchSite}
+						on:change={() => handle()}
+						class="!text-primary-500 dark:!text-tertiary-500"
+					/>
+				</div>
+			</div>
+
+			<div class="flex items-start gap-4">
+				<h3 class="w-1/5">Fault Types:</h3>
+				<div class={chipDiv + ' relative'}>
+					<Svelecte
+						options={faultTypeList}
+						bind:value={searchFaultType}
+						on:change={() => handle()}
+						class="!text-primary-500 dark:!text-tertiary-500"
+					/>
+				</div>
+			</div>
+
+			<div class="flex items-start gap-4">
+				<h3 class="w-1/5">Cause Codes:</h3>
+				<div class={chipDiv + ' relative'}>
+					<Svelecte
+						options={causeCodes}
+						bind:value={searchCause}
+						on:change={() => handle()}
+						class="!text-primary-500 dark:!text-tertiary-500"
+					/>
+				</div>
+			</div>
+
+			<div class="flex items-start gap-4">
+				<h3 class="w-1/5">Solution Codes:</h3>
+				<div class={chipDiv + ' relative'}>
+					<Svelecte
+						options={solutionCodes}
+						bind:value={searchSolution}
+						on:change={() => handle()}
+						class="!text-primary-500 dark:!text-tertiary-500"
+					/>
 				</div>
 			</div>
 		</div>
