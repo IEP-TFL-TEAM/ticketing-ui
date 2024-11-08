@@ -203,7 +203,7 @@
 							name="incidentStart"
 							bind:value={$incidentStartVal}
 							required
-							class="input p-4 border"
+							class="input p-4 border dark:bg-gradient-to-r dark:from-black/10 dark:to-neutral-300/80"
 							{...$constraints.incidentStart}
 						/>
 					</div>

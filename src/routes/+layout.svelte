@@ -88,7 +88,7 @@
 
 <Drawer
 	position="right"
-	width="md:w-1/2 w-full"
+	width="w-full"
 	rounded="rounded-none"
 	bgDrawer="bg-white dark:bg-[#252424]"
 	bgBackdrop="!bg-gray-500/40 dark:!bg-black/40"
