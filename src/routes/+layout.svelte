@@ -1,5 +1,6 @@
 <script>
 	import '../app.postcss';
+	import '../svelect.postcss';
 
 	import pb from '$lib/api/pocketbaseClient';
 	import { navigating } from '$app/stores';
