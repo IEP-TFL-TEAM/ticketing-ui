@@ -236,7 +236,7 @@
 							name="startDate"
 							bind:value={$startDateVal}
 							required
-							class="input p-4 border"
+							class="input p-4 border dark:bg-gradient-to-r dark:from-black/10 dark:to-neutral-300/80"
 							{...$constraints.startDate}
 						/>
 					</div>
@@ -253,7 +253,7 @@
 							type="datetime-local"
 							name="endDate"
 							bind:value={$endDateVal}
-							class="input p-4 border"
+							class="input p-4 border dark:bg-gradient-to-r dark:from-black/10 dark:to-neutral-300/80"
 							min={$startDateVal}
 							{...$constraints.endDate}
 						/>
