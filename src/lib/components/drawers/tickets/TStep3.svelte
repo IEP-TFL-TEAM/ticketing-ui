@@ -1,4 +1,5 @@
 <script>
+	import Svelecte from 'svelecte';
 	import { superForm, defaults, fileProxy, dateProxy } from 'sveltekit-superforms';
 	import { zod } from 'sveltekit-superforms/adapters';
 	import { getToastStore, getDrawerStore, ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
@@ -28,6 +29,8 @@
 	const faultTypeList = $drawerStore.meta.faultTypeList;
 	const technicians = $drawerStore.meta.technicians;
 	const servicesList = $drawerStore.meta.servicesList;
+	const verifiedRecipients = $drawerStore.meta.verifiedRecipients;
+
 	const servicesListOptions = servicesList
 		.map((item) => ({
 			label: item.name,
@@ -40,6 +43,9 @@
 		});
 
 	let submitting = false;
+	let verifiedEmails = [];
+	let ccEmail;
+
 	const originalForm = defaults(zod(ticketSchema()));
 
 	const { form, constraints, enhance, message, errors, delayed, submit } = superForm(originalForm, {
@@ -97,6 +103,7 @@
 					await sendTicketCreationNotification({
 						id,
 						email,
+						cc: ccEmail ?? '',
 						subject: title,
 						incidentStart: parseDateAndTime(incidentStart),
 						description,
@@ -153,6 +160,8 @@
 	$: if ($form.serviceImpact === 'No') {
 		$form.servicesListIds = [];
 	}
+
+	$: verifiedEmails = verifiedRecipients.map((item) => item.email);
 </script>
 
 {#if $delayed || submitting}
@@ -166,6 +175,19 @@
 				{#if $message}
 					<span class="my-2 text-error-500 input p-4 border-red-500 font-semibold">{$message}</span>
 				{/if}
+
+				<div>
+					<p class="my-2 text-base font-semibold">
+						Enter An Email to CC when creating this Incident
+					</p>
+
+					<Svelecte
+						options={verifiedEmails}
+						bind:value={ccEmail}
+						disabled={submitting}
+						class="!text-primary-500 dark:!text-tertiary-500"
+					/>
+				</div>
 
 				<label class="label">
 					<p class="my-2 text-base font-semibold">

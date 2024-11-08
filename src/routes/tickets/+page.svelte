@@ -29,7 +29,8 @@
 		causeCodes,
 		technicians,
 		servicesList,
-		solutionCodes
+		solutionCodes,
+		verifiedRecipients
 	} = data);
 
 	const drawerStore = getDrawerStore();
@@ -75,7 +76,8 @@
 				faultTypeList,
 				causeCodes,
 				technicians,
-				servicesList
+				servicesList,
+				verifiedRecipients
 			}
 		});
 	}

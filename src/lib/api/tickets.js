@@ -78,6 +78,7 @@ const sendBroadcastEmail = async ({
 const sendTicketCreationNotification = async ({
 	id,
 	email,
+	cc,
 	subject,
 	incidentStart,
 	description,
@@ -89,6 +90,7 @@ const sendTicketCreationNotification = async ({
 		body: {
 			id,
 			email,
+			cc,
 			subject,
 			incidentStart,
 			description,
