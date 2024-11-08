@@ -71,7 +71,7 @@
 
 						toastStore.trigger({
 							type: 'success',
-							message: 'Request Deleted Successfully!',
+							message: 'Request Cancelled Successfully!',
 							background: 'variant-filled-success',
 							classes: 'rounded-none font-semibold'
 						});

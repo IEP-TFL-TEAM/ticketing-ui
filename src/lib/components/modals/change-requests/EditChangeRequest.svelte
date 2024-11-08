@@ -118,7 +118,7 @@
 									bind:value={$startDateVal}
 									on:change={() => (dirtyForm = true)}
 									required
-									class="input p-4 border"
+									class="input p-4 border bg-white dark:bg-gradient-to-r dark:from-black/10 dark:to-neutral-300/80"
 									{...$constraints.startDate}
 								/>
 							</div>
@@ -141,7 +141,7 @@
 									min={$startDateVal}
 									on:change={() => (dirtyForm = true)}
 									required
-									class="input p-4 border"
+									class="input p-4 border bg-white dark:bg-gradient-to-r dark:from-black/10 dark:to-neutral-300/80"
 									{...$constraints.endDate}
 								/>
 							</div>
