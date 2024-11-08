@@ -133,7 +133,7 @@
 	$: avatar = getAvatarUrl($currentUser) ?? null;
 </script>
 
-<div class="bg-white dark:bg-inherit">
+<div class="bg-white dark:bg-transparent py-20">
 	<div class="mx-auto max-w-2xl text-center">
 		<span class="text-xl font-semibold tracking-wide"> -- General -- </span>
 		<h2 class="text-3xl font-extrabold sm:text-4xl">Settings</h2>
