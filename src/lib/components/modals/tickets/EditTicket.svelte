@@ -126,7 +126,7 @@
 							</p>
 							<div class="flex flex-row">
 								<input
-									class="input p-4 border"
+									class="input p-4 border bg-white dark:bg-black/10"
 									type="text"
 									name="title"
 									bind:value={ticket.title}
@@ -148,7 +148,7 @@
 							</p>
 							<div class="flex flex-row">
 								<input
-									class="input p-4 border"
+									class="input p-4 border bg-white dark:bg-black/10"
 									type="text"
 									name="description"
 									bind:value={ticket.description}
@@ -176,7 +176,7 @@
 								bind:value={$incidentStartVal}
 								on:change={() => (dirtyForm = true)}
 								required
-								class="input p-4 border"
+								class="input p-4 border bg-white dark:bg-gradient-to-r dark:from-black/10 dark:to-neutral-300/80"
 								{...$constraints.incidentStart}
 							/>
 						</div>

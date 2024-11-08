@@ -118,7 +118,7 @@
 	}
 
 	const customInputStyle =
-		'!bg-white dark:!bg-neutral-800 placeholder-primary-500 dark:placeholder-tertiary-500 text-sm flex-grow border border-gray-300 dark:border-gray-200/30 rounded-none !focus:outline-none !focus:ring-0 !focus:ring-offset-0';
+		'!bg-white dark:!bg-black/10 placeholder-primary-500 dark:placeholder-tertiary-500 text-sm flex-grow border border-gray-300 dark:border-gray-200/30 rounded-none !focus:outline-none !focus:ring-0 !focus:ring-offset-0';
 </script>
 
 <div
@@ -186,17 +186,25 @@
 				</p>
 				<div class="flex flex-row">
 					<select
-						class="select rounded-none w-full"
+						class="bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 text-sm rounded focus:ring-primary-500 p-4 w-full"
 						name="typeOfBroadcast"
 						bind:value={typeOfBroadcast}
 						disabled={loading}
 						required
 					>
-						<option value={null} disabled selected>
+						<option
+							value={null}
+							disabled
+							selected
+							class="!bg-transparent dark:!bg-black/80 !text-black dark:!text-white"
+						>
 							<span class="!text-gray-500">-- select type of broadcast --</span>
 						</option>
 						{#each broadcastTypes as item}
-							<option value={item}>
+							<option
+								class="!bg-transparent dark:!bg-black/80 !text-black dark:!text-white"
+								value={item}
+							>
 								{item}
 							</option>
 						{/each}

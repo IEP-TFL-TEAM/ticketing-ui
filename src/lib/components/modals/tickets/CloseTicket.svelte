@@ -110,7 +110,7 @@
 			</p>
 			<div class="flex flex-row">
 				<select
-					class="select rounded-none w-full bg-transparent dark:bg-transparent"
+					class="bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 text-sm rounded focus:ring-primary-500 p-4 w-full"
 					name="cause"
 					bind:value={cause}
 					required
@@ -134,7 +134,7 @@
 			</p>
 			<div class="flex flex-row">
 				<select
-					class="select rounded-none w-full bg-transparent dark:bg-transparent"
+					class="bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 text-sm rounded focus:ring-primary-500 p-4 w-full"
 					name="solution"
 					bind:value={solution}
 					required
@@ -158,7 +158,7 @@
 			</p>
 
 			<textarea
-				class="textarea p-2 bg-transparent dark:bg-transparent"
+				class="textarea border border-black/20 p-2 bg-transparent dark:bg-transparent"
 				name="closingRemarks"
 				type="text"
 				bind:value={closingRemarks}
