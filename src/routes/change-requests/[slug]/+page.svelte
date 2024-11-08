@@ -403,20 +403,17 @@
 				<div class="flex flex-col pt-4 gap-y-2">
 					<div class="grid grid-cols-1 xl:grid-cols-2 auto-rows-auto">
 						<span> Requestee: </span>
-						<span class={spanStyles}>{request.expand?.requestee?.name ?? 'N/A'}</span>
+						<span class={spanStyles}
+							>{request.expand?.requestee?.name ?? 'No Requestee Selected'}</span
+						>
 					</div>
 
 					<div class="grid grid-cols-1 md:grid-cols-2 my-4">
 						<span> Change Team: </span>
 
-						<ol class="list {spanStyles}">
-							{#each request.expand?.teamIds as { name }, idx}
-								<li>
-									<span>{idx + 1}.</span>
-									<span class="flex-auto">{name}</span>
-								</li>
-							{/each}
-						</ol>
+						<span class={spanStyles}>
+							{request.expand?.changeTeamId?.name ?? 'No Change Team Selected'}
+						</span>
 					</div>
 				</div>
 			</div>
