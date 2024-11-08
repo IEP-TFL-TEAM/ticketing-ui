@@ -139,6 +139,6 @@
 		</div>
 	</div>
 
-	<RoutineMaintenanceFilters {filters} {pageSettings} />
+	<RoutineMaintenanceFilters {filters} {pageSettings} {areas} {regions} {sites} />
 	<RoutineMaintenanceTable {routines} />
 {/if}
