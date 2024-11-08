@@ -14,7 +14,7 @@
 		Drawer,
 		Modal
 	} from '@skeletonlabs/skeleton';
-	import { IconChevronsRight } from '@tabler/icons-svelte';
+	import { IconLayoutSidebarLeftExpand } from '@tabler/icons-svelte';
 
 	import { modalComponentRegistry } from '$lib/utils/modalComponentRegistry';
 	import CreateTicket from '$lib/components/drawers/tickets/CreateTicket.svelte';
@@ -103,13 +103,13 @@
 </Drawer>
 
 {#if $currentUser}
-	<div class="relative min-h-screen md:flex bg-white dark:bg-[#252424]">
+	<div class="relative min-h-screen md:flex bg-white/70 dark:bg-[#252424]">
 		<button
 			type="button"
 			on:click={() => toggleSidebar('sidebarDrawer', 'left')}
-			class="block xl:hidden fixed top-1 left-1 btn rounded bg-primary-500 p-4"
+			class="block xl:hidden fixed top-1 left-1 btn rounded bg-neutral-200/80 hover:border hover:border-black/20 hover:dark:border hover:dark:border-white/20 dark:bg-black/50 p-4 z-20"
 		>
-			<IconChevronsRight size={30} class="text-white" />
+			<IconLayoutSidebarLeftExpand size={30} />
 		</button>
 
 		<Sidebar />

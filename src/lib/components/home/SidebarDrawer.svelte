@@ -9,11 +9,13 @@
 	const sidebarItems = getSidebarItems($currentUser?.role);
 </script>
 
-<div class="flex flex-col h-full w-full justify-between bg-primary-800 px-2 pb-3">
+<div
+	class="flex flex-col h-full w-full justify-between bg-white dark:bg-[#252424] text-black dark:text-white px-2 pb-3"
+>
 	<div>
 		<div class="flex flex-col my-10 px-4 gap-4">
-			<a href="/app">
-				<img src={TransparentLogo} alt="logo" class="w-fulL" />
+			<a href="/">
+				<img src={TransparentLogo} alt="logo" class="w-fulL p-4" />
 			</a>
 
 			<span class="badge variant-filled uppercase">
@@ -26,8 +28,8 @@
 			{#each sidebarItems as { label, icon, ref }}
 				<a
 					href={ref}
-					class={`flex w-full mb-2 space-x-5 py-2.5 px-2 rounded transition duration-200 hover:bg-primary-700 group ${
-						$page.url.pathname === ref ? 'bg-primary-700 shadow-2xl text-white' : ''
+					class={`flex w-full mb-2 space-x-5 py-2.5 px-2 rounded transition duration-200 hover:bg-neutral-200/80 hover:dark:bg-black/20 group ${
+						$page.url.pathname === ref ? 'bg-neutral-200/80 dark:bg-black/30 shadow-2xl' : ''
 					}`}
 					aria-current={$page.url.pathname === ref}
 				>
@@ -40,7 +42,7 @@
 
 			<button
 				type="button"
-				class="flex w-full mb-2 space-x-5 py-2.5 px-2 rounded transition duration-200 hover:bg-primary-700 group"
+				class="flex w-full mb-2 space-x-5 py-2.5 px-2 rounded transition duration-200 hover:bg-neutral-200/80 hover:dark:bg-black/20 group"
 				on:click={() => signOut()}
 			>
 				<div class="flex items-center h-6">
