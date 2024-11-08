@@ -99,7 +99,7 @@
 					</p>
 					<div class="flex flex-row">
 						<input
-							class="input p-4 border"
+							class="input p-4 border bg-white dark:bg-black/10"
 							type="text"
 							name="name"
 							bind:value={record.name}
@@ -121,7 +121,7 @@
 					</p>
 					<div class="flex flex-row">
 						<input
-							class="input p-4 border"
+							class="input p-4 border bg-white dark:bg-black/10"
 							type="text"
 							name="email"
 							bind:value={record.email}
@@ -141,7 +141,9 @@
 						Close
 					</button>
 
-					<button type="submit" class="btn variant-filled-primary">Submit</button>
+					<button type="submit" class="btn variant-filled-primary" disabled={submitting}
+						>Submit</button
+					>
 				</div>
 			</div>
 		</form>
