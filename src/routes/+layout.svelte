@@ -44,14 +44,14 @@
 		if (!pb.authStore.isValid && $currentUser) {
 			navigation.cancel();
 			toastStore.trigger({
-				message: 'Session expired, please login again. You are now being redirected',
+				message: 'Session expired, please login again. You are now being redirected ...',
 				background: 'bg-[#252424] text-white',
 				classes: 'border-l-4 border-red-500 shadow-2xl transition'
 			});
 			setTimeout(() => {
 				currentUser.set(null);
 				goto('/login');
-			}, 5000);
+			}, 3000);
 		}
 	});
 
@@ -88,7 +88,11 @@
 
 <Drawer
 	position="right"
-	width="w-full"
+	width={$drawerStore.id === 'addRecipient' ||
+	$drawerStore.id === 'updateRecipient' ||
+	$drawerStore.id === 'sidebarDrawer'
+		? 'md:w-1/2 w-full'
+		: 'w-full'}
 	rounded="rounded-none"
 	bgDrawer="bg-white dark:bg-[#252424]"
 	bgBackdrop="!bg-gray-500/40 dark:!bg-black/40"
