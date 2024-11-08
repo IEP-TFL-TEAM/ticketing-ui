@@ -44,8 +44,8 @@
 			navigation.cancel();
 			toastStore.trigger({
 				message: 'Session expired, please login again. You are now being redirected',
-				background: 'variant-filled-error',
-				classes: 'hover:scale-110 border-t-4 border-gray-300 shadow-2xl transition'
+				background: 'bg-[#252424] text-white',
+				classes: 'border-l-4 border-red-500 shadow-2xl transition'
 			});
 			setTimeout(() => {
 				currentUser.set(null);
