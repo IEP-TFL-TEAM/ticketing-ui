@@ -3,6 +3,7 @@
 	import { goto } from '$app/navigation';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { TransparentLogo } from '$lib/assets';
+	import { IconLogin2 } from '@tabler/icons-svelte';
 
 	const toastStore = getToastStore();
 
@@ -37,67 +38,51 @@
 	<title>Login Page</title>
 </svelte:head>
 
-<div
-	class="container relative hidden h-[800px] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0 w-full min-h-screen bg-[#252424]"
->
-	<div class="bg-muted relative hidden h-full flex-col p-10 text-white lg:flex">
-		<div
-			class="absolute inset-0 bg-cover"
-			style="
-				background-image:
-					url(https://www.telecom.com.fj/wp-content/uploads/2019/04/shutterstock_444595702.jpg);"
-		/>
-
-		<div class="relative z-20 flex items-center text-lg font-medium">
-			<img src={TransparentLogo} class="h-24" alt="_" />
+<div class="flex flex-col items-center justify-center w-full min-h-screen bg-neutral-50">
+	<div
+		class="flex flex-col w-full max-w-lg px-4 py-8 bg-white shadow-2xl sm:px-6 md:px-8 lg:px-10 rounded-lg"
+	>
+		<div class="flex justify-center items-center">
+			<img src={TransparentLogo} class="p-8" alt="_" />
 		</div>
 
-		<div class="relative z-20 mt-auto">
-			<blockquote class="space-y-2">
-				<p class="text-lg">&ldquo;The World at your fingertips&rdquo;</p>
-
-				<footer class="text-sm">Telecom Fiji Limited</footer>
-			</blockquote>
+		<div class="self-center text-xl font-bold text-center text-gray-800 uppercase sm:text-2xl mt-4">
+			NOC Ticketing Portal
 		</div>
-	</div>
 
-	<div class="lg:p-8">
-		<div class="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-			<div class="flex flex-col space-y-4 text-center">
-				<h1 class="text-2xl font-semibold tracking-tight text-tertiary-500 uppercase">
-					NOC Ticketing Portal
-				</h1>
-				<p class="text-white text-sm uppercase">Login with Email</p>
+		<div class="relative h-px my-10 bg-gray-300">
+			<div class="absolute top-0 left-0 flex justify-center w-full -mt-2">
+				<span class="px-4 text-xs text-gray-500 uppercase bg-white"> Login With Email </span>
 			</div>
-
-			<form on:submit|preventDefault={() => handleLogin()}>
-				<div class="max-w-sm mx-auto">
-					<input
-						class="w-full px-8 py-4 text-sm font-medium text-white placeholder-gray-500 border border-gray-200/40 rounded bg-transparent focus:outline-none focus:border-gray-400"
-						placeholder="Email"
-						bind:value={email}
-						type="email"
-						name="email"
-						required
-					/>
-
-					<input
-						class="w-full px-8 py-4 mt-5 text-sm font-medium text-white placeholder-gray-500 border border-gray-200/40 rounded bg-transparent focus:outline-none focus:border-gray-400"
-						type="password"
-						name="password"
-						bind:value={password}
-						placeholder="Password"
-						required
-					/>
-					<button
-						class="flex items-center justify-center w-full py-4 my-8 font-semibold tracking-wide text-white transition-all duration-300 ease-in-out rounded bg-primary-500 text-white-500 hover:bg-primary-700 focus:shadow-outline focus:outline-none gap-x-4"
-						type="submit"
-						disabled={loading}
-					>
-						Login
-					</button>
-				</div>
-			</form>
 		</div>
+		<form on:submit|preventDefault={handleLogin}>
+			<div class="max-w-sm mx-auto">
+				<input
+					class="w-full px-8 py-4 text-sm font-medium text-black placeholder-gray-500 border border-gray-200 rounded-lg bg-neutral-50 focus:outline-none focus:border-gray-400 focus:bg-white"
+					placeholder="Email"
+					bind:value={email}
+					type="email"
+					name="email"
+					required
+				/>
+
+				<input
+					class="w-full px-8 py-4 mt-5 text-sm font-medium text-black placeholder-gray-500 border border-gray-200 rounded-lg bg-neutral-50 focus:outline-none focus:border-gray-400 focus:bg-white"
+					type="password"
+					name="password"
+					bind:value={password}
+					placeholder="Password"
+					required
+				/>
+				<button
+					class="flex items-center justify-center w-full py-4 my-8 font-semibold tracking-wide text-white transition-all duration-300 ease-in-out rounded-lg bg-primary-500 text-white-500 hover:bg-primary-700 focus:shadow-outline focus:outline-none gap-x-4"
+					type="submit"
+					disabled={loading}
+				>
+					<IconLogin2 class="w-6 h-6 -ml-2" />
+					<span> Login </span>
+				</button>
+			</div>
+		</form>
 	</div>
 </div>

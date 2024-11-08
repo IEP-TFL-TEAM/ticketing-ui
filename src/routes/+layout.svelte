@@ -32,20 +32,25 @@
 	const drawerStore = getDrawerStore();
 	const toastStore = getToastStore();
 
+	currentUser.subscribe((user) => {
+		if (!pb.authStore.isValid && !user) {
+			currentUser.set(null);
+			goto('/login');
+		}
+	});
+
 	beforeNavigate((navigation) => {
-		if (!pb.authStore.isValid) {
-			if ($currentUser) {
-				navigation.cancel();
-				toastStore.trigger({
-					message: 'Session expired, please login again. You are now being redirected',
-					background: 'variant-filled-error',
-					classes: 'hover:scale-110 border-t-4 border-gray-300 shadow-2xl transition'
-				});
-				setTimeout(() => {
-					currentUser.set(null);
-					goto('/login');
-				}, 5000);
-			}
+		if (!pb.authStore.isValid && $currentUser) {
+			navigation.cancel();
+			toastStore.trigger({
+				message: 'Session expired, please login again. You are now being redirected',
+				background: 'variant-filled-error',
+				classes: 'hover:scale-110 border-t-4 border-gray-300 shadow-2xl transition'
+			});
+			setTimeout(() => {
+				currentUser.set(null);
+				goto('/login');
+			}, 5000);
 		}
 	});
 
