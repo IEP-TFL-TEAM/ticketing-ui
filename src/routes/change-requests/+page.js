@@ -21,6 +21,9 @@ export async function load({ url, fetch }) {
 		objective: url.searchParams.get('objective'),
 		serviceImpact: url.searchParams.get('serviceImpact'),
 		ticketNumber: url.searchParams.get('ticketNumber'),
+		regionId: url.searchParams.get('regionId'),
+		siteId: url.searchParams.get('siteId'),
+		areaId: url.searchParams.get('areaId'),
 		status: url.searchParams.get('status')
 	};
 

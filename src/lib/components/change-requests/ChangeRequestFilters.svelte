@@ -1,16 +1,20 @@
 <script>
+	import Svelecte from 'svelecte';
 	import { Paginator } from '@skeletonlabs/skeleton';
 	import { parseQueryParams } from '$lib/utils/parsers';
 	import { goto } from '$app/navigation';
 	import { IconCaretDown, IconCaretUp } from '@tabler/icons-svelte';
 	import { statuses } from '$lib/utils';
 
-	export let filters, pageSettings;
+	export let filters, pageSettings, regions, areas, sites;
 
 	let searchText = filters.title || filters.objective || filters.ticketNumber;
 	let searchImpact = filters.serviceImpact;
 	let searchRequestee = filters.requestee;
 	let searchStatus = filters.status;
+	let searchRegion = filters.regionId;
+	let searchArea = filters.areaId;
+	let searchSite = filters.siteId;
 	let showFilters = false;
 
 	function handle() {
@@ -22,6 +26,9 @@
 			requestee: searchRequestee,
 			ticketNumber: searchText,
 			status: searchStatus,
+			areaId: searchArea,
+			regionId: searchRegion,
+			siteId: searchSite,
 			page: 1
 		};
 		const queryParams = parseQueryParams(search);
@@ -33,6 +40,9 @@
 		searchImpact = null;
 		searchRequestee = null;
 		searchStatus = null;
+		searchRegion = null;
+		searchArea = null;
+		searchSite = null;
 		goto(`/change-requests`);
 	}
 
@@ -50,10 +60,7 @@
 		goto(`change-requests?${parseQueryParams(filters)}`);
 	}
 
-	const chipStyles =
-		'btn variant-outline-primary dark:variant-outline-tertiary whitespace-nowrap rounded-md hover:variant-soft-primary dark:hover:variant-soft-tertiary';
-	const chipDiv = ' flex items-center gap-4 flex-wrap w-full';
-	const active = 'variant-filled-primary dark:variant-filled-tertiary';
+	const chipDiv = 'flex items-center gap-4 flex-wrap w-full';
 </script>
 
 <div class="flex flex-col items-start justify-between w-full mt-10 gap-y-4">
@@ -103,36 +110,60 @@
 			<div class="flex items-start gap-4">
 				<h3 class="w-1/5">Status:</h3>
 				<div class={chipDiv + ' relative'}>
-					{#each statuses as status}
-						<button
-							type="button"
-							class="{chipStyles} capitalize {searchStatus === status ? ` ${active}` : ''}"
-							on:click={() => {
-								searchStatus = status;
-								handle();
-							}}
-						>
-							{status}
-						</button>
-					{/each}
+					<Svelecte
+						options={statuses}
+						bind:value={searchStatus}
+						on:change={() => handle()}
+						class="!text-primary-500 dark:!text-tertiary-500"
+					/>
 				</div>
 			</div>
 
-			<div class="flex items-center gap-4">
+			<div class="flex items-start gap-4">
 				<h3 class="w-1/5">Service Impact:</h3>
 				<div class={chipDiv + ' relative'}>
-					{#each ['Yes', 'No'] as item}
-						<button
-							type="button"
-							class="{chipStyles} capitalize {searchImpact === item ? ` ${active}` : ''}"
-							on:click={() => {
-								searchImpact = item;
-								handle();
-							}}
-						>
-							{item}
-						</button>
-					{/each}
+					<Svelecte
+						options={['Yes', 'No']}
+						bind:value={searchImpact}
+						on:change={() => handle()}
+						class="!text-primary-500 dark:!text-tertiary-500"
+					/>
+				</div>
+			</div>
+
+			<div class="flex items-start gap-4">
+				<h3 class="w-1/5">Region:</h3>
+				<div class={chipDiv + ' relative'}>
+					<Svelecte
+						options={regions}
+						bind:value={searchRegion}
+						on:change={() => handle()}
+						class="!text-primary-500 dark:!text-tertiary-500"
+					/>
+				</div>
+			</div>
+
+			<div class="flex items-start gap-4">
+				<h3 class="w-1/5">Area:</h3>
+				<div class={chipDiv + ' relative'}>
+					<Svelecte
+						options={areas}
+						bind:value={searchArea}
+						on:change={() => handle()}
+						class="!text-primary-500 dark:!text-tertiary-500"
+					/>
+				</div>
+			</div>
+
+			<div class="flex items-start gap-4">
+				<h3 class="w-1/5">Site:</h3>
+				<div class={chipDiv + ' relative'}>
+					<Svelecte
+						options={sites}
+						bind:value={searchSite}
+						on:change={() => handle()}
+						class="!text-primary-500 dark:!text-tertiary-500"
+					/>
 				</div>
 			</div>
 		</div>
