@@ -44,7 +44,7 @@
 			type="search"
 			name="team"
 			bind:value={selectedStaff}
-			placeholder="Search Team ..."
+			placeholder="Search Requestee ..."
 			required
 		/>
 
