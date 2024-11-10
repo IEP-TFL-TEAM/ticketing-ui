@@ -32,11 +32,11 @@
 	const defaultLat = '-17.713371';
 	const defaultLong = '178.065033';
 
-	$: officeLocationsMarker = officeLocations.map((location) => {
-		const distances = haversine(lat, lng, location.latitude, location.longitude);
+	$: officeLocationsMarker = officeLocations.map(({ latitude, longitude, name }) => {
+		const distances = haversine(lat ?? defaultLat, lng ?? defaultLong, latitude, longitude);
 		return {
-			latLng: [location.latitude, location.longitude],
-			name: location.name,
+			latLng: [latitude, longitude],
+			name,
 			distanceKm: distances.distanceKm,
 			distanceMeters: distances.distanceMeters
 		};
