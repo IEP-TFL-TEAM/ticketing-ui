@@ -1,6 +1,5 @@
 import pb from '$lib/api/pocketbaseClient';
 import { getRequestById } from '$lib/api/changeRequests';
-import { getMembersByChangeTeamId } from '$lib/api/changeTeams';
 import { urlToFile } from '$lib/utils/parsers';
 
 export async function load({ params, url, fetch }) {
@@ -29,8 +28,7 @@ export async function load({ params, url, fetch }) {
 			attachmentUrl,
 			closingAttachmentUrl,
 			attachment: (await urlToFile(attachmentUrl, fetch)) ?? [],
-			closingAttachment: (await urlToFile(closingAttachmentUrl, fetch)) ?? [],
-			members: (await getMembersByChangeTeamId(request.changeTeamId)) ?? []
+			closingAttachment: (await urlToFile(closingAttachmentUrl, fetch)) ?? []
 		};
 	} catch (error) {
 		console.error(error);

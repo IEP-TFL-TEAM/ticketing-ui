@@ -15,16 +15,4 @@ const updateMaintenanceTeam = async (id, data) => {
 	return record;
 };
 
-const getMembersByMaintenanceTeamId = async (id) => {
-	const records = await pb
-		.collection('maintenanceteam_members')
-		.getFullList(100, { filter: `maintenanceTeamId = '${id}'`, expand: 'maintenanceTeamId' });
-	return records;
-};
-
-export {
-	createMaintenanceTeam,
-	getMaintenanceTeams,
-	updateMaintenanceTeam,
-	getMembersByMaintenanceTeamId
-};
+export { createMaintenanceTeam, getMaintenanceTeams, updateMaintenanceTeam };

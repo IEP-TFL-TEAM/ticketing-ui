@@ -15,11 +15,4 @@ const updateChangeTeam = async (id, data) => {
 	return record;
 };
 
-const getMembersByChangeTeamId = async (id) => {
-	const records = await pb
-		.collection('changeteam_members')
-		.getFullList(100, { filter: `changeTeamId = '${id}'`, expand: 'changeTeamId' });
-	return records;
-};
-
-export { createChangeTeam, getChangeTeams, updateChangeTeam, getMembersByChangeTeamId };
+export { createChangeTeam, getChangeTeams, updateChangeTeam };
