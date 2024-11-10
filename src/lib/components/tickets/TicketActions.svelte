@@ -25,7 +25,8 @@
 						closedBy: '',
 						solution: null,
 						closingRemarks: '',
-						incidentEnd: ''
+						incidentEnd: '',
+						availability: ''
 					});
 					ticket = updatedTicket;
 

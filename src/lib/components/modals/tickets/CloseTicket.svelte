@@ -66,7 +66,8 @@
 				solution,
 				cause,
 				closingRemarks,
-				incidentEnd: new Date()
+				incidentEnd: new Date(),
+				availability: getAvailability(ticket).toFixed(2)
 			});
 			$modalStore[0].response({ updatedTicket });
 
@@ -87,6 +88,28 @@
 			loading = false;
 			modalStore.close();
 		}
+	}
+
+	function calculateOutageDuration(createdTime, updatedTime) {
+		const createdDateTime = new Date(createdTime);
+		const updatedDateTime = new Date(updatedTime);
+
+		const diffInMs = updatedDateTime - createdDateTime;
+		return diffInMs / (1000 * 60);
+	}
+
+	function calculateAvailability(outageMinutes, minutesInYear = 525600) {
+		return (1 - outageMinutes / minutesInYear) * 100;
+	}
+
+	function getAvailability(ticket) {
+		const outageDuration = calculateOutageDuration(
+			ticket.incidentStart,
+			(ticket.incidentEnd = new Date())
+		);
+		const totalTimeInYear = 525600;
+
+		return calculateAvailability(outageDuration, totalTimeInYear);
 	}
 </script>
 

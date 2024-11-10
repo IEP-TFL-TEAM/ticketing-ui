@@ -3,19 +3,16 @@
 	import { getStatusColor } from '$lib/actions/getStatusColor';
 
 	export let ticket;
+
+	const tdStyles = 'text-primary-600 dark:text-tertiary-500';
 </script>
 
 <table class="table table-hover w-full !bg-neutral-200/20 dark:!bg-neutral-900/30">
 	<tbody>
-		<tr>
-			<td>Selected Technician</td>
-			<td>{ticket.expand?.technicianId?.name ?? 'N/A'}</td>
-		</tr>
-
 		{#if ticket.status !== 'CLOSED'}
 			<tr>
 				<td>Incident Start</td>
-				<td>{parseDateAndTime(ticket.incidentStart)}</td>
+				<td class={tdStyles}>{parseDateAndTime(ticket.incidentStart)}</td>
 			</tr>
 
 			<tr>
@@ -26,51 +23,51 @@
 
 		<tr>
 			<td>Category</td>
-			<td>{ticket.expand?.categoryId?.name}</td>
+			<td class={tdStyles}>{ticket.expand?.categoryId?.name}</td>
 		</tr>
 
 		<tr>
 			<td>Severity</td>
-			<td>{ticket.expand?.categoryLevelId?.name}</td>
+			<td class={tdStyles}>{ticket.expand?.categoryLevelId?.name}</td>
 		</tr>
 
 		<tr>
 			<td>Region</td>
-			<td>{ticket.expand?.regionId?.name}</td>
+			<td class={tdStyles}>{ticket.expand?.regionId?.name}</td>
 		</tr>
 
 		<tr>
 			<td>Area</td>
-			<td>{ticket.expand?.areaId?.name}</td>
+			<td class={tdStyles}>{ticket.expand?.areaId?.name}</td>
 		</tr>
 
 		<tr>
 			<td>Site</td>
-			<td>{ticket.expand?.siteId?.name}</td>
+			<td class={tdStyles}>{ticket.expand?.siteId?.name}</td>
 		</tr>
 
 		{#if ticket.status === 'PENDING'}
 			<tr>
 				<td>Fault Type</td>
-				<td>{ticket.expand?.faultTypeId?.name ?? 'N/A'}</td>
+				<td class={tdStyles}>{ticket.expand?.faultTypeId?.name ?? 'N/A'}</td>
 			</tr>
 
 			<tr>
 				<td>Cause</td>
-				<td>{ticket.expand?.cause?.name ?? 'N/A'}</td>
+				<td class={tdStyles}>{ticket.expand?.cause?.name ?? 'N/A'}</td>
 			</tr>
 		{/if}
 
 		<tr>
 			<td>Service Impact</td>
-			<td>{ticket.serviceImpact}</td>
+			<td class={tdStyles}>{ticket.serviceImpact}</td>
 		</tr>
 
 		<tr>
 			<td>List of Services</td>
 			<td>
 				{#if ticket.expand?.servicesListIds}
-					<ol class="list text-primary-600 dark:text-tertiary-500">
+					<ol class="list {tdStyles}">
 						{#each ticket.expand?.servicesListIds as { name }, idx}
 							<li>
 								<span>{idx + 1}.</span>
@@ -86,7 +83,9 @@
 
 		<tr>
 			<td>Reported By</td>
-			<td>{ticket.expand?.reportedBy?.firstName + ' ' + ticket.expand?.reportedBy?.lastName}</td>
+			<td class={tdStyles}
+				>{ticket.expand?.reportedBy?.firstName + ' ' + ticket.expand?.reportedBy?.lastName}</td
+			>
 		</tr>
 	</tbody>
 </table>

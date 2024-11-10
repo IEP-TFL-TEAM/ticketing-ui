@@ -151,8 +151,8 @@
 							<h5 class="font-medium">Description</h5>
 						</svelte:fragment>
 						<svelte:fragment slot="content">
-							<p class="pt-2 text-sm">
-								{ticket.description ? ticket.description : 'No description'}
+							<p class="pt-2 text-sm text-primary-600 dark:text-tertiary-500">
+								{ticket.description}
 							</p>
 						</svelte:fragment>
 					</AccordionItem>
@@ -229,18 +229,16 @@
 							</svelte:fragment>
 						</AccordionItem>
 
-						{#if ticket.expand?.technicianId}
-							<AccordionItem open class={accordionStyles}>
-								<svelte:fragment slot="summary">
-									<h5 class="font-medium">Assignees</h5>
-								</svelte:fragment>
-								<svelte:fragment slot="content">
-									<div class="table-container">
-										<TicketAssignees {ticket} />
-									</div>
-								</svelte:fragment>
-							</AccordionItem>
-						{/if}
+						<AccordionItem open class={accordionStyles}>
+							<svelte:fragment slot="summary">
+								<h5 class="font-medium">Assignees</h5>
+							</svelte:fragment>
+							<svelte:fragment slot="content">
+								<div class="table-container">
+									<TicketAssignees {ticket} />
+								</div>
+							</svelte:fragment>
+						</AccordionItem>
 
 						<AccordionItem open class={accordionStyles}>
 							<svelte:fragment slot="summary">

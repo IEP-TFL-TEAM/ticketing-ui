@@ -6,7 +6,9 @@
 	<tbody>
 		<tr>
 			<td>Selected Technician</td>
-			<td>{ticket.expand?.technicianId?.name ?? 'N/A'}</td>
+			<td class="text-primary-600 dark:text-tertiary-500"
+				>{ticket.expand?.technicianId?.name ?? 'N/A'}</td
+			>
 		</tr>
 	</tbody>
 </table>
