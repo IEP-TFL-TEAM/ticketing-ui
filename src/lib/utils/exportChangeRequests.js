@@ -22,6 +22,7 @@ export const exportChangeRequests = (data) => {
 			'Change Team': row.expand?.changeTeamId?.name ?? '-',
 			Summary: extractMessage(row.summary),
 			'List of Services / Circuits': listOfServices.join(', '),
+			'Make Awareness': row.makeAwareness,
 			'Awareness To Be Made': awarenessList.join(', '),
 			Status: row.status,
 			'CR Submission within 5 Days':

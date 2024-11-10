@@ -69,7 +69,7 @@
 				return { form };
 			}
 
-			if (form.data.awarenessToBeMade.length === 0) {
+			if (specifyAwareness && form.data.awarenessToBeMade.length === 0) {
 				form.valid = false;
 				submitting = false;
 				let message = 'Awareness To Be Made cannot be empty';
@@ -150,6 +150,11 @@
 	$: specifyListOfServices = $form.serviceImpact === 'Yes' ? true : false;
 	$: if ($form.serviceImpact === 'No') {
 		$form.servicesListIds = [];
+	}
+
+	$: specifyAwareness = $form.makeAwareness === 'Yes' ? true : false;
+	$: if ($form.makeAwareness === 'No') {
+		$form.awarenessToBeMade = [];
 	}
 </script>
 
@@ -351,26 +356,57 @@
 					</div>
 				{/if}
 
-				<div class="flex flex-col gap-4">
-					<p class="mt-2 text-base font-semibold">
-						Enter Awareness To Be Made
+				<label class="label">
+					<p class="my-2 text-base font-semibold">
+						Make Awareness
 						<span class="text-red-500">*</span>
 					</p>
-
-					{#if $errors.awarenessToBeMade}
-						<span class=" text-error-500">{$errors.awarenessToBeMade}</span>
-					{/if}
-
-					<form class="card w-full max-h-48 p-4 overflow-y-auto" tabindex="-1">
-						<ListBox multiple>
-							{#each awarenessStatuses as item}
-								<ListBoxItem bind:group={$form.awarenessToBeMade} name="medium" value={item}>
+					<div class="flex flex-row">
+						<select
+							class="select rounded-none w-full"
+							name="makeAwareness"
+							bind:value={$form.makeAwareness}
+							required
+							{...$constraints.makeAwareness}
+						>
+							<option value={null} disabled selected>
+								<span class="!text-gray-500">Select Option</span>
+							</option>
+							{#each ['Yes', 'No'] as item}
+								<option value={item}>
 									{item}
-								</ListBoxItem>
+								</option>
 							{/each}
-						</ListBox>
-					</form>
-				</div>
+						</select>
+
+						{#if $errors.makeAwareness}
+							<span class=" text-error-500">{$errors.makeAwareness}</span>
+						{/if}
+					</div>
+				</label>
+
+				{#if specifyAwareness}
+					<div class="flex flex-col gap-4">
+						<p class="mt-2 text-base font-semibold">
+							Enter Awareness To Be Made
+							<span class="text-red-500">*</span>
+						</p>
+
+						{#if $errors.awarenessToBeMade}
+							<span class=" text-error-500">{$errors.awarenessToBeMade}</span>
+						{/if}
+
+						<form class="card w-full max-h-48 p-4 overflow-y-auto" tabindex="-1">
+							<ListBox multiple>
+								{#each awarenessStatuses as item}
+									<ListBoxItem bind:group={$form.awarenessToBeMade} name="medium" value={item}>
+										{item}
+									</ListBoxItem>
+								{/each}
+							</ListBox>
+						</form>
+					</div>
+				{/if}
 
 				<div class="flex flex-col">
 					<label class="my-2 text-base font-semibold" for="attachment">

@@ -47,10 +47,21 @@ export const changeRequestSchema = (attachment, startDate, endDate) =>
 
 			servicesListIds: z.array(z.string()).optional().default([]),
 
-			awarenessToBeMade: z.array(
-				z.string().refine((value) => awarenessStatuses.includes(value), {
+			makeAwareness: z
+				.string()
+				.refine((value) => ['Yes', 'No'].includes(value), {
 					message: 'Must be of one of the types'
 				})
+				.nullable(),
+
+			awarenessToBeMade: z.array(
+				z
+					.string()
+					.refine((value) => awarenessStatuses.includes(value), {
+						message: 'Must be of one of the types'
+					})
+					.optional()
+					.default([])
 			),
 
 			attachment: z

@@ -82,6 +82,7 @@
 		$form.teamIds = request.teamIds;
 		$form.summary = request.summary;
 		$form.servicesListIds = request.servicesListIds;
+		$form.makeAwareness = request.makeAwareness;
 		$form.awarenessToBeMade = request.awarenessToBeMade;
 		$form.requestee = request?.requestee;
 		$form.changeTeamId = request?.changeTeamId;

@@ -272,16 +272,26 @@
 						{/if}
 					</div>
 
+					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
+						<span> Make Awareness: </span>
+						<span class={spanStyles}>{request.makeAwareness}</span>
+					</div>
+
 					<div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-6 my-4">
 						<span> Awareness To Be Made: </span>
-						<ol class="list {spanStyles}">
-							{#each request.awarenessToBeMade as item, idx}
-								<li>
-									<span>{idx + 1}.</span>
-									<span class="flex-auto">{item}</span>
-								</li>
-							{/each}
-						</ol>
+
+						{#if request.awarenessToBeMade.length > 0}
+							<ol class="list {spanStyles}">
+								{#each request?.awarenessToBeMade as item, idx}
+									<li>
+										<span>{idx + 1}.</span>
+										<span class="flex-auto">{item}</span>
+									</li>
+								{/each}
+							</ol>
+						{:else}
+							<span class={spanStyles}>-- none selected --</span>
+						{/if}
 					</div>
 				</div>
 			</div>
