@@ -40,7 +40,7 @@
 
 <div class="flex flex-col items-center justify-center w-full min-h-screen bg-neutral-50">
 	<div
-		class="flex flex-col w-full max-w-lg px-4 py-8 bg-white shadow-2xl sm:px-6 md:px-8 lg:px-10 rounded-lg"
+		class="flex flex-col w-full max-w-lg px-4 py-8 bg-white shadow-2xl sm:px-6 md:px-8 lg:px-10 rounded"
 	>
 		<div class="flex justify-center items-center">
 			<img src={TransparentLogo} class="p-8" alt="_" />
@@ -58,7 +58,7 @@
 		<form on:submit|preventDefault={handleLogin}>
 			<div class="max-w-sm mx-auto">
 				<input
-					class="w-full px-8 py-4 text-sm font-medium text-black placeholder-gray-500 border border-gray-200 rounded-lg bg-neutral-50 focus:outline-none focus:border-gray-400 focus:bg-white"
+					class="w-full px-8 py-4 text-sm font-medium text-black placeholder-gray-500 border border-gray-200 rounded bg-neutral-50 focus:outline-none focus:border-gray-400 focus:bg-white"
 					placeholder="Email"
 					bind:value={email}
 					type="email"
@@ -67,7 +67,7 @@
 				/>
 
 				<input
-					class="w-full px-8 py-4 mt-5 text-sm font-medium text-black placeholder-gray-500 border border-gray-200 rounded-lg bg-neutral-50 focus:outline-none focus:border-gray-400 focus:bg-white"
+					class="w-full px-8 py-4 mt-5 text-sm font-medium text-black placeholder-gray-500 border border-gray-200 rounded bg-neutral-50 focus:outline-none focus:border-gray-400 focus:bg-white"
 					type="password"
 					name="password"
 					bind:value={password}
@@ -75,7 +75,7 @@
 					required
 				/>
 				<button
-					class="flex items-center justify-center w-full py-4 my-8 font-semibold tracking-wide text-white transition-all duration-300 ease-in-out rounded-lg bg-primary-500 text-white-500 hover:bg-primary-700 focus:shadow-outline focus:outline-none gap-x-4"
+					class="flex items-center justify-center w-full py-4 my-8 font-semibold tracking-wide text-white transition-all duration-300 ease-in-out rounded bg-primary-500 text-white-500 hover:bg-primary-700 focus:shadow-outline focus:outline-none gap-x-4"
 					type="submit"
 					disabled={loading}
 				>
