@@ -10,7 +10,7 @@ import { getOfficeLocations } from '$lib/api/officeLocations';
 import { urlToFile } from '$lib/utils/parsers';
 import { getCategories } from '$lib/api/categories';
 import { getCategoryLevels } from '$lib/api/categoryLevels';
-import { getVerifiedRecipients } from '$lib/api/recipients';
+import { getVerifiedBroadcastRecipients } from '$lib/api/recipients';
 
 export async function load({ params, url, fetch }) {
 	pb.beforeSend = function (url, options) {
@@ -45,7 +45,7 @@ export async function load({ params, url, fetch }) {
 			getCategoryLevels(),
 			urlToFile(attachmentUrl, fetch),
 			getUrlsToFile(commentAttachmentUrls, fetch),
-			getVerifiedRecipients()
+			getVerifiedBroadcastRecipients()
 		]);
 
 		const [

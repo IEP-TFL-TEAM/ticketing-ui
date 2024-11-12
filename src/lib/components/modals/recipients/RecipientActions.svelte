@@ -63,7 +63,7 @@
 		drawerStore.open({
 			id,
 			position,
-			meta: { record }
+			meta: { record, sortedRecipients }
 		});
 	}
 </script>
@@ -93,7 +93,7 @@
 			bind:group={selectedOption}
 			name="medium"
 			value={recipient.verified ? 'unverify' : 'verify'}
-			disabled={onlyOneVerified && recipient.verified}
+			disabled={(onlyOneVerified && recipient.verified) || recipient.type === 'CC'}
 		>
 			{recipient.verified ? 'Unverify' : 'Verify'}
 		</ListBoxItem>

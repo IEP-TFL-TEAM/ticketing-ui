@@ -30,10 +30,18 @@ const getRecipientList = async () => {
 	return records;
 };
 
-const getVerifiedRecipients = async () => {
+const getVerifiedBroadcastRecipients = async () => {
 	const records = await pb.collection('recipients').getFullList({
 		sort: '-created',
-		filter: `verified = true`
+		filter: `verified = true && type = 'BROADCAST'`
+	});
+	return records;
+};
+
+const getVerifiedCCEmailRecipient = async () => {
+	const records = await pb.collection('recipients').getFullList({
+		sort: '-created',
+		filter: `verified = true && type = 'CC'`
 	});
 	return records;
 };
@@ -44,5 +52,6 @@ export {
 	updateRecipientByStatus,
 	removeRecipient,
 	getRecipientList,
-	getVerifiedRecipients
+	getVerifiedBroadcastRecipients,
+	getVerifiedCCEmailRecipient
 };

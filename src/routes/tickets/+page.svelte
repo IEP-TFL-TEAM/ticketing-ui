@@ -30,7 +30,8 @@
 		technicians,
 		servicesList,
 		solutionCodes,
-		verifiedRecipients
+		verifiedRecipients,
+		verifiedCCEmailRecipient
 	} = data);
 
 	const drawerStore = getDrawerStore();
@@ -77,7 +78,8 @@
 				causeCodes,
 				technicians,
 				servicesList,
-				verifiedRecipients
+				verifiedRecipients,
+				verifiedCCEmailRecipient
 			}
 		});
 	}

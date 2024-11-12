@@ -20,7 +20,8 @@
 	function triggerDrawer(id, position) {
 		drawerStore.open({
 			id,
-			position
+			position,
+			meta: { recipients }
 		});
 	}
 
@@ -119,6 +120,7 @@
 				<tr>
 					<th scope="col" class={tableHeaderStyles}> Name </th>
 					<th scope="col" class={tableHeaderStyles}> Email </th>
+					<th scope="col" class={tableHeaderStyles}> Type </th>
 					<th scope="col" class={tableHeaderStyles}> Status </th>
 					<th scope="col" class={tableHeaderStyles}></th>
 					<th scope="col"></th>
@@ -131,6 +133,9 @@
 					>
 						<td class={tdStyles}>{recipient.name}</td>
 						<td class={tdStyles}>{recipient.email}</td>
+						<td class={`text-primary-500 dark:text-tertiary-500 font-semibold ${tdStyles}`}
+							>{recipient.type}</td
+						>
 						<td
 							class="{tdStyles} font-semibold uppercase {recipient.verified
 								? 'text-success-700 dark:text-success-500'

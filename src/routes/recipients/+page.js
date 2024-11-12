@@ -14,6 +14,12 @@ export async function load({ url, fetch }) {
 			result.status === 'fulfilled' ? result.value : []
 		);
 
+		recipients.sort((a, b) => {
+			if (a.type === 'CC' && b.type !== 'CC') return -1;
+			if (a.type !== 'CC' && b.type === 'CC') return 1;
+			return 0;
+		});
+
 		return {
 			recipients
 		};

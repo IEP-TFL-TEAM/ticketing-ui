@@ -13,7 +13,7 @@ import { getCauseCodes } from '$lib/api/causeCodes';
 import { getTechnicians } from '$lib/api/technicians';
 import { getServicesList } from '$lib/api/servicesList';
 import { getSolutionCodes } from '$lib/api/solutionCodes';
-import { getVerifiedRecipients } from '$lib/api/recipients';
+import { getVerifiedBroadcastRecipients, getVerifiedCCEmailRecipient } from '$lib/api/recipients';
 
 export async function load({ url, fetch }) {
 	pb.beforeSend = function (url, options) {
@@ -56,7 +56,8 @@ export async function load({ url, fetch }) {
 			getTechnicians(),
 			getServicesList(),
 			getSolutionCodes(),
-			getVerifiedRecipients()
+			getVerifiedBroadcastRecipients(),
+			getVerifiedCCEmailRecipient()
 		]);
 
 		const [
@@ -73,7 +74,8 @@ export async function load({ url, fetch }) {
 			technicians,
 			servicesList,
 			solutionCodes,
-			verifiedRecipients
+			verifiedRecipients,
+			verifiedCCEmailRecipient
 		] = results.map((result) => (result.status === 'fulfilled' ? result.value : []));
 
 		return {
@@ -91,7 +93,8 @@ export async function load({ url, fetch }) {
 			technicians,
 			servicesList,
 			solutionCodes,
-			verifiedRecipients
+			verifiedRecipients,
+			verifiedCCEmailRecipient
 		};
 	} catch (error) {
 		console.error(error);

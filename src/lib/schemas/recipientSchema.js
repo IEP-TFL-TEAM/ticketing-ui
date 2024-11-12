@@ -9,6 +9,10 @@ export const recipientSchema = () =>
 
 			email: z.string().email({
 				message: 'Invalid email address'
+			}),
+
+			type: z.string().refine((value) => ['BROADCAST', 'CC'].includes(value), {
+				message: 'Must be of one of the types'
 			})
 		})
 		.refine((obj) => Object.values(obj).every((value) => value !== undefined), {

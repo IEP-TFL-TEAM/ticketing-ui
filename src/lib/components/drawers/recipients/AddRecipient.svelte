@@ -8,6 +8,11 @@
 
 	const toastStore = getToastStore();
 	const drawerStore = getDrawerStore();
+	const listOfRecipients = $drawerStore.meta.recipients;
+
+	let filteredTypes = listOfRecipients.some((recipient) => recipient.type === 'CC')
+		? ['BROADCAST']
+		: ['BROADCAST', 'CC'];
 
 	let submitting = false;
 	const originalForm = defaults(zod(recipientSchema()));
@@ -122,6 +127,35 @@
 					{#if $errors.email}
 						<span class=" text-error-500">{$errors.email}</span>
 					{/if}
+				</label>
+
+				<label class="label">
+					<p class="my-2 text-base font-semibold">
+						Select Type
+						<span class="text-red-500">*</span>
+					</p>
+					<div class="flex flex-row">
+						<select
+							class="bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 text-sm rounded focus:ring-primary-500 p-4 w-full"
+							name="type"
+							bind:value={$form.type}
+							required
+							{...$constraints.type}
+						>
+							<option value={''} disabled selected>
+								<span class="!text-gray-500">-- select --</span>
+							</option>
+							{#each filteredTypes as item}
+								<option value={item}>
+									{item}
+								</option>
+							{/each}
+						</select>
+
+						{#if $errors.type}
+							<span class=" text-error-500">{$errors.type}</span>
+						{/if}
+					</div>
 				</label>
 
 				<div class="flex justify-between items-center mt-4">
