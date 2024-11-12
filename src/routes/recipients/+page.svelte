@@ -1,8 +1,8 @@
 <script>
 	import { onDestroy, onMount } from 'svelte';
 	import pb from '$lib/api/pocketbaseClient';
-	import { getDrawerStore, getModalStore, getToastStore } from '@skeletonlabs/skeleton';
-	import { IconUserPlus, IconArrowRight } from '@tabler/icons-svelte';
+	import { getDrawerStore, getModalStore, getToastStore, popup } from '@skeletonlabs/skeleton';
+	import { IconUserPlus, IconArrowRight, IconInfoCircle } from '@tabler/icons-svelte';
 
 	export let data;
 
@@ -16,6 +16,12 @@
 	const drawerStore = getDrawerStore();
 	const toastStore = getToastStore();
 	const modalStore = getModalStore();
+
+	const popupFeatured = {
+		event: 'click',
+		target: 'popupFeatured',
+		placement: 'bottom'
+	};
 
 	function triggerDrawer(id, position) {
 		drawerStore.open({
@@ -93,12 +99,57 @@
 <div class="flex flex-col mt-5 w-full">
 	<div class="flex justify-between items-start mb-8">
 		<div class="flex flex-col justify-between gap-2">
-			<h1 class="h1 font-extrabold">Recipients</h1>
+			<div class="flex justify-between items-center">
+				<h1 class="h1 font-extrabold">Recipients</h1>
+				<button type="button" class="btn btn-icon" use:popup={popupFeatured}>
+					<IconInfoCircle />
+				</button>
+			</div>
 
-			<p class="p text-xl mt-2 flex flex-col gap-2">
-				<span> Manage email recipients that will be available for broadcasting. </span>
-				<span> Set the default CC email for Incident Creation </span>
-			</p>
+			<p class="p text-xl mt-2">Manage email recipients for the Incidents Module.</p>
+
+			<div
+				class="card p-4 w-92 shadow-xl bg-white border rounded border-primary-500 dark:bg-neutral-900 dark:border-tertiary-700 z-10"
+				data-popup="popupFeatured"
+			>
+				<div>
+					<dl class="list-dl">
+						<div>
+							<span class="flex-auto">
+								<dt>
+									Type = <span
+										class="text-primary-500 dark:text-tertiary-500 font-semibold uppercase"
+										>Broadcast
+									</span>
+									& Status =
+									<span class="text-success-700 dark:text-success-500 font-semibold uppercase"
+										>Verified
+									</span>
+								</dt>
+								<dd>These are the emails made available for Email Broadcasts</dd>
+							</span>
+						</div>
+
+						<div>
+							<span class="flex-auto">
+								<dt>
+									Type = <span class="text-primary-500 dark:text-tertiary-500 font-semibold"
+										>CC
+									</span>
+								</dt>
+								<dd>
+									This is the default email to be CC'd for auto emails after a successful incident
+									creation
+								</dd>
+							</span>
+						</div>
+					</dl>
+				</div>
+
+				<div
+					class="arrow bg-white dark:bg-neutral-900 border border-primary-500 dark:border-tertiary-700"
+				/>
+			</div>
 		</div>
 
 		<button

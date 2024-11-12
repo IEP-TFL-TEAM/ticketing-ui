@@ -17,6 +17,10 @@
 	} from '@skeletonlabs/skeleton';
 	import { IconLayoutSidebarLeftExpand } from '@tabler/icons-svelte';
 
+	import { storePopup } from '@skeletonlabs/skeleton';
+	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
+	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
+
 	import { modalComponentRegistry } from '$lib/utils/modalComponentRegistry';
 	import CreateTicket from '$lib/components/drawers/tickets/CreateTicket.svelte';
 	import AddRecipient from '$lib/components/drawers/recipients/AddRecipient.svelte';
