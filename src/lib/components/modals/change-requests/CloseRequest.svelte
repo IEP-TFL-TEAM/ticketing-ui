@@ -1,5 +1,5 @@
 <script>
-	import { superForm, defaults, fileProxy } from 'sveltekit-superforms';
+	import { superForm, defaults, fileProxy, dateProxy } from 'sveltekit-superforms';
 	import { zod } from 'sveltekit-superforms/adapters';
 	import { getToastStore, getModalStore } from '@skeletonlabs/skeleton';
 	import { changeRequestSchema } from '$lib/schemas/changeRequestSchema';
@@ -69,6 +69,8 @@
 	});
 
 	const closingAttachment = fileProxy(form, 'closingAttachment');
+	$: startDateVal = dateProxy(form, 'startDate', { format: 'datetime-local', empty: 'null' });
+	$: endDateVal = dateProxy(form, 'endDate', { format: 'datetime-local', empty: 'null' });
 
 	$: {
 		$form.title = request.title;
@@ -108,6 +110,28 @@
 			<form method="POST" enctype="multipart/form-data" use:enhance>
 				<div class="flex flex-col justify-between gap-4">
 					<div class="grid grid-cols-2 auto-rows-auto gap-4">
+						<label class="label col-span-2">
+							<p class="my-2 text-base font-semibold">
+								Enter New End Date
+								<span class="text-red-500">*</span>
+							</p>
+							<div class="flex flex-row">
+								<input
+									type="datetime-local"
+									name="endDate"
+									bind:value={$endDateVal}
+									min={$startDateVal}
+									required
+									class="input p-4 border bg-white dark:bg-gradient-to-r dark:from-black/10 dark:to-neutral-300/80"
+									{...$constraints.endDate}
+								/>
+							</div>
+
+							{#if $errors.endDate}
+								<span class="mt-2 text-error-500">{$errors.endDate}</span>
+							{/if}
+						</label>
+
 						<label class="label">
 							<p class="my-2 text-base font-semibold">
 								CR Submission within 5 Days

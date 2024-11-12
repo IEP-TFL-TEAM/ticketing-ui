@@ -101,7 +101,8 @@
 						correctCustomerList: null,
 						taskCompletion: null,
 						closingRemarks: null,
-						closingAttachment: null
+						closingAttachment: null,
+						endDate: ''
 					});
 
 					toastStore.trigger({
@@ -309,7 +310,9 @@
 
 					<div class="grid grid-cols-1 xl:grid-cols-2 auto-rows-auto">
 						<span> End Date: </span>
-						<span class={spanStyles}>{parseDateAndTime(request.endDate)}</span>
+						<span class={spanStyles}>
+							{request.endDate ? parseDateAndTime(request.endDate) : 'N/A'}
+						</span>
 					</div>
 
 					<div class="grid grid-cols-1 xl:grid-cols-2 auto-rows-auto">

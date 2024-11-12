@@ -138,6 +138,6 @@
 		</div>
 	</div>
 
-	<ChangeRequestFilters {filters} {pageSettings} {areas} {regions} {sites} />
+	<ChangeRequestFilters {filters} {pageSettings} {areas} {regions} {sites} {teams} {staff} />
 	<ChangeRequestTable {requests} />
 {/if}
