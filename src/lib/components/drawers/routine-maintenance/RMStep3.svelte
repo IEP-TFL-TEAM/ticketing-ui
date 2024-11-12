@@ -57,7 +57,7 @@
 				return { form };
 			}
 
-			if (specifyListOfServices && form.data.servicesListIds.length === 0) {
+			if (specifyListOfServicesAndDuration && form.data.servicesListIds.length === 0) {
 				form.valid = false;
 				submitting = false;
 				let message = 'List of Services cannot be empty';
@@ -137,7 +137,7 @@
 
 	$: startDateVal = dateProxy(form, 'startDate', { format: 'datetime-local', empty: 'null' });
 	$: endDateVal = dateProxy(form, 'endDate', { format: 'datetime-local', empty: 'null' });
-	$: specifyListOfServices = $form.serviceImpact === 'Yes' ? true : false;
+	$: specifyListOfServicesAndDuration = $form.serviceImpact === 'Yes' ? true : false;
 	$: if ($form.serviceImpact === 'No') {
 		$form.servicesListIds = [];
 	}
@@ -293,28 +293,29 @@
 					</div>
 				</label>
 
-				<label class="label">
-					<p class="my-2 text-base font-semibold">
-						Enter Impact Duration (minutes)
-						<span class="text-red-500">*</span>
-					</p>
-					<div class="flex flex-row">
-						<input
-							class="input p-4 border"
-							type="number"
-							name="duration"
-							bind:value={$form.duration}
-							placeholder="Please enter duration"
-							{...$constraints.duration}
-						/>
-					</div>
+				{#if specifyListOfServicesAndDuration}
+					<label class="label">
+						<p class="my-2 text-base font-semibold">
+							Enter Impact Duration (minutes)
+							<span class="text-red-500">*</span>
+						</p>
+						<div class="flex flex-row">
+							<input
+								class="input p-4 border"
+								type="number"
+								name="duration"
+								bind:value={$form.duration}
+								placeholder="Please enter duration"
+								required={specifyListOfServicesAndDuration}
+								{...$constraints.duration}
+							/>
+						</div>
 
-					{#if $errors.duration}
-						<span class="mt-2 text-error-500">{$errors.duration}</span>
-					{/if}
-				</label>
+						{#if $errors.duration}
+							<span class="mt-2 text-error-500">{$errors.duration}</span>
+						{/if}
+					</label>
 
-				{#if specifyListOfServices}
 					<div class="flex flex-col gap-4">
 						<p class="mt-2 text-base font-semibold">
 							List of Services / Circuits (At Risk Services/Circuits)

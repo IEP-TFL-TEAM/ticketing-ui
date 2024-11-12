@@ -109,30 +109,6 @@
 			<form method="POST" enctype="multipart/form-data" use:enhance>
 				<div class="flex flex-col justify-between gap-4">
 					<div class="grid grid-cols-2 auto-rows-auto gap-4">
-						{#if routine.endDate.length === 0}
-							<label class="label col-span-2">
-								<p class="my-2 text-base font-semibold">
-									Enter End Date
-									<span class="text-red-500">*</span>
-								</p>
-								<div class="flex flex-row">
-									<input
-										type="datetime-local"
-										name="endDate"
-										bind:value={$endDateVal}
-										min={$startDateVal}
-										required={routine.endDate.length === 0}
-										class="input p-4 border bg-white dark:bg-gradient-to-r dark:from-black/10 dark:to-neutral-300/80"
-										{...$constraints.endDate}
-									/>
-								</div>
-
-								{#if $errors.endDate}
-									<span class="mt-2 text-error-500">{$errors.endDate}</span>
-								{/if}
-							</label>
-						{/if}
-
 						{#if routine.attachment.length === 0}
 							<div class="flex flex-col col-span-2">
 								<label class="mt-2 text-base font-semibold" for="attachment">
@@ -157,11 +133,31 @@
 									{...$constraints.attachment}
 								/>
 							</div>
-						{/if}
 
-						{#if routine.endDate.length === 0 || routine.attachment.length === 0}
 							<hr class="!border-gray-200 dark:!border-gray-200/30 my-5 col-span-2" />
 						{/if}
+
+						<label class="label col-span-2">
+							<p class="my-2 text-base font-semibold">
+								Enter New End Date
+								<span class="text-red-500">*</span>
+							</p>
+							<div class="flex flex-row">
+								<input
+									type="datetime-local"
+									name="endDate"
+									bind:value={$endDateVal}
+									min={$startDateVal}
+									required
+									class="input p-4 border bg-white dark:bg-gradient-to-r dark:from-black/10 dark:to-neutral-300/80"
+									{...$constraints.endDate}
+								/>
+							</div>
+
+							{#if $errors.endDate}
+								<span class="mt-2 text-error-500">{$errors.endDate}</span>
+							{/if}
+						</label>
 
 						<label class="label">
 							<p class="my-2 text-base font-semibold">

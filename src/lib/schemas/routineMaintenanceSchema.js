@@ -36,7 +36,7 @@ export const routineMaintenanceSchema = (attachment, startDate, endDate) =>
 				message: 'Must be of one of the types'
 			}),
 
-			duration: z.number().min(0).default(null),
+			duration: z.number().min(0).default(null).nullable(),
 
 			teamIds: z.array(z.string()),
 

@@ -100,7 +100,8 @@
 							alarmsCleared: null,
 							serviceImpactCorrect: null,
 							closingAttachment: null,
-							closingRemarks: null
+							closingRemarks: null,
+							endDate: ''
 						});
 
 						toastStore.trigger({
