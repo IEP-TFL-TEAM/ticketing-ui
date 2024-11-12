@@ -95,7 +95,10 @@
 		<div class="flex flex-col justify-between gap-2">
 			<h1 class="h1 font-extrabold">Recipients</h1>
 
-			<p class="p text-xl">Manage recipients that will be available for Email Broadcasting.</p>
+			<p class="p text-xl mt-2 flex flex-col gap-2">
+				<span> Manage email recipients that will be available for broadcasting. </span>
+				<span> Set the default CC email for Incident Creation </span>
+			</p>
 		</div>
 
 		<button
