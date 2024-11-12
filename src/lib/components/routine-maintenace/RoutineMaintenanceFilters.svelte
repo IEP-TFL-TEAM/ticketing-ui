@@ -1,32 +1,47 @@
 <script>
 	import Svelecte from 'svelecte';
+	import { onMount } from 'svelte';
 	import { Paginator } from '@skeletonlabs/skeleton';
 	import { parseQueryParams } from '$lib/utils/parsers';
 	import { goto } from '$app/navigation';
 	import { IconCaretDown, IconCaretUp } from '@tabler/icons-svelte';
 	import { statuses } from '$lib/utils';
 
-	export let filters, pageSettings, regions, areas, sites;
+	export let filters, pageSettings, regions, areas, sites, teams, staff;
 
-	let searchText = filters.title || filters.objective;
-	let searchImpact = filters.serviceImpact;
-	let showFilters = false;
-	let searchStatus = filters.status;
-	let searchRegion = filters.regionId;
-	let searchArea = filters.areaId;
-	let searchSite = filters.siteId;
+	let searchText = null,
+		filterByImpact = null,
+		filterByStatus = null,
+		filterByRegion = null,
+		filterByArea = null,
+		filterBySite = null,
+		filterByTeam = null,
+		filterByRequestee = null;
+
+	let showFilters =
+		filters.title ||
+		filters.objective ||
+		filters.serviceImpact ||
+		filters.status ||
+		filters.regionId ||
+		filters.areaId ||
+		filters.siteId ||
+		filters.teamIds ||
+		filters.requestee;
 
 	function handle() {
 		const search = {
 			...filters,
 			title: searchText,
 			objective: searchText,
-			serviceImpact: searchImpact,
+			serviceImpact: filterByImpact,
 			ticketNumber: searchText,
-			status: searchStatus,
-			areaId: searchArea,
-			regionId: searchRegion,
-			siteId: searchSite,
+			status: filterByStatus,
+			areaId: filterByArea,
+			regionId: filterByRegion,
+			siteId: filterBySite,
+			teamIds: filterByTeam,
+			requestee: filterByRequestee,
 			page: 1
 		};
 		const queryParams = parseQueryParams(search);
@@ -35,11 +50,13 @@
 
 	function reset() {
 		searchText = null;
-		searchImpact = null;
-		searchStatus = null;
-		searchRegion = null;
-		searchArea = null;
-		searchSite = null;
+		filterByImpact = null;
+		filterByStatus = null;
+		filterByRegion = null;
+		filterByArea = null;
+		filterBySite = null;
+		filterByTeam = null;
+		filterByRequestee = null;
 		goto(`/routine-maintenance`);
 	}
 
@@ -56,6 +73,19 @@
 		};
 		goto(`routine-maintenance?${parseQueryParams(filters)}`);
 	}
+
+	onMount(() => {
+		searchText = filters.title;
+		searchText = filters.objective;
+		searchText = filters.ticketNumber;
+		filterByStatus = filters.status;
+		filterByImpact = filters.serviceImpact;
+		filterByArea = filters.areaId;
+		filterByRegion = filters.regionId;
+		filterBySite = filters.siteId;
+		filterByTeam = filters.teamIds;
+		filterByRequestee = filters.requestee;
+	});
 
 	const chipDiv = ' flex items-center gap-4 flex-wrap w-full';
 </script>
@@ -109,8 +139,8 @@
 				<div class={chipDiv + ' relative'}>
 					<Svelecte
 						options={statuses}
-						bind:value={searchStatus}
-						on:change={() => handle()}
+						bind:value={filterByStatus}
+						on:change={handle}
 						class="!text-primary-500 dark:!text-tertiary-500"
 					/>
 				</div>
@@ -121,8 +151,8 @@
 				<div class={chipDiv + ' relative'}>
 					<Svelecte
 						options={['Yes', 'No']}
-						bind:value={searchImpact}
-						on:change={() => handle()}
+						bind:value={filterByImpact}
+						on:change={handle}
 						class="!text-primary-500 dark:!text-tertiary-500"
 					/>
 				</div>
@@ -133,8 +163,8 @@
 				<div class={chipDiv + ' relative'}>
 					<Svelecte
 						options={regions}
-						bind:value={searchRegion}
-						on:change={() => handle()}
+						bind:value={filterByRegion}
+						on:change={handle}
 						class="!text-primary-500 dark:!text-tertiary-500"
 					/>
 				</div>
@@ -145,8 +175,8 @@
 				<div class={chipDiv + ' relative'}>
 					<Svelecte
 						options={areas}
-						bind:value={searchArea}
-						on:change={() => handle()}
+						bind:value={filterByArea}
+						on:change={handle}
 						class="!text-primary-500 dark:!text-tertiary-500"
 					/>
 				</div>
@@ -157,8 +187,32 @@
 				<div class={chipDiv + ' relative'}>
 					<Svelecte
 						options={sites}
-						bind:value={searchSite}
-						on:change={() => handle()}
+						bind:value={filterBySite}
+						on:change={handle}
+						class="!text-primary-500 dark:!text-tertiary-500"
+					/>
+				</div>
+			</div>
+
+			<div class="flex items-start gap-4">
+				<h3 class="w-1/5">Tecnical Groups Involved:</h3>
+				<div class={chipDiv + ' relative'}>
+					<Svelecte
+						options={teams}
+						bind:value={filterByTeam}
+						on:change={handle}
+						class="!text-primary-500 dark:!text-tertiary-500"
+					/>
+				</div>
+			</div>
+
+			<div class="flex items-start gap-4">
+				<h3 class="w-1/5">Requestee:</h3>
+				<div class={chipDiv + ' relative'}>
+					<Svelecte
+						options={staff}
+						bind:value={filterByRequestee}
+						on:change={handle}
 						class="!text-primary-500 dark:!text-tertiary-500"
 					/>
 				</div>

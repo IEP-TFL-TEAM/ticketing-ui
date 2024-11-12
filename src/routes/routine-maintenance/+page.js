@@ -17,14 +17,16 @@ export async function load({ url, fetch }) {
 	const filters = {
 		page: url.searchParams.get('page') ?? 1,
 		perPage: url.searchParams.get('perPage') ?? 20,
-		title: url.searchParams.get('title'),
-		objective: url.searchParams.get('objective'),
-		serviceImpact: url.searchParams.get('serviceImpact'),
-		ticketNumber: url.searchParams.get('ticketNumber'),
-		regionId: url.searchParams.get('regionId'),
-		siteId: url.searchParams.get('siteId'),
-		areaId: url.searchParams.get('areaId'),
-		status: url.searchParams.get('status')
+		title: url.searchParams.get('title') ?? '',
+		objective: url.searchParams.get('objective') ?? '',
+		serviceImpact: url.searchParams.get('serviceImpact') ?? '',
+		ticketNumber: url.searchParams.get('ticketNumber') ?? '',
+		regionId: url.searchParams.get('regionId') ?? '',
+		siteId: url.searchParams.get('siteId') ?? '',
+		areaId: url.searchParams.get('areaId') ?? '',
+		teamIds: url.searchParams.get('teamIds') ?? '',
+		requestee: url.searchParams.get('requestee') ?? '',
+		status: url.searchParams.get('status') ?? ''
 	};
 
 	try {
