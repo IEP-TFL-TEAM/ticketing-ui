@@ -200,6 +200,7 @@
 		{faultTypeList}
 		{causeCodes}
 		{solutionCodes}
+		{teams}
 	/>
 
 	<div class="grid grid-cols-3 w-full gap-10 mt-4">

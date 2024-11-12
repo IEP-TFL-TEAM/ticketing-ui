@@ -1,5 +1,6 @@
 <script>
 	import Svelecte from 'svelecte';
+	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { parseQueryParams } from '$lib/utils/parsers';
 	import { statuses } from '$lib/utils';
@@ -13,22 +14,36 @@
 		regions,
 		faultTypeList,
 		causeCodes,
-		solutionCodes;
+		solutionCodes,
+		teams;
 
-	let searchStatus = filters.status;
-	let searchText = filters.title || filters.description;
-	let searchCategory = filters.categoryId;
-	let searchCategoryLevelId = filters.categoryLevelId;
 	let filteredCategoryLevels = [];
 
-	let searchRegion = filters.regionId;
-	let searchArea = filters.areaId;
-	let searchSite = filters.siteId;
-	let searchFaultType = filters.faultTypeId;
-	let searchCause = filters.cause;
-	let searchSolution = filters.solution;
+	let searchStatus = null,
+		searchText = null,
+		filterByCategory = null,
+		filterBySeverity = null,
+		filterByRegion = null,
+		filterByArea = null,
+		filterBySite = null,
+		filterByFaultType = null,
+		filterByCause = null,
+		filterBySolution = null,
+		filterByDepartment = null,
+		filterByTeam = null;
 
-	let showFilters = false;
+	let showFilters =
+		filters.status ||
+		filters.categoryId ||
+		filters.categoryLevelId ||
+		filters.regionId ||
+		filters.areaId ||
+		filters.faultTypeId ||
+		filters.cause ||
+		filters.solution ||
+		filters.siteId ||
+		filters.departmentIds ||
+		filters.teamIds;
 
 	function handle() {
 		const search = {
@@ -36,15 +51,17 @@
 			status: searchStatus,
 			title: searchText,
 			description: searchText,
-			categoryId: searchCategory,
-			categoryLevelId: searchCategoryLevelId,
+			categoryId: filterByCategory,
+			categoryLevelId: filterBySeverity,
 			ticketNumber: searchText,
-			areaId: searchArea,
-			regionId: searchRegion,
-			siteId: searchSite,
-			faultTypeId: searchFaultType,
-			cause: searchCause,
-			solution: searchSolution,
+			areaId: filterByArea,
+			regionId: filterByRegion,
+			siteId: filterBySite,
+			faultTypeId: filterByFaultType,
+			cause: filterByCause,
+			solution: filterBySolution,
+			teamIds: filterByTeam,
+			departmentIds: filterByDepartment,
 			page: 1
 		};
 		const queryParams = parseQueryParams(search);
@@ -54,22 +71,41 @@
 	function reset() {
 		searchStatus = null;
 		searchText = null;
-		searchCategory = null;
-		searchCategoryLevelId = null;
-		searchRegion = null;
-		searchArea = null;
-		searchSite = null;
-		searchFaultType = null;
-		searchCause = null;
-		searchSolution = null;
+		filterByCategory = null;
+		filterBySeverity = null;
+		filterByRegion = null;
+		filterByArea = null;
+		filterBySite = null;
+		filterByFaultType = null;
+		filterByCause = null;
+		filterBySolution = null;
+		filterByTeam = null;
+		filterByDepartment = null;
 		goto(`/tickets`);
 	}
 
+	onMount(() => {
+		searchStatus = filters.status;
+		searchText = filters.title;
+		searchText = filters.description;
+		searchText = filters.ticketNumber;
+		filterByCategory = filters.categoryId;
+		filterBySeverity = filters.categoryLevelId;
+		filterByArea = filters.areaId;
+		filterByRegion = filters.regionId;
+		filterBySite = filters.siteId;
+		filterByFaultType = filters.faultTypeId;
+		filterByCause = filters.cause;
+		filterBySolution = filters.solution;
+		filterByTeam = filters.teamIds;
+		filterByDepartment = filters.departmentIds;
+	});
+
 	$: {
-		if (!searchCategory) filteredCategoryLevels = categoryLevels;
+		if (!filterByCategory) filteredCategoryLevels = categoryLevels;
 		else {
 			filteredCategoryLevels = categoryLevels
-				.filter((level) => level.categoryId === searchCategory)
+				.filter((level) => level.categoryId === filterByCategory)
 				.map((level) => ({
 					name: level.name,
 					id: level.id
@@ -130,7 +166,7 @@
 					<Svelecte
 						options={statuses}
 						bind:value={searchStatus}
-						on:change={() => handle()}
+						on:change={handle}
 						class="!text-primary-500 dark:!text-tertiary-500"
 					/>
 				</div>
@@ -141,9 +177,9 @@
 				<div class={chipDiv + ' relative'}>
 					<Svelecte
 						options={categories}
-						bind:value={searchCategory}
+						bind:value={filterByCategory}
 						on:change={() => {
-							searchCategoryLevelId = null;
+							filterBySeverity = null;
 							handle();
 						}}
 						class="!text-primary-500 dark:!text-tertiary-500"
@@ -156,8 +192,8 @@
 				<div class={chipDiv + ' relative'}>
 					<Svelecte
 						options={filteredCategoryLevels}
-						bind:value={searchCategoryLevelId}
-						on:change={() => handle()}
+						bind:value={filterBySeverity}
+						on:change={handle}
 						class="!text-primary-500 dark:!text-tertiary-500"
 					/>
 				</div>
@@ -168,8 +204,8 @@
 				<div class={chipDiv + ' relative'}>
 					<Svelecte
 						options={regions}
-						bind:value={searchRegion}
-						on:change={() => handle()}
+						bind:value={filterByRegion}
+						on:change={handle}
 						class="!text-primary-500 dark:!text-tertiary-500"
 					/>
 				</div>
@@ -180,8 +216,8 @@
 				<div class={chipDiv + ' relative'}>
 					<Svelecte
 						options={areas}
-						bind:value={searchArea}
-						on:change={() => handle()}
+						bind:value={filterByArea}
+						on:change={handle}
 						class="!text-primary-500 dark:!text-tertiary-500"
 					/>
 				</div>
@@ -192,8 +228,8 @@
 				<div class={chipDiv + ' relative'}>
 					<Svelecte
 						options={sites}
-						bind:value={searchSite}
-						on:change={() => handle()}
+						bind:value={filterBySite}
+						on:change={handle}
 						class="!text-primary-500 dark:!text-tertiary-500"
 					/>
 				</div>
@@ -204,8 +240,8 @@
 				<div class={chipDiv + ' relative'}>
 					<Svelecte
 						options={faultTypeList}
-						bind:value={searchFaultType}
-						on:change={() => handle()}
+						bind:value={filterByFaultType}
+						on:change={handle}
 						class="!text-primary-500 dark:!text-tertiary-500"
 					/>
 				</div>
@@ -216,8 +252,8 @@
 				<div class={chipDiv + ' relative'}>
 					<Svelecte
 						options={causeCodes}
-						bind:value={searchCause}
-						on:change={() => handle()}
+						bind:value={filterByCause}
+						on:change={handle}
 						class="!text-primary-500 dark:!text-tertiary-500"
 					/>
 				</div>
@@ -228,8 +264,32 @@
 				<div class={chipDiv + ' relative'}>
 					<Svelecte
 						options={solutionCodes}
-						bind:value={searchSolution}
-						on:change={() => handle()}
+						bind:value={filterBySolution}
+						on:change={handle}
+						class="!text-primary-500 dark:!text-tertiary-500"
+					/>
+				</div>
+			</div>
+
+			<div class="flex items-start gap-4">
+				<h3 class="w-1/5">Department Involved:</h3>
+				<div class={chipDiv + ' relative'}>
+					<Svelecte
+						options={teams}
+						bind:value={filterByDepartment}
+						on:change={handle}
+						class="!text-primary-500 dark:!text-tertiary-500"
+					/>
+				</div>
+			</div>
+
+			<div class="flex items-start gap-4">
+				<h3 class="w-1/5">Team Assigned:</h3>
+				<div class={chipDiv + ' relative'}>
+					<Svelecte
+						options={teams}
+						bind:value={filterByTeam}
+						on:change={handle}
 						class="!text-primary-500 dark:!text-tertiary-500"
 					/>
 				</div>
