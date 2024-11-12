@@ -43,6 +43,7 @@
 		});
 
 	let submitting = false;
+	let technicianEmail;
 	let verifiedEmails = [];
 	let ccEmail;
 
@@ -99,6 +100,7 @@
 					timeout: 5000
 				});
 
+				if (technicianEmail) teamEmails.unshift(technicianEmail);
 				for (const email of teamEmails) {
 					await sendTicketCreationNotification({
 						id,
@@ -112,6 +114,16 @@
 						severity: expand?.categoryLevelId?.name,
 						technician: expand?.technicianId?.name ?? 'N/A'
 					});
+
+					if (technicianEmail && email === technicianEmail) {
+						toastStore.trigger({
+							type: 'success',
+							message: 'Technician assigned has been successfully notified of the new Incident!',
+							background: 'variant-filled-success',
+							classes: 'rounded-none font-semibold',
+							timeout: 5000
+						});
+					}
 				}
 
 				toastStore.trigger({
@@ -126,13 +138,13 @@
 				submitting = false;
 
 				toastStore.trigger({
-					message,
+					message: e.response?.details ?? 'An error occurred while creating the incident.',
 					background: 'variant-filled-error',
 					classes: 'rounded-none font-semibold',
 					timeout: 3000
 				});
 
-				form.message = e.response.details;
+				form.message = e.response?.details ?? 'An unexpected error occurred.';
 
 				return { form };
 			}
@@ -262,14 +274,18 @@
 							class="select rounded-none w-full"
 							name="technicianId"
 							bind:value={$form.technicianId}
+							on:change={() => {
+								const selectedTech = technicians.find((t) => t.id === $form.technicianId);
+								technicianEmail = selectedTech ? selectedTech.email : null;
+							}}
 							{...$constraints.technicianId}
 						>
 							<option value={null} disabled selected>
 								<span class="!text-gray-500">-- select --</span>
 							</option>
-							{#each technicians as item}
-								<option value={item.id}>
-									{item.name}
+							{#each technicians as { id, name }}
+								<option value={id}>
+									{name}
 								</option>
 							{/each}
 						</select>
