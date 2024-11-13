@@ -136,6 +136,7 @@
 									Type = <span class="text-primary-500 dark:text-tertiary-500 font-semibold"
 										>CC
 									</span>
+									(only one)
 								</dt>
 								<dd>
 									This is the default email to be CC'd for auto emails after a successful incident
@@ -149,6 +150,10 @@
 								<dt>
 									Type = <span class="text-primary-500 dark:text-tertiary-500 font-semibold"
 										>AUTO
+									</span>
+									& Status =
+									<span class="text-success-700 dark:text-success-500 font-semibold uppercase"
+										>Verified
 									</span>
 								</dt>
 								<dd>
