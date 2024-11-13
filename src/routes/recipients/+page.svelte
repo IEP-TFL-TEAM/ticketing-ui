@@ -143,6 +143,20 @@
 								</dd>
 							</span>
 						</div>
+
+						<div>
+							<span class="flex-auto">
+								<dt>
+									Type = <span class="text-primary-500 dark:text-tertiary-500 font-semibold"
+										>AUTO
+									</span>
+								</dt>
+								<dd>
+									These are the emails also included when sending the auto email upon incident
+									creation
+								</dd>
+							</span>
+						</div>
 					</dl>
 				</div>
 
