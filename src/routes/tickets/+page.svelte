@@ -31,7 +31,8 @@
 		servicesList,
 		solutionCodes,
 		verifiedRecipients,
-		verifiedCCEmailRecipient
+		verifiedCCEmailRecipient,
+		verifiedAutoEmailRecipients
 	} = data);
 
 	const drawerStore = getDrawerStore();
@@ -79,7 +80,8 @@
 				technicians,
 				servicesList,
 				verifiedRecipients,
-				verifiedCCEmailRecipient
+				verifiedCCEmailRecipient,
+				verifiedAutoEmailRecipients
 			}
 		});
 	}

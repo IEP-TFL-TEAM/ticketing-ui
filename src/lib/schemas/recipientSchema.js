@@ -11,7 +11,7 @@ export const recipientSchema = () =>
 				message: 'Invalid email address'
 			}),
 
-			type: z.string().refine((value) => ['BROADCAST', 'CC'].includes(value), {
+			type: z.string().refine((value) => ['BROADCAST', 'CC', 'AUTO'].includes(value), {
 				message: 'Must be of one of the types'
 			})
 		})

@@ -30,6 +30,9 @@
 	const servicesList = $drawerStore.meta.servicesList;
 	const verifiedRecipients = $drawerStore.meta.verifiedRecipients;
 	const verifiedCCEmailRecipient = $drawerStore.meta.verifiedCCEmailRecipient;
+	const verifiedAutoEmailRecipients = $drawerStore.meta.verifiedAutoEmailRecipients;
+
+	let autoEmails = verifiedAutoEmailRecipients.map((item) => item.email);
 
 	const servicesListOptions = servicesList
 		.map((item) => ({
@@ -100,6 +103,12 @@
 				});
 
 				if (technicianEmail) teamEmails.unshift(technicianEmail);
+				if (verifiedAutoEmailRecipients.length > 0) {
+					for (const email of autoEmails) {
+						teamEmails.push(email);
+					}
+				}
+
 				for (const email of teamEmails) {
 					await sendTicketCreationNotification({
 						id,
@@ -127,7 +136,8 @@
 
 				toastStore.trigger({
 					type: 'success',
-					message: 'Teams involved have been successfully notified of the new Incident!',
+					message:
+						'EMT, Front Liners, and Teams involved have been successfully notified of the new Incident!',
 					background: 'variant-filled-success',
 					classes: 'rounded-none font-semibold',
 					timeout: 5000

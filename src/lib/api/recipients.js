@@ -46,6 +46,14 @@ const getVerifiedCCEmailRecipient = async () => {
 	return records;
 };
 
+const getVerifiedAutoEmailRecipients = async () => {
+	const records = await pb.collection('recipients').getFullList({
+		sort: '-created',
+		filter: `verified = true && type = 'AUTO'`
+	});
+	return records;
+};
+
 export {
 	addRecipient,
 	updateRecipient,
@@ -53,5 +61,6 @@ export {
 	removeRecipient,
 	getRecipientList,
 	getVerifiedBroadcastRecipients,
-	getVerifiedCCEmailRecipient
+	getVerifiedCCEmailRecipient,
+	getVerifiedAutoEmailRecipients
 };

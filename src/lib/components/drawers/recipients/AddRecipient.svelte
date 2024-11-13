@@ -11,8 +11,8 @@
 	const listOfRecipients = $drawerStore.meta.recipients;
 
 	let filteredTypes = listOfRecipients.some((recipient) => recipient.type === 'CC')
-		? ['BROADCAST']
-		: ['BROADCAST', 'CC'];
+		? ['BROADCAST', 'AUTO']
+		: ['BROADCAST', 'AUTO', 'CC'];
 
 	let submitting = false;
 	const originalForm = defaults(zod(recipientSchema()));
