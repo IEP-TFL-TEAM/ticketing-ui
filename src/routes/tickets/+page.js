@@ -61,7 +61,6 @@ export async function load({ url, fetch }) {
 			getServicesList(),
 			getSolutionCodes(),
 			getVerifiedBroadcastRecipients(),
-			getVerifiedCCEmailRecipient(),
 			getVerifiedAutoEmailRecipients()
 		]);
 
@@ -80,7 +79,6 @@ export async function load({ url, fetch }) {
 			servicesList,
 			solutionCodes,
 			verifiedRecipients,
-			verifiedCCEmailRecipient,
 			verifiedAutoEmailRecipients
 		] = results.map((result) => (result.status === 'fulfilled' ? result.value : []));
 
@@ -100,7 +98,7 @@ export async function load({ url, fetch }) {
 			servicesList,
 			solutionCodes,
 			verifiedRecipients,
-			verifiedCCEmailRecipient,
+			verifiedCCEmailRecipient: await getVerifiedCCEmailRecipient(),
 			verifiedAutoEmailRecipients
 		};
 	} catch (error) {
