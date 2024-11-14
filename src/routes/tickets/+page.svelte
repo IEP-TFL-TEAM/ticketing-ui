@@ -4,7 +4,7 @@
 	import pb from '$lib/api/pocketbaseClient';
 	import { parseQueryParams } from '$lib/utils/parsers';
 	import { getDrawerStore, getToastStore, Paginator } from '@skeletonlabs/skeleton';
-	import { expand, getAllTickets } from '$lib/api/tickets';
+	import { expand } from '$lib/api/tickets';
 	import { IconPlus } from '@tabler/icons-svelte';
 	import { exportIncidents } from '$lib/utils/exportIncidents';
 
@@ -115,8 +115,7 @@
 
 	async function handleExport(exportType) {
 		loading = true;
-		const tickets = await getAllTickets();
-		exportType(tickets);
+		exportType(data.tickets.items);
 		loading = false;
 	}
 
