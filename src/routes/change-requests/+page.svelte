@@ -93,7 +93,7 @@
 					message: `A Change Requst has been ${e.action}d!`,
 					action: {
 						label: 'View',
-						response: () => goto(`/changerequests/${e.record.id}`)
+						response: () => goto(`/change-requests/${e.record.id}`)
 					},
 					timeout: 3000
 				});
