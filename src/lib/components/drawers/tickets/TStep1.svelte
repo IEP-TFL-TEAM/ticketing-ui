@@ -81,7 +81,7 @@
 
 	<div class="flex flex-col gap-4">
 		<h4 class="h4 font-bold">
-			Selected Deparments Concerned
+			Selected Departments Concerned
 			<span class="text-red-500">*</span>
 		</h4>
 
@@ -97,7 +97,7 @@
 
 		<form class="flex flex-col justify-between gap-4">
 			<h4 class="h4 font-bold mt-4">
-				Select Deparment Equipment(s)
+				Select Department Equipment(s)
 				<span class="text-red-500">*</span>
 			</h4>
 
