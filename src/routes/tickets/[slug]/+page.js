@@ -1,16 +1,9 @@
 import pb from '$lib/api/pocketbaseClient';
 import { getTicketById } from '$lib/api/tickets';
-import { getTeams } from '$lib/api/teams';
 import { getCommentsByTicketId } from '$lib/api/comments';
 import { getHistoryByTicketId } from '$lib/api/history';
-import { getSolutionCodes } from '$lib/api/solutionCodes';
-import { getCauseCodes } from '$lib/api/causeCodes';
 import { getSiteById } from '$lib/api/sites';
-import { getOfficeLocations } from '$lib/api/officeLocations';
 import { urlToFile } from '$lib/utils/parsers';
-import { getCategories } from '$lib/api/categories';
-import { getCategoryLevels } from '$lib/api/categoryLevels';
-import { getVerifiedBroadcastRecipients } from '$lib/api/recipients';
 
 export async function load({ params, url, fetch }) {
 	pb.beforeSend = function (url, options) {
@@ -36,46 +29,23 @@ export async function load({ params, url, fetch }) {
 		);
 
 		const results = await Promise.allSettled([
-			getTeams(),
-			getOfficeLocations(),
 			getSiteById(ticket.siteId),
-			getCauseCodes(),
-			getSolutionCodes(),
-			getCategories(),
-			getCategoryLevels(),
 			urlToFile(attachmentUrl, fetch),
-			getUrlsToFile(commentAttachmentUrls, fetch),
-			getVerifiedBroadcastRecipients()
+			getUrlsToFile(commentAttachmentUrls, fetch)
 		]);
 
-		const [
-			teams,
-			officeLocations,
-			site,
-			causeCodes,
-			solutionCodes,
-			categories,
-			categoryLevels,
-			attachment,
-			commentAttachments,
-			verifiedRecipients
-		] = results.map((result) => (result.status === 'fulfilled' ? result.value : []));
+		const [site, attachment, commentAttachments] = results.map((result) =>
+			result.status === 'fulfilled' ? result.value : []
+		);
 
 		return {
-			teams,
 			ticket,
 			comments,
 			commentAttachmentUrls,
 			commentAttachments,
 			attachmentUrl,
 			attachment,
-			causeCodes,
-			solutionCodes,
-			categories,
-			categoryLevels,
-			site,
-			officeLocations,
-			verifiedRecipients
+			site
 		};
 	} catch (error) {
 		console.error(error);

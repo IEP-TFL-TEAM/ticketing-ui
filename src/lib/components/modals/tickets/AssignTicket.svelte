@@ -1,8 +1,15 @@
 <script>
+	import { onMount } from 'svelte';
+	import { getTeams } from '$lib/api/teams';
 	import { ListBox, ListBoxItem, getModalStore } from '@skeletonlabs/skeleton';
 
 	const modalStore = getModalStore();
-	const teams = $modalStore[0].meta.teams;
+
+	let teams = [];
+
+	onMount(async () => {
+		teams = (await getTeams()) ?? [];
+	});
 
 	export let parent;
 	let teamIds = [];
@@ -52,7 +59,7 @@
 
 		<button
 			type="button"
-			class="btn {parent.buttonPositive}"
+			class="btn variant-filled"
 			on:click={() => onFormSubmit()}
 			disabled={teamIds.length === 0}
 		>

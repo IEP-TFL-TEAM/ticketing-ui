@@ -4,7 +4,7 @@
 	import { currentUser } from '$lib/stores/auth';
 	import { parseDateAndTime } from '$lib/utils/parsers';
 
-	export let ticket, teams, solutionCodes, causeCodes, attachment, categories, categoryLevels;
+	export let ticket, attachment;
 
 	$: role = $currentUser?.role;
 
@@ -45,7 +45,7 @@
 		modalStore.trigger({
 			type: 'component',
 			component: 'closeTicket',
-			meta: { ticket, solutionCodes, causeCodes },
+			meta: { ticket },
 			response: (r) => {
 				if (r) {
 					ticket = r.updatedTicket;
@@ -59,7 +59,6 @@
 			type: 'component',
 			title: 'Assign Ticket',
 			component: 'assignTicket',
-			meta: { teams },
 			response: async (res) => {
 				if (res) {
 					const { teamIds, teamEmails } = res;
@@ -108,7 +107,7 @@
 			type: 'component',
 			component: 'editTicket',
 			backdropClasses: '!bg-black/50',
-			meta: { ticket, attachment, categories, categoryLevels }
+			meta: { ticket, attachment }
 		});
 	}
 </script>

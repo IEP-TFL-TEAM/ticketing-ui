@@ -1,5 +1,7 @@
 <script>
 	import Svelecte from 'svelecte';
+	import { onMount } from 'svelte';
+	import { getVerifiedBroadcastRecipients } from '$lib/api/recipients';
 	import { getModalStore, getToastStore } from '@skeletonlabs/skeleton';
 	import { sendBroadcastEmail } from '$lib/api/tickets';
 	import { parseDateAndTime } from '$lib/utils/parsers';
@@ -9,7 +11,11 @@
 	const toastStore = getToastStore();
 
 	const ticket = $modalStore[0].meta.ticket;
-	const verifiedRecipients = $modalStore[0].meta.verifiedRecipients;
+
+	let verifiedRecipients = [];
+	onMount(async () => {
+		verifiedRecipients = await getVerifiedBroadcastRecipients();
+	});
 
 	let verifiedEmails = [];
 	let emails = [];

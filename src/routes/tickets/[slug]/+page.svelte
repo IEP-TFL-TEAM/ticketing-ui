@@ -20,20 +20,13 @@
 
 	export let data;
 	$: ({
-		teams,
 		ticket,
 		comments,
 		commentAttachmentUrls,
 		commentAttachments,
 		attachmentUrl,
 		attachment,
-		solutionCodes,
-		causeCodes,
-		categories,
-		categoryLevels,
-		site,
-		officeLocations,
-		verifiedRecipients
+		site
 	} = data);
 
 	$: slaStatus = calculateSLAStatus(
@@ -48,7 +41,7 @@
 		modalStore.trigger({
 			type: 'component',
 			component: 'sendBroadcast',
-			meta: { ticket, verifiedRecipients }
+			meta: { ticket }
 		});
 	}
 
@@ -130,15 +123,7 @@
 				<span class="hidden md:inline-block">Email Broadcast</span>
 			</button>
 
-			<TicketActions
-				{teams}
-				{ticket}
-				{attachment}
-				{solutionCodes}
-				{causeCodes}
-				{categories}
-				{categoryLevels}
-			/>
+			<TicketActions {ticket} {attachment} />
 		</div>
 	</div>
 
@@ -184,7 +169,6 @@
 						lng={site.expand?.locationId?.longitude}
 						lat={site.expand?.locationId?.latitude}
 						site={site.name}
-						{officeLocations}
 					/>
 				</Accordion>
 			</div>

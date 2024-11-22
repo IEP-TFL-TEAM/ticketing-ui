@@ -1,4 +1,7 @@
 <script>
+	import { onMount } from 'svelte';
+	import { getCauseCodes } from '$lib/api/causeCodes';
+	import { getSolutionCodes } from '$lib/api/solutionCodes';
 	import pb from '$lib/api/pocketbaseClient';
 	import { updateTicket } from '$lib/api/tickets';
 	import { getModalStore, getToastStore } from '@skeletonlabs/skeleton';
@@ -8,17 +11,29 @@
 	const toastStore = getToastStore();
 
 	const ticket = $modalStore[0].meta.ticket;
-	const solutionCodes = $modalStore[0].meta.solutionCodes;
-	const causeCodes = $modalStore[0].meta.causeCodes;
 
-	const filteredSolutionCodes = solutionCodes
+	let solutionCodes = [],
+		causeCodes = [];
+
+	onMount(async () => {
+		const results = await Promise.allSettled([getCauseCodes(), getSolutionCodes()]);
+
+		[causeCodes, solutionCodes] = results.map((result) =>
+			result.status === 'fulfilled' ? result.value : []
+		);
+	});
+
+	let filteredSolutionCodes = [],
+		filteredCauseCodes = [];
+
+	$: filteredSolutionCodes = solutionCodes
 		.filter((code) => code.faultTypeId === ticket.faultTypeId)
 		.sort((a, b) => {
 			if (a.name < b.name) return -1;
 			if (a.name > b.name) return 1;
 			return 0;
 		});
-	const filteredCauseCodes = causeCodes.filter((code) => code.faultTypeId === ticket.faultTypeId);
+	$: filteredCauseCodes = causeCodes.filter((code) => code.faultTypeId === ticket.faultTypeId);
 
 	let cause;
 	let solution;

@@ -1,16 +1,30 @@
 <script>
+	import { onMount } from 'svelte';
 	import { superForm, defaults, fileProxy, dateProxy } from 'sveltekit-superforms';
 	import { zod } from 'sveltekit-superforms/adapters';
 	import { getToastStore, getModalStore } from '@skeletonlabs/skeleton';
 	import { ticketSchema } from '$lib/schemas/ticketSchema';
 	import { updateTicketById } from '$lib/api/tickets.js';
+	import { getCategories } from '$lib/api/categories';
+	import { getCategoryLevels } from '$lib/api/categoryLevels';
+
 	import SpinnerOverlay from '$lib/components/layout/SpinnerOverlay.svelte';
 
 	const toastStore = getToastStore();
 	const modalStore = getModalStore();
+
 	const ticket = $modalStore[0].meta.ticket;
-	const categories = $modalStore[0].meta.categories;
-	const categoryLevels = $modalStore[0].meta.categoryLevels;
+	let categories = [],
+		categoryLevels = [];
+
+	onMount(async () => {
+		const results = await Promise.allSettled([getCategories(), getCategoryLevels()]);
+
+		[categories, categoryLevels] = results.map((result) =>
+			result.status === 'fulfilled' ? result.value : []
+		);
+	});
+
 	const zodForm = zod(ticketSchema($modalStore[0].meta.attachment, ticket.incidentStart));
 	const originalForm = defaults(zodForm);
 

@@ -1,11 +1,19 @@
 <script>
+	import { onMount } from 'svelte';
+	import { getOfficeLocations } from '$lib/api/officeLocations';
 	import { IconMapPinFilled } from '@tabler/icons-svelte';
 
 	import Leaflet from './map/Leaflet.svelte';
 	import Marker from './map/Marker.svelte';
 	import Popup from './map/Popup.svelte';
 
-	export let lng, lat, officeLocations, site;
+	export let lng, lat, site;
+
+	let officeLocations = [];
+
+	onMount(async () => {
+		officeLocations = (await getOfficeLocations()) ?? [];
+	});
 
 	function haversine(lat1, lon1, lat2, lon2) {
 		const R = 6371; // Earth's radius in kilometers
