@@ -1,6 +1,7 @@
 import pb from '$lib/api/pocketbaseClient';
 import { getTickets } from '$lib/api/tickets';
 import { getRecentHistory } from '$lib/api/history';
+import { getVerifiedCCEmailRecipient } from '$lib/api/recipients';
 
 export async function load({ url, fetch }) {
 	pb.beforeSend = function (url, options) {
@@ -32,7 +33,8 @@ export async function load({ url, fetch }) {
 
 		return {
 			filters,
-			tickets: await getTickets(filters)
+			tickets: await getTickets(filters),
+			verifiedCCEmailRecipient: await getVerifiedCCEmailRecipient()
 		};
 	} catch (error) {
 		console.error(error);

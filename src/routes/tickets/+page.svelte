@@ -15,7 +15,7 @@
 
 	export let data;
 
-	$: ({ filters, tickets } = data);
+	$: ({ filters, tickets, verifiedCCEmailRecipient } = data);
 
 	const drawerStore = getDrawerStore();
 	const toastStore = getToastStore();
@@ -48,7 +48,10 @@
 	function triggerDrawer(id, position) {
 		drawerStore.open({
 			id,
-			position
+			position,
+			meta: {
+				verifiedCCEmailRecipient
+			}
 		});
 	}
 

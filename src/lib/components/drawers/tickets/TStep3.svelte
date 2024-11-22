@@ -1,4 +1,5 @@
 <script>
+	import Svelecte from 'svelecte';
 	import { onMount } from 'svelte';
 	import { superForm, defaults, fileProxy, dateProxy } from 'sveltekit-superforms';
 	import { zod } from 'sveltekit-superforms/adapters';
@@ -12,7 +13,6 @@
 	import { getServicesList } from '$lib/api/servicesList';
 	import {
 		getVerifiedBroadcastRecipients,
-		getVerifiedCCEmailRecipient,
 		getVerifiedAutoEmailRecipients
 	} from '$lib/api/recipients';
 
@@ -34,12 +34,12 @@
 
 	const toastStore = getToastStore();
 	const drawerStore = getDrawerStore();
+	const verifiedCCEmailRecipient = $drawerStore.meta.verifiedCCEmailRecipient;
 
 	let faultTypeList = [];
 	let technicians = [];
 	let servicesList = [];
 	let verifiedRecipients = [];
-	let verifiedCCEmailRecipient = [];
 	let verifiedAutoEmailRecipients = [];
 
 	onMount(async () => {
@@ -48,18 +48,11 @@
 			getTechnicians(),
 			getServicesList(),
 			getVerifiedBroadcastRecipients(),
-			getVerifiedCCEmailRecipient(),
 			getVerifiedAutoEmailRecipients()
 		]);
 
-		[
-			faultTypeList,
-			technicians,
-			servicesList,
-			verifiedRecipients,
-			verifiedCCEmailRecipient,
-			verifiedAutoEmailRecipients
-		] = results.map((result) => (result.status === 'fulfilled' ? result.value : []));
+		[faultTypeList, technicians, servicesList, verifiedRecipients, verifiedAutoEmailRecipients] =
+			results.map((result) => (result.status === 'fulfilled' ? result.value : []));
 
 		// Sort alphabetically by name
 		faultTypeList = faultTypeList.sort((a, b) => a.name.localeCompare(b.name));
@@ -302,25 +295,18 @@
 				<label class="label">
 					<p class="my-2 text-base font-semibold">Select Technician</p>
 					<div class="flex flex-row">
-						<select
-							class="select rounded-none w-full"
-							name="technicianId"
+						<select class="hidden" disabled></select>
+
+						<Svelecte
+							options={technicians}
 							bind:value={$form.technicianId}
 							on:change={() => {
 								const selectedTech = technicians.find((t) => t.id === $form.technicianId);
 								technicianEmail = selectedTech ? selectedTech.email : null;
 							}}
+							class="!text-primary-500 dark:!text-tertiary-500"
 							{...$constraints.technicianId}
-						>
-							<option value={null} disabled selected>
-								<span class="!text-gray-500">-- select --</span>
-							</option>
-							{#each technicians as { id, name }}
-								<option value={id}>
-									{name}
-								</option>
-							{/each}
-						</select>
+						/>
 
 						{#if $errors.technicianId}
 							<span class=" text-error-500">{$errors.technicianId}</span>
@@ -334,22 +320,15 @@
 						<span class="text-red-500">*</span>
 					</p>
 					<div class="flex flex-row">
-						<select
-							class="select rounded-none w-full"
-							name="faultTypeId"
+						<select class="hidden" disabled></select>
+
+						<Svelecte
+							options={sortedFaultTypes}
 							bind:value={$form.faultTypeId}
+							class="!text-primary-500 dark:!text-tertiary-500"
 							required
 							{...$constraints.faultTypeId}
-						>
-							<option value={''} disabled selected>
-								<span class="!text-gray-500">Select Fault Type</span>
-							</option>
-							{#each sortedFaultTypes as { id, name }}
-								<option value={id}>
-									{name}
-								</option>
-							{/each}
-						</select>
+						/>
 
 						{#if $errors.faultTypeId}
 							<span class=" text-error-500">{$errors.faultTypeId}</span>
@@ -363,22 +342,15 @@
 						<span class="text-red-500">*</span>
 					</p>
 					<div class="flex flex-row">
-						<select
-							class="select rounded-none w-full"
-							name="serviceImpact"
+						<select class="hidden" disabled></select>
+
+						<Svelecte
+							options={['Yes', 'No']}
 							bind:value={$form.serviceImpact}
+							class="!text-primary-500 dark:!text-tertiary-500"
 							required
 							{...$constraints.serviceImpact}
-						>
-							<option value={''} disabled selected>
-								<span class="!text-gray-500">Select Option</span>
-							</option>
-							{#each ['Yes', 'No'] as item}
-								<option value={item}>
-									{item}
-								</option>
-							{/each}
-						</select>
+						/>
 
 						{#if $errors.serviceImpact}
 							<span class=" text-error-500">{$errors.serviceImpact}</span>
@@ -393,15 +365,14 @@
 							<span class="text-red-500">*</span>
 						</p>
 
-						<form class="card w-full max-h-48 p-4 overflow-y-auto" tabindex="-1">
-							<ListBox multiple>
-								{#each servicesListOptions as { value, label }}
-									<ListBoxItem bind:group={$form.servicesListIds} name="medium" {value}>
-										{label}
-									</ListBoxItem>
-								{/each}
-							</ListBox>
-						</form>
+						<Svelecte
+							options={servicesListOptions}
+							bind:value={$form.servicesListIds}
+							class="!text-primary-500 dark:!text-tertiary-500"
+							required={specifyListOfServices}
+							{...$constraints.servicesListIds}
+							multiple
+						/>
 					</div>
 				{/if}
 
