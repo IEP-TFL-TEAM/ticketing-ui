@@ -12,6 +12,7 @@
 	import TicketCard from '$lib/components/tickets/TicketCard.svelte';
 	import TicketHistory from '$lib/components/tickets/TicketHistory.svelte';
 	import ExportButton from '$lib/components/layout/ExportButton.svelte';
+	import QuickFilters from '$lib/components/tickets/QuickFilters.svelte';
 
 	export let data;
 
@@ -21,6 +22,7 @@
 	const toastStore = getToastStore();
 
 	let loading = false;
+	$: isFiltering = false;
 
 	let pageSettings = {
 		page: data.tickets.page - 1,
@@ -162,7 +164,7 @@
 		</div>
 	</div>
 
-	<TicketFilters {filters} />
+	<TicketFilters {filters} bind:isFiltering />
 
 	<div class="grid grid-cols-3 w-full gap-10 mt-4">
 		<div class="col-span-2">
@@ -178,6 +180,9 @@
 		</div>
 
 		<div class="h3 border border-gray-300 dark:border-white/40 h-full p-5">
+			<h3 class="h3 pb-5">Quick Filters</h3>
+			<QuickFilters {filters} bind:isFiltering />
+
 			<h3 class="h3 pb-5">Recent Activity</h3>
 			<TicketHistory />
 		</div>

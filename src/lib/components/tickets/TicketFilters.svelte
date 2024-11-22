@@ -3,12 +3,9 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { parseQueryParams } from '$lib/utils/parsers';
-	import { statuses } from '$lib/utils';
 
 	import { getFaultList } from '$lib/api/faultTypes';
 	import { getTeams } from '$lib/api/teams';
-	import { getCategories } from '$lib/api/categories';
-	import { getCategoryLevels } from '$lib/api/categoryLevels';
 	import { getRegionList } from '$lib/api/region';
 	import { getAreaList } from '$lib/api/area';
 	import { getSiteList } from '$lib/api/sites';
@@ -17,12 +14,10 @@
 
 	import { IconCaretUp, IconCaretDown } from '@tabler/icons-svelte';
 
-	export let filters;
+	export let filters, isFiltering;
 
 	let faultTypeList = [],
 		teams = [],
-		categories = [],
-		categoryLevels = [],
 		regions = [],
 		areas = [],
 		sites = [],
@@ -30,12 +25,9 @@
 		solutionCodes = [];
 
 	onMount(async () => {
-		searchStatus = filters.status;
 		searchText = filters.title;
 		searchText = filters.description;
 		searchText = filters.ticketNumber;
-		filterByCategory = filters.categoryId;
-		filterBySeverity = filters.categoryLevelId;
 		filterByArea = filters.areaId;
 		filterByRegion = filters.regionId;
 		filterBySite = filters.siteId;
@@ -48,8 +40,6 @@
 		const results = await Promise.allSettled([
 			getFaultList(),
 			getTeams(),
-			getCategories(),
-			getCategoryLevels(),
 			getRegionList(),
 			getAreaList(),
 			getSiteList(),
@@ -57,23 +47,13 @@
 			getSolutionCodes()
 		]);
 
-		[
-			faultTypeList,
-			teams,
-			categories,
-			categoryLevels,
-			regions,
-			areas,
-			sites,
-			causeCodes,
-			solutionCodes
-		] = results.map((result) => (result.status === 'fulfilled' ? result.value : []));
+		[faultTypeList, teams, regions, areas, sites, causeCodes, solutionCodes] = results.map(
+			(result) => (result.status === 'fulfilled' ? result.value : [])
+		);
 
 		// Sort alphabetically by name
 		faultTypeList = faultTypeList.sort((a, b) => a.name.localeCompare(b.name));
 		teams = teams.sort((a, b) => a.name.localeCompare(b.name));
-		categories = categories.sort((a, b) => a.name.localeCompare(b.name));
-		categoryLevels = categoryLevels.sort((a, b) => a.name.localeCompare(b.name));
 		regions = regions.sort((a, b) => a.name.localeCompare(b.name));
 		areas = areas.sort((a, b) => a.name.localeCompare(b.name));
 		sites = sites.sort((a, b) => a.name.localeCompare(b.name));
@@ -81,12 +61,7 @@
 		solutionCodes = solutionCodes.sort((a, b) => a.name.localeCompare(b.name));
 	});
 
-	let filteredCategoryLevels = [];
-
-	let searchStatus = null,
-		searchText = null,
-		filterByCategory = null,
-		filterBySeverity = null,
+	let searchText = null,
 		filterByRegion = null,
 		filterByArea = null,
 		filterBySite = null,
@@ -96,10 +71,7 @@
 		filterByDepartment = null,
 		filterByTeam = null;
 
-	let showFilters =
-		filters.status ||
-		filters.categoryId ||
-		filters.categoryLevelId ||
+	$: showFilters =
 		filters.regionId ||
 		filters.areaId ||
 		filters.faultTypeId ||
@@ -110,13 +82,11 @@
 		filters.teamIds;
 
 	function handle() {
+		isFiltering = true;
 		const search = {
 			...filters,
-			status: searchStatus,
 			title: searchText,
 			description: searchText,
-			categoryId: filterByCategory,
-			categoryLevelId: filterBySeverity,
 			ticketNumber: searchText,
 			areaId: filterByArea,
 			regionId: filterByRegion,
@@ -133,10 +103,8 @@
 	}
 
 	function reset() {
-		searchStatus = null;
+		isFiltering = false;
 		searchText = null;
-		filterByCategory = null;
-		filterBySeverity = null;
 		filterByRegion = null;
 		filterByArea = null;
 		filterBySite = null;
@@ -146,18 +114,6 @@
 		filterByTeam = null;
 		filterByDepartment = null;
 		goto(`/tickets`);
-	}
-
-	$: {
-		if (!filterByCategory) filteredCategoryLevels = categoryLevels;
-		else {
-			filteredCategoryLevels = categoryLevels
-				.filter((level) => level.categoryId === filterByCategory)
-				.map((level) => ({
-					name: level.name,
-					id: level.id
-				}));
-		}
 	}
 
 	const chipDiv = 'flex items-center gap-4 flex-wrap w-full';
@@ -207,45 +163,6 @@
 		class="relative p-8 my-8 bg-white border rounded border-gray-20 dark:border-white/30 dark:bg-neutral-900"
 	>
 		<div class="flex flex-col w-full gap-3 font-medium transition-transform whitespace-nowrap">
-			<div class="flex items-start gap-4">
-				<h3 class="w-1/5">Status:</h3>
-				<div class={chipDiv + ' relative'}>
-					<Svelecte
-						options={statuses}
-						bind:value={searchStatus}
-						on:change={handle}
-						class="!text-primary-500 dark:!text-tertiary-500"
-					/>
-				</div>
-			</div>
-
-			<div class="flex items-start gap-4">
-				<h3 class="w-1/5">Category:</h3>
-				<div class={chipDiv + ' relative'}>
-					<Svelecte
-						options={categories}
-						bind:value={filterByCategory}
-						on:change={() => {
-							filterBySeverity = null;
-							handle();
-						}}
-						class="!text-primary-500 dark:!text-tertiary-500"
-					/>
-				</div>
-			</div>
-
-			<div class="flex items-start gap-4">
-				<h3 class="w-1/5">Severity:</h3>
-				<div class={chipDiv + ' relative'}>
-					<Svelecte
-						options={filteredCategoryLevels}
-						bind:value={filterBySeverity}
-						on:change={handle}
-						class="!text-primary-500 dark:!text-tertiary-500"
-					/>
-				</div>
-			</div>
-
 			<div class="flex items-start gap-4">
 				<h3 class="w-1/5">Region:</h3>
 				<div class={chipDiv + ' relative'}>
