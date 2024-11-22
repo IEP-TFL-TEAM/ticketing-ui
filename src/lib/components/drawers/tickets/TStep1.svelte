@@ -1,7 +1,12 @@
 <script>
+	import { onMount } from 'svelte';
+	import { getTeams } from '$lib/api/teams';
+	import { getCategories } from '$lib/api/categories';
+	import { getCategoryLevels } from '$lib/api/categoryLevels';
+	import { getTeamEquipmentList } from '$lib/api/teamEquipments';
+
 	import {
 		Autocomplete,
-		getDrawerStore,
 		RadioGroup,
 		RadioItem,
 		ListBox,
@@ -10,20 +15,28 @@
 
 	export let teamIds, catId, catLevelId, equipIds, selectedCatLevel, departmentIds, teamEmails;
 
-	const drawerStore = getDrawerStore();
+	let teams = [],
+		categories = [],
+		categoryLevels = [],
+		teamEquipments = [];
 
-	const teams = $drawerStore.meta.teams;
-	const categories = $drawerStore.meta.categories;
-	const categoryLevels = $drawerStore.meta.categoryLevels;
-	const teamEquipments = $drawerStore.meta.teamEquipments;
+	onMount(async () => {
+		const results = await Promise.allSettled([
+			getTeams(),
+			getCategories(),
+			getCategoryLevels(),
+			getTeamEquipmentList()
+		]);
 
-	let severityLevels = [];
-	let equipmentList = [];
+		[teams, categories, categoryLevels, teamEquipments] = results.map((result) =>
+			result.status === 'fulfilled' ? result.value : []
+		);
 
-	const teamOptions = teams.sort((a, b) => {
-		if (a.label < b.label) return -1;
-		if (a.label > b.label) return 1;
-		return 0;
+		// Sort alphabetically by name
+		teams = teams.sort((a, b) => a.name.localeCompare(b.name));
+		categories = categories.sort((a, b) => a.name.localeCompare(b.name));
+		categoryLevels = categoryLevels.sort((a, b) => a.name.localeCompare(b.name));
+		teamEquipments = teamEquipments.sort((a, b) => a.name.localeCompare(b.name));
 	});
 
 	function onLevelSelect(e) {
@@ -31,30 +44,17 @@
 		selectedCatLevel = e.detail.label;
 	}
 
+	let severityLevels = [],
+		equipmentList = [];
+
 	$: {
 		severityLevels = categoryLevels
-			.filter((level) => level.categoryId === catId)
-			.map((level) => ({
-				label: level.name,
-				value: level.id
-			}))
-			.sort((a, b) => {
-				if (a.label < b.label) return -1;
-				if (a.label > b.label) return 1;
-				return 0;
-			});
-
-		equipmentList = teamEquipments
-			.filter((eq) => departmentIds.includes(eq.teamId))
-			.map((eq) => ({
-				label: eq.name,
-				value: eq.id
-			}))
-			.sort((a, b) => {
-				if (a.label < b.label) return -1;
-				if (a.label > b.label) return 1;
-				return 0;
-			});
+			.filter(({ categoryId }) => categoryId === catId)
+			.map(({ id, name }) => ({
+				value: id,
+				label: name
+			}));
+		equipmentList = teamEquipments.filter(({ teamId }) => departmentIds.includes(teamId));
 	}
 </script>
 
@@ -80,11 +80,14 @@
 	</div>
 
 	<div class="flex flex-col gap-4">
-		<h4 class="h4 font-bold">Selected Deparments Concerned</h4>
+		<h4 class="h4 font-bold">
+			Selected Deparments Concerned
+			<span class="text-red-500">*</span>
+		</h4>
 
 		<form class="card w-full max-h-48 p-4 overflow-y-auto" tabindex="-1">
 			<ListBox multiple>
-				{#each teamOptions as { id, name }}
+				{#each teams as { id, name }}
 					<ListBoxItem bind:group={departmentIds} name="medium" value={id}>
 						{name}
 					</ListBoxItem>
@@ -93,23 +96,29 @@
 		</form>
 
 		<form class="flex flex-col justify-between gap-4">
-			<h4 class="h4 font-bold mt-4">Select Deparment Equipment(s)</h4>
+			<h4 class="h4 font-bold mt-4">
+				Select Deparment Equipment(s)
+				<span class="text-red-500">*</span>
+			</h4>
 
 			<div class="card w-full max-h-48 p-4 overflow-y-auto" tabindex="-1">
 				<ListBox multiple>
-					{#each equipmentList as { value, label }}
-						<ListBoxItem bind:group={equipIds} name="medium" {value}>
-							{label}
+					{#each equipmentList as { id, name }}
+						<ListBoxItem bind:group={equipIds} name="medium" value={id}>
+							{name}
 						</ListBoxItem>
 					{/each}
 				</ListBox>
 			</div>
 
-			<h4 class="h4 font-bold mt-4">Select Teams Assigned</h4>
+			<h4 class="h4 font-bold mt-4">
+				Select Teams Assigned
+				<span class="text-red-500">*</span>
+			</h4>
 
 			<form class="card w-full max-h-48 p-4 overflow-y-auto" tabindex="-1">
 				<ListBox multiple>
-					{#each teamOptions as { id, name, email }}
+					{#each teams as { id, name, email }}
 						<ListBoxItem
 							bind:group={teamIds}
 							name="medium"

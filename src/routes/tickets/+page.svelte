@@ -15,25 +15,7 @@
 
 	export let data;
 
-	$: ({
-		filters,
-		tickets,
-		teams,
-		categories,
-		categoryLevels,
-		regions,
-		areas,
-		sites,
-		teamEquipments,
-		faultTypeList,
-		causeCodes,
-		technicians,
-		servicesList,
-		solutionCodes,
-		verifiedRecipients,
-		verifiedCCEmailRecipient,
-		verifiedAutoEmailRecipients
-	} = data);
+	$: ({ filters, tickets } = data);
 
 	const drawerStore = getDrawerStore();
 	const toastStore = getToastStore();
@@ -66,23 +48,7 @@
 	function triggerDrawer(id, position) {
 		drawerStore.open({
 			id,
-			position,
-			meta: {
-				teams,
-				categories,
-				categoryLevels,
-				regions,
-				areas,
-				sites,
-				teamEquipments,
-				faultTypeList,
-				causeCodes,
-				technicians,
-				servicesList,
-				verifiedRecipients,
-				verifiedCCEmailRecipient,
-				verifiedAutoEmailRecipients
-			}
+			position
 		});
 	}
 
@@ -193,18 +159,7 @@
 		</div>
 	</div>
 
-	<TicketFilters
-		{filters}
-		{categories}
-		{categoryLevels}
-		{areas}
-		{regions}
-		{sites}
-		{faultTypeList}
-		{causeCodes}
-		{solutionCodes}
-		{teams}
-	/>
+	<TicketFilters {filters} />
 
 	<div class="grid grid-cols-3 w-full gap-10 mt-4">
 		<div class="col-span-2">

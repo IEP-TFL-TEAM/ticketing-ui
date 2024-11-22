@@ -55,7 +55,10 @@
 					departmentIds.length > 0
 				)}
 			>
-				<svelte:fragment slot="header">Select Severity Category & Severity Level</svelte:fragment>
+				<svelte:fragment slot="header">
+					Select Severity Category & Severity Level
+					<span class="text-red-500">*</span>
+				</svelte:fragment>
 				<TStep1
 					bind:teamIds
 					bind:departmentIds
@@ -68,12 +71,18 @@
 			</Step>
 
 			<Step locked={!(regionId && selectedArea && selectedSite)}>
-				<svelte:fragment slot="header">Select Region</svelte:fragment>
+				<svelte:fragment slot="header">
+					Select Region
+					<span class="text-red-500">*</span>
+				</svelte:fragment>
 				<TStep2 bind:regionId bind:areaId bind:siteId bind:selectedArea bind:selectedSite />
 			</Step>
 
 			<Step>
-				<svelte:fragment slot="header">Ticket Details</svelte:fragment>
+				<svelte:fragment slot="header">
+					Ticket Details
+					<span class="text-red-500">*</span>
+				</svelte:fragment>
 				<TStep3
 					{teamIds}
 					{departmentIds}

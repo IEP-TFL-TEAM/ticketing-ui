@@ -4,18 +4,82 @@
 	import { goto } from '$app/navigation';
 	import { parseQueryParams } from '$lib/utils/parsers';
 	import { statuses } from '$lib/utils';
+
+	import { getFaultList } from '$lib/api/faultTypes';
+	import { getTeams } from '$lib/api/teams';
+	import { getCategories } from '$lib/api/categories';
+	import { getCategoryLevels } from '$lib/api/categoryLevels';
+	import { getRegionList } from '$lib/api/region';
+	import { getAreaList } from '$lib/api/area';
+	import { getSiteList } from '$lib/api/sites';
+	import { getCauseCodes } from '$lib/api/causeCodes';
+	import { getSolutionCodes } from '$lib/api/solutionCodes';
+
 	import { IconCaretUp, IconCaretDown } from '@tabler/icons-svelte';
 
-	export let filters,
-		categories,
-		categoryLevels,
-		sites,
-		areas,
-		regions,
-		faultTypeList,
-		causeCodes,
-		solutionCodes,
-		teams;
+	export let filters;
+
+	let faultTypeList = [],
+		teams = [],
+		categories = [],
+		categoryLevels = [],
+		regions = [],
+		areas = [],
+		sites = [],
+		causeCodes = [],
+		solutionCodes = [];
+
+	onMount(async () => {
+		searchStatus = filters.status;
+		searchText = filters.title;
+		searchText = filters.description;
+		searchText = filters.ticketNumber;
+		filterByCategory = filters.categoryId;
+		filterBySeverity = filters.categoryLevelId;
+		filterByArea = filters.areaId;
+		filterByRegion = filters.regionId;
+		filterBySite = filters.siteId;
+		filterByFaultType = filters.faultTypeId;
+		filterByCause = filters.cause;
+		filterBySolution = filters.solution;
+		filterByTeam = filters.teamIds;
+		filterByDepartment = filters.departmentIds;
+
+		const results = await Promise.allSettled([
+			getFaultList(),
+			getTeams(),
+			getCategories(),
+			getCategoryLevels(),
+			getRegionList(),
+			getAreaList(),
+			getSiteList(),
+			getCauseCodes(),
+			getSolutionCodes()
+		]);
+
+		[
+			faultTypeList,
+			teams,
+			categories,
+			categoryLevels,
+			regions,
+			areas,
+			sites,
+			causeCodes,
+			solutionCodes
+		] = results.map((result) => (result.status === 'fulfilled' ? result.value : []));
+
+		// Sort alphabetically by name
+		faultTypeList = faultTypeList.sort((a, b) => a.name.localeCompare(b.name));
+		teams = teams.sort((a, b) => a.name.localeCompare(b.name));
+		categories = categories.sort((a, b) => a.name.localeCompare(b.name));
+		categoryLevels = categoryLevels.sort((a, b) => a.name.localeCompare(b.name));
+		regions = regions.sort((a, b) => a.name.localeCompare(b.name));
+		areas = areas.sort((a, b) => a.name.localeCompare(b.name));
+		sites = sites.sort((a, b) => a.name.localeCompare(b.name));
+		causeCodes = causeCodes.sort((a, b) => a.name.localeCompare(b.name));
+		solutionCodes = solutionCodes.sort((a, b) => a.name.localeCompare(b.name));
+	});
 
 	let filteredCategoryLevels = [];
 
@@ -83,23 +147,6 @@
 		filterByDepartment = null;
 		goto(`/tickets`);
 	}
-
-	onMount(() => {
-		searchStatus = filters.status;
-		searchText = filters.title;
-		searchText = filters.description;
-		searchText = filters.ticketNumber;
-		filterByCategory = filters.categoryId;
-		filterBySeverity = filters.categoryLevelId;
-		filterByArea = filters.areaId;
-		filterByRegion = filters.regionId;
-		filterBySite = filters.siteId;
-		filterByFaultType = filters.faultTypeId;
-		filterByCause = filters.cause;
-		filterBySolution = filters.solution;
-		filterByTeam = filters.teamIds;
-		filterByDepartment = filters.departmentIds;
-	});
 
 	$: {
 		if (!filterByCategory) filteredCategoryLevels = categoryLevels;

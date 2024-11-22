@@ -1,10 +1,20 @@
 <script>
+	import { onMount } from 'svelte';
 	import { superForm, defaults, fileProxy, dateProxy } from 'sveltekit-superforms';
 	import { zod } from 'sveltekit-superforms/adapters';
 	import { getToastStore, getDrawerStore, ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
 	import { ticketSchema } from '$lib/schemas/ticketSchema';
 	import { createTicket, sendTicketCreationNotification } from '$lib/api/tickets';
 	import { parseDateAndTime } from '$lib/utils/parsers';
+
+	import { getFaultList } from '$lib/api/faultTypes';
+	import { getTechnicians } from '$lib/api/technicians';
+	import { getServicesList } from '$lib/api/servicesList';
+	import {
+		getVerifiedBroadcastRecipients,
+		getVerifiedCCEmailRecipient,
+		getVerifiedAutoEmailRecipients
+	} from '$lib/api/recipients';
 
 	import SpinnerOverlay from '$lib/components/layout/SpinnerOverlay.svelte';
 
@@ -25,29 +35,40 @@
 	const toastStore = getToastStore();
 	const drawerStore = getDrawerStore();
 
-	const faultTypeList = $drawerStore.meta.faultTypeList;
-	const technicians = $drawerStore.meta.technicians;
-	const servicesList = $drawerStore.meta.servicesList;
-	const verifiedRecipients = $drawerStore.meta.verifiedRecipients;
-	const verifiedCCEmailRecipient = $drawerStore.meta.verifiedCCEmailRecipient;
-	const verifiedAutoEmailRecipients = $drawerStore.meta.verifiedAutoEmailRecipients;
+	let faultTypeList = [];
+	let technicians = [];
+	let servicesList = [];
+	let verifiedRecipients = [];
+	let verifiedCCEmailRecipient = [];
+	let verifiedAutoEmailRecipients = [];
 
-	let autoEmails = verifiedAutoEmailRecipients.map((item) => item.email);
+	onMount(async () => {
+		const results = await Promise.allSettled([
+			getFaultList(),
+			getTechnicians(),
+			getServicesList(),
+			getVerifiedBroadcastRecipients(),
+			getVerifiedCCEmailRecipient(),
+			getVerifiedAutoEmailRecipients()
+		]);
 
-	const servicesListOptions = servicesList
-		.map((item) => ({
-			label: item.name,
-			value: item.id
-		}))
-		.sort((a, b) => {
-			if (a.label < b.label) return -1;
-			if (a.label > b.label) return 1;
-			return 0;
-		});
+		[
+			faultTypeList,
+			technicians,
+			servicesList,
+			verifiedRecipients,
+			verifiedCCEmailRecipient,
+			verifiedAutoEmailRecipients
+		] = results.map((result) => (result.status === 'fulfilled' ? result.value : []));
 
-	let submitting = false;
-	let technicianEmail;
-	let verifiedEmails = [];
+		// Sort alphabetically by name
+		faultTypeList = faultTypeList.sort((a, b) => a.name.localeCompare(b.name));
+		technicians = technicians.sort((a, b) => a.name.localeCompare(b.name));
+		servicesList = servicesList.sort((a, b) => a.name.localeCompare(b.name));
+	});
+
+	let submitting = false,
+		technicianEmail;
 
 	const originalForm = defaults(zod(ticketSchema()));
 
@@ -185,7 +206,22 @@
 		$form.servicesListIds = [];
 	}
 
-	$: verifiedEmails = verifiedRecipients.map((item) => item.email);
+	let autoEmails = [],
+		servicesListOptions = [],
+		sortedFaultTypes = [];
+
+	$: {
+		autoEmails = verifiedAutoEmailRecipients.map((item) => item.email);
+		servicesListOptions = servicesList.map((item) => ({
+			label: item.name,
+			value: item.id
+		}));
+
+		sortedFaultTypes = faultTypeList.map(({ id, name }) => ({
+			id,
+			name
+		}));
+	}
 </script>
 
 {#if $delayed || submitting}
@@ -308,9 +344,9 @@
 							<option value={''} disabled selected>
 								<span class="!text-gray-500">Select Fault Type</span>
 							</option>
-							{#each faultTypeList as type}
-								<option value={type.id}>
-									{type.name}
+							{#each sortedFaultTypes as { id, name }}
+								<option value={id}>
+									{name}
 								</option>
 							{/each}
 						</select>

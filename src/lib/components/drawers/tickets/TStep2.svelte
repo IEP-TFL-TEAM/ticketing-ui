@@ -1,16 +1,29 @@
 <script>
-	import { Autocomplete, getDrawerStore, RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
+	import { onMount } from 'svelte';
+	import { getRegionList } from '$lib/api/region';
+	import { getAreaList } from '$lib/api/area';
+	import { getSiteList } from '$lib/api/sites';
+
+	import { Autocomplete, RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
 
 	export let regionId, areaId, siteId, selectedArea, selectedSite;
 
-	const drawerStore = getDrawerStore();
+	let regions = [],
+		areas = [],
+		sites = [];
 
-	const regions = $drawerStore.meta.regions;
-	const areas = $drawerStore.meta.areas;
-	const sites = $drawerStore.meta.sites;
+	onMount(async () => {
+		const results = await Promise.allSettled([getRegionList(), getAreaList(), getSiteList()]);
 
-	let areaList = [];
-	let siteList = [];
+		[regions, areas, sites] = results.map((result) =>
+			result.status === 'fulfilled' ? result.value : []
+		);
+
+		// Sort alphabetically by name
+		regions = regions.sort((a, b) => a.name.localeCompare(b.name));
+		areas = areas.sort((a, b) => a.name.localeCompare(b.name));
+		sites = sites.sort((a, b) => a.name.localeCompare(b.name));
+	});
 
 	function onAreaSelect(e) {
 		areaId = e.detail.value;
@@ -22,30 +35,23 @@
 		selectedSite = e.detail.label;
 	}
 
+	let areaList = [],
+		siteList = [];
+
 	$: {
 		areaList = areas
 			.filter((area) => area.regionId === regionId)
-			.map((area) => ({
-				label: area.name,
-				value: area.id
-			}))
-			.sort((a, b) => {
-				if (a.label < b.label) return -1;
-				if (a.label > b.label) return 1;
-				return 0;
-			});
+			.map(({ id, name }) => ({
+				value: id,
+				label: name
+			}));
 
 		siteList = sites
 			.filter((site) => site.expand.areaId.name === selectedArea)
-			.map((site) => ({
-				label: site.name,
-				value: site.id
-			}))
-			.sort((a, b) => {
-				if (a.label < b.label) return -1;
-				if (a.label > b.label) return 1;
-				return 0;
-			});
+			.map(({ id, name }) => ({
+				value: id,
+				label: name
+			}));
 	}
 </script>
 
@@ -85,7 +91,10 @@
 		</form>
 
 		<form class="flex flex-col justify-between gap-4 mt-4">
-			<h4 class="h4 font-bold">Select Site</h4>
+			<h4 class="h4 font-bold">
+				Select Site
+				<span class="text-red-500">*</span>
+			</h4>
 
 			<input
 				class="input"
