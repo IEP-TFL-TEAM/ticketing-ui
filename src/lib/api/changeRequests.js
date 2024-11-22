@@ -28,7 +28,7 @@ const getRequests = async (filters) => {
 };
 
 const getAllRequests = async () => {
-	const records = await pb.collection('changerequests').getFullList({ expand });
+	const records = await pb.collection('changerequests').getFullList(5000, { expand });
 	return records;
 };
 

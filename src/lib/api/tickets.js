@@ -35,7 +35,7 @@ const getTickets = async (filters) => {
 };
 
 const getAllTickets = async () => {
-	const records = await pb.collection('tickets').getFullList({ expand });
+	const records = await pb.collection('tickets').getFullList(5000, { expand });
 	return records;
 };
 

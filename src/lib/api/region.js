@@ -11,7 +11,7 @@ const updateRegion = async (data) => {
 };
 
 const getRegionList = async () => {
-	const records = await pb.collection('region').getFullList({
+	const records = await pb.collection('region').getFullList(5000, {
 		sort: '-created'
 	});
 	return records;
