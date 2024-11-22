@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
 	import { superForm, defaults, fileProxy, dateProxy } from 'sveltekit-superforms';
 	import { zod } from 'sveltekit-superforms/adapters';
-	import { getToastStore, getDrawerStore, ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
+	import { getToastStore, getDrawerStore } from '@skeletonlabs/skeleton';
 	import { ticketSchema } from '$lib/schemas/ticketSchema';
 	import { createTicket, sendTicketCreationNotification } from '$lib/api/tickets';
 	import { parseDateAndTime } from '$lib/utils/parsers';
