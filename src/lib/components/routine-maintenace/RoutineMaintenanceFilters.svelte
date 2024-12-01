@@ -97,7 +97,7 @@
 			on:click={() => (showFilters = !showFilters)}
 			class=" border border-black/30 dark:border-white/30 p-2.5 px-8 rounded font-medium bg-white dark:bg-neutral-900 inline-flex gap-x-2"
 		>
-			{showFilters ? 'Hide Filters' : 'Show Filters'}
+			{showFilters ? 'Hide Filters' : 'Show More Filters'}
 			<span>
 				{#if showFilters}
 					<IconCaretUp />
