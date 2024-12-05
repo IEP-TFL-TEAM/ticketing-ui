@@ -1,4 +1,6 @@
 import pb from '$lib/api/pocketbaseClient';
+import { currentUser } from '$lib/stores/auth';
+import { redirect } from '@sveltejs/kit';
 import { getAllTickets } from '$lib/api/tickets';
 import { getCategories } from '$lib/api/categories';
 import { getAllRequests } from '$lib/api/changeRequests';
@@ -9,6 +11,11 @@ export async function load({ url, fetch }) {
 		options.fetch = fetch;
 		return { url, options };
 	};
+
+	if (!pb.authStore.isValid) {
+		currentUser.set(null);
+		redirect(307, '/login');
+	}
 
 	try {
 		const results = await Promise.allSettled([
