@@ -14,8 +14,8 @@ export async function load({ params, url, fetch }) {
 			getRoutineMaintenanceById(params.slug)
 		]);
 
-		const [fileToken, routine] = results.map((result) =>
-			result.status === 'fulfilled' ? result.value : []
+		const [fileToken, routine] = results.map(({ status, value }) =>
+			status === 'fulfilled' ? value : []
 		);
 
 		const attachmentUrl = pb.files.getUrl(routine, routine.attachment, {

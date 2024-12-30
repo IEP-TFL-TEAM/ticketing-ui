@@ -15,8 +15,8 @@
 	onMount(async () => {
 		const results = await Promise.allSettled([getRegionList(), getAreaList(), getSiteList()]);
 
-		[regions, areas, sites] = results.map((result) =>
-			result.status === 'fulfilled' ? result.value : []
+		[regions, areas, sites] = results.map(({ status, value }) =>
+			status === 'fulfilled' ? value : []
 		);
 
 		// Sort alphabetically by name

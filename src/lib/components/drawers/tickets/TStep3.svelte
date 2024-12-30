@@ -52,7 +52,7 @@
 		]);
 
 		[faultTypeList, technicians, servicesList, verifiedRecipients, verifiedAutoEmailRecipients] =
-			results.map((result) => (result.status === 'fulfilled' ? result.value : []));
+			results.map(({ status, value }) => (status === 'fulfilled' ? value : []));
 
 		// Sort alphabetically by name
 		faultTypeList = faultTypeList.sort((a, b) => a.name.localeCompare(b.name));

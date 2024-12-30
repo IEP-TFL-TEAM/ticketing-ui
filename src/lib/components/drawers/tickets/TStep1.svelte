@@ -28,8 +28,8 @@
 			getTeamEquipmentList()
 		]);
 
-		[teams, categories, categoryLevels, teamEquipments] = results.map((result) =>
-			result.status === 'fulfilled' ? result.value : []
+		[teams, categories, categoryLevels, teamEquipments] = results.map(({ status, value }) =>
+			status === 'fulfilled' ? value : []
 		);
 
 		// Sort alphabetically by name

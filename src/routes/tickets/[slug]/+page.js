@@ -34,8 +34,8 @@ export async function load({ params, url, fetch }) {
 			getUrlsToFile(commentAttachmentUrls, fetch)
 		]);
 
-		const [site, attachment, commentAttachments] = results.map((result) =>
-			result.status === 'fulfilled' ? result.value : []
+		const [site, attachment, commentAttachments] = results.map(({ status, value }) =>
+			status === 'fulfilled' ? value : []
 		);
 
 		return {

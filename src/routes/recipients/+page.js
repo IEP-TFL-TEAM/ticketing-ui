@@ -18,9 +18,7 @@ export async function load({ url, fetch }) {
 	try {
 		const results = await Promise.allSettled([getRecipientList()]);
 
-		const [recipients] = results.map((result) =>
-			result.status === 'fulfilled' ? result.value : []
-		);
+		const [recipients] = results.map(({ status, value }) => (status === 'fulfilled' ? value : []));
 
 		recipients.sort((a, b) => {
 			if (a.type === 'CC' && b.type !== 'CC') return -1;

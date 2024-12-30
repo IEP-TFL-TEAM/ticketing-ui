@@ -11,8 +11,8 @@ export async function load({ params, url, fetch }) {
 	try {
 		const results = await Promise.allSettled([pb.files.getToken(), getRequestById(params.slug)]);
 
-		const [fileToken, request] = results.map((result) =>
-			result.status === 'fulfilled' ? result.value : []
+		const [fileToken, request] = results.map(({ status, value }) =>
+			status === 'fulfilled' ? value : []
 		);
 
 		const attachmentUrl = pb.files.getUrl(request, request.attachment, {

@@ -18,8 +18,8 @@
 	onMount(async () => {
 		const results = await Promise.allSettled([getCauseCodes(), getSolutionCodes()]);
 
-		[causeCodes, solutionCodes] = results.map((result) =>
-			result.status === 'fulfilled' ? result.value : []
+		[causeCodes, solutionCodes] = results.map(({ status, value }) =>
+			status === 'fulfilled' ? value : []
 		);
 	});
 

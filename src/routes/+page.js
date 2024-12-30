@@ -25,8 +25,8 @@ export async function load({ url, fetch }) {
 			getAllRoutines()
 		]);
 
-		const [categories, tickets, requests, routines] = results.map((result) =>
-			result.status === 'fulfilled' ? result.value : []
+		const [categories, tickets, requests, routines] = results.map(({ status, value }) =>
+			status === 'fulfilled' ? value : []
 		);
 
 		return {

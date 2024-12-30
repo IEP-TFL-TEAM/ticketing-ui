@@ -50,7 +50,7 @@ export async function load({ url, fetch }) {
 		]);
 
 		const [requests, teams, changeTeams, sites, staff, servicesList, regions, areas] = results.map(
-			(result) => (result.status === 'fulfilled' ? result.value : [])
+			({ status, value }) => (status === 'fulfilled' ? value : [])
 		);
 
 		return {

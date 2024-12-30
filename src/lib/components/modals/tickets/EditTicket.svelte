@@ -20,8 +20,8 @@
 	onMount(async () => {
 		const results = await Promise.allSettled([getCategories(), getCategoryLevels()]);
 
-		[categories, categoryLevels] = results.map((result) =>
-			result.status === 'fulfilled' ? result.value : []
+		[categories, categoryLevels] = results.map(({ status, value }) =>
+			status === 'fulfilled' ? value : []
 		);
 	});
 

@@ -48,7 +48,7 @@
 		]);
 
 		[faultTypeList, teams, regions, areas, sites, causeCodes, solutionCodes] = results.map(
-			(result) => (result.status === 'fulfilled' ? result.value : [])
+			({ status, value }) => (status === 'fulfilled' ? value : [])
 		);
 
 		// Sort alphabetically by name
