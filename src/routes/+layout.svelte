@@ -30,7 +30,6 @@
 	import SidebarDrawer from '$lib/components/home/SidebarDrawer.svelte';
 	import Sidebar from '$lib/components/layout/Sidebar.svelte';
 	import SpinnerOverlay from '$lib/components/layout/SpinnerOverlay.svelte';
-	import LoginPage from '$lib/components/layout/LoginPage.svelte';
 
 	initializeStores();
 
@@ -133,5 +132,5 @@
 		</div>
 	</div>
 {:else}
-	<LoginPage />
+	<slot />
 {/if}

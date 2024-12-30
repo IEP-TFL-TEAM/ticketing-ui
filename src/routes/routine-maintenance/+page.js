@@ -1,4 +1,7 @@
 import pb from '$lib/api/pocketbaseClient';
+import { currentUser } from '$lib/stores/auth';
+import { redirect } from '@sveltejs/kit';
+
 import { getRoutines } from '$lib/api/routineMaintenance';
 import { getTeams } from '$lib/api/teams';
 import { getMaintenanceTeams } from '$lib/api/maintenanceTeams';
@@ -13,6 +16,11 @@ export async function load({ url, fetch }) {
 		options.fetch = fetch;
 		return { url, options };
 	};
+
+	if (!pb.authStore.isValid) {
+		currentUser.set(null);
+		redirect(307, '/login');
+	}
 
 	const filters = {
 		page: url.searchParams.get('page') ?? 1,
