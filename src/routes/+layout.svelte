@@ -7,14 +7,7 @@
 	import { currentUser } from '$lib/stores/auth';
 	import { beforeNavigate, afterNavigate, goto } from '$app/navigation';
 
-	import {
-		Toast,
-		initializeStores,
-		getDrawerStore,
-		getToastStore,
-		Drawer,
-		Modal
-	} from '@skeletonlabs/skeleton';
+	import { Toast, initializeStores, getDrawerStore, Drawer, Modal } from '@skeletonlabs/skeleton';
 	import { IconLayoutSidebarLeftExpand } from '@tabler/icons-svelte';
 
 	import { storePopup } from '@skeletonlabs/skeleton';
@@ -34,7 +27,6 @@
 	initializeStores();
 
 	const drawerStore = getDrawerStore();
-	const toastStore = getToastStore();
 
 	currentUser.subscribe((user) => {
 		if (!pb.authStore.isValid && !user) {
@@ -46,15 +38,8 @@
 	beforeNavigate((navigation) => {
 		if (!pb.authStore.isValid && $currentUser) {
 			navigation.cancel();
-			toastStore.trigger({
-				message: 'Session expired, please login again. You are now being redirected ...',
-				background: 'bg-[#252424] text-white',
-				classes: 'border-l-4 border-red-500 shadow-2xl transition'
-			});
-			setTimeout(() => {
-				currentUser.set(null);
-				goto('/login');
-			}, 3000);
+			currentUser.set(null);
+			goto('/login');
 		}
 	});
 
