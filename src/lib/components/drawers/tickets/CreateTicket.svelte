@@ -24,7 +24,7 @@
 </script>
 
 <div class="relative min-h-screen lg:flex bg-white/70 dark:bg-[#252424]">
-	<div class="lg:flex hidden">
+	<div class="absolute lg:flex hidden">
 		<button
 			type="button"
 			class="btn variant-ghost-error text-white-900 rounded uppercase font-semibold py-2.5 px-8 w-full mb-8"
