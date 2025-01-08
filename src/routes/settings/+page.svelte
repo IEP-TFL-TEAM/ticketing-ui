@@ -215,6 +215,36 @@
 					/>
 				</div>
 			</div>
+
+			<div>
+				<label for="userid" class="block text-sm font-semibold leading-6 text-center">
+					User UUID
+				</label>
+				<div class="mt-2.5">
+					<input
+						class=" block w-full rounded-md input placeholder:text-center placeholder:font-bold placeholder:tracking-widest text-center"
+						type="text"
+						placeholder={$currentUser?.id}
+						readonly
+					/>
+				</div>
+			</div>
+
+			<div>
+				<label for="username" class="block text-sm font-semibold leading-6 text-center">
+					Username
+				</label>
+
+				<div class="mt-2.5">
+					<input
+						class=" block w-full rounded-md input placeholder:text-center placeholder:font-bold placeholder:tracking-widest text-center"
+						type="text"
+						placeholder={$currentUser?.username}
+						readonly
+					/>
+				</div>
+			</div>
+
 			<div class="sm:col-span-2">
 				<label for="email" class="block text-sm font-semibold leading-6 text-center">
 					<span> Email address </span>
