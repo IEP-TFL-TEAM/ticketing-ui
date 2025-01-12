@@ -143,7 +143,7 @@
 
 <div class="flex flex-col mt-5 w-full">
 	<div class="flex justify-between items-center">
-		<h1 class="h1 font-extrabold">Incidents Module</h1>
+		<h1 class="h1 font-extrabold">Incidents</h1>
 
 		<div class="flex justify-between items-center gap-4">
 			<ExportButton

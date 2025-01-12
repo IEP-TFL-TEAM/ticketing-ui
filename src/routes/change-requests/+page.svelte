@@ -116,7 +116,7 @@
 {:else}
 	<div class="w-full mt-5 transition-colors rounded-none">
 		<div class="flex justify-between">
-			<h1 class="h1 font-extrabold">Change Request Module</h1>
+			<h1 class="h1 font-extrabold">Change Requests</h1>
 
 			<div class="flex items-center gap-2">
 				<ExportButton

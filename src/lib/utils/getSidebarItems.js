@@ -28,7 +28,7 @@ export const getSidebarItems = (role) => {
 				ref: '/change-requests'
 			},
 			{
-				label: 'Routine Maintenance',
+				label: 'Maintenances',
 				icon: IconSquareLetterM,
 				ref: '/routine-maintenance'
 			},
@@ -61,7 +61,7 @@ export const getSidebarItems = (role) => {
 				ref: '/change-requests'
 			},
 			{
-				label: 'Routine Maintenance',
+				label: 'Maintenances',
 				icon: IconSquareLetterM,
 				ref: '/routine-maintenance'
 			},
