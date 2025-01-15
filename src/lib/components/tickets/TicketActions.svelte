@@ -128,7 +128,7 @@
 		on:click={() => assignTicket()}
 		disabled={role !== 'admin' || ticket.status === 'CLOSED'}
 	>
-		Assign
+		Re-Assign
 	</button>
 
 	<button
