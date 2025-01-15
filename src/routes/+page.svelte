@@ -1,7 +1,3 @@
-<svelte:head>
-	<title>Welcome to the System</title>
-</svelte:head>
-
 <div class="container flex flex-col mx-auto">
 	<div class="flex flex-col mt-5 gap-y-2">
 		<h1 class="h1 font-extrabold">Welcome to the TFL NOC Ticketing System</h1>

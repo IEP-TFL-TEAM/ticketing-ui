@@ -34,10 +34,6 @@
 	}
 </script>
 
-<svelte:head>
-	<title>Login Page</title>
-</svelte:head>
-
 <div class="flex flex-col items-center justify-center w-full min-h-screen bg-neutral-50">
 	<div
 		class="flex flex-col w-full max-w-lg px-4 py-8 bg-white shadow-2xl sm:px-6 md:px-8 lg:px-10 rounded"
