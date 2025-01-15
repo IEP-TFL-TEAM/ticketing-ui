@@ -16,7 +16,7 @@ const removeCause = async (id) => {
 };
 
 const getCauseCodes = async () => {
-	const records = await pb.collection('causes').getFullList({
+	const records = await pb.collection('causes').getFullList(500, {
 		sort: '-created',
 		expand: 'faultTypeId'
 	});

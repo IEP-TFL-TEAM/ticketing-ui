@@ -11,7 +11,7 @@ const updateFault = async (data) => {
 };
 
 const getFaultList = async () => {
-	const records = await pb.collection('faulttype').getFullList({
+	const records = await pb.collection('faulttype').getFullList(500, {
 		sort: '-created'
 	});
 	return records;

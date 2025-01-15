@@ -15,7 +15,7 @@ if (get(currentUser)) {
 }
 
 const getHistoryByTicketId = async (ticketId) => {
-	const records = await pb.collection('history').getFullList({
+	const records = await pb.collection('history').getFullList(500, {
 		sort: '-created',
 		filter: `ticketId = '${ticketId}'`,
 		expand

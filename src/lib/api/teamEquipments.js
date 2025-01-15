@@ -13,7 +13,7 @@ const updateTeamEquipment = async (data) => {
 };
 
 const getTeamEquipmentList = async () => {
-	const records = await pb.collection('teamequipments').getFullList({
+	const records = await pb.collection('teamequipments').getFullList(500, {
 		sort: '-created',
 		expand
 	});

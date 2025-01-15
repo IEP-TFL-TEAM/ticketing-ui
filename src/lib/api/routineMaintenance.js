@@ -29,7 +29,7 @@ const getRoutines = async (filters) => {
 };
 
 const getAllRoutines = async () => {
-	const records = await pb.collection('routinemaintenance').getFullList(5000, { expand });
+	const records = await pb.collection('routinemaintenance').getFullList(500, { expand });
 	return records;
 };
 

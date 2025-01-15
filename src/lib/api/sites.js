@@ -19,7 +19,7 @@ const getSiteById = async (id) => {
 };
 
 const getSiteList = async () => {
-	const records = await pb.collection('sites').getFullList({
+	const records = await pb.collection('sites').getFullList(500, {
 		sort: '-created',
 		expand: 'areaId, locationId'
 	});
