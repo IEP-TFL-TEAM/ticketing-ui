@@ -35,7 +35,11 @@
 				</small>
 			</header>
 
-			<p>{content}</p>
+			{#if isUsersOwnComment}
+				<p>{content}</p>
+			{:else}
+				<blockquote class="blockquote">{content}</blockquote>
+			{/if}
 
 			{#if attachmentUrl}
 				<TicketAttachments {attachmentUrl} {attachment} />
