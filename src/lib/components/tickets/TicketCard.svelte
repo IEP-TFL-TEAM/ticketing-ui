@@ -18,7 +18,7 @@
 		>
 			<div class="flex justify-between items-start">
 				<div class="flex flex-col gap-2">
-					<h3 class="h3 font-bold text-primary-500 dark:text-primary-400">
+					<h3 class="h3 font-bold text-primary-500 dark:text-tertiary-500">
 						{ticket.ticketNumber}
 					</h3>
 
@@ -36,7 +36,9 @@
 
 			<div class="flex justify-between">
 				<div class="flex gap-1">
-					<span class={`badge variant-filled-tertiary p text-sm `}>
+					<span
+						class={`badge variant-outline-primary dark:variant-outline-tertiary p text-sm text-primary-500 dark:text-tertiary-400`}
+					>
 						{ticket.expand?.categoryId?.name}
 					</span>
 
@@ -44,12 +46,14 @@
 						{ticket.status}
 					</span>
 
-					<span class={`badge variant-outline-error p text-sm text-error-500 dark:text-white`}>
+					<span class={`badge variant-outline-error p text-sm text-error-500 dark:text-error-400`}>
 						{ticket.expand?.categoryLevelId?.name}
 					</span>
 				</div>
 
-				<span class="badge variant-filled-surface p text-sm text-white dark:text-gray-200">
+				<span
+					class="border-l border-black dark:border-white p py-1 px-2 text-sm text-black dark:text-gray-200 font-semibold"
+				>
 					By: {ticket.expand?.reportedBy?.firstName}
 					{ticket.expand?.reportedBy?.lastName}
 				</span>
