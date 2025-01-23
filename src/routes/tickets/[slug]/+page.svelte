@@ -78,7 +78,7 @@
 </script>
 
 <div class="flex">
-	<a href="/tickets" class="mt-5">
+	<a data-sveltekit-preload-data="tap" href="/tickets" class="mt-5">
 		<IconArrowNarrowLeft size={40} />
 	</a>
 </div>
