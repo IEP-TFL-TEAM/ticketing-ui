@@ -148,6 +148,7 @@
 		<div class="flex justify-between items-center gap-4">
 			<ExportButton
 				bind:loading
+				bind:isFiltering
 				label="Incidents"
 				{handleExportData}
 				noRecords={tickets.items.length === 0}

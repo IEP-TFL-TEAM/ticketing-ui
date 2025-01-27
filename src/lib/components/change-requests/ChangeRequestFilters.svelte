@@ -7,7 +7,7 @@
 	import { IconCaretDown, IconCaretUp } from '@tabler/icons-svelte';
 	import { statuses } from '$lib/utils';
 
-	export let filters, pageSettings, regions, areas, sites, teams, staff;
+	export let filters, pageSettings, regions, areas, sites, teams, staff, isFiltering;
 
 	let searchText = null,
 		filterByImpact = null,
@@ -31,6 +31,7 @@
 		filters.requestee;
 
 	function handle() {
+		isFiltering = true;
 		const search = {
 			...filters,
 			title: searchText,
@@ -50,6 +51,7 @@
 	}
 
 	function reset() {
+		isFiltering = false;
 		searchText = null;
 		filterByImpact = null;
 		filterByRequestee = null;
@@ -98,7 +100,7 @@
 			on:click={() => (showFilters = !showFilters)}
 			class=" border border-black/30 dark:border-white/30 p-2.5 px-8 rounded font-medium bg-white dark:bg-neutral-900 inline-flex gap-x-2"
 		>
-			{showFilters ? 'Hide Filters' : 'Show More Filters'}
+			{showFilters ? 'Hide Filters' : 'Show Filters'}
 			<span>
 				{#if showFilters}
 					<IconCaretUp />

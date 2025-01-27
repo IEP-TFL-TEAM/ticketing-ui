@@ -18,7 +18,9 @@
 
 	const drawerStore = getDrawerStore();
 	const toastStore = getToastStore();
+
 	let loading = false;
+	$: isFiltering = false;
 
 	$: pageSettings = {
 		page: data.requests.page - 1,
@@ -121,6 +123,7 @@
 			<div class="flex items-center gap-2">
 				<ExportButton
 					bind:loading
+					bind:isFiltering
 					label="Requests"
 					{handleExportData}
 					noRecords={requests.items.length === 0}
@@ -138,6 +141,15 @@
 		</div>
 	</div>
 
-	<ChangeRequestFilters {filters} {pageSettings} {areas} {regions} {sites} {teams} {staff} />
+	<ChangeRequestFilters
+		bind:isFiltering
+		{filters}
+		{pageSettings}
+		{areas}
+		{regions}
+		{sites}
+		{teams}
+		{staff}
+	/>
 	<ChangeRequestTable {requests} />
 {/if}

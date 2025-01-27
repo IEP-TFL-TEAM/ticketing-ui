@@ -19,7 +19,9 @@
 
 	const drawerStore = getDrawerStore();
 	const toastStore = getToastStore();
+
 	let loading = false;
+	$: isFiltering = false;
 
 	$: pageSettings = {
 		page: data.routines.page - 1,
@@ -122,6 +124,7 @@
 			<div class="flex items-center gap-2">
 				<ExportButton
 					bind:loading
+					bind:isFiltering
 					label="Routines"
 					{handleExportData}
 					noRecords={routines.items.length === 0}
@@ -139,6 +142,15 @@
 		</div>
 	</div>
 
-	<RoutineMaintenanceFilters {filters} {pageSettings} {areas} {regions} {sites} {teams} {staff} />
+	<RoutineMaintenanceFilters
+		bind:isFiltering
+		{filters}
+		{pageSettings}
+		{areas}
+		{regions}
+		{sites}
+		{teams}
+		{staff}
+	/>
 	<RoutineMaintenanceTable {routines} />
 {/if}
