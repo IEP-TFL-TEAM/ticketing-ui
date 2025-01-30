@@ -34,6 +34,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Ticketing System Login</title>
+</svelte:head>
+
 <div class="flex flex-col items-center justify-center w-full min-h-screen bg-neutral-50">
 	<div
 		class="flex flex-col w-full max-w-lg px-4 py-8 bg-white shadow-2xl sm:px-6 md:px-8 lg:px-10 rounded"
@@ -42,9 +46,9 @@
 			<img src={TransparentLogo} class="p-8" alt="_" />
 		</div>
 
-		<div class="self-center text-xl font-bold text-center text-gray-800 uppercase sm:text-2xl mt-4">
+		<h1 class="self-center text-xl font-bold text-center text-gray-800 uppercase sm:text-2xl mt-4">
 			NOC Ticketing Portal
-		</div>
+		</h1>
 
 		<div class="relative h-px my-10 bg-gray-300">
 			<div class="absolute top-0 left-0 flex justify-center w-full -mt-2">

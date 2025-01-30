@@ -1,8 +1,19 @@
 import { expect, test } from '@playwright/test';
 
-test.describe('Login page', () => {
+const baseUrl = 'http://localhost:5173';
+
+// Group related tests in a describe block
+
+test.describe('Login Page', () => {
 	test('Should have correct metadata and elements', async ({ page }) => {
-		await page.goto('http://localhost:5173/login');
-		await expect(page).toHaveTitle('Login Page');
+		await page.goto(`${baseUrl}/login`);
+
+		await expect(page).toHaveTitle('Ticketing System Login');
+
+		await expect(
+			page.getByRole('heading', {
+				name: 'NOC Ticketing Portal'
+			})
+		).toBeVisible();
 	});
 });
