@@ -11,3 +11,8 @@ vite.config.ts.timestamp-*
 
 # Test folder results
 test-results
+
+# Playwright
+/playwright-report/
+/blob-report/
+/playwright/.cache/
