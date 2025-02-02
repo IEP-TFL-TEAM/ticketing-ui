@@ -1,6 +1,7 @@
 import pb from '$lib/api/pocketbaseClient';
 import { currentUser } from '$lib/stores/auth';
 import { redirect } from '@sveltejs/kit';
+import { get } from 'svelte/store';
 
 import { getRecipientList } from '$lib/api/recipients';
 
@@ -13,6 +14,10 @@ export async function load({ url, fetch }) {
 	if (!pb.authStore.isValid) {
 		currentUser.set(null);
 		redirect(307, '/login');
+	}
+
+	if (get(currentUser).role !== 'admin') {
+		error(404, 'error');
 	}
 
 	try {

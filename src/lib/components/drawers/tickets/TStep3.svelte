@@ -18,7 +18,7 @@
 
 	import SpinnerOverlay from '$lib/components/layout/SpinnerOverlay.svelte';
 
-	export async function onCompleteHandler(e) {
+	export async function onCompleteHandler() {
 		await submit();
 	}
 
